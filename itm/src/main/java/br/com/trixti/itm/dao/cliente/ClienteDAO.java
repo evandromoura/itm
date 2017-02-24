@@ -30,11 +30,11 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		List<Predicate> predicateList = new ArrayList<Predicate>();
 		
 		if(clientePesquisa.getNome() != null && !clientePesquisa.getNome().equals("")){
-			predicateList.add(getCriteriaBuilder().like(root.<String>get("nome"), "%"+ clientePesquisa.getNome()+"%"));
+			predicateList.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("nome")), "%"+ clientePesquisa.getNome().toLowerCase()+"%"));
 		}
 		
 		if(clientePesquisa.getUsername() != null && !clientePesquisa.getUsername().equals("")){
-			predicateList.add(getCriteriaBuilder().like(root.<String>get("username"), "%"+ clientePesquisa.getUsername()+"%"));
+			predicateList.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("username")), "%"+ clientePesquisa.getUsername().toLowerCase()+"%"));
 		}
 		return (Predicate[]) predicateList.toArray(new Predicate[predicateList.size()]);
 	}

@@ -45,17 +45,21 @@ public class ClienteService extends AbstractService<Cliente> {
 		clienteProdutoService.incluirLista(entidade.getClienteProdutos());
 		clienteGrupoService.incluirLista(entidade.getClienteGrupos());
 		clienteEquipamentoService.incluirLista(entidade.getClienteEquipamentos());
-		
-		
 		/**
 		 * TODO: Desenvolver a ligação com o Radius  (radcheck, radgroupcheck)
 		 */
-		
-		
-		
-		
-		
 	}
+
+	@Override
+	public void alterar(Cliente entidade) {
+		super.alterar(entidade);
+		clienteProdutoService.incluirLista(entidade.getClienteProdutos());
+		clienteGrupoService.incluirLista(entidade.getClienteGrupos());
+		clienteEquipamentoService.incluirLista(entidade.getClienteEquipamentos());
+	}
+	
+	
+	
 	
 	
 	

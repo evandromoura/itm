@@ -2815,7 +2815,7 @@ header.navbar {
     margin-right: 0;
     padding: 0.5rem 1rem;
     background-color: #20a8d8;
-    background-image: url("../img/logo.png");
+    background-image: url("#{request.contextPath}/resources/template/img/logo.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 90px auto;

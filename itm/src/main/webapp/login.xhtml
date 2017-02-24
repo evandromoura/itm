@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.org/seam/faces"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view contentType="text/html" encoding="ISO-8859-1">
+	<h:head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta name="description" content="ITM - iTrix Internet Manager" />
+		<meta name="author" content="iTrix" />
+		<meta name="keyword"
+			content="Internet manager" />
+		<link rel="shortcut icon" href="img/favicon.png" />
+		<title>ITM</title>
+		 <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
+		
+		<h:outputStylesheet name="template/css/font-awesome.min.css" />
+		<h:outputStylesheet name="template/css/simple-line-icons.css" />
+		<h:outputStylesheet name="template/css/style.css" />
+	</h:head>
+
+	<h:body styleClass="app flex-row align-items-center">
+		<div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card-group mb-0">
+                    <div class="card p-2">
+                        <div class="card-block">
+                            <h1>Login</h1>
+                            <p class="text-muted">Entre com suas informações</p>
+                            <div class="input-group mb-1">
+                                <span class="input-group-addon"><i class="icon-user"></i>
+                                </span>
+                                <input type="text" class="form-control" placeholder="Usuário" />
+                            </div>
+                            <div class="input-group mb-2">
+                                <span class="input-group-addon"><i class="icon-lock"></i>
+                                </span>
+                                <input type="password" class="form-control" placeholder="Senha" />
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                   <a href="#{request.contextPath}/cliente"  class="btn btn-primary px-2">Login</a>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <button type="button" class="btn btn-link px-0">Esqueceu sua senha?</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-inverse card-primary py-3 hidden-md-down" style="width:44%">
+                        <div class="card-block text-center">
+                            <div>
+                                <h2>ITM</h2>
+                                <p>Itrix Internet Manager</p>
+                                <a href="#{request.contextPath}/cliente" class="btn btn-primary active mt-1">Criar minha conta!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+		
+		<h:outputScript name="template/js/libs/jquery.min.js" />
+		<h:outputScript name="template/js/libs/bootstrap.min.js" />
+		<h:outputScript name="template/js/app.js" />
+
+
+	</h:body>
+
+</f:view>
+</html>
