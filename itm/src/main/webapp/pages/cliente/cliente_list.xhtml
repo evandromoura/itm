@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="idFormPesquisarCliente">
+				<h:messages />
+				<div class="card">
+					<div class="card-header">
+						<strong>Pesquisar</strong> <small>Cliente</small>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="idFormPesquisarCliente:cliente_nome">Name</label> 
+									<h:inputText value="#{clienteController.clienteTO.clientePesquisa.nome}" id="cliente_nome" styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="idFormPesquisarCliente:cliente_username">Username</label> 
+									<h:inputText value="#{clienteController.clienteTO.clientePesquisa.username}"  id="cliente_username" styleClass="form-control"/>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+									<h:commandLink action="#{clienteController.pesquisar()}" value="Pesquisar" styleClass="btn btn-sm btn-primary"  />
+									<a href="#{request.contextPath}/cliente/novo" class="btn btn-sm btn-success">
+										Novo Cliente
+									</a>
+							</div>
+						</div>   			
+					</div>
+				</div>
+
+				<div class="card">
+					<div class="card-header">
+						<i class="fa fa-align-justify"></i> Resultado da pesquisa
+					</div>
+					<div class="card-block">
+						<h:dataTable var="cliente"
+							value="#{clienteController.clienteTO.clientes}"
+							styleClass="table">
+							<h:column><f:facet name="head">#{resources['label.global.id']}</f:facet>#{cliente.id}</h:column>
+							<h:column><f:facet name="head">Username</f:facet>#{cliente.username}</h:column>
+							<h:column><f:facet name="head">Nome</f:facet>#{cliente.nome}</h:column>
+							
+							<h:column><f:facet name="head">Acoes</f:facet>
+								<a href="#{request.contextPath}/cliente/editar/#{cliente.id}">Editar</a> 
+								<h:commandLink action="#{clienteController.excluir(cliente)}" value="Excluir" />
+							</h:column>
+						</h:dataTable>
+					</div>
+				</div>
+
+			</h:form>
+
+		</div>
+
+
+
+	</ui:define>
+
+
+</ui:composition>

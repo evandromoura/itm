@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formCliente">
+				<div class="card">
+					<div class="card-header">
+						<strong>Cadastro</strong> <small>Cliente</small>
+					</div>
+					<div class="card-block">
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>#{resources['label.global.tipopessoa']}</label> 
+									<h:selectOneRadio value="#{clienteController.clienteTO.cliente.tipoPessoa}">
+										<f:selectItems value="#{combosBean.tipoPessoa}" var="tipoPessoa" itemValue="#{tipoPessoa}" itemLabel="#{resources[tipoPessoa.key]}" />
+										<f:ajax event="click" render="idTipoPessoa" immediate="true"   execute="@this"/>
+									</h:selectOneRadio>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<h:panelGroup id="idTipoPessoa">	
+								<ui:fragment rendered="#{clienteController.clienteTO.cliente.tipoPessoa.name eq 'FISICA'}">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label>#{resources['label.global.cpf']}</label> 
+											<h:inputText value="#{clienteController.clienteTO.cliente.cpfCnpj}" id="cliente_cpf" styleClass="form-control" />
+										</div>
+									</div>
+								</ui:fragment>
+								<ui:fragment rendered="#{clienteController.clienteTO.cliente.tipoPessoa.name eq 'JURIDICA'}"> 
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label>#{resources['label.global.cnpj']}</label> 
+											<h:inputText value="#{clienteController.clienteTO.cliente.cpfCnpj}" id="cliente_cnpj" styleClass="form-control" />
+										</div>
+									</div>
+								</ui:fragment>
+							</h:panelGroup>
+							
+						</div>		
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="formCliente:cliente_nome">Nome</label> 
+									<h:inputText value="#{clienteController.clienteTO.cliente.nome}" id="cliente_nome" styleClass="form-control" />
+								</div>
+							</div>
+						</div>		
+						<div class="row">
+							<div class="col-sm-6">		
+								<div class="form-group">
+									<label for="formCliente:cliente_telefone_celular">Celular</label> 
+									<h:inputText value="#{clienteController.clienteTO.cliente.telefoneCelular}" id="cliente_telefone_celular" styleClass="form-control" />
+								</div>
+							</div>
+							<div class="col-sm-6">	
+								<div class="form-group">
+									<label for="formCliente:username">Username</label> 
+									<h:inputText value="#{clienteController.clienteTO.cliente.username}" id="username" styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+								
+								<label for="formCliente:cliente_telefone_celular">Endereco</label> 
+									<h:inputText value="#{clienteController.clienteTO.cliente.endereco}" id="cliente_endereco" styleClass="form-control"/>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.produtos']}</strong>
+					</div>	
+					
+				<div class="card-block">
+						
+					<h:panelGroup id="idGroupProduto">
+						<div class="row">
+							<div class="col-sm-4">
+							<div class="form-group">
+									<label>#{resources['label.global.escolhaproduto']} : </label> 
+									<h:selectOneMenu id="idProduto" value="#{clienteController.clienteTO.produto.id}" styleClass="form-control">
+										<f:selectItems value="#{combosBean.listaProduto}" var="produto" itemLabel="#{produto.nome}" itemValue="#{produto.id}" />
+									</h:selectOneMenu> <br />
+									<h:commandButton  value="#{resources['label.global.adicionar']}">
+										<f:ajax event="click" listener="#{clienteController.adicionarProduto()}" execute="idGroupProduto" render="idGroupProduto" />
+									</h:commandButton>
+								</div> 
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<h:dataTable id="idDataTableClienteProduto" rendered="#{clienteController.clienteTO.cliente.clienteProdutos ne null and  not empty clienteController.clienteTO.cliente.clienteProdutos}" 
+									value="#{clienteController.clienteTO.cliente.clienteProdutos}" var="clienteProduto" styleClass="table">
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.data']}</f:facet>
+										<h:outputText value="#{clienteProduto.dataCriacao}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</h:column>
+									
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.nome']}</f:facet> 
+										<h:outputText value="#{clienteProduto.produto.nome}" /> 
+									</h:column>
+									
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.valorbase']}</f:facet>
+										<h:outputText value="#{clienteProduto.produto.valor}" /> 
+									</h:column>
+									
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.valortotal']}</f:facet>
+										<h:inputText value="#{clienteProduto.valor}" /> 
+									</h:column>
+									
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.datainicio']}</f:facet>
+										<h:inputText value="#{clienteProduto.dataInicio}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:inputText>
+										 
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.datafim']}</f:facet>
+										<h:inputText value="#{clienteProduto.dataFim}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:inputText>
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+										<h:commandLink value="#{resources['label.global.excluir']}" rendered="#{clienteController.clienteTO.cliente.id eq null}">
+											<f:ajax event="click" listener="#{clienteController.removerProduto(clienteProduto)}" execute="idGroupProduto" render="formCliente:idGroupProduto" />
+										</h:commandLink>
+									</h:column>
+								</h:dataTable>
+								</div> 
+							</div>
+						</h:panelGroup>	
+						
+					</div>	
+				</div>	
+				
+				
+				
+				
+				
+				
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.grupos']}</strong>
+					</div>	
+					
+				<div class="card-block">
+						
+						<h:panelGroup id="idGroupGrupo">
+						<div class="row">
+							<div class="col-sm-4">
+							<div class="form-group">
+									<label>#{resources['label.global.escolhagrupo']} : </label>    
+									<h:selectOneMenu id="idGrupo" value="#{clienteController.clienteTO.grupo.id}" styleClass="form-control">
+										<f:selectItems value="#{combosBean.listaGrupo}" var="grupo" itemLabel="#{grupo.nome}" itemValue="#{grupo.id}" />
+									</h:selectOneMenu>
+									<br />
+									<h:commandButton  value="#{resources['label.global.adicionar']}">
+										<f:ajax event="click" listener="#{clienteController.adicionarGrupo()}" execute="idGroupGrupo" render="idGroupGrupo" />
+									</h:commandButton>
+								</div> 
+							</div> 
+						</div>
+						
+						
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<h:dataTable id="idDataTableClienteGrupo" rendered="#{clienteController.clienteTO.cliente.clienteGrupos ne null and  not empty clienteController.clienteTO.cliente.clienteGrupos}" 
+									value="#{clienteController.clienteTO.cliente.clienteGrupos}" var="clienteGrupo" styleClass="table">
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.data']}</f:facet>
+										<h:outputText value="#{clienteGrupo.dataCriacao}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.nome']}</f:facet> 
+										<h:outputText value="#{clienteGrupo.grupo.nome}" /> 
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+										<h:commandLink value="#{resources['label.global.excluir']}" rendered="#{clienteController.clienteTO.cliente.id eq null}">
+											<f:ajax event="click" listener="#{clienteController.removerGrupo(clienteGrupo)}" execute="idGroupGrupo" render="formCliente:idGroupGrupo" />
+										</h:commandLink>
+									</h:column>
+									
+								</h:dataTable>
+								</div> 
+							</div>
+						</h:panelGroup>	
+						
+					</div>	
+				</div>	
+				
+				
+				
+				
+				
+				
+				
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.equipamentos']}</strong>
+					</div>	
+					
+				<div class="card-block">
+						
+						<h:panelGroup id="idGroupEquipamento">
+						<div class="row">
+							<div class="col-sm-4">
+							<div class="form-group">
+									<label>#{resources['label.global.escolhaequipamento']} : </label>   
+									<h:selectOneMenu id="idEquipamento" value="#{clienteController.clienteTO.equipamento.id}" styleClass="form-control">
+										<f:selectItems value="#{combosBean.listaEquipamento}" var="equipamento" itemLabel="#{equipamento.nome}" itemValue="#{equipamento.id}" />
+									</h:selectOneMenu>
+									<br />
+									<h:commandButton  value="#{resources['label.global.adicionar']}">
+										<f:ajax event="click" listener="#{clienteController.adicionarEquipamento()}" execute="idGroupEquipamento" render="idGroupEquipamento" />
+									</h:commandButton>
+								</div> 
+							</div> 
+						</div>
+						
+						
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<h:dataTable id="idDataTableClienteEquipamento" rendered="#{clienteController.clienteTO.cliente.clienteEquipamentos ne null and  not empty clienteController.clienteTO.cliente.clienteEquipamentos}" 
+									value="#{clienteController.clienteTO.cliente.clienteEquipamentos}" var="clienteEquipamento" styleClass="table">
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.data']}</f:facet>
+										<h:outputText value="#{clienteEquipamento.dataCriacao}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.nome']}</f:facet> 
+										<h:outputText value="#{clienteEquipamento.equipamento.nome}" /> 
+									</h:column>
+									
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.numeroserie']}</f:facet> 
+										<h:inputText value="#{clienteEquipamento.numeroSerie}" /> 
+									</h:column> 
+									
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+										<h:commandLink value="#{resources['label.global.excluir']}" rendered="#{clienteController.clienteTO.cliente.id eq null}">
+											<f:ajax event="click" listener="#{clienteController.removerEquipamento(clienteEquipamento)}" execute="idGroupEquipamento" render="formCliente:idGroupEquipamento" />
+										</h:commandLink>
+									</h:column>
+									
+								</h:dataTable>
+								</div> 
+							</div>
+						</h:panelGroup>	
+						
+					</div>	
+				</div>	
+				
+				
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.boletos']}</strong>
+					</div>	
+					
+				<div class="card-block">
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+								</div>
+							</div>
+						</div>
+						
+					</div>	
+				</div>	
+				
+				
+				<div class="card">
+					<div class="card-header">
+					</div>	
+					
+				<div class="card-block">
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<h:commandLink action="#{clienteController.gravar()}" value="Gravar"  styleClass="btn btn-sm btn-primary" />
+									<h:commandLink action="#{clienteController.cancelar()}" value="Cancelar"  styleClass="btn btn-sm btn-danger" />
+								</div>
+							</div>
+						</div>
+						
+					</div>	
+				</div>	
+
+			</h:form>
+
+		</div>
+
+
+
+	</ui:define>
+
+
+</ui:composition>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.org/seam/faces"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<f:view contentType="text/html" encoding="ISO-8859-1">
+	<h:head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta name="description" content="ITM - iTrix Internet Manager" />
+		<meta name="author" content="iTrix" />
+		<meta name="keyword"
+			content="Internet manager" />
+		<link rel="shortcut icon" href="img/favicon.png" />
+		<title>ITM</title>
+		
+		<h:outputStylesheet name="template/css/font-awesome.min.css" />
+		<h:outputStylesheet name="template/css/simple-line-icons.css" />
+		<h:outputStylesheet name="template/css/style.css" />
+	</h:head>
+
+	<h:body styleClass="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+		<ui:include  src="header.xhtml" />
+		<div class="app-body">
+			<ui:include src="menu.xhtml" />
+			<main class="main">
+				<ol class="breadcrumb mb-0">
+					<li class="breadcrumb-item">Home</li>
+					<li class="breadcrumb-item"><a href="index.html#">Admin</a></li>
+					<li class="breadcrumb-item active">Dashboard</li>
+				</ol>
+				<div class="container-fluid">
+						<ui:insert name="corpo" />
+				</div>
+<!-- 				<ui:include src="menu_direita.xhtml" /> -->
+			</main>
+		</div>
+		<ui:include src="rodape.xhtml" />
+		
+		<h:outputScript name="template/js/libs/jquery.min.js" />
+		<h:outputScript name="template/js/libs/bootstrap.min.js" />
+		<h:outputScript name="template/js/app.js" />
+
+
+	</h:body>
+
+</f:view>
+</html>
