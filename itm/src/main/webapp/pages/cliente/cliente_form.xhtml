@@ -9,9 +9,9 @@
 	<ui:define name="corpo">
 		<div class="col-sm-12">
 			<h:form id="formCliente">
-				<div class="card">
+				<div class="card card-accent-info">
 					<div class="card-header">
-						<strong>Cadastro</strong> <small>Cliente</small>
+						<strong>#{resources['label.global.cadastro']}</strong> <small>#{resources['label.global.clientes']}</small>
 					</div>
 					<div class="card-block">
 						
@@ -52,7 +52,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
-									<label for="formCliente:cliente_nome">Nome</label> 
+									<label for="formCliente:cliente_nome">#{resources['label.global.nome']}</label> 
 									<h:inputText value="#{clienteController.clienteTO.cliente.nome}" id="cliente_nome" styleClass="form-control" />
 								</div>
 							</div>
@@ -60,13 +60,13 @@
 						<div class="row">
 							<div class="col-sm-6">		
 								<div class="form-group">
-									<label for="formCliente:cliente_telefone_celular">Celular</label> 
+									<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}</label> 
 									<h:inputText value="#{clienteController.clienteTO.cliente.telefoneCelular}" id="cliente_telefone_celular" styleClass="form-control" />
 								</div>
 							</div>
 							<div class="col-sm-6">	
 								<div class="form-group">
-									<label for="formCliente:username">Username</label> 
+									<label for="formCliente:username">#{resources['label.global.username']}</label> 
 									<h:inputText value="#{clienteController.clienteTO.cliente.username}" id="username" styleClass="form-control" />
 								</div>
 							</div>
@@ -75,7 +75,7 @@
 							<div class="col-sm-12">
 								<div class="form-group">
 								
-								<label for="formCliente:cliente_telefone_celular">Endereco</label> 
+								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.endereco']}</label>  
 									<h:inputText value="#{clienteController.clienteTO.cliente.endereco}" id="cliente_endereco" styleClass="form-control"/>
 									
 								</div>
@@ -83,10 +83,8 @@
 						</div>
 					</div>
 				</div>
-				
-				
-				
-				<div class="card">
+				 
+				<div class="card card-accent-warning">
 					<div class="card-header">
 						<strong>#{resources['label.global.produtos']}</strong>
 					</div>	
@@ -132,24 +130,21 @@
 										<h:outputText value="#{clienteProduto.produto.valor}" /> 
 									</h:column>
 									
-									
 									<h:column>
 										<f:facet name="header">#{resources['label.global.valortotal']}</f:facet>
-										<h:inputText value="#{clienteProduto.valor}" /> 
+										<h:inputText value="#{clienteProduto.valor}" styleClass="form-control"/> 
 									</h:column>
-									
 									
 									<h:column>
 										<f:facet name="header">#{resources['label.global.datainicio']}</f:facet>
-										<h:inputText value="#{clienteProduto.dataInicio}">
+										<h:inputText value="#{clienteProduto.dataInicio}" styleClass="form-control">
 											<f:convertDateTime pattern="dd/MM/yyyy" />
 										</h:inputText>
-										 
 									</h:column>
 									
 									<h:column>
 										<f:facet name="header">#{resources['label.global.datafim']}</f:facet>
-										<h:inputText value="#{clienteProduto.dataFim}">
+										<h:inputText value="#{clienteProduto.dataFim}" styleClass="form-control">
 											<f:convertDateTime pattern="dd/MM/yyyy" />
 										</h:inputText>
 									</h:column>
@@ -173,7 +168,7 @@
 				
 				
 				
-				<div class="card">
+				<div class="card card-accent-success">
 					<div class="card-header">
 						<strong>#{resources['label.global.grupos']}</strong>
 					</div>	
@@ -236,7 +231,7 @@
 				
 				
 				
-				<div class="card">
+				<div class="card card-accent-danger">
 					<div class="card-header">
 						<strong>#{resources['label.global.equipamentos']}</strong>
 					</div>	
@@ -301,7 +296,7 @@
 				</div>	
 				
 				
-				<div class="card">
+				<div class="card card-accent-info">
 					<div class="card-header">
 						<strong>#{resources['label.global.boletos']}</strong>
 					</div>	

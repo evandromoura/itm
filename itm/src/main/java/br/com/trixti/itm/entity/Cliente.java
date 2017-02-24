@@ -2,6 +2,7 @@ package br.com.trixti.itm.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -58,16 +59,16 @@ public class Cliente implements java.io.Serializable {
 	@Column(name = "data_exclusao", length = 29)
 	private Date dataExclusao;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<ClienteEquipamento> clienteEquipamentos;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<ClienteProduto> clienteProdutos;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<ClienteGrupo> clienteGrupos;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<Boleto> boletos;
 
 	public Cliente() {

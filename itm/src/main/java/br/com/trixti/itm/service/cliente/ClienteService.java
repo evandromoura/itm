@@ -46,6 +46,7 @@ public class ClienteService extends AbstractService<Cliente> {
 		clienteGrupoService.incluirLista(entidade.getClienteGrupos());
 		clienteEquipamentoService.incluirLista(entidade.getClienteEquipamentos());
 		
+		
 		/**
 		 * TODO: Desenvolver a ligação com o Radius  (radcheck, radgroupcheck)
 		 */

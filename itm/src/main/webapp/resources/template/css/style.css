@@ -271,7 +271,7 @@ html {
 
 body {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 0.875rem;
+  font-size: 1.2rem;
   font-weight: normal;
   line-height: 1.5;
   color: #374767;
@@ -1498,9 +1498,9 @@ pre {
   display: block;
   width: 100%;
   padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
+  font-size: 1.15rem;
   line-height: 1.25;
-  color: #9faecb;
+  color: #374767;
   background-color: #fff;
   background-image: none;
   background-clip: padding-box;
@@ -10185,20 +10185,7 @@ body > .ui-select-bootstrap.open {
   .ui-select-container .ui-select-match .ui-select-toggle {
     outline: 0; }
 
-select {
-  background: white url("../img/select.png") no-repeat !important;
-  background-size: 24px 20px !important;
-  background-position: right center !important;
-  border-radius: 0px !important;
-  border: 1px solid #e1e6ef !important;
-  color: #888;
-  border: none;
-  outline: none;
-  display: inline-block;
-  -webkit-appearance: none;
-  -ms-appearance: none;
-  appearance: none;
-  cursor: pointer; }
+
 
 .select2-container.form-control, .daterangepicker .select2-container.input-mini, .input-group > .ui-select-bootstrap > input.select2-container.ui-select-search.form-control {
   background: transparent;

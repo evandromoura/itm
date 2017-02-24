@@ -1,4 +1,4 @@
-package br.com.trixti.itm.controller;
+package br.com.trixti.itm.controller.cliente;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteEquipamento;
 import br.com.trixti.itm.entity.ClienteGrupo;
@@ -71,6 +72,9 @@ public class ClienteController extends AbstractController<Cliente> {
 	
 	public void pesquisar(){
 		getClienteTO().setClientes(clienteService.pesquisar(getClienteTO().getClientePesquisa()));
+		if(getClienteTO().getClientes().isEmpty()){
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nenhum Registro Encontrado", "Refaça a pesquisa"));
+		}
 	}
 	
 	public String gravar(){
