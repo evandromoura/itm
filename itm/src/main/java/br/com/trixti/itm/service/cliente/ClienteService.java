@@ -1,5 +1,6 @@
 package br.com.trixti.itm.service.cliente;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -39,7 +40,7 @@ public class ClienteService extends AbstractService<Cliente> {
 
 	@Override
 	public void incluir(Cliente entidade) {
-		
+		entidade.setDataCriacao(new Date());
 		super.incluir(entidade);
 		clienteProdutoService.incluirLista(entidade.getClienteProdutos());
 		clienteGrupoService.incluirLista(entidade.getClienteGrupos());
