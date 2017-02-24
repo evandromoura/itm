@@ -151,6 +151,14 @@ public class ClienteController extends AbstractController<Cliente> {
 		getClienteTO().getCliente().getClienteGrupos().remove(clienteGrupo);
 	}
 	
+	public void ativarDesativarClienteProduto(ClienteProduto clienteProduto){
+		if(clienteProduto.getDataExclusao() != null){
+			clienteProduto.setDataExclusao(null);
+		}else{
+			clienteProduto.setDataExclusao(new Date());
+		}	
+	}
+	
 
 	public ClienteTO getClienteTO() {
 		if (clienteTO == null) {

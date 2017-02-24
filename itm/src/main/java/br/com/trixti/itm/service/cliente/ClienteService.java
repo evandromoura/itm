@@ -9,6 +9,9 @@ import javax.inject.Inject;
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.cliente.ClienteDAO;
 import br.com.trixti.itm.entity.Cliente;
+import br.com.trixti.itm.entity.ClienteEquipamento;
+import br.com.trixti.itm.entity.ClienteGrupo;
+import br.com.trixti.itm.entity.ClienteProduto;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.clienteequipamento.ClienteEquipamentoService;
 import br.com.trixti.itm.service.clientegrupo.ClienteGrupoService;
@@ -53,9 +56,31 @@ public class ClienteService extends AbstractService<Cliente> {
 	@Override
 	public void alterar(Cliente entidade) {
 		super.alterar(entidade);
-		clienteProdutoService.incluirLista(entidade.getClienteProdutos());
-		clienteGrupoService.incluirLista(entidade.getClienteGrupos());
-		clienteEquipamentoService.incluirLista(entidade.getClienteEquipamentos());
+		for(ClienteProduto clienteProduto:entidade.getClienteProdutos()){
+			if(clienteProduto.getId() == null){
+				clienteProdutoService.incluir(clienteProduto);
+			}else{
+				clienteProdutoService.alterar(clienteProduto);
+				
+			}	
+		}
+		for(ClienteGrupo clienteGrupo:entidade.getClienteGrupos()){
+			if(clienteGrupo.getId() == null){
+				clienteGrupoService.incluir(clienteGrupo);
+			}else{
+				clienteGrupoService.alterar(clienteGrupo);
+			}	
+		}
+		
+		for(ClienteEquipamento clienteEquipamento:entidade.getClienteEquipamentos()){
+			if(clienteEquipamento.getId() == null){
+				clienteEquipamentoService.incluir(clienteEquipamento);
+			}else{
+				clienteEquipamentoService.alterar(clienteEquipamento);
+			}	
+		}
+		
+		
 	}
 	
 	

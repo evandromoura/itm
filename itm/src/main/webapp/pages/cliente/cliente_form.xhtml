@@ -149,11 +149,23 @@
 										</h:inputText>
 									</h:column>
 									
-									<h:column>
+									<h:column rendered="#{clienteController.clienteTO.cliente.id eq null}">
 										<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
-										<h:commandLink value="#{resources['label.global.excluir']}" rendered="#{clienteController.clienteTO.cliente.id eq null}">
+										<h:commandLink value="#{resources['label.global.excluir']}" >
 											<f:ajax event="click" listener="#{clienteController.removerProduto(clienteProduto)}" execute="idGroupProduto" render="formCliente:idGroupProduto" />
 										</h:commandLink>
+									</h:column>
+									
+									<h:column rendered="#{clienteController.clienteTO.cliente.id ne null}">
+										<f:facet name="header">#{resources['label.global.ativo']}</f:facet>
+										
+										<label class="switch switch-text switch-pill switch-success-outline">
+												<h:selectBooleanCheckbox value="#{clienteProduto.ativo}" styleClass="switch-input">
+													<f:ajax event="click" listener="#{clienteController.ativarDesativarClienteProduto(clienteProduto)}" execute="@this"  />
+												</h:selectBooleanCheckbox>
+		                                        <span class="switch-label" data-on="#{resources['label.global.sim']}" data-off="#{resources['label.global.nao']}"></span> 
+		                                        <span class="switch-handle"></span>
+		                                </label>
 									</h:column>
 								</h:dataTable>
 								</div> 
@@ -210,9 +222,9 @@
 										<h:outputText value="#{clienteGrupo.grupo.nome}" /> 
 									</h:column>
 									
-									<h:column>
+									<h:column  rendered="#{clienteController.clienteTO.cliente.id eq null}">
 										<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
-										<h:commandLink value="#{resources['label.global.excluir']}" rendered="#{clienteController.clienteTO.cliente.id eq null}">
+										<h:commandLink value="#{resources['label.global.excluir']}">
 											<f:ajax event="click" listener="#{clienteController.removerGrupo(clienteGrupo)}" execute="idGroupGrupo" render="formCliente:idGroupGrupo" />
 										</h:commandLink>
 									</h:column>
@@ -280,9 +292,9 @@
 									</h:column> 
 									
 									
-									<h:column>
+									<h:column rendered="#{clienteController.clienteTO.cliente.id eq null}">
 										<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
-										<h:commandLink value="#{resources['label.global.excluir']}" rendered="#{clienteController.clienteTO.cliente.id eq null}">
+										<h:commandLink value="#{resources['label.global.excluir']}">
 											<f:ajax event="click" listener="#{clienteController.removerEquipamento(clienteEquipamento)}" execute="idGroupEquipamento" render="formCliente:idGroupEquipamento" />
 										</h:commandLink>
 									</h:column>

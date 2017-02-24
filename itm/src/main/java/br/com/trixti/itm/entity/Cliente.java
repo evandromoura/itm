@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 
@@ -210,7 +211,6 @@ public class Cliente implements java.io.Serializable {
 	public void setClienteGrupos(List<ClienteGrupo> clienteGrupos) {
 		this.clienteGrupos = clienteGrupos;
 	}
-	
 	
 
 }
