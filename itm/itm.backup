@@ -1,0 +1,1427 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.4.0
+-- Dumped by pg_dump version 9.4.0
+-- Started on 2017-02-23 22:48:06 BRT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 204 (class 3079 OID 12123)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2490 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 199 (class 1259 OID 59880)
+-- Name: itm_boleto; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_boleto (
+    id integer NOT NULL,
+    id_cliente integer,
+    valor numeric,
+    data_vencimento date,
+    data_criacao timestamp without time zone
+);
+
+
+ALTER TABLE itm_boleto OWNER TO radius;
+
+--
+-- TOC entry 198 (class 1259 OID 59878)
+-- Name: itm_boleto_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_boleto_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_boleto_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2491 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: itm_boleto_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_boleto_id_seq OWNED BY itm_boleto.id;
+
+
+--
+-- TOC entry 189 (class 1259 OID 59782)
+-- Name: itm_cliente; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_cliente (
+    id integer NOT NULL,
+    nome character varying,
+    email character varying,
+    endereco character varying,
+    username character varying,
+    telefone_celular character varying,
+    telefone_fixo character varying,
+    cpf_cnpj character varying,
+    tipo_pessoa character varying,
+    cep character varying,
+    data_criacao timestamp without time zone DEFAULT now(),
+    data_exclusao timestamp without time zone
+);
+
+
+ALTER TABLE itm_cliente OWNER TO radius;
+
+--
+-- TOC entry 197 (class 1259 OID 59823)
+-- Name: itm_cliente_equipamento; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_cliente_equipamento (
+    id integer NOT NULL,
+    id_cliente integer,
+    id_equipamento integer,
+    data_criacao timestamp without time zone DEFAULT now(),
+    data_exclusao timestamp without time zone,
+    numero_serie character varying
+);
+
+
+ALTER TABLE itm_cliente_equipamento OWNER TO radius;
+
+--
+-- TOC entry 196 (class 1259 OID 59821)
+-- Name: itm_cliente_equipamento_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_cliente_equipamento_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_cliente_equipamento_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2492 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: itm_cliente_equipamento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_cliente_equipamento_id_seq OWNED BY itm_cliente_equipamento.id;
+
+
+--
+-- TOC entry 193 (class 1259 OID 59804)
+-- Name: itm_cliente_grupo; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_cliente_grupo (
+    id integer NOT NULL,
+    id_cliente integer,
+    id_grupo integer,
+    data_criacao timestamp without time zone DEFAULT now(),
+    data_exclusao timestamp without time zone
+);
+
+
+ALTER TABLE itm_cliente_grupo OWNER TO radius;
+
+--
+-- TOC entry 192 (class 1259 OID 59802)
+-- Name: itm_cliente_grupo_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_cliente_grupo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_cliente_grupo_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2493 (class 0 OID 0)
+-- Dependencies: 192
+-- Name: itm_cliente_grupo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_cliente_grupo_id_seq OWNED BY itm_cliente_grupo.id;
+
+
+--
+-- TOC entry 188 (class 1259 OID 59780)
+-- Name: itm_cliente_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_cliente_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_cliente_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2494 (class 0 OID 0)
+-- Dependencies: 188
+-- Name: itm_cliente_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_cliente_id_seq OWNED BY itm_cliente.id;
+
+
+--
+-- TOC entry 203 (class 1259 OID 67873)
+-- Name: itm_cliente_produto; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_cliente_produto (
+    id integer NOT NULL,
+    id_cliente integer,
+    id_produto integer,
+    valor numeric,
+    valor_base numeric,
+    data_criacao timestamp without time zone,
+    data_exclusao timestamp without time zone,
+    data_inicio timestamp without time zone,
+    data_fim timestamp without time zone
+);
+
+
+ALTER TABLE itm_cliente_produto OWNER TO radius;
+
+--
+-- TOC entry 202 (class 1259 OID 67871)
+-- Name: itm_cliente_produto_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_cliente_produto_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_cliente_produto_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2495 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: itm_cliente_produto_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_cliente_produto_id_seq OWNED BY itm_cliente_produto.id;
+
+
+--
+-- TOC entry 195 (class 1259 OID 59812)
+-- Name: itm_equipamento; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_equipamento (
+    id integer NOT NULL,
+    nome character varying
+);
+
+
+ALTER TABLE itm_equipamento OWNER TO radius;
+
+--
+-- TOC entry 194 (class 1259 OID 59810)
+-- Name: itm_equipamento_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_equipamento_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_equipamento_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2496 (class 0 OID 0)
+-- Dependencies: 194
+-- Name: itm_equipamento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_equipamento_id_seq OWNED BY itm_equipamento.id;
+
+
+--
+-- TOC entry 191 (class 1259 OID 59793)
+-- Name: itm_grupo; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_grupo (
+    id integer NOT NULL,
+    nome character varying
+);
+
+
+ALTER TABLE itm_grupo OWNER TO radius;
+
+--
+-- TOC entry 190 (class 1259 OID 59791)
+-- Name: itm_grupo_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_grupo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_grupo_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2497 (class 0 OID 0)
+-- Dependencies: 190
+-- Name: itm_grupo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_grupo_id_seq OWNED BY itm_grupo.id;
+
+
+--
+-- TOC entry 201 (class 1259 OID 67862)
+-- Name: itm_produto; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_produto (
+    id integer NOT NULL,
+    nome character varying,
+    data_inicio timestamp without time zone,
+    data_fim timestamp without time zone,
+    valor numeric,
+    tipo character varying
+);
+
+
+ALTER TABLE itm_produto OWNER TO radius;
+
+--
+-- TOC entry 200 (class 1259 OID 67860)
+-- Name: itm_produto_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_produto_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_produto_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2498 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: itm_produto_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_produto_id_seq OWNED BY itm_produto.id;
+
+
+--
+-- TOC entry 187 (class 1259 OID 59768)
+-- Name: nas; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE nas (
+    id integer NOT NULL,
+    nasname text NOT NULL,
+    shortname text NOT NULL,
+    type text DEFAULT 'other'::text NOT NULL,
+    ports integer,
+    secret text NOT NULL,
+    server text,
+    community text,
+    description text
+);
+
+
+ALTER TABLE nas OWNER TO postgres;
+
+--
+-- TOC entry 186 (class 1259 OID 59766)
+-- Name: nas_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE nas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE nas_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2499 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: nas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE nas_id_seq OWNED BY nas.id;
+
+
+--
+-- TOC entry 173 (class 1259 OID 59661)
+-- Name: radacct; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE radacct (
+    radacctid bigint NOT NULL,
+    acctsessionid text NOT NULL,
+    acctuniqueid text NOT NULL,
+    username text,
+    groupname text,
+    realm text,
+    nasipaddress inet NOT NULL,
+    nasportid text,
+    nasporttype text,
+    acctstarttime timestamp with time zone,
+    acctupdatetime timestamp with time zone,
+    acctstoptime timestamp with time zone,
+    acctinterval bigint,
+    acctsessiontime bigint,
+    acctauthentic text,
+    connectinfo_start text,
+    connectinfo_stop text,
+    acctinputoctets bigint,
+    acctoutputoctets bigint,
+    calledstationid text,
+    callingstationid text,
+    acctterminatecause text,
+    servicetype text,
+    framedprotocol text,
+    framedipaddress inet
+);
+
+
+ALTER TABLE radacct OWNER TO postgres;
+
+--
+-- TOC entry 172 (class 1259 OID 59659)
+-- Name: radacct_radacctid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE radacct_radacctid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE radacct_radacctid_seq OWNER TO postgres;
+
+--
+-- TOC entry 2500 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: radacct_radacctid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE radacct_radacctid_seq OWNED BY radacct.radacctid;
+
+
+--
+-- TOC entry 175 (class 1259 OID 59677)
+-- Name: radcheck; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE radcheck (
+    id integer NOT NULL,
+    username text DEFAULT ''::text NOT NULL,
+    attribute text DEFAULT ''::text NOT NULL,
+    op character varying(2) DEFAULT '=='::character varying NOT NULL,
+    value text DEFAULT ''::text NOT NULL
+);
+
+
+ALTER TABLE radcheck OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 59675)
+-- Name: radcheck_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE radcheck_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE radcheck_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2501 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: radcheck_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE radcheck_id_seq OWNED BY radcheck.id;
+
+
+--
+-- TOC entry 177 (class 1259 OID 59693)
+-- Name: radgroupcheck; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE radgroupcheck (
+    id integer NOT NULL,
+    groupname text DEFAULT ''::text NOT NULL,
+    attribute text DEFAULT ''::text NOT NULL,
+    op character varying(2) DEFAULT '=='::character varying NOT NULL,
+    value text DEFAULT ''::text NOT NULL
+);
+
+
+ALTER TABLE radgroupcheck OWNER TO postgres;
+
+--
+-- TOC entry 176 (class 1259 OID 59691)
+-- Name: radgroupcheck_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE radgroupcheck_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE radgroupcheck_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2502 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: radgroupcheck_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE radgroupcheck_id_seq OWNED BY radgroupcheck.id;
+
+
+--
+-- TOC entry 179 (class 1259 OID 59709)
+-- Name: radgroupreply; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE radgroupreply (
+    id integer NOT NULL,
+    groupname text DEFAULT ''::text NOT NULL,
+    attribute text DEFAULT ''::text NOT NULL,
+    op character varying(2) DEFAULT '='::character varying NOT NULL,
+    value text DEFAULT ''::text NOT NULL
+);
+
+
+ALTER TABLE radgroupreply OWNER TO postgres;
+
+--
+-- TOC entry 178 (class 1259 OID 59707)
+-- Name: radgroupreply_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE radgroupreply_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE radgroupreply_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2503 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: radgroupreply_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE radgroupreply_id_seq OWNED BY radgroupreply.id;
+
+
+--
+-- TOC entry 185 (class 1259 OID 59756)
+-- Name: radpostauth; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE radpostauth (
+    id bigint NOT NULL,
+    username text NOT NULL,
+    pass text,
+    reply text,
+    calledstationid text,
+    callingstationid text,
+    authdate timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE radpostauth OWNER TO postgres;
+
+--
+-- TOC entry 184 (class 1259 OID 59754)
+-- Name: radpostauth_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE radpostauth_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE radpostauth_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2504 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: radpostauth_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE radpostauth_id_seq OWNED BY radpostauth.id;
+
+
+--
+-- TOC entry 181 (class 1259 OID 59725)
+-- Name: radreply; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE radreply (
+    id integer NOT NULL,
+    username text DEFAULT ''::text NOT NULL,
+    attribute text DEFAULT ''::text NOT NULL,
+    op character varying(2) DEFAULT '='::character varying NOT NULL,
+    value text DEFAULT ''::text NOT NULL
+);
+
+
+ALTER TABLE radreply OWNER TO postgres;
+
+--
+-- TOC entry 180 (class 1259 OID 59723)
+-- Name: radreply_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE radreply_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE radreply_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2505 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: radreply_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE radreply_id_seq OWNED BY radreply.id;
+
+
+--
+-- TOC entry 183 (class 1259 OID 59741)
+-- Name: radusergroup; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE radusergroup (
+    id integer NOT NULL,
+    username text DEFAULT ''::text NOT NULL,
+    groupname text DEFAULT ''::text NOT NULL,
+    priority integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE radusergroup OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 59739)
+-- Name: radusergroup_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE radusergroup_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE radusergroup_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2506 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: radusergroup_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE radusergroup_id_seq OWNED BY radusergroup.id;
+
+
+--
+-- TOC entry 2289 (class 2604 OID 59883)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_boleto ALTER COLUMN id SET DEFAULT nextval('itm_boleto_id_seq'::regclass);
+
+
+--
+-- TOC entry 2281 (class 2604 OID 59785)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente ALTER COLUMN id SET DEFAULT nextval('itm_cliente_id_seq'::regclass);
+
+
+--
+-- TOC entry 2287 (class 2604 OID 59826)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente_equipamento ALTER COLUMN id SET DEFAULT nextval('itm_cliente_equipamento_id_seq'::regclass);
+
+
+--
+-- TOC entry 2284 (class 2604 OID 59807)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente_grupo ALTER COLUMN id SET DEFAULT nextval('itm_cliente_grupo_id_seq'::regclass);
+
+
+--
+-- TOC entry 2291 (class 2604 OID 67876)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente_produto ALTER COLUMN id SET DEFAULT nextval('itm_cliente_produto_id_seq'::regclass);
+
+
+--
+-- TOC entry 2286 (class 2604 OID 59815)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_equipamento ALTER COLUMN id SET DEFAULT nextval('itm_equipamento_id_seq'::regclass);
+
+
+--
+-- TOC entry 2283 (class 2604 OID 59796)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_grupo ALTER COLUMN id SET DEFAULT nextval('itm_grupo_id_seq'::regclass);
+
+
+--
+-- TOC entry 2290 (class 2604 OID 67865)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_produto ALTER COLUMN id SET DEFAULT nextval('itm_produto_id_seq'::regclass);
+
+
+--
+-- TOC entry 2279 (class 2604 OID 59771)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY nas ALTER COLUMN id SET DEFAULT nextval('nas_id_seq'::regclass);
+
+
+--
+-- TOC entry 2252 (class 2604 OID 59664)
+-- Name: radacctid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY radacct ALTER COLUMN radacctid SET DEFAULT nextval('radacct_radacctid_seq'::regclass);
+
+
+--
+-- TOC entry 2253 (class 2604 OID 59680)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY radcheck ALTER COLUMN id SET DEFAULT nextval('radcheck_id_seq'::regclass);
+
+
+--
+-- TOC entry 2258 (class 2604 OID 59696)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY radgroupcheck ALTER COLUMN id SET DEFAULT nextval('radgroupcheck_id_seq'::regclass);
+
+
+--
+-- TOC entry 2263 (class 2604 OID 59712)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY radgroupreply ALTER COLUMN id SET DEFAULT nextval('radgroupreply_id_seq'::regclass);
+
+
+--
+-- TOC entry 2277 (class 2604 OID 59759)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY radpostauth ALTER COLUMN id SET DEFAULT nextval('radpostauth_id_seq'::regclass);
+
+
+--
+-- TOC entry 2268 (class 2604 OID 59728)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY radreply ALTER COLUMN id SET DEFAULT nextval('radreply_id_seq'::regclass);
+
+
+--
+-- TOC entry 2273 (class 2604 OID 59744)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY radusergroup ALTER COLUMN id SET DEFAULT nextval('radusergroup_id_seq'::regclass);
+
+
+--
+-- TOC entry 2478 (class 0 OID 59880)
+-- Dependencies: 199
+-- Data for Name: itm_boleto; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+
+
+--
+-- TOC entry 2507 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: itm_boleto_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_boleto_id_seq', 1, false);
+
+
+--
+-- TOC entry 2468 (class 0 OID 59782)
+-- Dependencies: 189
+-- Data for Name: itm_cliente; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_cliente (id, nome, email, endereco, username, telefone_celular, telefone_fixo, cpf_cnpj, tipo_pessoa, cep, data_criacao, data_exclusao) VALUES (39, 'Evandro Paulo Neves Moura', NULL, 'SIG 8 lote 2233222334', 'evandromoura', '61992988839', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO itm_cliente (id, nome, email, endereco, username, telefone_celular, telefone_fixo, cpf_cnpj, tipo_pessoa, cep, data_criacao, data_exclusao) VALUES (45, 'Evandro Paulo Neves Moura', NULL, 'SIG 8 lote 2233222334', 'evandromoura', '61992988839', NULL, '31227393806', 'FISICA', NULL, NULL, NULL);
+
+
+--
+-- TOC entry 2476 (class 0 OID 59823)
+-- Dependencies: 197
+-- Data for Name: itm_cliente_equipamento; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_cliente_equipamento (id, id_cliente, id_equipamento, data_criacao, data_exclusao, numero_serie) VALUES (2, 45, 1, '2017-02-23 22:20:48.509', NULL, '');
+
+
+--
+-- TOC entry 2508 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: itm_cliente_equipamento_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_cliente_equipamento_id_seq', 2, true);
+
+
+--
+-- TOC entry 2472 (class 0 OID 59804)
+-- Dependencies: 193
+-- Data for Name: itm_cliente_grupo; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_cliente_grupo (id, id_cliente, id_grupo, data_criacao, data_exclusao) VALUES (2, 45, 1, '2017-02-23 22:20:46.569', NULL);
+
+
+--
+-- TOC entry 2509 (class 0 OID 0)
+-- Dependencies: 192
+-- Name: itm_cliente_grupo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_cliente_grupo_id_seq', 2, true);
+
+
+--
+-- TOC entry 2510 (class 0 OID 0)
+-- Dependencies: 188
+-- Name: itm_cliente_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_cliente_id_seq', 45, true);
+
+
+--
+-- TOC entry 2482 (class 0 OID 67873)
+-- Dependencies: 203
+-- Data for Name: itm_cliente_produto; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_cliente_produto (id, id_cliente, id_produto, valor, valor_base, data_criacao, data_exclusao, data_inicio, data_fim) VALUES (3, 45, 2, 23, 23, '2017-02-23 22:20:43.796', NULL, '2017-02-23 21:00:00', '2018-02-23 21:00:00');
+
+
+--
+-- TOC entry 2511 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: itm_cliente_produto_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_cliente_produto_id_seq', 3, true);
+
+
+--
+-- TOC entry 2474 (class 0 OID 59812)
+-- Dependencies: 195
+-- Data for Name: itm_equipamento; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_equipamento (id, nome) VALUES (1, 'Modem TP-LINK 861');
+INSERT INTO itm_equipamento (id, nome) VALUES (2, 'Roteador TP-LINK 150M');
+
+
+--
+-- TOC entry 2512 (class 0 OID 0)
+-- Dependencies: 194
+-- Name: itm_equipamento_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_equipamento_id_seq', 2, true);
+
+
+--
+-- TOC entry 2470 (class 0 OID 59793)
+-- Dependencies: 191
+-- Data for Name: itm_grupo; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_grupo (id, nome) VALUES (1, 'RealPanoramic');
+INSERT INTO itm_grupo (id, nome) VALUES (2, 'PacoLinea');
+
+
+--
+-- TOC entry 2513 (class 0 OID 0)
+-- Dependencies: 190
+-- Name: itm_grupo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_grupo_id_seq', 2, true);
+
+
+--
+-- TOC entry 2480 (class 0 OID 67862)
+-- Dependencies: 201
+-- Data for Name: itm_produto; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_produto (id, nome, data_inicio, data_fim, valor, tipo) VALUES (1, 'Internet 3mb', '2017-02-23 17:47:56.270766', NULL, 10, NULL);
+INSERT INTO itm_produto (id, nome, data_inicio, data_fim, valor, tipo) VALUES (2, 'Internet 30mb', '2017-02-23 17:47:56.270766', NULL, 23, NULL);
+
+
+--
+-- TOC entry 2514 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: itm_produto_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_produto_id_seq', 2, true);
+
+
+--
+-- TOC entry 2466 (class 0 OID 59768)
+-- Dependencies: 187
+-- Data for Name: nas; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2515 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: nas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('nas_id_seq', 1, false);
+
+
+--
+-- TOC entry 2452 (class 0 OID 59661)
+-- Dependencies: 173
+-- Data for Name: radacct; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2516 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: radacct_radacctid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('radacct_radacctid_seq', 1, false);
+
+
+--
+-- TOC entry 2454 (class 0 OID 59677)
+-- Dependencies: 175
+-- Data for Name: radcheck; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2517 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: radcheck_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('radcheck_id_seq', 1, false);
+
+
+--
+-- TOC entry 2456 (class 0 OID 59693)
+-- Dependencies: 177
+-- Data for Name: radgroupcheck; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2518 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: radgroupcheck_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('radgroupcheck_id_seq', 1, false);
+
+
+--
+-- TOC entry 2458 (class 0 OID 59709)
+-- Dependencies: 179
+-- Data for Name: radgroupreply; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2519 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: radgroupreply_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('radgroupreply_id_seq', 1, false);
+
+
+--
+-- TOC entry 2464 (class 0 OID 59756)
+-- Dependencies: 185
+-- Data for Name: radpostauth; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2520 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: radpostauth_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('radpostauth_id_seq', 1, false);
+
+
+--
+-- TOC entry 2460 (class 0 OID 59725)
+-- Dependencies: 181
+-- Data for Name: radreply; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2521 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: radreply_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('radreply_id_seq', 1, false);
+
+
+--
+-- TOC entry 2462 (class 0 OID 59741)
+-- Dependencies: 183
+-- Data for Name: radusergroup; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2522 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: radusergroup_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('radusergroup_id_seq', 1, false);
+
+
+--
+-- TOC entry 2330 (class 2606 OID 59888)
+-- Name: itm_pk_boleto; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_boleto
+    ADD CONSTRAINT itm_pk_boleto PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2320 (class 2606 OID 59790)
+-- Name: itm_pk_cliente; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_cliente
+    ADD CONSTRAINT itm_pk_cliente PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2328 (class 2606 OID 59828)
+-- Name: itm_pk_cliente_equipamento; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_cliente_equipamento
+    ADD CONSTRAINT itm_pk_cliente_equipamento PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2324 (class 2606 OID 59809)
+-- Name: itm_pk_cliente_grupo; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_cliente_grupo
+    ADD CONSTRAINT itm_pk_cliente_grupo PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2334 (class 2606 OID 67878)
+-- Name: itm_pk_cliente_produto; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_cliente_produto
+    ADD CONSTRAINT itm_pk_cliente_produto PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2326 (class 2606 OID 59820)
+-- Name: itm_pk_equipamento; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_equipamento
+    ADD CONSTRAINT itm_pk_equipamento PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2322 (class 2606 OID 59801)
+-- Name: itm_pk_grupo; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_grupo
+    ADD CONSTRAINT itm_pk_grupo PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2332 (class 2606 OID 67870)
+-- Name: itm_pk_produto; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_produto
+    ADD CONSTRAINT itm_pk_produto PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2318 (class 2606 OID 59777)
+-- Name: nas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY nas
+    ADD CONSTRAINT nas_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2293 (class 2606 OID 59671)
+-- Name: radacct_acctuniqueid_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY radacct
+    ADD CONSTRAINT radacct_acctuniqueid_key UNIQUE (acctuniqueid);
+
+
+--
+-- TOC entry 2297 (class 2606 OID 59669)
+-- Name: radacct_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY radacct
+    ADD CONSTRAINT radacct_pkey PRIMARY KEY (radacctid);
+
+
+--
+-- TOC entry 2300 (class 2606 OID 59689)
+-- Name: radcheck_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY radcheck
+    ADD CONSTRAINT radcheck_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2304 (class 2606 OID 59705)
+-- Name: radgroupcheck_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY radgroupcheck
+    ADD CONSTRAINT radgroupcheck_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2307 (class 2606 OID 59721)
+-- Name: radgroupreply_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY radgroupreply
+    ADD CONSTRAINT radgroupreply_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2315 (class 2606 OID 59765)
+-- Name: radpostauth_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY radpostauth
+    ADD CONSTRAINT radpostauth_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2309 (class 2606 OID 59737)
+-- Name: radreply_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY radreply
+    ADD CONSTRAINT radreply_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2312 (class 2606 OID 59752)
+-- Name: radusergroup_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY radusergroup
+    ADD CONSTRAINT radusergroup_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2316 (class 1259 OID 59778)
+-- Name: nas_nasname; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX nas_nasname ON nas USING btree (nasname);
+
+
+--
+-- TOC entry 2294 (class 1259 OID 59672)
+-- Name: radacct_active_session_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX radacct_active_session_idx ON radacct USING btree (acctuniqueid) WHERE (acctstoptime IS NULL);
+
+
+--
+-- TOC entry 2295 (class 1259 OID 59673)
+-- Name: radacct_bulk_close; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX radacct_bulk_close ON radacct USING btree (nasipaddress, acctstarttime) WHERE (acctstoptime IS NULL);
+
+
+--
+-- TOC entry 2298 (class 1259 OID 59674)
+-- Name: radacct_start_user_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX radacct_start_user_idx ON radacct USING btree (acctstarttime, username);
+
+
+--
+-- TOC entry 2301 (class 1259 OID 59690)
+-- Name: radcheck_username; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX radcheck_username ON radcheck USING btree (username, attribute);
+
+
+--
+-- TOC entry 2302 (class 1259 OID 59706)
+-- Name: radgroupcheck_groupname; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX radgroupcheck_groupname ON radgroupcheck USING btree (groupname, attribute);
+
+
+--
+-- TOC entry 2305 (class 1259 OID 59722)
+-- Name: radgroupreply_groupname; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX radgroupreply_groupname ON radgroupreply USING btree (groupname, attribute);
+
+
+--
+-- TOC entry 2310 (class 1259 OID 59738)
+-- Name: radreply_username; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX radreply_username ON radreply USING btree (username, attribute);
+
+
+--
+-- TOC entry 2313 (class 1259 OID 59753)
+-- Name: radusergroup_username; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX radusergroup_username ON radusergroup USING btree (username);
+
+
+--
+-- TOC entry 2339 (class 2606 OID 59889)
+-- Name: itm_fk_boleto_cliente; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_boleto
+    ADD CONSTRAINT itm_fk_boleto_cliente FOREIGN KEY (id_cliente) REFERENCES itm_cliente(id);
+
+
+--
+-- TOC entry 2337 (class 2606 OID 59829)
+-- Name: itm_fk_cliente_equipamento_cliente; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente_equipamento
+    ADD CONSTRAINT itm_fk_cliente_equipamento_cliente FOREIGN KEY (id_cliente) REFERENCES itm_cliente(id);
+
+
+--
+-- TOC entry 2338 (class 2606 OID 59834)
+-- Name: itm_fk_cliente_equipamento_equipamento; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente_equipamento
+    ADD CONSTRAINT itm_fk_cliente_equipamento_equipamento FOREIGN KEY (id_equipamento) REFERENCES itm_equipamento(id);
+
+
+--
+-- TOC entry 2335 (class 2606 OID 59839)
+-- Name: itm_fk_cliente_grupo_cliente; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente_grupo
+    ADD CONSTRAINT itm_fk_cliente_grupo_cliente FOREIGN KEY (id_cliente) REFERENCES itm_cliente(id);
+
+
+--
+-- TOC entry 2336 (class 2606 OID 59844)
+-- Name: itm_fk_cliente_grupo_grupo; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente_grupo
+    ADD CONSTRAINT itm_fk_cliente_grupo_grupo FOREIGN KEY (id_grupo) REFERENCES itm_grupo(id);
+
+
+--
+-- TOC entry 2340 (class 2606 OID 67879)
+-- Name: itm_fk_cliente_produto_cliente; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente_produto
+    ADD CONSTRAINT itm_fk_cliente_produto_cliente FOREIGN KEY (id_cliente) REFERENCES itm_cliente(id);
+
+
+--
+-- TOC entry 2341 (class 2606 OID 67884)
+-- Name: itm_fk_cliente_produto_produto; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente_produto
+    ADD CONSTRAINT itm_fk_cliente_produto_produto FOREIGN KEY (id_produto) REFERENCES itm_produto(id);
+
+
+--
+-- TOC entry 2489 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2017-02-23 22:48:06 BRT
+
+--
+-- PostgreSQL database dump complete
+--
+
