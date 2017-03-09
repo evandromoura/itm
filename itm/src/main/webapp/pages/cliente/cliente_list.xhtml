@@ -41,25 +41,30 @@
 					</div>
 				</div>
 
-				<div class="card">
-					<div class="card-header">
-						<i class="fa fa-align-justify"></i> Resultado da pesquisa
+				<ui:fragment rendered="#{not empty clienteController.clienteTO.clientes}">
+					<div class="card">
+						<div class="card-header">
+							<i class="fa fa-align-justify"></i> Resultado da pesquisa
+						</div>
+						<div class="card-block">
+							<h:dataTable var="cliente"
+								value="#{clienteController.clienteTO.clientes}"
+								styleClass="table table-bordered table-striped">
+								<h:column><f:facet name="header">#{resources['label.global.id']}</f:facet>#{cliente.id}</h:column>
+								<h:column><f:facet name="header">#{resources['label.global.username']}</f:facet>#{cliente.username}</h:column>
+								<h:column><f:facet name="header">#{resources['label.global.nome']}</f:facet>#{cliente.nome}</h:column>
+								
+								<h:column><f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+								<div>
+									<a href="#{request.contextPath}/cliente/editar/#{cliente.id}" class="btn btn-info">Editar</a>  
+									<h:outputText value=" " />
+									<h:commandLink action="#{clienteController.excluir(cliente)}" styleClass="btn btn-info" value="Excluir" />
+								</div>
+								</h:column>
+							</h:dataTable>
+						</div>
 					</div>
-					<div class="card-block">
-						<h:dataTable var="cliente"
-							value="#{clienteController.clienteTO.clientes}"
-							styleClass="table">
-							<h:column><f:facet name="head">#{resources['label.global.id']}</f:facet>#{cliente.id}</h:column>
-							<h:column><f:facet name="head">Username</f:facet>#{cliente.username}</h:column>
-							<h:column><f:facet name="head">Nome</f:facet>#{cliente.nome}</h:column>
-							
-							<h:column><f:facet name="head">Acoes</f:facet>
-								<a href="#{request.contextPath}/cliente/editar/#{cliente.id}">Editar</a> 
-								<h:commandLink action="#{clienteController.excluir(cliente)}" value="Excluir" />
-							</h:column>
-						</h:dataTable>
-					</div>
-				</div>
+				</ui:fragment>	
 
 			</h:form>
 
