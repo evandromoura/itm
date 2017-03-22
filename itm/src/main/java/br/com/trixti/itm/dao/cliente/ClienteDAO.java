@@ -69,6 +69,10 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 			cliente.getBoletos().size();
 		}
 		
+		if(cliente.getLancamentos() != null){
+			cliente.getLancamentos().size();
+		}
+		
 		return cliente;
 	}
 

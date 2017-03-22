@@ -72,6 +72,10 @@ public class Cliente implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<Boleto> boletos;
+	
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
+	private List<ClienteLancamento> lancamentos;
 
 	public Cliente() {
 	}
@@ -219,6 +223,14 @@ public class Cliente implements java.io.Serializable {
 
 	public void setDiaMesVencimento(Integer diaMesVencimento) {
 		this.diaMesVencimento = diaMesVencimento;
+	}
+
+	public List<ClienteLancamento> getLancamentos() {
+		return lancamentos;
+	}
+
+	public void setLancamentos(List<ClienteLancamento> lancamentos) {
+		this.lancamentos = lancamentos;
 	}
 	
 

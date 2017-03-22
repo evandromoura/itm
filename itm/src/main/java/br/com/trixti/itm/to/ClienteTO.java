@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.trixti.itm.entity.Cliente;
+import br.com.trixti.itm.entity.ClienteLancamento;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
@@ -43,6 +44,9 @@ public class ClienteTO {
 	 * Cliente usado como filtro de pesquisa
 	 */
 	private Cliente clientePesquisa;
+	
+	
+	private ClienteLancamento clienteLancamento;
 
 	public Cliente getCliente() {
 		if (cliente == null) {
@@ -108,6 +112,17 @@ public class ClienteTO {
 
 	public void setGrupo(Grupo grupo) {
 		this.grupo = grupo;
+	}
+
+	public ClienteLancamento getClienteLancamento() {
+		if (clienteLancamento == null) {
+			clienteLancamento = new ClienteLancamento();
+		}
+		return clienteLancamento;
+	}
+
+	public void setClienteLancamento(ClienteLancamento clienteLancamento) {
+		this.clienteLancamento = clienteLancamento;
 	}
 
 }

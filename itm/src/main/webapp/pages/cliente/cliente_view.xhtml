@@ -21,7 +21,7 @@
 				<div class="nav-tabs-custom">
 					<ul class="nav nav-tabs">
 						<li class="active"><a href="#activity" data-toggle="tab">#{resources['label.global.dadosgerais']}</a></li>
-						<li><a href="#timeline" data-toggle="tab">#{resources['label.global.boletos']}</a></li>
+						<li><a href="#financeiro" data-toggle="tab">#{resources['label.global.financeiro']}</a></li> 
 						<li><a href="#settings" data-toggle="tab">#{resources['label.global.logs']}</a></li>
 					</ul>
 					<div class="tab-content">
@@ -245,8 +245,72 @@
 
 						</div>
 						<!-- /.tab-pane -->
-						<div class="tab-pane" id="timeline">
+						<div class="tab-pane" id="financeiro">
 							<h:form>
+							
+							<div class="card card-accent-info">
+								<div class="card-header">
+									<strong>#{resources['label.global.adicionarLancamento']}</strong>
+								</div>
+								<div class="card-block">
+									<div class="row">
+										<div class="col-md-2">
+											<h:outputText value="#{resources['label.global.descricao']}" />
+										</div>
+										<div class="col-md-10">
+											 <h:inputText value="#{clienteViewController.clienteTO.clienteLancamento.descricao}" />
+										</div>
+										<div class="col-md-2">
+											<h:outputText value="#{resources['label.global.valor']}" />
+										</div>
+										<div class="col-md-10">
+											 <h:inputText value="#{clienteViewController.clienteTO.clienteLancamento.valor}" />
+										</div>
+										<div class="col-md-12">
+											<h:commandButton action="#{clienteViewController.criarClienteLancamento}" value="#{resources['label.global.gravar']}" />
+										</div>
+									</div>
+								</div>
+							</div>		
+							
+							<div class="card card-accent-info">
+								<div class="card-header">
+									<strong>#{resources['label.global.lancamentos']}</strong>
+								</div>
+
+								<div class="card-block">
+
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group">
+
+												<h:dataTable id="idDataTableClienteLancamento"
+													rendered="#{clienteViewController.clienteTO.cliente.lancamentos ne null and  not empty clienteViewController.clienteTO.cliente.lancamentos}"
+													value="#{clienteViewController.clienteTO.cliente.lancamentos}"
+													var="lancamento" styleClass="table">
+
+													<h:column>
+														<f:facet name="header">#{resources['label.global.data']}</f:facet>
+														<h:outputText value="#{lancamento.dataLancamento}">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</h:column>
+													<h:column>
+														<f:facet name="header">#{resources['label.global.descricao']}</f:facet>
+														<h:outputText value="#{lancamento.descricao}" />
+													</h:column>
+													<h:column>
+														<f:facet name="header">#{resources['label.global.valor']}</f:facet>
+														<h:outputText value="#{lancamento.valor}" />
+													</h:column>
+												</h:dataTable>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
 
 							<div class="card card-accent-info">
 								<div class="card-header">
