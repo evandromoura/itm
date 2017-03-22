@@ -41,8 +41,10 @@ public class ClienteController extends AbstractController<Cliente> {
 	
 	@PostConstruct
 	private void init(){
+		
 		String acao = getRequest().getParameter("acao");
 		String parametro =getRequest().getParameter("parametro"); 
+		
 		if(acao != null && acao.equals("novo")){
 			inicializarIncluir();
 		}else if(acao != null && parametro != null && acao.equals("editar")){

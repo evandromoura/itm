@@ -6,7 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
-import javax.persistence.Enumerated; 
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +16,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 
@@ -35,6 +34,8 @@ public class Cliente implements java.io.Serializable {
 	private String email;
 	private String endereco;
 	private String username;
+	@Column(name="dia_mes_vencimento")
+	private Integer diaMesVencimento;
 	
 	@Column(name = "telefone_celular")
 	private String telefoneCelular;
@@ -210,6 +211,14 @@ public class Cliente implements java.io.Serializable {
 
 	public void setClienteGrupos(List<ClienteGrupo> clienteGrupos) {
 		this.clienteGrupos = clienteGrupos;
+	}
+
+	public Integer getDiaMesVencimento() {
+		return diaMesVencimento;
+	}
+
+	public void setDiaMesVencimento(Integer diaMesVencimento) {
+		this.diaMesVencimento = diaMesVencimento;
 	}
 	
 

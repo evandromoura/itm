@@ -50,8 +50,14 @@
 							<h:dataTable var="cliente"
 								value="#{clienteController.clienteTO.clientes}"
 								styleClass="table table-bordered table-striped">
-								<h:column><f:facet name="header">#{resources['label.global.id']}</f:facet>#{cliente.id}</h:column>
-								<h:column><f:facet name="header">#{resources['label.global.username']}</f:facet>#{cliente.username}</h:column>
+								<h:column><f:facet name="header">#{resources['label.global.id']}</f:facet>
+										<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.id}</a>
+								</h:column>
+								<h:column>
+									<f:facet name="header">#{resources['label.global.username']}</f:facet>
+									<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.username}</a>
+								</h:column>
+								
 								<h:column><f:facet name="header">#{resources['label.global.nome']}</f:facet>#{cliente.nome}</h:column>
 								
 								<h:column><f:facet name="header">#{resources['label.global.acoes']}</f:facet>

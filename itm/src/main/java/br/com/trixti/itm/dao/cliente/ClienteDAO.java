@@ -64,7 +64,23 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 				clienteGrupo.getGrupo().getId();
 			}
 		}
+		
+		if(cliente.getBoletos() != null){
+			cliente.getBoletos().size();
+		}
+		
 		return cliente;
+	}
+
+	/**
+	 * Criteria JPA2 
+	 * @return
+	 */
+	public List<Cliente> listarAtivo() {
+		CriteriaQuery<Cliente> criteria = getCriteriaBuilder().createQuery(Cliente.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		return getManager().createQuery(
+				criteria.select(root).where(getCriteriaBuilder().isNull(root.get("dataExclusao")))).getResultList();
 	}
 
 }

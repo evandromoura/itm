@@ -82,11 +82,10 @@ public class ClienteService extends AbstractService<Cliente> {
 		
 		
 	}
-	
-	
-	
-	
-	
+
+	public List<Cliente> listarAtivo() {
+		return clienteDAO.listarAtivo();
+	}
 	
 
 }

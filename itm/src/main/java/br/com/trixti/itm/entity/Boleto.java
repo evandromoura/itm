@@ -8,9 +8,12 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,7 +29,9 @@ public class Boleto implements java.io.Serializable {
 	private static final long serialVersionUID = 8924539309625088184L;
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@SequenceGenerator(name="BOLETO_ID_GENERATOR", sequenceName="itm_boleto_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="BOLETO_ID_GENERATOR") 
+	@Column(name = "id", unique = true, nullable = false) 
 	private Integer id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -63,7 +68,7 @@ public class Boleto implements java.io.Serializable {
 		return this.cliente;
 	}
 
-	public void setItmCliente(Cliente cliente) {
+	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 

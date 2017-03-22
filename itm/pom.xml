@@ -144,6 +144,19 @@
 		    <artifactId>rewrite-config-prettyfaces</artifactId>
 		    <version>3.4.1.Final</version>
 		</dependency>
+		
+		<dependency>  
+		   <groupId>org.jrimum</groupId>  
+		   <artifactId>jrimum-bopepo</artifactId>  
+		   <version>0.2.3-SNAPSHOT</version>  
+		</dependency>
+
+		
+<!-- 		<dependency> -->
+<!-- 	    <groupId>org.grails.plugins</groupId> -->
+<!-- 	    <artifactId>jrimum-bopepo</artifactId> -->
+<!-- 	    <version>0.4</version> -->
+<!-- 	</dependency> -->
         
 <!-- FIM DAS DEPENDENCIAS DO PROJETO -->
     </dependencies>

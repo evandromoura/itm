@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formCliente">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.cadastro']}</strong> <small>#{resources['label.global.clientes']}</small>
+					</div>
+					<div class="card-block">
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label>#{resources['label.global.tipopessoa']}</label> 
+									#{clienteViewController.clienteTO.cliente.tipoPessoa}
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<h:panelGroup id="idTipoPessoa">	
+								<ui:fragment rendered="#{clienteViewController.clienteTO.cliente.tipoPessoa.name eq 'FISICA'}">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label>#{resources['label.global.cpf']}</label> 
+											#{clienteViewController.clienteTO.cliente.cpfCnpj}
+										</div>
+									</div>
+								</ui:fragment>
+								<ui:fragment rendered="#{clienteViewController.clienteTO.cliente.tipoPessoa.name eq 'JURIDICA'}"> 
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label>#{resources['label.global.cnpj']}</label> 
+											#{clienteViewController.clienteTO.cliente.cpfCnpj}
+										</div>
+									</div>
+								</ui:fragment>
+							</h:panelGroup>
+							
+						</div>		
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="formCliente:cliente_nome">#{resources['label.global.nome']}</label> 
+									#{clienteViewController.clienteTO.cliente.nome}
+								</div>
+							</div>
+						</div>		
+						<div class="row">
+							<div class="col-sm-6">		
+								<div class="form-group">
+									<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}</label> 
+									#{clienteViewController.clienteTO.cliente.telefoneCelular}
+								</div>
+							</div>
+							<div class="col-sm-6">	
+								<div class="form-group">
+									<label for="formCliente:username">#{resources['label.global.username']}</label> 
+									#{clienteViewController.clienteTO.cliente.username}
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+								
+								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.endereco']}</label>  
+									#{clienteViewController.clienteTO.cliente.endereco}
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="formCliente:cliente_diamesvencimento">#{resources['label.global.diamesvencimento']}</label>  
+									#{clienteViewController.clienteTO.cliente.diaMesVencimento}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				 
+				<div class="card card-accent-warning">
+					<div class="card-header">
+						<strong>#{resources['label.global.produtos']}</strong>
+					</div>	
+					
+				<div class="card-block">
+						
+					<h:panelGroup id="idGroupProduto">
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<h:dataTable id="idDataTableClienteProduto" rendered="#{clienteViewController.clienteTO.cliente.clienteProdutos ne null and  not empty clienteViewController.clienteTO.cliente.clienteProdutos}" 
+									value="#{clienteViewController.clienteTO.cliente.clienteProdutos}" var="clienteProduto" styleClass="table">
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.data']}</f:facet>
+										<h:outputText value="#{clienteProduto.dataCriacao}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</h:column>
+									
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.nome']}</f:facet> 
+										<h:outputText value="#{clienteProduto.produto.nome}" /> 
+									</h:column>
+									
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.valorbase']}</f:facet>
+										<h:outputText value="#{clienteProduto.produto.valor}" /> 
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.valortotal']}</f:facet>
+										<h:outputText value="#{clienteProduto.valor}" /> 
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.datainicio']}</f:facet>
+										<h:outputText value="#{clienteProduto.dataInicio}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.datafim']}</f:facet>
+										<h:outputText value="#{clienteProduto.dataFim}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</h:column>
+									
+								</h:dataTable>
+								</div> 
+							</div>
+						</h:panelGroup>	
+						
+					</div>	
+				</div>	
+				
+				
+				
+				
+				
+				
+				<div class="card card-accent-success">
+					<div class="card-header">
+						<strong>#{resources['label.global.grupos']}</strong>
+					</div>	
+					
+				<div class="card-block">
+						
+						<h:panelGroup id="idGroupGrupo">
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<h:dataTable id="idDataTableClienteGrupo" rendered="#{clienteViewController.clienteTO.cliente.clienteGrupos ne null and  not empty clienteViewController.clienteTO.cliente.clienteGrupos}" 
+									value="#{clienteViewController.clienteTO.cliente.clienteGrupos}" var="clienteGrupo" styleClass="table">
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.data']}</f:facet>
+										<h:outputText value="#{clienteGrupo.dataCriacao}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.nome']}</f:facet> 
+										<h:outputText value="#{clienteGrupo.grupo.nome}" /> 
+									</h:column>
+									
+								</h:dataTable>
+								</div> 
+							</div>
+						</h:panelGroup>	
+						
+					</div>	
+				</div>	
+				
+				<div class="card card-accent-danger">
+					<div class="card-header">
+						<strong>#{resources['label.global.equipamentos']}</strong>
+					</div>	
+					
+				<div class="card-block">
+						
+						<h:panelGroup id="idGroupEquipamento">
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<h:dataTable id="idDataTableClienteEquipamento" rendered="#{clienteViewController.clienteTO.cliente.clienteEquipamentos ne null and  not empty clienteViewController.clienteTO.cliente.clienteEquipamentos}" 
+									value="#{clienteViewController.clienteTO.cliente.clienteEquipamentos}" var="clienteEquipamento" styleClass="table">
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.data']}</f:facet>
+										<h:outputText value="#{clienteEquipamento.dataCriacao}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">#{resources['label.global.nome']}</f:facet> 
+										<h:outputText value="#{clienteEquipamento.equipamento.nome}" /> 
+									</h:column>
+									<h:column>
+										<f:facet name="header">#{resources['label.global.numeroserie']}</f:facet> 
+										<h:outputText value="#{clienteEquipamento.numeroSerie}" /> 
+									</h:column> 
+									
+								</h:dataTable>
+								</div> 
+							</div>
+						</h:panelGroup>	
+						
+					</div>	
+				</div>	
+				
+				
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.boletos']}</strong>
+					</div>	
+					
+				<div class="card-block">
+						
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+								
+								
+								<h:dataTable id="idDataTableClienteBoleto" rendered="#{clienteViewController.clienteTO.cliente.boletos ne null and  not empty clienteViewController.clienteTO.cliente.boletos}" 
+									value="#{clienteViewController.clienteTO.cliente.boletos}" var="boleto" styleClass="table">
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.data']}</f:facet>
+										<h:outputText value="#{boleto.dataCriacao}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">#{resources['label.global.valor']}</f:facet> 
+										<h:outputText value="#{boleto.valor}" /> 
+									</h:column>
+									<h:column>
+										<f:facet name="header">#{resources['label.global.datavencimento']}</f:facet> 
+										<h:outputText value="#{boleto.dataVencimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.acoes']}</f:facet> 
+										<h:commandLink action="#{clienteViewController.downloadBoleto(boleto)}" value="Download" />
+									</h:column> 
+									
+								</h:dataTable>
+								
+								
+								</div>
+							</div>
+						</div>
+						
+					</div>	
+				</div>	
+			</h:form>
+
+		</div>
+
+
+
+	</ui:define>
+
+
+</ui:composition>
