@@ -32,29 +32,26 @@
 								</div>
 								<div class="card-block">
 									<div class="row">
-										<div class="col-sm-12">
+										<div class="col-sm-6">
 											<div class="form-group">
-												<label>#{resources['label.global.tipopessoa']}</label>
+												<label>#{resources['label.global.tipopessoa']}:</label><br />
 												#{clienteViewController.clienteTO.cliente.tipoPessoa}
 											</div>
 										</div>
-									</div>
-									<div class="row">
 										<h:panelGroup id="idTipoPessoa">
 											<ui:fragment
 												rendered="#{clienteViewController.clienteTO.cliente.tipoPessoa.name eq 'FISICA'}">
-												<div class="col-sm-12">
+												<div class="col-sm-6">
 													<div class="form-group">
-														<label>#{resources['label.global.cpf']}</label>
-														#{clienteViewController.clienteTO.cliente.cpfCnpj}
+														<label>#{resources['label.global.cpf']}:</label>#{clienteViewController.clienteTO.cliente.cpfCnpj}
 													</div>
 												</div>
 											</ui:fragment>
 											<ui:fragment
 												rendered="#{clienteViewController.clienteTO.cliente.tipoPessoa.name eq 'JURIDICA'}">
-												<div class="col-sm-12">
+												<div class="col-sm-6">
 													<div class="form-group">
-														<label>#{resources['label.global.cnpj']}</label>
+														<label>#{resources['label.global.cnpj']}:</label>
 														#{clienteViewController.clienteTO.cliente.cpfCnpj}
 													</div>
 												</div>
@@ -62,33 +59,32 @@
 										</h:panelGroup>
 									</div>
 									<div class="row">
-										<div class="col-sm-12">
+										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="formCliente:cliente_nome">#{resources['label.global.nome']}</label>
+												<label for="formCliente:cliente_nome">#{resources['label.global.nome']}:</label><br />
 												#{clienteViewController.clienteTO.cliente.nome}
 											</div>
 										</div>
-									</div>
-									<div class="row">
+										
 										<div class="col-sm-6">
 											<div class="form-group">
-												<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}</label>
-												#{clienteViewController.clienteTO.cliente.telefoneCelular}
-											</div>
-										</div>
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label for="formCliente:username">#{resources['label.global.username']}</label>
+												<label for="formCliente:username">#{resources['label.global.username']}:</label><br />
 												#{clienteViewController.clienteTO.cliente.username}
 											</div>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-sm-12">
+										<div class="col-sm-6">
 											<div class="form-group">
 
-												<label for="formCliente:cliente_telefone_celular">#{resources['label.global.endereco']}</label>
+												<label for="formCliente:cliente_telefone_celular">#{resources['label.global.endereco']}:</label><br />
 												#{clienteViewController.clienteTO.cliente.endereco}
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}:</label><br />
+												#{clienteViewController.clienteTO.cliente.telefoneCelular}
 											</div>
 										</div>
 									</div>
@@ -96,7 +92,7 @@
 									<div class="row">
 										<div class="col-sm-12">
 											<div class="form-group">
-												<label for="formCliente:cliente_diamesvencimento">#{resources['label.global.diamesvencimento']}</label>
+												<label for="formCliente:cliente_diamesvencimento">#{resources['label.global.diamesvencimento']}:</label><br />
 												#{clienteViewController.clienteTO.cliente.diaMesVencimento}
 											</div>
 										</div>
