@@ -72,7 +72,21 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-12">
+							<div class="col-sm-4">
+								<div class="form-group">
+								<label for="formCliente:cliente_uf">#{resources['label.global.uf']}</label>  
+									<h:inputText value="#{clienteController.clienteTO.cliente.uf}" id="cliente_uf" styleClass="form-control"/> 
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+								<label for="formCliente:cliente_cep">#{resources['label.global.cep']}</label>  
+									<h:inputText value="#{clienteController.clienteTO.cliente.cep}" id="cliente_cep" styleClass="form-control"/> 
+									
+								</div>
+							</div>
+							<div class="col-sm-4">
 								<div class="form-group">
 								
 								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.endereco']}</label>  
@@ -83,7 +97,17 @@
 						</div>
 						
 						<div class="row">
-							<div class="col-sm-12">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="formCliente:cliente_contacorrente">#{resources['label.global.contacorrenteboleto']}</label>  
+									<br /> 
+									<h:selectOneMenu id="cliente_contacorrente" value="#{clienteController.clienteTO.cliente.contaCorrenteBoleto.id}">
+										<f:selectItems value="#{combosBean.listaContaCorrente}" 
+											var="contaCorrente" itemValue="#{contaCorrente.id}" itemLabel="#{contaCorrente.nome}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-sm-8">
 								<div class="form-group">
 									<label for="formCliente:cliente_diamesvencimento">#{resources['label.global.diamesvencimento']}</label>  
 									<h:inputText value="#{clienteController.clienteTO.cliente.diaMesVencimento}" id="cliente_diamesvencimento" styleClass="form-control"/>

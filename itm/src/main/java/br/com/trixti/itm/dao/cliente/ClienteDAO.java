@@ -10,6 +10,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
+import br.com.trixti.itm.entity.Boleto;
+import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteEquipamento;
 import br.com.trixti.itm.entity.ClienteGrupo;
@@ -67,10 +69,17 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		
 		if(cliente.getBoletos() != null){
 			cliente.getBoletos().size();
+			for(Boleto boleto:cliente.getBoletos()){
+				if(boleto.getLancamentos() != null){
+					for(BoletoLancamento boletoLancamento:boleto.getLancamentos()){
+						boletoLancamento.getClienteLancamento().getDescricao();
+					}
+				}
+			}
 		}
 		
-		if(cliente.getLancamentos() != null){
-			cliente.getLancamentos().size();
+		if(cliente.getContaCorrenteBoleto() != null){
+			cliente.getContaCorrenteBoleto().getId();
 		}
 		
 		return cliente;

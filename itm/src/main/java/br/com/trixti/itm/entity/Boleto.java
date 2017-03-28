@@ -9,6 +9,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -53,6 +55,9 @@ public class Boleto implements java.io.Serializable {
 	
 	@OneToMany(mappedBy="boleto",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<BoletoLancamento> lancamentos;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusBoletoEnum status;
 
 	public Boleto() {
 	}
@@ -109,6 +114,14 @@ public class Boleto implements java.io.Serializable {
 
 	public void setLancamentos(List<BoletoLancamento> lancamentos) {
 		this.lancamentos = lancamentos;
+	}
+
+	public StatusBoletoEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusBoletoEnum status) {
+		this.status = status;
 	}
 
 }

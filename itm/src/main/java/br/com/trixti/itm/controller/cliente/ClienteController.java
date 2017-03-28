@@ -15,6 +15,7 @@ import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteEquipamento;
 import br.com.trixti.itm.entity.ClienteGrupo;
 import br.com.trixti.itm.entity.ClienteProduto;
+import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
@@ -66,6 +67,8 @@ public class ClienteController extends AbstractController<Cliente> {
 		
 		getClienteTO().setGrupo(new Grupo());
 		getClienteTO().getCliente().setClienteGrupos(new ArrayList<ClienteGrupo>());
+		
+		getClienteTO().getCliente().setContaCorrenteBoleto(new ContaCorrente());
 	}
 	
 	private void inicializarAlterar(Serializable id){

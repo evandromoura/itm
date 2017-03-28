@@ -5,10 +5,12 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
+import br.com.trixti.itm.service.contacorrente.ContaCorrenteService;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
 import br.com.trixti.itm.service.grupo.GrupoService;
 import br.com.trixti.itm.service.produto.ProdutoService;
@@ -19,6 +21,7 @@ public class CombosBean {
 	private @Inject ProdutoService produtoService;
 	private @Inject EquipamentoService equipamentoService;
 	private @Inject GrupoService grupoService;
+	private @Inject ContaCorrenteService contaCorrenteService;
 	
 	public TipoPessoaEnum[] getTipoPessoa(){
 		return TipoPessoaEnum.values();
@@ -34,6 +37,10 @@ public class CombosBean {
    
    public List<Grupo> getListaGrupo(){
 	   return grupoService.listar();
+   }
+   
+   public List<ContaCorrente> getListaContaCorrente(){
+	   return contaCorrenteService.listar();
    }
 	
 }

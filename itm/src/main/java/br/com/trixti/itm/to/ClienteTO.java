@@ -47,6 +47,9 @@ public class ClienteTO {
 	
 	
 	private ClienteLancamento clienteLancamento;
+	
+	
+	private String abaAtiva;
 
 	public Cliente getCliente() {
 		if (cliente == null) {
@@ -123,6 +126,14 @@ public class ClienteTO {
 
 	public void setClienteLancamento(ClienteLancamento clienteLancamento) {
 		this.clienteLancamento = clienteLancamento;
+	}
+
+	public String getAbaAtiva() {
+		return abaAtiva;
+	}
+
+	public void setAbaAtiva(String abaAtiva) {
+		this.abaAtiva = abaAtiva;
 	}
 
 }

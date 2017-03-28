@@ -1,9 +1,12 @@
 package br.com.trixti.itm.service.cliente;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import br.com.trixti.itm.dao.AbstractDAO;
@@ -15,6 +18,7 @@ import br.com.trixti.itm.entity.ClienteProduto;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.clienteequipamento.ClienteEquipamentoService;
 import br.com.trixti.itm.service.clientegrupo.ClienteGrupoService;
+import br.com.trixti.itm.service.clientelancamento.ClienteLancamentoService;
 import br.com.trixti.itm.service.clienteproduto.ClienteProdutoService;
 
 /**
@@ -31,6 +35,7 @@ public class ClienteService extends AbstractService<Cliente> {
 	private @Inject ClienteProdutoService clienteProdutoService;
 	private @Inject ClienteGrupoService clienteGrupoService;
 	private @Inject ClienteEquipamentoService clienteEquipamentoService;
+	private @Inject ClienteLancamentoService clienteLancamentoService;
 	
 	@Override
 	public AbstractDAO<Cliente> getDAO() {
@@ -85,6 +90,14 @@ public class ClienteService extends AbstractService<Cliente> {
 
 	public List<Cliente> listarAtivo() {
 		return clienteDAO.listarAtivo();
+	}
+
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+	@Override
+	public Cliente recuperar(Serializable id) {
+		Cliente cliente =  super.recuperar(id);
+		cliente.setLancamentos(clienteLancamentoService.pesquisarLancamentoAberto(cliente));
+		return cliente;
 	}
 	
 

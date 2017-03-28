@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -53,6 +55,13 @@ public class Cliente implements java.io.Serializable {
 	
 	private String cep;
 	
+	private String bairro;
+
+	private String uf;
+	
+	@Column(name = "numero_endereco")
+	private String numeroEndereco;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_criacao")
 	private Date dataCriacao;
@@ -60,6 +69,13 @@ public class Cliente implements java.io.Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_exclusao", length = 29)
 	private Date dataExclusao;
+	
+	@ManyToOne
+	@JoinColumn(name="id_conta_corrente_boleto")
+	private ContaCorrente contaCorrenteBoleto;
+	
+	@Column(name="gera_boleto")
+	private Boolean geraBoleto;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<ClienteEquipamento> clienteEquipamentos;
@@ -231,6 +247,46 @@ public class Cliente implements java.io.Serializable {
 
 	public void setLancamentos(List<ClienteLancamento> lancamentos) {
 		this.lancamentos = lancamentos;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getNumeroEndereco() {
+		return numeroEndereco;
+	}
+
+	public void setNumeroEndereco(String numeroEndereco) {
+		this.numeroEndereco = numeroEndereco;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+
+	public ContaCorrente getContaCorrenteBoleto() {
+		return contaCorrenteBoleto;
+	}
+
+	public void setContaCorrenteBoleto(ContaCorrente contaCorrenteBoleto) {
+		this.contaCorrenteBoleto = contaCorrenteBoleto;
+	}
+
+	public Boolean getGeraBoleto() {
+		return geraBoleto;
+	}
+
+	public void setGeraBoleto(Boolean geraBoleto) {
+		this.geraBoleto = geraBoleto;
 	}
 	
 

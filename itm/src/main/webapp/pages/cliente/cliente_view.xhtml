@@ -7,7 +7,7 @@
 
 
 	<ui:define name="corpo">
-
+		<h:form id="idFormClienteView">
 		<div class="row">
 			<br />
 		</div>
@@ -20,12 +20,34 @@
 			<div class="col-md-12">
 				<div class="nav-tabs-custom">
 					<ul class="nav nav-tabs">
-						<li class="active"><a href="#activity" data-toggle="tab">#{resources['label.global.dadosgerais']}</a></li>
-						<li><a href="#financeiro" data-toggle="tab">#{resources['label.global.financeiro']}</a></li> 
-						<li><a href="#settings" data-toggle="tab">#{resources['label.global.logs']}</a></li>
+						<li class="#{clienteViewController.clienteTO.abaAtiva eq 'dadosgerais'?'active':''}">
+							<h:commandLink value="#{resources['label.global.dadosgerais']}">
+								<f:ajax event="click" immediate="true"/>
+								<f:passThroughAttribute name="href" value="#dadosgerais" />
+								<f:passThroughAttribute name="data-toggle" value="tab" />
+								<f:setPropertyActionListener value="dadosgerais" target="#{clienteViewController.clienteTO.abaAtiva}" />
+							</h:commandLink>
+						</li>
+						<li class="#{clienteViewController.clienteTO.abaAtiva eq 'financeiro'?'active':''}">
+							<h:commandLink value="#{resources['label.global.financeiro']}">
+								<f:ajax /> 
+								<f:passThroughAttribute name="href" value="#financeiro" />
+								<f:passThroughAttribute name="data-toggle" value="tab" />
+								<f:setPropertyActionListener value="financeiro" target="#{clienteViewController.clienteTO.abaAtiva}" />
+							</h:commandLink>
+						</li>
+						
+						<li class="#{clienteViewController.clienteTO.abaAtiva eq 'logs'?'active':''}">
+							<h:commandLink value="#{resources['label.global.logs']}">
+								<f:ajax event="click" />
+								<f:passThroughAttribute name="href" value="#logs" />
+								<f:passThroughAttribute name="data-toggle" value="tab" />
+								<f:setPropertyActionListener value="logs" target="#{clienteViewController.clienteTO.abaAtiva}" />
+							</h:commandLink>
+						</li>	
 					</ul>
 					<div class="tab-content">
-						<div class="active tab-pane" id="activity">
+						<div class="#{clienteViewController.clienteTO.abaAtiva eq 'dadosgerais'?'active':''} tab-pane" id="dadosgerais">
 							<div class="card card-accent-info">
 								<div class="card-header">
 									<strong>#{resources['label.global.informacoes']}</strong>
@@ -134,12 +156,16 @@
 
 													<h:column>
 														<f:facet name="header">#{resources['label.global.valorbase']}</f:facet>
-														<h:outputText value="#{clienteProduto.produto.valor}" />
+														<h:outputText value="#{clienteProduto.produto.valor}">
+															<f:convertNumber pattern="#,##0.00" /> 
+														</h:outputText>
 													</h:column>
 
 													<h:column>
 														<f:facet name="header">#{resources['label.global.valortotal']}</f:facet>
-														<h:outputText value="#{clienteProduto.valor}" />
+														<h:outputText value="#{clienteProduto.valor}">
+															<f:convertNumber pattern="#,##0.00" /> 
+														</h:outputText>
 													</h:column>
 
 													<h:column>
@@ -245,123 +271,167 @@
 
 						</div>
 						<!-- /.tab-pane -->
-						<div class="tab-pane" id="financeiro">
-							<h:form>
+						<div class="#{clienteViewController.clienteTO.abaAtiva eq 'financeiro'?'active':''} tab-pane" id="financeiro">
 							
-							<div class="card card-accent-info">
-								<div class="card-header">
-									<strong>#{resources['label.global.adicionarLancamento']}</strong>
-								</div>
-								<div class="card-block">
-									<div class="row">
-										<div class="col-md-2">
-											<h:outputText value="#{resources['label.global.descricao']}" />
+							<ui:fragment id="idTabFinanceiro">
+									<div class="card card-accent-info">
+										<div class="card-header">
+											<strong>#{resources['label.global.adicionarLancamento']}</strong>
 										</div>
-										<div class="col-md-10">
-											 <h:inputText value="#{clienteViewController.clienteTO.clienteLancamento.descricao}" />
+										<div class="card-block">
+											<div class="row">
+												<div class="col-md-2">
+													<h:outputText value="#{resources['label.global.descricao']}:" />
+												</div>
+												<div class="col-md-10">
+													 <h:inputText value="#{clienteViewController.clienteTO.clienteLancamento.descricao}" />
+												</div>
+												<div class="col-md-2">
+													<h:outputText value="#{resources['label.global.valor']}:" />
+												</div>
+												<div class="col-md-10">
+													 <h:inputText value="#{clienteViewController.clienteTO.clienteLancamento.valor}" />
+												</div>
+												<div class="col-md-2">
+													<h:outputText value="#{resources['label.global.geraboleto']}:" />
+												</div> 
+												<div class="col-md-10">
+													 <h:selectBooleanCheckbox value="#{clienteViewController.clienteTO.clienteLancamento.geraBoleto}" label="#{resources['label.global.geraboleto']}" />
+												</div>
+												<div class="col-md-2">
+												</div>
+												<div class="col-md-10">
+													<h:commandButton action="#{clienteViewController.criarClienteLancamento}" value="#{resources['label.global.gravar']}" />
+												</div>
+											</div>
 										</div>
-										<div class="col-md-2">
-											<h:outputText value="#{resources['label.global.valor']}" />
+									</div>		
+									
+									<div class="card card-accent-info">
+										<div class="card-header">
+											<strong>#{resources['label.global.lancamentosemaberto']}</strong>
 										</div>
-										<div class="col-md-10">
-											 <h:inputText value="#{clienteViewController.clienteTO.clienteLancamento.valor}" />
-										</div>
-										<div class="col-md-12">
-											<h:commandButton action="#{clienteViewController.criarClienteLancamento}" value="#{resources['label.global.gravar']}" />
-										</div>
-									</div>
-								</div>
-							</div>		
-							
-							<div class="card card-accent-info">
-								<div class="card-header">
-									<strong>#{resources['label.global.lancamentos']}</strong>
-								</div>
-
-								<div class="card-block">
-
-									<div class="row">
-										<div class="col-sm-12">
-											<div class="form-group">
-
-												<h:dataTable id="idDataTableClienteLancamento"
-													rendered="#{clienteViewController.clienteTO.cliente.lancamentos ne null and  not empty clienteViewController.clienteTO.cliente.lancamentos}"
-													value="#{clienteViewController.clienteTO.cliente.lancamentos}"
-													var="lancamento" styleClass="table">
-
-													<h:column>
-														<f:facet name="header">#{resources['label.global.data']}</f:facet>
-														<h:outputText value="#{lancamento.dataLancamento}">
-															<f:convertDateTime pattern="dd/MM/yyyy" />
-														</h:outputText>
-													</h:column>
-													<h:column>
-														<f:facet name="header">#{resources['label.global.descricao']}</f:facet>
-														<h:outputText value="#{lancamento.descricao}" />
-													</h:column>
-													<h:column>
-														<f:facet name="header">#{resources['label.global.valor']}</f:facet>
-														<h:outputText value="#{lancamento.valor}" />
-													</h:column>
-												</h:dataTable>
+										<div class="card-block">
+		
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="form-group">
+		
+														<h:dataTable id="idDataTableClienteLancamento"
+															rendered="#{clienteViewController.clienteTO.cliente.lancamentos ne null and  not empty clienteViewController.clienteTO.cliente.lancamentos}"
+															value="#{clienteViewController.clienteTO.cliente.lancamentos}"
+															var="lancamento" styleClass="table">
+															
+															<h:column>
+																<f:facet name="header">#{resources['label.global.selecionar']}</f:facet>
+																<h:selectBooleanCheckbox value="#{lancamento.selecionado}" id="idCheckLancamento">
+																	<f:ajax event="click" render="idFormClienteView:idBotaoGerarBoleto" execute="idFormClienteView:idDataTableClienteLancamento" immediate="true"/>
+																</h:selectBooleanCheckbox>
+															</h:column>	
+															
+															<h:column>
+																<f:facet name="header">#{resources['label.global.data']}</f:facet>
+																<h:outputText value="#{lancamento.dataLancamento}">
+																	<f:convertDateTime pattern="dd/MM/yyyy" />
+																</h:outputText>
+															</h:column>
+															<h:column>
+																<f:facet name="header">#{resources['label.global.descricao']}</f:facet>
+																<h:outputText value="#{lancamento.descricao}" />
+															</h:column>
+															<h:column>
+																<f:facet name="header">#{resources['label.global.valor']}</f:facet>
+																<h:outputText value="#{lancamento.valor}">
+																	<f:convertNumber pattern="#,##0.00" /> 
+																</h:outputText>
+															</h:column>
+														</h:dataTable>
+														
+														<h:commandButton id="idBotaoGerarBoleto" value="#{resources['label.global.gerarboletoselecionados']}" immediate="true" disabled="#{not clienteViewController.exibeBotaoGerarBoleto}"> 
+															<f:ajax listener="#{clienteViewController.gerarBoletoListaClienteLancamento()}" event="click"  execute="idFormClienteView:idTabFinanceiro" render="idFormClienteView" />
+														</h:commandButton>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</div>
-							
-							
-
-							<div class="card card-accent-info">
-								<div class="card-header">
-									<strong>#{resources['label.global.boletos']}</strong>
-								</div>
-
-								<div class="card-block">
-
-									<div class="row">
-										<div class="col-sm-12">
-											<div class="form-group">
-
-												<h:dataTable id="idDataTableClienteBoleto"
-													rendered="#{clienteViewController.clienteTO.cliente.boletos ne null and  not empty clienteViewController.clienteTO.cliente.boletos}"
-													value="#{clienteViewController.clienteTO.cliente.boletos}"
-													var="boleto" styleClass="table">
-
-													<h:column>
-														<f:facet name="header">#{resources['label.global.data']}</f:facet>
-														<h:outputText value="#{boleto.dataCriacao}">
-															<f:convertDateTime pattern="dd/MM/yyyy" />
-														</h:outputText>
-													</h:column>
-													<h:column>
-														<f:facet name="header">#{resources['label.global.valor']}</f:facet>
-														<h:outputText value="#{boleto.valor}" />
-													</h:column>
-													<h:column>
-														<f:facet name="header">#{resources['label.global.datavencimento']}</f:facet>
-														<h:outputText value="#{boleto.dataVencimento}">
-															<f:convertDateTime pattern="dd/MM/yyyy" />
-														</h:outputText>
-													</h:column>
-
-													<h:column>
-														<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
-														<h:commandLink
-															action="#{clienteViewController.downloadBoleto(boleto)}"
-															value="Download" />
-													</h:column>
-												</h:dataTable>
+									
+									
+		
+									<div class="card card-accent-info">
+										<div class="card-header">
+											<strong>#{resources['label.global.boletos']}</strong>
+										</div>
+		
+										<div class="card-block">
+		
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="form-group">
+		
+														<h:dataTable id="idDataTableClienteBoleto"
+															rendered="#{clienteViewController.clienteTO.cliente.boletos ne null and  not empty clienteViewController.clienteTO.cliente.boletos}"
+															value="#{clienteViewController.clienteTO.cliente.boletos}"
+															var="boleto" styleClass="table">
+		
+															<h:column>
+																<f:facet name="header">#{resources['label.global.data']}</f:facet>
+																<h:outputText value="#{boleto.dataCriacao}">
+																	<f:convertDateTime pattern="dd/MM/yyyy" />
+																</h:outputText>
+															</h:column>
+															<h:column>
+																<f:facet name="header">#{resources['label.global.valor']}</f:facet>
+																<h:outputText value="#{boleto.valor}">
+																	<f:convertNumber pattern="#,##0.00" /> 
+																</h:outputText>
+															</h:column>
+															<h:column>
+																<f:facet name="header">#{resources['label.global.datavencimento']}</f:facet>
+																<h:outputText value="#{boleto.dataVencimento}">
+																	<f:convertDateTime pattern="dd/MM/yyyy" />
+																</h:outputText>
+															</h:column>
+															
+															<h:column>
+																<f:facet name="header">#{resources['label.global.itens']}</f:facet>
+																<ul>
+																	<ui:repeat var="lancamento" value="#{boleto.lancamentos}">
+																		<li>#{lancamento.clienteLancamento.descricao}: <h:outputText value="#{lancamento.clienteLancamento.valor}"><f:convertNumber pattern="#,##0.00" /></h:outputText></li>	
+																	</ui:repeat>
+																</ul>
+															</h:column>
+															
+															<h:column>
+																<f:facet name="header">#{resources['label.global.status']}</f:facet>
+																<h:outputText value="#{boleto.status.name}" />
+															</h:column>
+															
+		
+															<h:column>
+																<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+																<h:commandLink 
+																	action="#{clienteViewController.downloadBoleto(boleto)}"
+																	value="Download" />
+																| 	
+																<h:commandLink value="#{resources['label.global.excluir']}" rendered="#{boleto.status.name eq 'ABERTO'}">
+																	<f:ajax listener="#{clienteViewController.excluirBoleto(boleto)}" event="click" render="idFormClienteView" immediate="true" execute="@this" />
+																</h:commandLink>
+																
+																
+															</h:column>
+														</h:dataTable>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</div>
-						</h:form>	
+								</ui:fragment>	
+							
 						</div>
 						<!-- /.tab-pane -->
 
-						<div class="tab-pane" id="settings"></div>
+						<div class="#{clienteViewController.clienteTO.abaAtiva eq 'logs'?'active':''} tab-pane" id="logs"></div>
 
 						<div class="tab-pane" id="tab-equipamentos"></div>
 						<!-- /.tab-pane -->
@@ -372,87 +442,7 @@
 			</div>
 			<!-- /.col -->
 		</div>
-
-
-
-
+	</h:form>
 	</ui:define>
-
-
-	<div class="row">
-
-		<div class="card">
-			<div class="card-block">
-				<div class="row">
-					<div class="col-sm-8">
-						<h4 class="card-title">#{clienteViewController.clienteTO.cliente.nome}</h4>
-						<div class="chart-wrapper"
-							style="height: 250px; margin-top: 20px;">Grafico de
-							Utilizacao</div>
-					</div>
-					<div class="col-sm-4">
-						<h4 class="card-title">Dados</h4>
-						<p class="text-muted">Lorem ipsum dolor sit amet, consectetur
-							adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-							dolore magna.</p>
-						<br />
-						<div>Visits (40% - 29.703 Users)</div>
-						<div class="progress progress-sm mt-h mb-1">
-							<div class="progress-bar bg-success" style="width: 40%"
-								aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
-
-						<div>Unique (20% - 24.093 Unique Users)</div>
-						<div class="progress progress-sm mt-h mb-1">
-							<div class="progress-bar bg-info" style="width: 20%"
-								aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
-
-						<div>Pageviews (60% - 78.706 Views)</div>
-						<div class="progress progress-sm mt-h mb-1">
-							<div class="progress-bar bg-warning" style="width: 60%"
-								aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
-						<div>New Users (80% - 22.123 Users)</div>
-						<div class="progress progress-sm mt-h mb-1">
-							<div class="progress-bar bg-danger" style="width: 80%"
-								aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
-
-						<div>Bounce Rate (40.15%)</div>
-						<div class="progress progress-sm mt-h mb-1">
-							<div class="progress-bar bg-success" style="width: 40%"
-								aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-	</div>
-	<div class="col-sm-12">
-		<h:form id="formCliente">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		</h:form>
-
-	</div>
-
-
-
-
 
 </ui:composition>

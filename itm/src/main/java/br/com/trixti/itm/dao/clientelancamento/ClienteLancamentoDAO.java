@@ -34,9 +34,7 @@ public class ClienteLancamentoDAO extends AbstractDAO<ClienteLancamento> {
 		Root<ClienteLancamento> root = criteria.from(ClienteLancamento.class);
 	    return getManager().createQuery(criteria.select(root)
 	    		.where(getCriteriaBuilder().equal(root.get("cliente"), cliente),
-	    				
 	    				getCriteriaBuilder().isEmpty(root.<List<BoletoLancamento>>get("boletoLancamentos"))
-	    				
 	    				)).getResultList();
 	    		
 	    		

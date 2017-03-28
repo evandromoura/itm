@@ -18,7 +18,7 @@ public class BoletoThread {
 	
 	@Schedule(minute="*/1", hour="*", persistent=false)
 	public void criarBoleto() throws Exception {
-		boletoService.criarBoleto();
+//		boletoService.criarBoleto();
 	}
 	
 }

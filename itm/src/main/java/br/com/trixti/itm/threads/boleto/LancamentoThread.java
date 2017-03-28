@@ -16,11 +16,9 @@ public class LancamentoThread {
 
 	private @Inject ClienteLancamentoService clienteLancamentoService;
 	
-	
 	@Schedule(second="*/10", minute="*", hour="*", persistent=false)
 	public void criarLancamento() throws Exception {
 //		clienteLancamentoService.criarLancamentos();
 	}
-	
 	
 }
