@@ -15,7 +15,6 @@
 
 			<div class="col-md-12">
 				<h1 class="profile-username text-center">#{clienteViewController.clienteTO.cliente.nome}</h1>
-				<p class="text-muted text-center">@#{clienteViewController.clienteTO.cliente.username}</p>
 			</div>
 			<div class="col-md-12">
 				<div class="nav-tabs-custom">
@@ -81,17 +80,10 @@
 										</h:panelGroup>
 									</div>
 									<div class="row">
-										<div class="col-sm-6">
+										<div class="col-sm-12">
 											<div class="form-group">
 												<label for="formCliente:cliente_nome">#{resources['label.global.nome']}:</label><br />
 												#{clienteViewController.clienteTO.cliente.nome}
-											</div>
-										</div>
-										
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label for="formCliente:username">#{resources['label.global.username']}:</label><br />
-												#{clienteViewController.clienteTO.cliente.username}
 											</div>
 										</div>
 									</div>
@@ -325,7 +317,7 @@
 															<h:column>
 																<f:facet name="header">#{resources['label.global.selecionar']}</f:facet>
 																<h:selectBooleanCheckbox value="#{lancamento.selecionado}" id="idCheckLancamento">
-																	<f:ajax event="click" render="idFormClienteView:idBotaoGerarBoleto" execute="idFormClienteView:idDataTableClienteLancamento" immediate="true"/>
+																	<f:ajax event="click" render="idFormClienteView:idFragmentGerarBoleto" execute="idFormClienteView:idDataTableClienteLancamento" immediate="true"/>
 																</h:selectBooleanCheckbox>
 															</h:column>	
 															
@@ -347,10 +339,23 @@
 															</h:column>
 														</h:dataTable>
 														
-														<h:commandButton id="idBotaoGerarBoleto" value="#{resources['label.global.gerarboletoselecionados']}" immediate="true" disabled="#{not clienteViewController.exibeBotaoGerarBoleto}"> 
-															<f:ajax listener="#{clienteViewController.gerarBoletoListaClienteLancamento()}" event="click"  execute="idFormClienteView:idTabFinanceiro" render="idFormClienteView" />
-														</h:commandButton>
 													</div>
+												</div>
+												<div class="row">
+													<h:panelGroup id="idFragmentGerarBoleto">
+														<div class="col-sm-12">
+															<h:outputText value="#{resources['label.global.datavencimento']}" />
+															<h:inputText id="idInputDataVencimento" value="#{clienteViewController.clienteTO.dataVencimentoBoleto}" disabled="#{not clienteViewController.exibeBotaoGerarBoleto}">
+																<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+																<f:ajax  event="blur" />
+															</h:inputText>
+															<br />
+															<br />
+															<h:commandButton id="idBotaoGerarBoleto" value="#{resources['label.global.gerarboletoselecionados']}" immediate="true" disabled="#{not clienteViewController.exibeBotaoGerarBoleto}"> 
+																<f:ajax listener="#{clienteViewController.gerarBoletoListaClienteLancamento()}" event="click" execute="idFragmentGerarBoleto" render="idFormClienteView" />
+															</h:commandButton>
+														</div>
+													</h:panelGroup>
 												</div>
 											</div>
 										</div>

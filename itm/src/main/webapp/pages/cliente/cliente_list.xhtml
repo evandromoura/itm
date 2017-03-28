@@ -15,20 +15,22 @@
 					</div>
 					<div class="card-block">
 						<div class="row">
-							<div class="col-sm-12">
+							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="idFormPesquisarCliente:cliente_nome">Name</label> 
 									<h:inputText value="#{clienteController.clienteTO.clientePesquisa.nome}" id="cliente_nome" styleClass="form-control" />
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-12">
+							
+							<div class="col-sm-6">
 								<div class="form-group">
-									<label for="idFormPesquisarCliente:cliente_username">Username</label> 
-									<h:inputText value="#{clienteController.clienteTO.clientePesquisa.username}"  id="cliente_username" styleClass="form-control"/>
+									<label for="idFormPesquisarCliente:cliente_cpfcnpj">#{resources['label.global.cpfCnpj']}</label>
+									<h:inputText value="#{clienteController.clienteTO.clientePesquisa.cpfCnpj}"  id="cliente_cpfcnpj" styleClass="form-control"/>
 								</div>
 							</div>
+						</div>
+						<div class="row">
+							
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
@@ -50,12 +52,9 @@
 							<h:dataTable var="cliente"
 								value="#{clienteController.clienteTO.clientes}"
 								styleClass="table table-bordered table-striped">
-								<h:column><f:facet name="header">#{resources['label.global.id']}</f:facet>
-										<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.id}</a>
-								</h:column>
 								<h:column>
-									<f:facet name="header">#{resources['label.global.username']}</f:facet>
-									<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.username}</a>
+									<f:facet name="header">#{resources['label.global.cpfCnpj']}</f:facet>
+									<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.cpfCnpj}</a>
 								</h:column>
 								
 								<h:column><f:facet name="header">#{resources['label.global.nome']}</f:facet>#{cliente.nome}</h:column>

@@ -35,9 +35,10 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 			predicateList.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("nome")), "%"+ clientePesquisa.getNome().toLowerCase()+"%"));
 		}
 		
-		if(clientePesquisa.getUsername() != null && !clientePesquisa.getUsername().equals("")){
-			predicateList.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("username")), "%"+ clientePesquisa.getUsername().toLowerCase()+"%"));
+		if(clientePesquisa.getCpfCnpj() != null && !clientePesquisa.getCpfCnpj().equals("")){
+			predicateList.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("cpfCnpj")), "%"+ clientePesquisa.getCpfCnpj().toLowerCase()+"%"));
 		}
+		
 		return (Predicate[]) predicateList.toArray(new Predicate[predicateList.size()]);
 	}
 

@@ -28,6 +28,9 @@ public class Grupo implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "grupo")
 	private List<ClienteGrupo> clienteGrupos;
+	
+	@OneToMany(mappedBy="grupo")
+	private List<GrupoParametro> grupoParametros;
 
 	public Grupo() {
 	}
@@ -60,6 +63,18 @@ public class Grupo implements java.io.Serializable {
 	}
 
 	public void setItmClienteGrupos(List<ClienteGrupo> clienteGrupos) {
+		this.clienteGrupos = clienteGrupos;
+	}
+
+	public List<GrupoParametro> getGrupoParametros() {
+		return grupoParametros;
+	}
+
+	public void setGrupoParametros(List<GrupoParametro> grupoParametros) {
+		this.grupoParametros = grupoParametros;
+	}
+
+	public void setClienteGrupos(List<ClienteGrupo> clienteGrupos) {
 		this.clienteGrupos = clienteGrupos;
 	}
 

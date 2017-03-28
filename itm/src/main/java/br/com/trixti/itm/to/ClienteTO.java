@@ -1,6 +1,7 @@
 package br.com.trixti.itm.to;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.trixti.itm.entity.Cliente;
@@ -47,6 +48,9 @@ public class ClienteTO {
 	
 	
 	private ClienteLancamento clienteLancamento;
+	
+	
+	private Date dataVencimentoBoleto;
 	
 	
 	private String abaAtiva;
@@ -134,6 +138,14 @@ public class ClienteTO {
 
 	public void setAbaAtiva(String abaAtiva) {
 		this.abaAtiva = abaAtiva;
+	}
+
+	public Date getDataVencimentoBoleto() {
+		return dataVencimentoBoleto;
+	}
+
+	public void setDataVencimentoBoleto(Date dataVencimentoBoleto) {
+		this.dataVencimentoBoleto = dataVencimentoBoleto;
 	}
 
 }

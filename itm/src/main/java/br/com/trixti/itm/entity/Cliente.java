@@ -35,7 +35,7 @@ public class Cliente implements java.io.Serializable {
 	private String nome;
 	private String email;
 	private String endereco;
-	private String username;
+
 	@Column(name="dia_mes_vencimento")
 	private Integer diaMesVencimento;
 	
@@ -133,15 +133,6 @@ public class Cliente implements java.io.Serializable {
 		this.endereco = endereco;
 	}
 
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	
 	public String getTelefoneCelular() {
 		return this.telefoneCelular;
 	}
@@ -149,7 +140,6 @@ public class Cliente implements java.io.Serializable {
 	public void setTelefoneCelular(String telefoneCelular) {
 		this.telefoneCelular = telefoneCelular;
 	}
-
 
 	public String getTelefoneFixo() {
 		return this.telefoneFixo;

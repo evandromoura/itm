@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.4.0
 -- Dumped by pg_dump version 9.4.0
--- Started on 2017-02-23 22:48:06 BRT
+-- Started on 2017-03-28 19:48:16 BRT
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -14,7 +14,7 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- TOC entry 204 (class 3079 OID 12123)
+-- TOC entry 214 (class 3079 OID 12123)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -22,8 +22,8 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2490 (class 0 OID 0)
--- Dependencies: 204
+-- TOC entry 2554 (class 0 OID 0)
+-- Dependencies: 214
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -46,7 +46,8 @@ CREATE TABLE itm_boleto (
     id_cliente integer,
     valor numeric,
     data_vencimento date,
-    data_criacao timestamp without time zone
+    data_criacao timestamp without time zone,
+    status character varying
 );
 
 
@@ -68,12 +69,50 @@ CREATE SEQUENCE itm_boleto_id_seq
 ALTER TABLE itm_boleto_id_seq OWNER TO radius;
 
 --
--- TOC entry 2491 (class 0 OID 0)
+-- TOC entry 2555 (class 0 OID 0)
 -- Dependencies: 198
 -- Name: itm_boleto_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
 --
 
 ALTER SEQUENCE itm_boleto_id_seq OWNED BY itm_boleto.id;
+
+
+--
+-- TOC entry 207 (class 1259 OID 68167)
+-- Name: itm_boleto_lancamento; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_boleto_lancamento (
+    id integer NOT NULL,
+    id_lancamento integer,
+    id_boleto integer
+);
+
+
+ALTER TABLE itm_boleto_lancamento OWNER TO radius;
+
+--
+-- TOC entry 206 (class 1259 OID 68165)
+-- Name: itm_boleto_lancamento_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_boleto_lancamento_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_boleto_lancamento_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2556 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: itm_boleto_lancamento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_boleto_lancamento_id_seq OWNED BY itm_boleto_lancamento.id;
 
 
 --
@@ -93,7 +132,13 @@ CREATE TABLE itm_cliente (
     tipo_pessoa character varying,
     cep character varying,
     data_criacao timestamp without time zone DEFAULT now(),
-    data_exclusao timestamp without time zone
+    data_exclusao timestamp without time zone,
+    dia_mes_vencimento integer,
+    bairro character varying,
+    numero_endereco character varying,
+    uf character varying,
+    id_conta_corrente_boleto integer,
+    gera_boleto boolean
 );
 
 
@@ -132,7 +177,7 @@ CREATE SEQUENCE itm_cliente_equipamento_id_seq
 ALTER TABLE itm_cliente_equipamento_id_seq OWNER TO radius;
 
 --
--- TOC entry 2492 (class 0 OID 0)
+-- TOC entry 2557 (class 0 OID 0)
 -- Dependencies: 196
 -- Name: itm_cliente_equipamento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
 --
@@ -172,7 +217,7 @@ CREATE SEQUENCE itm_cliente_grupo_id_seq
 ALTER TABLE itm_cliente_grupo_id_seq OWNER TO radius;
 
 --
--- TOC entry 2493 (class 0 OID 0)
+-- TOC entry 2558 (class 0 OID 0)
 -- Dependencies: 192
 -- Name: itm_cliente_grupo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
 --
@@ -196,12 +241,54 @@ CREATE SEQUENCE itm_cliente_id_seq
 ALTER TABLE itm_cliente_id_seq OWNER TO radius;
 
 --
--- TOC entry 2494 (class 0 OID 0)
+-- TOC entry 2559 (class 0 OID 0)
 -- Dependencies: 188
 -- Name: itm_cliente_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
 --
 
 ALTER SEQUENCE itm_cliente_id_seq OWNED BY itm_cliente.id;
+
+
+--
+-- TOC entry 205 (class 1259 OID 68151)
+-- Name: itm_cliente_lancamento; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_cliente_lancamento (
+    id integer NOT NULL,
+    id_cliente integer,
+    tipo_lancamento character varying,
+    valor numeric,
+    data_lancamento timestamp without time zone,
+    status character varying,
+    descricao character varying
+);
+
+
+ALTER TABLE itm_cliente_lancamento OWNER TO radius;
+
+--
+-- TOC entry 204 (class 1259 OID 68149)
+-- Name: itm_cliente_lancamento_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_cliente_lancamento_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_cliente_lancamento_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2560 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: itm_cliente_lancamento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_cliente_lancamento_id_seq OWNED BY itm_cliente_lancamento.id;
 
 
 --
@@ -240,12 +327,56 @@ CREATE SEQUENCE itm_cliente_produto_id_seq
 ALTER TABLE itm_cliente_produto_id_seq OWNER TO radius;
 
 --
--- TOC entry 2495 (class 0 OID 0)
+-- TOC entry 2561 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: itm_cliente_produto_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
 --
 
 ALTER SEQUENCE itm_cliente_produto_id_seq OWNED BY itm_cliente_produto.id;
+
+
+--
+-- TOC entry 211 (class 1259 OID 68346)
+-- Name: itm_conta_corrente; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_conta_corrente (
+    id integer NOT NULL,
+    nome character varying,
+    banco character varying,
+    numero_conta_corrente character varying,
+    numero_agencia character varying,
+    numero_carteira character varying,
+    nosso_numero character varying,
+    digito_nosso_numero character varying,
+    digito_conta_corrente character varying
+);
+
+
+ALTER TABLE itm_conta_corrente OWNER TO radius;
+
+--
+-- TOC entry 210 (class 1259 OID 68344)
+-- Name: itm_conta_corrente_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_conta_corrente_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_conta_corrente_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2562 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: itm_conta_corrente_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_conta_corrente_id_seq OWNED BY itm_conta_corrente.id;
 
 
 --
@@ -277,7 +408,7 @@ CREATE SEQUENCE itm_equipamento_id_seq
 ALTER TABLE itm_equipamento_id_seq OWNER TO radius;
 
 --
--- TOC entry 2496 (class 0 OID 0)
+-- TOC entry 2563 (class 0 OID 0)
 -- Dependencies: 194
 -- Name: itm_equipamento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
 --
@@ -314,12 +445,90 @@ CREATE SEQUENCE itm_grupo_id_seq
 ALTER TABLE itm_grupo_id_seq OWNER TO radius;
 
 --
--- TOC entry 2497 (class 0 OID 0)
+-- TOC entry 2564 (class 0 OID 0)
 -- Dependencies: 190
 -- Name: itm_grupo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
 --
 
 ALTER SEQUENCE itm_grupo_id_seq OWNED BY itm_grupo.id;
+
+
+--
+-- TOC entry 213 (class 1259 OID 68362)
+-- Name: itm_grupo_parametro; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_grupo_parametro (
+    id integer NOT NULL,
+    id_grupo integer,
+    propriedade character varying,
+    operador character varying,
+    valor character varying
+);
+
+
+ALTER TABLE itm_grupo_parametro OWNER TO radius;
+
+--
+-- TOC entry 212 (class 1259 OID 68360)
+-- Name: itm_grupo_parametro_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_grupo_parametro_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_grupo_parametro_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2565 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: itm_grupo_parametro_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_grupo_parametro_id_seq OWNED BY itm_grupo_parametro.id;
+
+
+--
+-- TOC entry 209 (class 1259 OID 68335)
+-- Name: itm_parametro; Type: TABLE; Schema: public; Owner: radius; Tablespace: 
+--
+
+CREATE TABLE itm_parametro (
+    id integer NOT NULL,
+    nome_empresa character varying,
+    cnpj character varying
+);
+
+
+ALTER TABLE itm_parametro OWNER TO radius;
+
+--
+-- TOC entry 208 (class 1259 OID 68333)
+-- Name: itm_parametro_id_seq; Type: SEQUENCE; Schema: public; Owner: radius
+--
+
+CREATE SEQUENCE itm_parametro_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE itm_parametro_id_seq OWNER TO radius;
+
+--
+-- TOC entry 2566 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: itm_parametro_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
+--
+
+ALTER SEQUENCE itm_parametro_id_seq OWNED BY itm_parametro.id;
 
 
 --
@@ -355,7 +564,7 @@ CREATE SEQUENCE itm_produto_id_seq
 ALTER TABLE itm_produto_id_seq OWNER TO radius;
 
 --
--- TOC entry 2498 (class 0 OID 0)
+-- TOC entry 2567 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: itm_produto_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: radius
 --
@@ -399,7 +608,7 @@ CREATE SEQUENCE nas_id_seq
 ALTER TABLE nas_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2499 (class 0 OID 0)
+-- TOC entry 2568 (class 0 OID 0)
 -- Dependencies: 186
 -- Name: nas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -459,7 +668,7 @@ CREATE SEQUENCE radacct_radacctid_seq
 ALTER TABLE radacct_radacctid_seq OWNER TO postgres;
 
 --
--- TOC entry 2500 (class 0 OID 0)
+-- TOC entry 2569 (class 0 OID 0)
 -- Dependencies: 172
 -- Name: radacct_radacctid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -499,7 +708,7 @@ CREATE SEQUENCE radcheck_id_seq
 ALTER TABLE radcheck_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2501 (class 0 OID 0)
+-- TOC entry 2570 (class 0 OID 0)
 -- Dependencies: 174
 -- Name: radcheck_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -539,7 +748,7 @@ CREATE SEQUENCE radgroupcheck_id_seq
 ALTER TABLE radgroupcheck_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2502 (class 0 OID 0)
+-- TOC entry 2571 (class 0 OID 0)
 -- Dependencies: 176
 -- Name: radgroupcheck_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -579,7 +788,7 @@ CREATE SEQUENCE radgroupreply_id_seq
 ALTER TABLE radgroupreply_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2503 (class 0 OID 0)
+-- TOC entry 2572 (class 0 OID 0)
 -- Dependencies: 178
 -- Name: radgroupreply_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -621,7 +830,7 @@ CREATE SEQUENCE radpostauth_id_seq
 ALTER TABLE radpostauth_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2504 (class 0 OID 0)
+-- TOC entry 2573 (class 0 OID 0)
 -- Dependencies: 184
 -- Name: radpostauth_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -661,7 +870,7 @@ CREATE SEQUENCE radreply_id_seq
 ALTER TABLE radreply_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2505 (class 0 OID 0)
+-- TOC entry 2574 (class 0 OID 0)
 -- Dependencies: 180
 -- Name: radreply_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -700,7 +909,7 @@ CREATE SEQUENCE radusergroup_id_seq
 ALTER TABLE radusergroup_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2506 (class 0 OID 0)
+-- TOC entry 2575 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: radusergroup_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -709,7 +918,7 @@ ALTER SEQUENCE radusergroup_id_seq OWNED BY radusergroup.id;
 
 
 --
--- TOC entry 2289 (class 2604 OID 59883)
+-- TOC entry 2323 (class 2604 OID 59883)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: radius
 --
 
@@ -717,7 +926,15 @@ ALTER TABLE ONLY itm_boleto ALTER COLUMN id SET DEFAULT nextval('itm_boleto_id_s
 
 
 --
--- TOC entry 2281 (class 2604 OID 59785)
+-- TOC entry 2327 (class 2604 OID 68170)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_boleto_lancamento ALTER COLUMN id SET DEFAULT nextval('itm_boleto_lancamento_id_seq'::regclass);
+
+
+--
+-- TOC entry 2315 (class 2604 OID 59785)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: radius
 --
 
@@ -725,7 +942,7 @@ ALTER TABLE ONLY itm_cliente ALTER COLUMN id SET DEFAULT nextval('itm_cliente_id
 
 
 --
--- TOC entry 2287 (class 2604 OID 59826)
+-- TOC entry 2321 (class 2604 OID 59826)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: radius
 --
 
@@ -733,7 +950,7 @@ ALTER TABLE ONLY itm_cliente_equipamento ALTER COLUMN id SET DEFAULT nextval('it
 
 
 --
--- TOC entry 2284 (class 2604 OID 59807)
+-- TOC entry 2318 (class 2604 OID 59807)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: radius
 --
 
@@ -741,7 +958,15 @@ ALTER TABLE ONLY itm_cliente_grupo ALTER COLUMN id SET DEFAULT nextval('itm_clie
 
 
 --
--- TOC entry 2291 (class 2604 OID 67876)
+-- TOC entry 2326 (class 2604 OID 68154)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente_lancamento ALTER COLUMN id SET DEFAULT nextval('itm_cliente_lancamento_id_seq'::regclass);
+
+
+--
+-- TOC entry 2325 (class 2604 OID 67876)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: radius
 --
 
@@ -749,7 +974,15 @@ ALTER TABLE ONLY itm_cliente_produto ALTER COLUMN id SET DEFAULT nextval('itm_cl
 
 
 --
--- TOC entry 2286 (class 2604 OID 59815)
+-- TOC entry 2329 (class 2604 OID 68349)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_conta_corrente ALTER COLUMN id SET DEFAULT nextval('itm_conta_corrente_id_seq'::regclass);
+
+
+--
+-- TOC entry 2320 (class 2604 OID 59815)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: radius
 --
 
@@ -757,7 +990,7 @@ ALTER TABLE ONLY itm_equipamento ALTER COLUMN id SET DEFAULT nextval('itm_equipa
 
 
 --
--- TOC entry 2283 (class 2604 OID 59796)
+-- TOC entry 2317 (class 2604 OID 59796)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: radius
 --
 
@@ -765,7 +998,23 @@ ALTER TABLE ONLY itm_grupo ALTER COLUMN id SET DEFAULT nextval('itm_grupo_id_seq
 
 
 --
--- TOC entry 2290 (class 2604 OID 67865)
+-- TOC entry 2330 (class 2604 OID 68365)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_grupo_parametro ALTER COLUMN id SET DEFAULT nextval('itm_grupo_parametro_id_seq'::regclass);
+
+
+--
+-- TOC entry 2328 (class 2604 OID 68338)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_parametro ALTER COLUMN id SET DEFAULT nextval('itm_parametro_id_seq'::regclass);
+
+
+--
+-- TOC entry 2324 (class 2604 OID 67865)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: radius
 --
 
@@ -773,7 +1022,7 @@ ALTER TABLE ONLY itm_produto ALTER COLUMN id SET DEFAULT nextval('itm_produto_id
 
 
 --
--- TOC entry 2279 (class 2604 OID 59771)
+-- TOC entry 2313 (class 2604 OID 59771)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -781,7 +1030,7 @@ ALTER TABLE ONLY nas ALTER COLUMN id SET DEFAULT nextval('nas_id_seq'::regclass)
 
 
 --
--- TOC entry 2252 (class 2604 OID 59664)
+-- TOC entry 2286 (class 2604 OID 59664)
 -- Name: radacctid; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -789,7 +1038,7 @@ ALTER TABLE ONLY radacct ALTER COLUMN radacctid SET DEFAULT nextval('radacct_rad
 
 
 --
--- TOC entry 2253 (class 2604 OID 59680)
+-- TOC entry 2287 (class 2604 OID 59680)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -797,7 +1046,7 @@ ALTER TABLE ONLY radcheck ALTER COLUMN id SET DEFAULT nextval('radcheck_id_seq':
 
 
 --
--- TOC entry 2258 (class 2604 OID 59696)
+-- TOC entry 2292 (class 2604 OID 59696)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -805,7 +1054,7 @@ ALTER TABLE ONLY radgroupcheck ALTER COLUMN id SET DEFAULT nextval('radgroupchec
 
 
 --
--- TOC entry 2263 (class 2604 OID 59712)
+-- TOC entry 2297 (class 2604 OID 59712)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -813,7 +1062,7 @@ ALTER TABLE ONLY radgroupreply ALTER COLUMN id SET DEFAULT nextval('radgrouprepl
 
 
 --
--- TOC entry 2277 (class 2604 OID 59759)
+-- TOC entry 2311 (class 2604 OID 59759)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -821,7 +1070,7 @@ ALTER TABLE ONLY radpostauth ALTER COLUMN id SET DEFAULT nextval('radpostauth_id
 
 
 --
--- TOC entry 2268 (class 2604 OID 59728)
+-- TOC entry 2302 (class 2604 OID 59728)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -829,7 +1078,7 @@ ALTER TABLE ONLY radreply ALTER COLUMN id SET DEFAULT nextval('radreply_id_seq':
 
 
 --
--- TOC entry 2273 (class 2604 OID 59744)
+-- TOC entry 2307 (class 2604 OID 59744)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -837,97 +1086,172 @@ ALTER TABLE ONLY radusergroup ALTER COLUMN id SET DEFAULT nextval('radusergroup_
 
 
 --
--- TOC entry 2478 (class 0 OID 59880)
+-- TOC entry 2532 (class 0 OID 59880)
 -- Dependencies: 199
 -- Data for Name: itm_boleto; Type: TABLE DATA; Schema: public; Owner: radius
 --
 
+INSERT INTO itm_boleto (id, id_cliente, valor, data_vencimento, data_criacao, status) VALUES (211, 56, 50, '2017-03-28', '2017-03-28 16:04:55.936', 'PAGO');
+INSERT INTO itm_boleto (id, id_cliente, valor, data_vencimento, data_criacao, status) VALUES (212, 54, 50, '2017-03-28', '2017-03-28 16:13:32', 'ABERTO');
+INSERT INTO itm_boleto (id, id_cliente, valor, data_vencimento, data_criacao, status) VALUES (225, 53, 80, '2018-12-06', '2017-03-28 17:56:49.383', 'ABERTO');
+INSERT INTO itm_boleto (id, id_cliente, valor, data_vencimento, data_criacao, status) VALUES (226, 53, 20, '2018-02-01', '2017-03-28 18:24:15.727', 'ABERTO');
 
 
 --
--- TOC entry 2507 (class 0 OID 0)
+-- TOC entry 2576 (class 0 OID 0)
 -- Dependencies: 198
 -- Name: itm_boleto_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
 --
 
-SELECT pg_catalog.setval('itm_boleto_id_seq', 1, false);
+SELECT pg_catalog.setval('itm_boleto_id_seq', 226, true);
 
 
 --
--- TOC entry 2468 (class 0 OID 59782)
+-- TOC entry 2540 (class 0 OID 68167)
+-- Dependencies: 207
+-- Data for Name: itm_boleto_lancamento; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_boleto_lancamento (id, id_lancamento, id_boleto) VALUES (186, 146, 211);
+INSERT INTO itm_boleto_lancamento (id, id_lancamento, id_boleto) VALUES (187, 147, 212);
+INSERT INTO itm_boleto_lancamento (id, id_lancamento, id_boleto) VALUES (206, 143, 225);
+INSERT INTO itm_boleto_lancamento (id, id_lancamento, id_boleto) VALUES (207, 144, 225);
+INSERT INTO itm_boleto_lancamento (id, id_lancamento, id_boleto) VALUES (208, 145, 226);
+
+
+--
+-- TOC entry 2577 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: itm_boleto_lancamento_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_boleto_lancamento_id_seq', 208, true);
+
+
+--
+-- TOC entry 2522 (class 0 OID 59782)
 -- Dependencies: 189
 -- Data for Name: itm_cliente; Type: TABLE DATA; Schema: public; Owner: radius
 --
 
-INSERT INTO itm_cliente (id, nome, email, endereco, username, telefone_celular, telefone_fixo, cpf_cnpj, tipo_pessoa, cep, data_criacao, data_exclusao) VALUES (39, 'Evandro Paulo Neves Moura', NULL, 'SIG 8 lote 2233222334', 'evandromoura', '61992988839', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO itm_cliente (id, nome, email, endereco, username, telefone_celular, telefone_fixo, cpf_cnpj, tipo_pessoa, cep, data_criacao, data_exclusao) VALUES (45, 'Evandro Paulo Neves Moura', NULL, 'SIG 8 lote 2233222334', 'evandromoura', '61992988839', NULL, '31227393806', 'FISICA', NULL, NULL, NULL);
+INSERT INTO itm_cliente (id, nome, email, endereco, username, telefone_celular, telefone_fixo, cpf_cnpj, tipo_pessoa, cep, data_criacao, data_exclusao, dia_mes_vencimento, bairro, numero_endereco, uf, id_conta_corrente_boleto, gera_boleto) VALUES (56, 'Ronaldo Nazario', NULL, 'Antonio Teixeira da Silva', 'ronaldo', '61992988839', NULL, '58617533340', 'FISICA', '16400-623', '2017-03-28 16:04:35.01', NULL, 6, NULL, NULL, 'SP', 1, NULL);
+INSERT INTO itm_cliente (id, nome, email, endereco, username, telefone_celular, telefone_fixo, cpf_cnpj, tipo_pessoa, cep, data_criacao, data_exclusao, dia_mes_vencimento, bairro, numero_endereco, uf, id_conta_corrente_boleto, gera_boleto) VALUES (53, 'Evandro Paulo', NULL, 'SIG 8 lote 2335', 'evandromoura', '61992988839', NULL, '31227393806', 'FISICA', '70610-480', '2017-03-21 20:49:05.011', NULL, 15, NULL, NULL, 'DF', 2, NULL);
+INSERT INTO itm_cliente (id, nome, email, endereco, username, telefone_celular, telefone_fixo, cpf_cnpj, tipo_pessoa, cep, data_criacao, data_exclusao, dia_mes_vencimento, bairro, numero_endereco, uf, id_conta_corrente_boleto, gera_boleto) VALUES (54, 'Josinaldo Gomes', NULL, 'SCIA 15', 'naldoksa', '61992988839', NULL, '55732412069', 'FISICA', '70610-550', '2017-03-21 20:51:11.691', NULL, 10, NULL, NULL, 'DF', 1, NULL);
 
 
 --
--- TOC entry 2476 (class 0 OID 59823)
+-- TOC entry 2530 (class 0 OID 59823)
 -- Dependencies: 197
 -- Data for Name: itm_cliente_equipamento; Type: TABLE DATA; Schema: public; Owner: radius
 --
 
-INSERT INTO itm_cliente_equipamento (id, id_cliente, id_equipamento, data_criacao, data_exclusao, numero_serie) VALUES (2, 45, 1, '2017-02-23 22:20:48.509', NULL, '');
+INSERT INTO itm_cliente_equipamento (id, id_cliente, id_equipamento, data_criacao, data_exclusao, numero_serie) VALUES (8, 53, 2, '2017-03-21 20:49:01.018', NULL, '123');
+INSERT INTO itm_cliente_equipamento (id, id_cliente, id_equipamento, data_criacao, data_exclusao, numero_serie) VALUES (9, 54, 1, '2017-03-21 20:51:09.337', NULL, '');
+INSERT INTO itm_cliente_equipamento (id, id_cliente, id_equipamento, data_criacao, data_exclusao, numero_serie) VALUES (10, 56, 1, '2017-03-28 16:04:30.602', NULL, '445566');
 
 
 --
--- TOC entry 2508 (class 0 OID 0)
+-- TOC entry 2578 (class 0 OID 0)
 -- Dependencies: 196
 -- Name: itm_cliente_equipamento_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
 --
 
-SELECT pg_catalog.setval('itm_cliente_equipamento_id_seq', 2, true);
+SELECT pg_catalog.setval('itm_cliente_equipamento_id_seq', 10, true);
 
 
 --
--- TOC entry 2472 (class 0 OID 59804)
+-- TOC entry 2526 (class 0 OID 59804)
 -- Dependencies: 193
 -- Data for Name: itm_cliente_grupo; Type: TABLE DATA; Schema: public; Owner: radius
 --
 
-INSERT INTO itm_cliente_grupo (id, id_cliente, id_grupo, data_criacao, data_exclusao) VALUES (2, 45, 1, '2017-02-23 22:20:46.569', NULL);
+INSERT INTO itm_cliente_grupo (id, id_cliente, id_grupo, data_criacao, data_exclusao) VALUES (8, 53, 1, '2017-03-21 20:48:55.821', NULL);
+INSERT INTO itm_cliente_grupo (id, id_cliente, id_grupo, data_criacao, data_exclusao) VALUES (9, 54, 1, '2017-03-21 20:51:07.243', NULL);
+INSERT INTO itm_cliente_grupo (id, id_cliente, id_grupo, data_criacao, data_exclusao) VALUES (10, 56, 1, '2017-03-28 16:04:28.706', NULL);
 
 
 --
--- TOC entry 2509 (class 0 OID 0)
+-- TOC entry 2579 (class 0 OID 0)
 -- Dependencies: 192
 -- Name: itm_cliente_grupo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
 --
 
-SELECT pg_catalog.setval('itm_cliente_grupo_id_seq', 2, true);
+SELECT pg_catalog.setval('itm_cliente_grupo_id_seq', 10, true);
 
 
 --
--- TOC entry 2510 (class 0 OID 0)
+-- TOC entry 2580 (class 0 OID 0)
 -- Dependencies: 188
 -- Name: itm_cliente_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
 --
 
-SELECT pg_catalog.setval('itm_cliente_id_seq', 45, true);
+SELECT pg_catalog.setval('itm_cliente_id_seq', 56, true);
 
 
 --
--- TOC entry 2482 (class 0 OID 67873)
+-- TOC entry 2538 (class 0 OID 68151)
+-- Dependencies: 205
+-- Data for Name: itm_cliente_lancamento; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_cliente_lancamento (id, id_cliente, tipo_lancamento, valor, data_lancamento, status, descricao) VALUES (143, 53, 'DEBITO', 50, '2017-03-28 13:45:49.981', 'PENDENTE', 'Instalação de modem');
+INSERT INTO itm_cliente_lancamento (id, id_cliente, tipo_lancamento, valor, data_lancamento, status, descricao) VALUES (144, 53, 'DEBITO', 30, '2017-03-28 13:46:10.479', 'PENDENTE', 'Instalação de cabo');
+INSERT INTO itm_cliente_lancamento (id, id_cliente, tipo_lancamento, valor, data_lancamento, status, descricao) VALUES (145, 53, 'DEBITO', 20, '2017-03-28 13:49:21.037', 'PENDENTE', 'Trabalho Comum');
+INSERT INTO itm_cliente_lancamento (id, id_cliente, tipo_lancamento, valor, data_lancamento, status, descricao) VALUES (146, 56, 'DEBITO', 50, '2017-03-28 16:04:52.993', 'PENDENTE', 'Instalação de modem');
+INSERT INTO itm_cliente_lancamento (id, id_cliente, tipo_lancamento, valor, data_lancamento, status, descricao) VALUES (147, 54, 'DEBITO', 50, '2017-03-28 16:13:29.637', 'PENDENTE', 'Instalação de modem');
+
+
+--
+-- TOC entry 2581 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: itm_cliente_lancamento_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_cliente_lancamento_id_seq', 147, true);
+
+
+--
+-- TOC entry 2536 (class 0 OID 67873)
 -- Dependencies: 203
 -- Data for Name: itm_cliente_produto; Type: TABLE DATA; Schema: public; Owner: radius
 --
 
-INSERT INTO itm_cliente_produto (id, id_cliente, id_produto, valor, valor_base, data_criacao, data_exclusao, data_inicio, data_fim) VALUES (3, 45, 2, 23, 23, '2017-02-23 22:20:43.796', NULL, '2017-02-23 21:00:00', '2018-02-23 21:00:00');
+INSERT INTO itm_cliente_produto (id, id_cliente, id_produto, valor, valor_base, data_criacao, data_exclusao, data_inicio, data_fim) VALUES (21, 53, 2, 23, 23, '2017-03-21 20:48:49.297', NULL, '2017-03-20 21:00:00', '2018-03-20 21:00:00');
+INSERT INTO itm_cliente_produto (id, id_cliente, id_produto, valor, valor_base, data_criacao, data_exclusao, data_inicio, data_fim) VALUES (22, 54, 1, 10, 10, '2017-03-21 20:50:57.83', NULL, '2017-03-20 21:00:00', '2018-03-20 21:00:00');
+INSERT INTO itm_cliente_produto (id, id_cliente, id_produto, valor, valor_base, data_criacao, data_exclusao, data_inicio, data_fim) VALUES (23, 54, 2, 23, 23, '2017-03-21 20:51:01.293', NULL, '2017-03-20 21:00:00', '2018-03-20 21:00:00');
+INSERT INTO itm_cliente_produto (id, id_cliente, id_produto, valor, valor_base, data_criacao, data_exclusao, data_inicio, data_fim) VALUES (24, 56, 1, 10, 10, '2017-03-28 16:04:21.832', NULL, '2017-03-27 21:00:00', '2018-03-27 21:00:00');
 
 
 --
--- TOC entry 2511 (class 0 OID 0)
+-- TOC entry 2582 (class 0 OID 0)
 -- Dependencies: 202
 -- Name: itm_cliente_produto_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
 --
 
-SELECT pg_catalog.setval('itm_cliente_produto_id_seq', 3, true);
+SELECT pg_catalog.setval('itm_cliente_produto_id_seq', 24, true);
 
 
 --
--- TOC entry 2474 (class 0 OID 59812)
+-- TOC entry 2544 (class 0 OID 68346)
+-- Dependencies: 211
+-- Data for Name: itm_conta_corrente; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_conta_corrente (id, nome, banco, numero_conta_corrente, numero_agencia, numero_carteira, nosso_numero, digito_nosso_numero, digito_conta_corrente) VALUES (1, 'Bradesco - Itrix', 'BANCO_BRADESCO', '123456', '1234', '30', '99345678912', '5', '0');
+INSERT INTO itm_conta_corrente (id, nome, banco, numero_conta_corrente, numero_agencia, numero_carteira, nosso_numero, digito_nosso_numero, digito_conta_corrente) VALUES (2, 'Banco do Brasil', 'BANCO_DO_BRASIL', '123456', '1234', '30', '99345678912', '5', '0');
+
+
+--
+-- TOC entry 2583 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: itm_conta_corrente_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_conta_corrente_id_seq', 2, true);
+
+
+--
+-- TOC entry 2528 (class 0 OID 59812)
 -- Dependencies: 195
 -- Data for Name: itm_equipamento; Type: TABLE DATA; Schema: public; Owner: radius
 --
@@ -937,7 +1261,7 @@ INSERT INTO itm_equipamento (id, nome) VALUES (2, 'Roteador TP-LINK 150M');
 
 
 --
--- TOC entry 2512 (class 0 OID 0)
+-- TOC entry 2584 (class 0 OID 0)
 -- Dependencies: 194
 -- Name: itm_equipamento_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
 --
@@ -946,7 +1270,7 @@ SELECT pg_catalog.setval('itm_equipamento_id_seq', 2, true);
 
 
 --
--- TOC entry 2470 (class 0 OID 59793)
+-- TOC entry 2524 (class 0 OID 59793)
 -- Dependencies: 191
 -- Data for Name: itm_grupo; Type: TABLE DATA; Schema: public; Owner: radius
 --
@@ -956,7 +1280,7 @@ INSERT INTO itm_grupo (id, nome) VALUES (2, 'PacoLinea');
 
 
 --
--- TOC entry 2513 (class 0 OID 0)
+-- TOC entry 2585 (class 0 OID 0)
 -- Dependencies: 190
 -- Name: itm_grupo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
 --
@@ -965,7 +1289,44 @@ SELECT pg_catalog.setval('itm_grupo_id_seq', 2, true);
 
 
 --
--- TOC entry 2480 (class 0 OID 67862)
+-- TOC entry 2546 (class 0 OID 68362)
+-- Dependencies: 213
+-- Data for Name: itm_grupo_parametro; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_grupo_parametro (id, id_grupo, propriedade, operador, valor) VALUES (1, 1, 'limit', ':=', '1');
+INSERT INTO itm_grupo_parametro (id, id_grupo, propriedade, operador, valor) VALUES (2, 1, 'simultaneos-use', ':=', '2');
+
+
+--
+-- TOC entry 2586 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: itm_grupo_parametro_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_grupo_parametro_id_seq', 2, true);
+
+
+--
+-- TOC entry 2542 (class 0 OID 68335)
+-- Dependencies: 209
+-- Data for Name: itm_parametro; Type: TABLE DATA; Schema: public; Owner: radius
+--
+
+INSERT INTO itm_parametro (id, nome_empresa, cnpj) VALUES (1, 'iTrix Tecnologia Internet', '13699339000170');
+
+
+--
+-- TOC entry 2587 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: itm_parametro_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
+--
+
+SELECT pg_catalog.setval('itm_parametro_id_seq', 1, true);
+
+
+--
+-- TOC entry 2534 (class 0 OID 67862)
 -- Dependencies: 201
 -- Data for Name: itm_produto; Type: TABLE DATA; Schema: public; Owner: radius
 --
@@ -975,7 +1336,7 @@ INSERT INTO itm_produto (id, nome, data_inicio, data_fim, valor, tipo) VALUES (2
 
 
 --
--- TOC entry 2514 (class 0 OID 0)
+-- TOC entry 2588 (class 0 OID 0)
 -- Dependencies: 200
 -- Name: itm_produto_id_seq; Type: SEQUENCE SET; Schema: public; Owner: radius
 --
@@ -984,7 +1345,7 @@ SELECT pg_catalog.setval('itm_produto_id_seq', 2, true);
 
 
 --
--- TOC entry 2466 (class 0 OID 59768)
+-- TOC entry 2520 (class 0 OID 59768)
 -- Dependencies: 187
 -- Data for Name: nas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -992,7 +1353,7 @@ SELECT pg_catalog.setval('itm_produto_id_seq', 2, true);
 
 
 --
--- TOC entry 2515 (class 0 OID 0)
+-- TOC entry 2589 (class 0 OID 0)
 -- Dependencies: 186
 -- Name: nas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1001,7 +1362,7 @@ SELECT pg_catalog.setval('nas_id_seq', 1, false);
 
 
 --
--- TOC entry 2452 (class 0 OID 59661)
+-- TOC entry 2506 (class 0 OID 59661)
 -- Dependencies: 173
 -- Data for Name: radacct; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1009,7 +1370,7 @@ SELECT pg_catalog.setval('nas_id_seq', 1, false);
 
 
 --
--- TOC entry 2516 (class 0 OID 0)
+-- TOC entry 2590 (class 0 OID 0)
 -- Dependencies: 172
 -- Name: radacct_radacctid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1018,7 +1379,7 @@ SELECT pg_catalog.setval('radacct_radacctid_seq', 1, false);
 
 
 --
--- TOC entry 2454 (class 0 OID 59677)
+-- TOC entry 2508 (class 0 OID 59677)
 -- Dependencies: 175
 -- Data for Name: radcheck; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1026,7 +1387,7 @@ SELECT pg_catalog.setval('radacct_radacctid_seq', 1, false);
 
 
 --
--- TOC entry 2517 (class 0 OID 0)
+-- TOC entry 2591 (class 0 OID 0)
 -- Dependencies: 174
 -- Name: radcheck_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1035,7 +1396,7 @@ SELECT pg_catalog.setval('radcheck_id_seq', 1, false);
 
 
 --
--- TOC entry 2456 (class 0 OID 59693)
+-- TOC entry 2510 (class 0 OID 59693)
 -- Dependencies: 177
 -- Data for Name: radgroupcheck; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1043,7 +1404,7 @@ SELECT pg_catalog.setval('radcheck_id_seq', 1, false);
 
 
 --
--- TOC entry 2518 (class 0 OID 0)
+-- TOC entry 2592 (class 0 OID 0)
 -- Dependencies: 176
 -- Name: radgroupcheck_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1052,7 +1413,7 @@ SELECT pg_catalog.setval('radgroupcheck_id_seq', 1, false);
 
 
 --
--- TOC entry 2458 (class 0 OID 59709)
+-- TOC entry 2512 (class 0 OID 59709)
 -- Dependencies: 179
 -- Data for Name: radgroupreply; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1060,7 +1421,7 @@ SELECT pg_catalog.setval('radgroupcheck_id_seq', 1, false);
 
 
 --
--- TOC entry 2519 (class 0 OID 0)
+-- TOC entry 2593 (class 0 OID 0)
 -- Dependencies: 178
 -- Name: radgroupreply_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1069,7 +1430,7 @@ SELECT pg_catalog.setval('radgroupreply_id_seq', 1, false);
 
 
 --
--- TOC entry 2464 (class 0 OID 59756)
+-- TOC entry 2518 (class 0 OID 59756)
 -- Dependencies: 185
 -- Data for Name: radpostauth; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1077,7 +1438,7 @@ SELECT pg_catalog.setval('radgroupreply_id_seq', 1, false);
 
 
 --
--- TOC entry 2520 (class 0 OID 0)
+-- TOC entry 2594 (class 0 OID 0)
 -- Dependencies: 184
 -- Name: radpostauth_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1086,7 +1447,7 @@ SELECT pg_catalog.setval('radpostauth_id_seq', 1, false);
 
 
 --
--- TOC entry 2460 (class 0 OID 59725)
+-- TOC entry 2514 (class 0 OID 59725)
 -- Dependencies: 181
 -- Data for Name: radreply; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1094,7 +1455,7 @@ SELECT pg_catalog.setval('radpostauth_id_seq', 1, false);
 
 
 --
--- TOC entry 2521 (class 0 OID 0)
+-- TOC entry 2595 (class 0 OID 0)
 -- Dependencies: 180
 -- Name: radreply_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1103,7 +1464,7 @@ SELECT pg_catalog.setval('radreply_id_seq', 1, false);
 
 
 --
--- TOC entry 2462 (class 0 OID 59741)
+-- TOC entry 2516 (class 0 OID 59741)
 -- Dependencies: 183
 -- Data for Name: radusergroup; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1111,7 +1472,7 @@ SELECT pg_catalog.setval('radreply_id_seq', 1, false);
 
 
 --
--- TOC entry 2522 (class 0 OID 0)
+-- TOC entry 2596 (class 0 OID 0)
 -- Dependencies: 182
 -- Name: radusergroup_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1120,7 +1481,7 @@ SELECT pg_catalog.setval('radusergroup_id_seq', 1, false);
 
 
 --
--- TOC entry 2330 (class 2606 OID 59888)
+-- TOC entry 2369 (class 2606 OID 59888)
 -- Name: itm_pk_boleto; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
 --
 
@@ -1129,7 +1490,16 @@ ALTER TABLE ONLY itm_boleto
 
 
 --
--- TOC entry 2320 (class 2606 OID 59790)
+-- TOC entry 2377 (class 2606 OID 68172)
+-- Name: itm_pk_boleto_lancamento; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_boleto_lancamento
+    ADD CONSTRAINT itm_pk_boleto_lancamento PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2359 (class 2606 OID 59790)
 -- Name: itm_pk_cliente; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
 --
 
@@ -1138,7 +1508,7 @@ ALTER TABLE ONLY itm_cliente
 
 
 --
--- TOC entry 2328 (class 2606 OID 59828)
+-- TOC entry 2367 (class 2606 OID 59828)
 -- Name: itm_pk_cliente_equipamento; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
 --
 
@@ -1147,7 +1517,7 @@ ALTER TABLE ONLY itm_cliente_equipamento
 
 
 --
--- TOC entry 2324 (class 2606 OID 59809)
+-- TOC entry 2363 (class 2606 OID 59809)
 -- Name: itm_pk_cliente_grupo; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
 --
 
@@ -1156,7 +1526,16 @@ ALTER TABLE ONLY itm_cliente_grupo
 
 
 --
--- TOC entry 2334 (class 2606 OID 67878)
+-- TOC entry 2375 (class 2606 OID 68159)
+-- Name: itm_pk_cliente_lancamento; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_cliente_lancamento
+    ADD CONSTRAINT itm_pk_cliente_lancamento PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2373 (class 2606 OID 67878)
 -- Name: itm_pk_cliente_produto; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
 --
 
@@ -1165,7 +1544,16 @@ ALTER TABLE ONLY itm_cliente_produto
 
 
 --
--- TOC entry 2326 (class 2606 OID 59820)
+-- TOC entry 2381 (class 2606 OID 68354)
+-- Name: itm_pk_conta_corrente; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_conta_corrente
+    ADD CONSTRAINT itm_pk_conta_corrente PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2365 (class 2606 OID 59820)
 -- Name: itm_pk_equipamento; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
 --
 
@@ -1174,7 +1562,7 @@ ALTER TABLE ONLY itm_equipamento
 
 
 --
--- TOC entry 2322 (class 2606 OID 59801)
+-- TOC entry 2361 (class 2606 OID 59801)
 -- Name: itm_pk_grupo; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
 --
 
@@ -1183,7 +1571,25 @@ ALTER TABLE ONLY itm_grupo
 
 
 --
--- TOC entry 2332 (class 2606 OID 67870)
+-- TOC entry 2383 (class 2606 OID 68370)
+-- Name: itm_pk_grupo_parametro; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_grupo_parametro
+    ADD CONSTRAINT itm_pk_grupo_parametro PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2379 (class 2606 OID 68343)
+-- Name: itm_pk_parametro; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
+--
+
+ALTER TABLE ONLY itm_parametro
+    ADD CONSTRAINT itm_pk_parametro PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2371 (class 2606 OID 67870)
 -- Name: itm_pk_produto; Type: CONSTRAINT; Schema: public; Owner: radius; Tablespace: 
 --
 
@@ -1192,7 +1598,7 @@ ALTER TABLE ONLY itm_produto
 
 
 --
--- TOC entry 2318 (class 2606 OID 59777)
+-- TOC entry 2357 (class 2606 OID 59777)
 -- Name: nas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1201,7 +1607,7 @@ ALTER TABLE ONLY nas
 
 
 --
--- TOC entry 2293 (class 2606 OID 59671)
+-- TOC entry 2332 (class 2606 OID 59671)
 -- Name: radacct_acctuniqueid_key; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1210,7 +1616,7 @@ ALTER TABLE ONLY radacct
 
 
 --
--- TOC entry 2297 (class 2606 OID 59669)
+-- TOC entry 2336 (class 2606 OID 59669)
 -- Name: radacct_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1219,7 +1625,7 @@ ALTER TABLE ONLY radacct
 
 
 --
--- TOC entry 2300 (class 2606 OID 59689)
+-- TOC entry 2339 (class 2606 OID 59689)
 -- Name: radcheck_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1228,7 +1634,7 @@ ALTER TABLE ONLY radcheck
 
 
 --
--- TOC entry 2304 (class 2606 OID 59705)
+-- TOC entry 2343 (class 2606 OID 59705)
 -- Name: radgroupcheck_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1237,7 +1643,7 @@ ALTER TABLE ONLY radgroupcheck
 
 
 --
--- TOC entry 2307 (class 2606 OID 59721)
+-- TOC entry 2346 (class 2606 OID 59721)
 -- Name: radgroupreply_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1246,7 +1652,7 @@ ALTER TABLE ONLY radgroupreply
 
 
 --
--- TOC entry 2315 (class 2606 OID 59765)
+-- TOC entry 2354 (class 2606 OID 59765)
 -- Name: radpostauth_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1255,7 +1661,7 @@ ALTER TABLE ONLY radpostauth
 
 
 --
--- TOC entry 2309 (class 2606 OID 59737)
+-- TOC entry 2348 (class 2606 OID 59737)
 -- Name: radreply_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1264,7 +1670,7 @@ ALTER TABLE ONLY radreply
 
 
 --
--- TOC entry 2312 (class 2606 OID 59752)
+-- TOC entry 2351 (class 2606 OID 59752)
 -- Name: radusergroup_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1273,7 +1679,7 @@ ALTER TABLE ONLY radusergroup
 
 
 --
--- TOC entry 2316 (class 1259 OID 59778)
+-- TOC entry 2355 (class 1259 OID 59778)
 -- Name: nas_nasname; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1281,7 +1687,7 @@ CREATE INDEX nas_nasname ON nas USING btree (nasname);
 
 
 --
--- TOC entry 2294 (class 1259 OID 59672)
+-- TOC entry 2333 (class 1259 OID 59672)
 -- Name: radacct_active_session_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1289,7 +1695,7 @@ CREATE INDEX radacct_active_session_idx ON radacct USING btree (acctuniqueid) WH
 
 
 --
--- TOC entry 2295 (class 1259 OID 59673)
+-- TOC entry 2334 (class 1259 OID 59673)
 -- Name: radacct_bulk_close; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1297,7 +1703,7 @@ CREATE INDEX radacct_bulk_close ON radacct USING btree (nasipaddress, acctstartt
 
 
 --
--- TOC entry 2298 (class 1259 OID 59674)
+-- TOC entry 2337 (class 1259 OID 59674)
 -- Name: radacct_start_user_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1305,7 +1711,7 @@ CREATE INDEX radacct_start_user_idx ON radacct USING btree (acctstarttime, usern
 
 
 --
--- TOC entry 2301 (class 1259 OID 59690)
+-- TOC entry 2340 (class 1259 OID 59690)
 -- Name: radcheck_username; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1313,7 +1719,7 @@ CREATE INDEX radcheck_username ON radcheck USING btree (username, attribute);
 
 
 --
--- TOC entry 2302 (class 1259 OID 59706)
+-- TOC entry 2341 (class 1259 OID 59706)
 -- Name: radgroupcheck_groupname; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1321,7 +1727,7 @@ CREATE INDEX radgroupcheck_groupname ON radgroupcheck USING btree (groupname, at
 
 
 --
--- TOC entry 2305 (class 1259 OID 59722)
+-- TOC entry 2344 (class 1259 OID 59722)
 -- Name: radgroupreply_groupname; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1329,7 +1735,7 @@ CREATE INDEX radgroupreply_groupname ON radgroupreply USING btree (groupname, at
 
 
 --
--- TOC entry 2310 (class 1259 OID 59738)
+-- TOC entry 2349 (class 1259 OID 59738)
 -- Name: radreply_username; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1337,7 +1743,7 @@ CREATE INDEX radreply_username ON radreply USING btree (username, attribute);
 
 
 --
--- TOC entry 2313 (class 1259 OID 59753)
+-- TOC entry 2352 (class 1259 OID 59753)
 -- Name: radusergroup_username; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1345,7 +1751,7 @@ CREATE INDEX radusergroup_username ON radusergroup USING btree (username);
 
 
 --
--- TOC entry 2339 (class 2606 OID 59889)
+-- TOC entry 2389 (class 2606 OID 59889)
 -- Name: itm_fk_boleto_cliente; Type: FK CONSTRAINT; Schema: public; Owner: radius
 --
 
@@ -1354,7 +1760,34 @@ ALTER TABLE ONLY itm_boleto
 
 
 --
--- TOC entry 2337 (class 2606 OID 59829)
+-- TOC entry 2394 (class 2606 OID 68178)
+-- Name: itm_fk_boleto_lancamento_boleto; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_boleto_lancamento
+    ADD CONSTRAINT itm_fk_boleto_lancamento_boleto FOREIGN KEY (id_boleto) REFERENCES itm_boleto(id);
+
+
+--
+-- TOC entry 2393 (class 2606 OID 68173)
+-- Name: itm_fk_boleto_lancamento_lancamento; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_boleto_lancamento
+    ADD CONSTRAINT itm_fk_boleto_lancamento_lancamento FOREIGN KEY (id_lancamento) REFERENCES itm_cliente_lancamento(id);
+
+
+--
+-- TOC entry 2384 (class 2606 OID 68355)
+-- Name: itm_fk_cliente_conta_corrente; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente
+    ADD CONSTRAINT itm_fk_cliente_conta_corrente FOREIGN KEY (id_conta_corrente_boleto) REFERENCES itm_conta_corrente(id);
+
+
+--
+-- TOC entry 2387 (class 2606 OID 59829)
 -- Name: itm_fk_cliente_equipamento_cliente; Type: FK CONSTRAINT; Schema: public; Owner: radius
 --
 
@@ -1363,7 +1796,7 @@ ALTER TABLE ONLY itm_cliente_equipamento
 
 
 --
--- TOC entry 2338 (class 2606 OID 59834)
+-- TOC entry 2388 (class 2606 OID 59834)
 -- Name: itm_fk_cliente_equipamento_equipamento; Type: FK CONSTRAINT; Schema: public; Owner: radius
 --
 
@@ -1372,7 +1805,7 @@ ALTER TABLE ONLY itm_cliente_equipamento
 
 
 --
--- TOC entry 2335 (class 2606 OID 59839)
+-- TOC entry 2385 (class 2606 OID 59839)
 -- Name: itm_fk_cliente_grupo_cliente; Type: FK CONSTRAINT; Schema: public; Owner: radius
 --
 
@@ -1381,7 +1814,7 @@ ALTER TABLE ONLY itm_cliente_grupo
 
 
 --
--- TOC entry 2336 (class 2606 OID 59844)
+-- TOC entry 2386 (class 2606 OID 59844)
 -- Name: itm_fk_cliente_grupo_grupo; Type: FK CONSTRAINT; Schema: public; Owner: radius
 --
 
@@ -1390,7 +1823,16 @@ ALTER TABLE ONLY itm_cliente_grupo
 
 
 --
--- TOC entry 2340 (class 2606 OID 67879)
+-- TOC entry 2392 (class 2606 OID 68160)
+-- Name: itm_fk_cliente_lancamento_cliente; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_cliente_lancamento
+    ADD CONSTRAINT itm_fk_cliente_lancamento_cliente FOREIGN KEY (id_cliente) REFERENCES itm_cliente(id);
+
+
+--
+-- TOC entry 2390 (class 2606 OID 67879)
 -- Name: itm_fk_cliente_produto_cliente; Type: FK CONSTRAINT; Schema: public; Owner: radius
 --
 
@@ -1399,7 +1841,7 @@ ALTER TABLE ONLY itm_cliente_produto
 
 
 --
--- TOC entry 2341 (class 2606 OID 67884)
+-- TOC entry 2391 (class 2606 OID 67884)
 -- Name: itm_fk_cliente_produto_produto; Type: FK CONSTRAINT; Schema: public; Owner: radius
 --
 
@@ -1408,7 +1850,16 @@ ALTER TABLE ONLY itm_cliente_produto
 
 
 --
--- TOC entry 2489 (class 0 OID 0)
+-- TOC entry 2395 (class 2606 OID 68371)
+-- Name: itm_fk_grupo_parametro_grupo; Type: FK CONSTRAINT; Schema: public; Owner: radius
+--
+
+ALTER TABLE ONLY itm_grupo_parametro
+    ADD CONSTRAINT itm_fk_grupo_parametro_grupo FOREIGN KEY (id_grupo) REFERENCES itm_grupo(id);
+
+
+--
+-- TOC entry 2553 (class 0 OID 0)
 -- Dependencies: 6
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -1419,7 +1870,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2017-02-23 22:48:06 BRT
+-- Completed on 2017-03-28 19:48:16 BRT
 
 --
 -- PostgreSQL database dump complete

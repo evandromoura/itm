@@ -49,6 +49,7 @@ public class ClienteViewController  extends AbstractController<Cliente>{
 	private void inicializar(){
 		String parametro =getRequest().getParameter("parametro");
 		getClienteTO().setCliente(clienteService.recuperar(new Integer(parametro)));
+		getClienteTO().setDataVencimentoBoleto(null);
 	}
 	
 	
@@ -95,7 +96,7 @@ public class ClienteViewController  extends AbstractController<Cliente>{
 		boleto.setCliente(getClienteTO().getCliente());
 		Date dataAtual = new Date();
 		boleto.setDataCriacao(dataAtual);
-		boleto.setDataVencimento(dataAtual);
+		boleto.setDataVencimento(getClienteTO().getDataVencimentoBoleto());
 		boleto.setLancamentos(new ArrayList<BoletoLancamento>());
 		BigDecimal totalBoleto = new BigDecimal(0);
 		for (ClienteLancamento clienteLancamento:getClienteTO().getCliente().getLancamentos()){
