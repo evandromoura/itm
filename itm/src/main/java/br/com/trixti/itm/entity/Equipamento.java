@@ -2,9 +2,7 @@ package br.com.trixti.itm.entity;
 // default package
 // Generated 22/02/2017 14:34:07 by Hibernate Tools 4.3.4.Final
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +30,7 @@ public class Equipamento implements java.io.Serializable {
 	private String nome;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "equipamento")
-	private List<ClienteEquipamento> clienteEquipamentos;
+	private List<ContratoEquipamento> contratoEquipamentos;
 
 	public Equipamento() {
 	}
@@ -60,12 +58,12 @@ public class Equipamento implements java.io.Serializable {
 	}
 
 	
-	public List<ClienteEquipamento> getClienteEquipamentos() {
-		return this.clienteEquipamentos;
+	public List<ContratoEquipamento> getContratoEquipamentos() {
+		return this.contratoEquipamentos;
 	}
 
-	public void setClienteEquipamentos(List<ClienteEquipamento> clienteEquipamentos) {
-		this.clienteEquipamentos = clienteEquipamentos;
+	public void setContratoEquipamentos(List<ContratoEquipamento> contratoEquipamentos) {
+		this.contratoEquipamentos = contratoEquipamentos;
 	}
 
 }

@@ -10,12 +10,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
-import br.com.trixti.itm.entity.Boleto;
-import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
-import br.com.trixti.itm.entity.ClienteEquipamento;
-import br.com.trixti.itm.entity.ClienteGrupo;
-import br.com.trixti.itm.entity.ClienteProduto;
+import br.com.trixti.itm.entity.Contrato;
 
 
 @Stateless
@@ -50,38 +46,36 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 	}
 	
 	private Cliente inicializarCliente(Cliente cliente){
-		if(cliente.getClienteEquipamentos() != null){
-			for(ClienteEquipamento clienteEquipamento:cliente.getClienteEquipamentos()){
-				clienteEquipamento.getEquipamento().getId();
-			}
+		if(cliente.getContratos() != null){
+			cliente.getContratos().size();
 		}
-		if(cliente.getClienteProdutos() != null){
-			for(ClienteProduto clienteProduto:cliente.getClienteProdutos()){
-				System.out.println(clienteProduto.getProduto().getId());
-				System.out.println(clienteProduto.getProduto().getNome());
-			}
-		}
-		
-		if(cliente.getClienteGrupos() != null){
-			for(ClienteGrupo clienteGrupo:cliente.getClienteGrupos()){
-				clienteGrupo.getGrupo().getId();
-			}
-		}
-		
-		if(cliente.getBoletos() != null){
-			cliente.getBoletos().size();
-			for(Boleto boleto:cliente.getBoletos()){
-				if(boleto.getLancamentos() != null){
-					for(BoletoLancamento boletoLancamento:boleto.getLancamentos()){
-						boletoLancamento.getClienteLancamento().getDescricao();
-					}
-				}
-			}
-		}
-		
-		if(cliente.getContaCorrenteBoleto() != null){
-			cliente.getContaCorrenteBoleto().getId();
-		}
+//		if(cliente.getContratoProdutos() != null){
+//			for(ContratoProduto contratoProduto:cliente.getContratoProdutos()){
+//				System.out.println(contratoProduto.getProduto().getId());
+//				System.out.println(contratoProduto.getProduto().getNome());
+//			}
+//		}
+//		
+//		if(cliente.getContratoGrupos() != null){
+//			for(ContratoGrupo contratoGrupo:cliente.getContratoGrupos()){
+//				contratoGrupo.getGrupo().getId();
+//			}
+//		}
+//		
+//		if(cliente.getBoletos() != null){
+//			cliente.getBoletos().size();
+//			for(Boleto boleto:cliente.getBoletos()){
+//				if(boleto.getLancamentos() != null){
+//					for(BoletoLancamento boletoLancamento:boleto.getLancamentos()){
+//						boletoLancamento.getContratoLancamento().getDescricao();
+//					}
+//				}
+//			}
+//		}
+//		
+//		if(cliente.getContaCorrenteBoleto() != null){
+//			cliente.getContaCorrenteBoleto().getId();
+//		}
 		
 		return cliente;
 	}

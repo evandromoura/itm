@@ -35,7 +35,7 @@ public class BoletoLancamento implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_lancamento")
-	private ClienteLancamento clienteLancamento;
+	private ContratoLancamento contratoLancamento;
 
 	public Integer getId() {
 		return id;
@@ -53,12 +53,12 @@ public class BoletoLancamento implements java.io.Serializable {
 		this.boleto = boleto;
 	}
 
-	public ClienteLancamento getClienteLancamento() {
-		return clienteLancamento;
+	public ContratoLancamento getContratoLancamento() {
+		return contratoLancamento;
 	}
 
-	public void setClienteLancamento(ClienteLancamento clienteLancamento) {
-		this.clienteLancamento = clienteLancamento;
+	public void setContratoLancamento(ContratoLancamento contratoLancamento) {
+		this.contratoLancamento = contratoLancamento;
 	}
 	
 	

@@ -1,35 +1,17 @@
 package br.com.trixti.itm.to;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import br.com.trixti.itm.entity.Cliente;
-import br.com.trixti.itm.entity.ClienteLancamento;
-import br.com.trixti.itm.entity.Equipamento;
-import br.com.trixti.itm.entity.Grupo;
-import br.com.trixti.itm.entity.Produto;
+import br.com.trixti.itm.entity.Contrato;
 
 public class ClienteTO {
 	
 	
-	/**
-	 * Produto a ser Manipulado no Form
-	 */
-	private Produto produto;
 	
+	private Contrato contrato;
 	
-	/**
-	 * Equipamento a ser Manipulado no Form
-	 */
-	private Equipamento equipamento;
-	
-	
-	
-	/**
-	 * Grupo a ser Manipulado no Form
-	 */
-	private Grupo grupo;
 	
 	/**
 	 * Cliente que vai ser manipulado no form
@@ -47,14 +29,7 @@ public class ClienteTO {
 	private Cliente clientePesquisa;
 	
 	
-	private ClienteLancamento clienteLancamento;
 	
-	
-	private Date dataVencimentoBoleto;
-	
-	
-	private String abaAtiva;
-
 	public Cliente getCliente() {
 		if (cliente == null) {
 			cliente = new Cliente();
@@ -88,64 +63,16 @@ public class ClienteTO {
 		this.clientePesquisa = clientePesquisa;
 	}
 
-	public Produto getProduto() {
-		if (produto == null) {
-			produto = new Produto();
+	
+	public Contrato getContrato() {
+		if (contrato == null) {
+			contrato = new Contrato();
 		}
-		return produto;
+		return contrato;
 	}
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
-	}
-
-	public Equipamento getEquipamento() {
-		if (equipamento == null) {
-			equipamento = new Equipamento();
-		}
-		return equipamento;
-	}
-
-	public void setEquipamento(Equipamento equipamento) {
-		this.equipamento = equipamento;
-	}
-
-	public Grupo getGrupo() {
-		if (grupo == null) {
-			grupo = new Grupo();
-		}
-		return grupo;
-	}
-
-	public void setGrupo(Grupo grupo) {
-		this.grupo = grupo;
-	}
-
-	public ClienteLancamento getClienteLancamento() {
-		if (clienteLancamento == null) {
-			clienteLancamento = new ClienteLancamento();
-		}
-		return clienteLancamento;
-	}
-
-	public void setClienteLancamento(ClienteLancamento clienteLancamento) {
-		this.clienteLancamento = clienteLancamento;
-	}
-
-	public String getAbaAtiva() {
-		return abaAtiva;
-	}
-
-	public void setAbaAtiva(String abaAtiva) {
-		this.abaAtiva = abaAtiva;
-	}
-
-	public Date getDataVencimentoBoleto() {
-		return dataVencimentoBoleto;
-	}
-
-	public void setDataVencimentoBoleto(Date dataVencimentoBoleto) {
-		this.dataVencimentoBoleto = dataVencimentoBoleto;
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
 	}
 
 }

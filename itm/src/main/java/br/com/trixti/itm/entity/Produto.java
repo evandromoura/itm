@@ -32,7 +32,7 @@ public class Produto implements java.io.Serializable {
 	
 	private BigDecimal valor;
 	
-	private Set<ClienteProduto> clienteProdutos = new HashSet<ClienteProduto>(0);
+	private Set<ContratoProduto> contratoProdutos = new HashSet<ContratoProduto>(0);
 
 	public Produto() {
 	}
@@ -42,13 +42,13 @@ public class Produto implements java.io.Serializable {
 	}
 
 	public Produto(Integer id, String nome, String tipo, Date dataInicio, Date dataFim,
-			Set<ClienteProduto> clienteProdutos) {
+			Set<ContratoProduto> contratoProdutos) {
 		this.id = id;
 		this.nome = nome;
 		this.tipo = tipo;
 		this.dataInicio = dataInicio;
 		this.dataFim = dataFim;
-		this.clienteProdutos = clienteProdutos;
+		this.contratoProdutos = contratoProdutos;
 	}
 
 	@Id
@@ -101,12 +101,12 @@ public class Produto implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto")
-	public Set<ClienteProduto> getClienteProdutos() {
-		return this.clienteProdutos;
+	public Set<ContratoProduto> getContratoProdutos() {
+		return this.contratoProdutos;
 	}
 
-	public void setClienteProdutos(Set<ClienteProduto> clienteProdutos) {
-		this.clienteProdutos = clienteProdutos;
+	public void setContratoProdutos(Set<ContratoProduto> contratoProdutos) {
+		this.contratoProdutos = contratoProdutos;
 	}
 
 	public BigDecimal getValor() {

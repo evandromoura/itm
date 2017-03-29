@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formContrato">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.detalhes']}</strong>
+					</div>
+
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>#{resources['label.global.cliente']} : </label>
+									<h:outputText
+										value="#{contratoController.contratoTO.contrato.cliente.nome}" />
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>#{resources['label.global.identificador']} : </label>
+									<h:outputText
+										value="#{contratoController.contratoTO.contrato.identificador}" />
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label>#{resources['label.global.identificador']} : </label>
+									<h:outputText
+										value="#{contratoController.contratoTO.contrato.identificador}" />
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+
+
+					<div class="card card-accent-warning">
+						<div class="card-header">
+							<strong>#{resources['label.global.produtos']}</strong>
+						</div>
+
+						<div class="card-block">
+
+							<h:panelGroup id="idGroupProduto">
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>#{resources['label.global.escolhaproduto']} :
+											</label>
+											<h:selectOneMenu id="idProduto"
+												value="#{contratoController.contratoTO.produto.id}"
+												styleClass="form-control">
+												<f:selectItems value="#{combosBean.listaProduto}"
+													var="produto" itemLabel="#{produto.nome}"
+													itemValue="#{produto.id}" />
+											</h:selectOneMenu>
+											<br />
+											<h:commandButton
+												value="#{resources['label.global.adicionar']}">
+												<f:ajax event="click"
+													listener="#{contratoController.adicionarProduto()}"
+													execute="idGroupProduto" render="idGroupProduto" />
+											</h:commandButton>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-sm-12">
+										<h:dataTable id="idDataTableContratoProduto"
+											rendered="#{contratoController.contratoTO.contrato.contratoProdutos ne null and  not empty contratoController.contratoTO.contrato.contratoProdutos}"
+											value="#{contratoController.contratoTO.contrato.contratoProdutos}"
+											var="contratoProduto" styleClass="table">
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.data']}</f:facet>
+												<h:outputText value="#{contratoProduto.dataCriacao}">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:outputText>
+											</h:column>
+
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.nome']}</f:facet>
+												<h:outputText value="#{contratoProduto.produto.nome}" />
+											</h:column>
+
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.valorbase']}</f:facet>
+												<h:outputText value="#{contratoProduto.produto.valor}" />
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.valortotal']}</f:facet>
+												<h:inputText value="#{contratoProduto.valor}"
+													styleClass="form-control" />
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.datainicio']}</f:facet>
+												<h:inputText value="#{contratoProduto.dataInicio}"
+													styleClass="form-control">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:inputText>
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.datafim']}</f:facet>
+												<h:inputText value="#{contratoProduto.dataFim}"
+													styleClass="form-control">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:inputText>
+											</h:column>
+
+											<h:column
+												rendered="#{contratoController.contratoTO.contrato.id eq null}">
+												<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+												<h:commandLink value="#{resources['label.global.excluir']}">
+													<f:ajax event="click"
+														listener="#{contratoController.removerProduto(contratoProduto)}"
+														execute="idGroupProduto"
+														render="formContrato:idGroupProduto" />
+												</h:commandLink>
+											</h:column>
+
+											<h:column
+												rendered="#{contratoController.contratoTO.contrato.id ne null}">
+												<f:facet name="header">#{resources['label.global.ativo']}</f:facet>
+
+												<label
+													class="switch switch-text switch-pill switch-success-outline">
+													<h:selectBooleanCheckbox value="#{contratoProduto.ativo}"
+														styleClass="switch-input">
+														<f:ajax event="click"
+															listener="#{contratoController.ativarDesativarContratoProduto(contratoProduto)}"
+															execute="@this" />
+													</h:selectBooleanCheckbox> <span class="switch-label"
+													data-on="#{resources['label.global.sim']}"
+													data-off="#{resources['label.global.nao']}"></span> <span
+													class="switch-handle"></span>
+												</label>
+											</h:column>
+										</h:dataTable>
+									</div>
+								</div>
+							</h:panelGroup>
+
+						</div>
+					</div>
+
+
+
+					<div class="card card-accent-danger">
+						<div class="card-header">
+							<strong>#{resources['label.global.equipamentos']}</strong>
+						</div>
+
+						<div class="card-block">
+
+							<h:panelGroup id="idGroupEquipamento">
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>#{resources['label.global.escolhaequipamento']}
+												: </label>
+											<h:selectOneMenu id="idEquipamento"
+												value="#{contratoController.contratoTO.equipamento.id}"
+												styleClass="form-control">
+												<f:selectItems value="#{combosBean.listaEquipamento}"
+													var="equipamento" itemLabel="#{equipamento.nome}"
+													itemValue="#{equipamento.id}" />
+											</h:selectOneMenu>
+											<br />
+											<h:commandButton
+												value="#{resources['label.global.adicionar']}">
+												<f:ajax event="click"
+													listener="#{contratoController.adicionarEquipamento()}"
+													execute="idGroupEquipamento" render="idGroupEquipamento" />
+											</h:commandButton>
+										</div>
+									</div>
+								</div>
+
+
+
+								<div class="row">
+									<div class="col-sm-12">
+										<h:dataTable id="idDataTableContratoEquipamento"
+											rendered="#{contratoController.contratoTO.contrato.contratoEquipamentos ne null and  not empty contratoController.contratoTO.contrato.contratoEquipamentos}"
+											value="#{contratoController.contratoTO.contrato.contratoEquipamentos}"
+											var="contratoEquipamento" styleClass="table">
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.data']}</f:facet>
+												<h:outputText value="#{contratoEquipamento.dataCriacao}">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:outputText>
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.nome']}</f:facet>
+												<h:outputText
+													value="#{contratoEquipamento.equipamento.nome}" />
+											</h:column>
+
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.numeroserie']}</f:facet>
+												<h:inputText value="#{contratoEquipamento.numeroSerie}" />
+											</h:column>
+
+
+											<h:column
+												rendered="#{contratoController.contratoTO.contrato.id eq null}">
+												<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+												<h:commandLink value="#{resources['label.global.excluir']}">
+													<f:ajax event="click"
+														listener="#{contratoController.removerEquipamento(contratoEquipamento)}"
+														execute="idGroupEquipamento"
+														render="formContrato:idGroupEquipamento" />
+												</h:commandLink>
+											</h:column>
+
+										</h:dataTable>
+									</div>
+								</div>
+							</h:panelGroup>
+
+						</div>
+					</div>
+
+
+
+					<div class="card card-accent-success">
+						<div class="card-header">
+							<strong>#{resources['label.global.grupos']}</strong>
+						</div>
+
+						<div class="card-block">
+
+							<h:panelGroup id="idGroupGrupo">
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>#{resources['label.global.escolhagrupo']} : </label>
+											<h:selectOneMenu id="idGrupo"
+												value="#{contratoController.contratoTO.grupo.id}"
+												styleClass="form-control">
+												<f:selectItems value="#{combosBean.listaGrupo}" var="grupo"
+													itemLabel="#{grupo.nome}" itemValue="#{grupo.id}" />
+											</h:selectOneMenu>
+											<br />
+											<h:commandButton
+												value="#{resources['label.global.adicionar']}">
+												<f:ajax event="click"
+													listener="#{contratoController.adicionarGrupo()}"
+													execute="idGroupGrupo" render="idGroupGrupo" />
+											</h:commandButton>
+										</div>
+									</div>
+								</div>
+
+
+
+								<div class="row">
+									<div class="col-sm-12">
+										<h:dataTable id="idDataTableContratoGrupo"
+											rendered="#{contratoController.contratoTO.contrato.contratoGrupos ne null and  not empty contratoController.contratoTO.contrato.contratoGrupos}"
+											value="#{contratoController.contratoTO.contrato.contratoGrupos}"
+											var="contratoGrupo" styleClass="table">
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.data']}</f:facet>
+												<h:outputText value="#{contratoGrupo.dataCriacao}">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:outputText>
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.nome']}</f:facet>
+												<h:outputText value="#{contratoGrupo.grupo.nome}" />
+											</h:column>
+
+											<h:column
+												rendered="#{contratoController.contratoTO.contrato.id eq null}">
+												<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+												<h:commandLink value="#{resources['label.global.excluir']}">
+													<f:ajax event="click"
+														listener="#{contratoController.removerGrupo(contratoGrupo)}"
+														execute="idGroupGrupo" render="formContrato:idGroupGrupo" />
+												</h:commandLink>
+											</h:column>
+
+										</h:dataTable>
+									</div>
+								</div>
+							</h:panelGroup>
+
+						</div>
+					</div>
+
+
+
+			<div class="card">
+					<div class="card-block">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<h:commandLink action="#{contratoController.gravar()}" value="Gravar"  styleClass="btn btn-sm btn-primary" />
+										<h:commandLink action="#{contratoController.cancelar()}" value="Cancelar"  styleClass="btn btn-sm btn-danger" />
+									</div>
+								</div>
+							</div>
+					</div>	
+				</div>	
+
+
+				</div>
+
+			</h:form>
+
+		</div>
+
+
+
+	</ui:define>
+
+
+</ui:composition>

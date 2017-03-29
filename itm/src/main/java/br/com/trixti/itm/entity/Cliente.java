@@ -2,17 +2,13 @@ package br.com.trixti.itm.entity;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -36,9 +32,6 @@ public class Cliente implements java.io.Serializable {
 	private String email;
 	private String endereco;
 
-	@Column(name="dia_mes_vencimento")
-	private Integer diaMesVencimento;
-	
 	@Column(name = "telefone_celular")
 	private String telefoneCelular;
 	
@@ -70,29 +63,10 @@ public class Cliente implements java.io.Serializable {
 	@Column(name = "data_exclusao", length = 29)
 	private Date dataExclusao;
 	
-	@ManyToOne
-	@JoinColumn(name="id_conta_corrente_boleto")
-	private ContaCorrente contaCorrenteBoleto;
-	
-	@Column(name="gera_boleto")
-	private Boolean geraBoleto;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
-	private List<ClienteEquipamento> clienteEquipamentos;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
-	private List<ClienteProduto> clienteProdutos;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
-	private List<ClienteGrupo> clienteGrupos;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
-	private List<Boleto> boletos;
+	@OneToMany(mappedBy="cliente")
+	private List<Contrato> contratos;
 	
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente",cascade=CascadeType.REMOVE,orphanRemoval=true)
-	private List<ClienteLancamento> lancamentos;
-
 	public Cliente() {
 	}
 
@@ -190,55 +164,6 @@ public class Cliente implements java.io.Serializable {
 		this.dataExclusao = dataExclusao;
 	}
 
-	
-	public List<ClienteEquipamento> getClienteEquipamentos() {
-		return this.clienteEquipamentos;
-	}
-
-	public List<ClienteProduto> getClienteProdutos() {
-		return this.clienteProdutos;
-	}
-
-	public List<ClienteGrupo> getClienteGrupos() {
-		return this.clienteGrupos;
-	}
-
-	public List<Boleto> getBoletos() {
-		return this.boletos;
-	}
-
-	public void setBoletos(List<Boleto> boletos) {
-		this.boletos = boletos;
-	}
-
-	public void setClienteEquipamentos(List<ClienteEquipamento> clienteEquipamentos) {
-		this.clienteEquipamentos = clienteEquipamentos;
-	}
-
-	public void setClienteProdutos(List<ClienteProduto> clienteProdutos) {
-		this.clienteProdutos = clienteProdutos;
-	}
-
-	public void setClienteGrupos(List<ClienteGrupo> clienteGrupos) {
-		this.clienteGrupos = clienteGrupos;
-	}
-
-	public Integer getDiaMesVencimento() {
-		return diaMesVencimento;
-	}
-
-	public void setDiaMesVencimento(Integer diaMesVencimento) {
-		this.diaMesVencimento = diaMesVencimento;
-	}
-
-	public List<ClienteLancamento> getLancamentos() {
-		return lancamentos;
-	}
-
-	public void setLancamentos(List<ClienteLancamento> lancamentos) {
-		this.lancamentos = lancamentos;
-	}
-
 	public String getBairro() {
 		return bairro;
 	}
@@ -263,20 +188,12 @@ public class Cliente implements java.io.Serializable {
 		this.uf = uf;
 	}
 
-	public ContaCorrente getContaCorrenteBoleto() {
-		return contaCorrenteBoleto;
+	public List<Contrato> getContratos() {
+		return contratos;
 	}
 
-	public void setContaCorrenteBoleto(ContaCorrente contaCorrenteBoleto) {
-		this.contaCorrenteBoleto = contaCorrenteBoleto;
-	}
-
-	public Boolean getGeraBoleto() {
-		return geraBoleto;
-	}
-
-	public void setGeraBoleto(Boolean geraBoleto) {
-		this.geraBoleto = geraBoleto;
+	public void setContratos(List<Contrato> contratos) {
+		this.contratos = contratos;
 	}
 	
 

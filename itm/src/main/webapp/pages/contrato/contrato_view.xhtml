@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="corpo">
+		<h:form id="idFormContratoView">
+		<div class="row">
+			<br />
+		</div>
+		<div class="row">
+
+			<div class="col-md-12">
+				<h1 class="profile-username text-center">#{contratoViewController.contratoTO.contrato.identificador}</h1>
+			</div>
+			<div class="col-md-12">
+				<div class="nav-tabs-custom">
+					<ul class="nav nav-tabs">
+						<li class="#{contratoViewController.contratoTO.abaAtiva eq 'dadosgerais'?'active':''}">
+							<h:commandLink value="#{resources['label.global.dadosgerais']}">
+								<f:ajax event="click" immediate="true"/>
+								<f:passThroughAttribute name="href" value="#dadosgerais" />
+								<f:passThroughAttribute name="data-toggle" value="tab" />
+								<f:setPropertyActionListener value="dadosgerais" target="#{contratoViewController.contratoTO.abaAtiva}" />
+							</h:commandLink>
+						</li>
+						<li class="#{contratoViewController.contratoTO.abaAtiva eq 'financeiro'?'active':''}">
+							<h:commandLink value="#{resources['label.global.financeiro']}">
+								<f:ajax /> 
+								<f:passThroughAttribute name="href" value="#financeiro" />
+								<f:passThroughAttribute name="data-toggle" value="tab" />
+								<f:setPropertyActionListener value="financeiro" target="#{contratoViewController.contratoTO.abaAtiva}" />
+							</h:commandLink>
+						</li>
+						
+						<li class="#{contratoViewController.contratoTO.abaAtiva eq 'logs'?'active':''}">
+							<h:commandLink value="#{resources['label.global.logs']}">
+								<f:ajax event="click" />
+								<f:passThroughAttribute name="href" value="#logs" />
+								<f:passThroughAttribute name="data-toggle" value="tab" />
+								<f:setPropertyActionListener value="logs" target="#{contratoViewController.contratoTO.abaAtiva}" />
+							</h:commandLink>
+						</li>	
+					</ul>
+					<div class="tab-content">
+						<div class="#{contratoViewController.contratoTO.abaAtiva eq 'dadosgerais'?'active':''} tab-pane" id="dadosgerais">
+							<div class="card card-accent-info">
+								<div class="card-header">
+									<strong>#{resources['label.global.informacoes']}</strong>
+								</div>
+								<div class="card-block">
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label>#{resources['label.global.tipopessoa']}:</label><br />
+												#{contratoViewController.contratoTO.contrato.cliente.tipoPessoa}
+											</div>
+										</div>
+										<h:panelGroup id="idTipoPessoa">
+											<ui:fragment
+												rendered="#{contratoViewController.contratoTO.contrato.cliente.tipoPessoa.name eq 'FISICA'}">
+												<div class="col-sm-6">
+													<div class="form-group">
+														<label>#{resources['label.global.cpf']}:</label>#{contratoViewController.contratoTO.contrato.cliente.cpfCnpj}
+													</div>
+												</div>
+											</ui:fragment>
+											<ui:fragment
+												rendered="#{contratoViewController.contratoTO.contrato.cliente.tipoPessoa.name eq 'JURIDICA'}">
+												<div class="col-sm-6">
+													<div class="form-group">
+														<label>#{resources['label.global.cnpj']}:</label>
+														#{contratoViewController.contratoTO.contrato.cliente.cpfCnpj}
+													</div>
+												</div>
+											</ui:fragment>
+										</h:panelGroup>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label for="formContrato:contrato_nome">#{resources['label.global.nome']}:</label><br />
+												#{contratoViewController.contratoTO.contrato.cliente.nome}
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="form-group">
+
+												<label for="formContrato:contrato_telefone_celular">#{resources['label.global.endereco']}:</label><br />
+												#{contratoViewController.contratoTO.contrato.cliente.endereco}
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="formContrato:contrato_telefone_celular">#{resources['label.global.celular']}:</label><br />
+												#{contratoViewController.contratoTO.contrato.cliente.telefoneCelular}
+											</div>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label for="formContrato:contrato_diamesvencimento">#{resources['label.global.diamesvencimento']}:</label><br />
+												#{contratoViewController.contratoTO.contrato.diaMesVencimento}
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+
+							<div class="card card-accent-warning">
+								<div class="card-header">
+									<strong>#{resources['label.global.produtos']}</strong>
+								</div>
+
+								<div class="card-block">
+
+									<h:panelGroup id="idGroupProduto">
+
+										<div class="row">
+											<div class="col-sm-12">
+												<h:dataTable id="idDataTableContratoProduto"
+													rendered="#{contratoViewController.contratoTO.contrato.contratoProdutos ne null and  not empty contratoViewController.contratoTO.contrato.contratoProdutos}"
+													value="#{contratoViewController.contratoTO.contrato.contratoProdutos}"
+													var="contratoProduto" styleClass="table">
+
+													<h:column>
+														<f:facet name="header">#{resources['label.global.data']}</f:facet>
+														<h:outputText value="#{contratoProduto.dataCriacao}">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</h:column>
+
+
+													<h:column>
+														<f:facet name="header">#{resources['label.global.nome']}</f:facet>
+														<h:outputText value="#{contratoProduto.produto.nome}" />
+													</h:column>
+
+
+													<h:column>
+														<f:facet name="header">#{resources['label.global.valorbase']}</f:facet>
+														<h:outputText value="#{contratoProduto.produto.valor}">
+															<f:convertNumber pattern="#,##0.00" /> 
+														</h:outputText>
+													</h:column>
+
+													<h:column>
+														<f:facet name="header">#{resources['label.global.valortotal']}</f:facet>
+														<h:outputText value="#{contratoProduto.valor}">
+															<f:convertNumber pattern="#,##0.00" /> 
+														</h:outputText>
+													</h:column>
+
+													<h:column>
+														<f:facet name="header">#{resources['label.global.datainicio']}</f:facet>
+														<h:outputText value="#{contratoProduto.dataInicio}">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</h:column>
+
+													<h:column>
+														<f:facet name="header">#{resources['label.global.datafim']}</f:facet>
+														<h:outputText value="#{contratoProduto.dataFim}">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</h:column>
+
+												</h:dataTable>
+											</div>
+										</div>
+									</h:panelGroup>
+
+								</div>
+							</div>
+
+
+							<div class="card card-accent-success">
+								<div class="card-header">
+									<strong>#{resources['label.global.grupos']}</strong>
+								</div>
+
+								<div class="card-block">
+
+									<h:panelGroup id="idGroupGrupo">
+
+										<div class="row">
+											<div class="col-sm-12">
+												<h:dataTable id="idDataTableContratoGrupo"
+													rendered="#{contratoViewController.contratoTO.contrato.contratoGrupos ne null and  not empty contratoViewController.contratoTO.contrato.contratoGrupos}"
+													value="#{contratoViewController.contratoTO.contrato.contratoGrupos}"
+													var="contratoGrupo" styleClass="table">
+
+													<h:column>
+														<f:facet name="header">#{resources['label.global.data']}</f:facet>
+														<h:outputText value="#{contratoGrupo.dataCriacao}">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</h:column>
+
+													<h:column>
+														<f:facet name="header">#{resources['label.global.nome']}</f:facet>
+														<h:outputText value="#{contratoGrupo.grupo.nome}" />
+													</h:column>
+
+												</h:dataTable>
+											</div>
+										</div>
+									</h:panelGroup>
+
+								</div>
+							</div>
+
+							<div class="card card-accent-danger">
+								<div class="card-header">
+									<strong>#{resources['label.global.equipamentos']}</strong>
+								</div>
+
+								<div class="card-block">
+
+									<h:panelGroup id="idGroupEquipamento">
+
+										<div class="row">
+											<div class="col-sm-12">
+												<h:dataTable id="idDataTableContratoEquipamento"
+													rendered="#{contratoViewController.contratoTO.contrato.contratoEquipamentos ne null and  not empty contratoViewController.contratoTO.contrato.contratoEquipamentos}"
+													value="#{contratoViewController.contratoTO.contrato.contratoEquipamentos}"
+													var="contratoEquipamento" styleClass="table">
+
+													<h:column>
+														<f:facet name="header">#{resources['label.global.data']}</f:facet>
+														<h:outputText value="#{contratoEquipamento.dataCriacao}">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText>
+													</h:column>
+													<h:column>
+														<f:facet name="header">#{resources['label.global.nome']}</f:facet>
+														<h:outputText
+															value="#{contratoEquipamento.equipamento.nome}" />
+													</h:column>
+													<h:column>
+														<f:facet name="header">#{resources['label.global.numeroserie']}</f:facet>
+														<h:outputText value="#{contratoEquipamento.numeroSerie}" />
+													</h:column>
+
+												</h:dataTable>
+											</div>
+										</div>
+									</h:panelGroup>
+
+								</div>
+							</div>
+
+
+
+						</div>
+						<!-- /.tab-pane -->
+						<div class="#{contratoViewController.contratoTO.abaAtiva eq 'financeiro'?'active':''} tab-pane" id="financeiro">
+							
+							<ui:fragment id="idTabFinanceiro">
+									<div class="card card-accent-info">
+										<div class="card-header">
+											<strong>#{resources['label.global.adicionarLancamento']}</strong>
+										</div>
+										<div class="card-block">
+											<div class="row">
+												<div class="col-md-2">
+													<h:outputText value="#{resources['label.global.descricao']}:" />
+												</div>
+												<div class="col-md-10">
+													 <h:inputText value="#{contratoViewController.contratoTO.contratoLancamento.descricao}" />
+												</div>
+												<div class="col-md-2">
+													<h:outputText value="#{resources['label.global.valor']}:" />
+												</div>
+												<div class="col-md-10">
+													 <h:inputText value="#{contratoViewController.contratoTO.contratoLancamento.valor}" />
+												</div>
+												<div class="col-md-2">
+													<h:outputText value="#{resources['label.global.geraboleto']}:" />
+												</div> 
+												<div class="col-md-10">
+													 <h:selectBooleanCheckbox value="#{contratoViewController.contratoTO.contratoLancamento.geraBoleto}" label="#{resources['label.global.geraboleto']}" />
+												</div>
+												<div class="col-md-2">
+												</div>
+												<div class="col-md-10">
+													<h:commandButton action="#{contratoViewController.criarContratoLancamento}" value="#{resources['label.global.gravar']}" />
+												</div>
+											</div>
+										</div>
+									</div>		
+									
+									<div class="card card-accent-info">
+										<div class="card-header">
+											<strong>#{resources['label.global.lancamentosemaberto']}</strong>
+										</div>
+										<div class="card-block">
+		
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="form-group">
+		
+														<h:dataTable id="idDataTableContratoLancamento"
+															rendered="#{contratoViewController.contratoTO.contrato.lancamentos ne null and  not empty contratoViewController.contratoTO.contrato.lancamentos}"
+															value="#{contratoViewController.contratoTO.contrato.lancamentos}"
+															var="lancamento" styleClass="table">
+															
+															<h:column>
+																<f:facet name="header">#{resources['label.global.selecionar']}</f:facet>
+																<h:selectBooleanCheckbox value="#{lancamento.selecionado}" id="idCheckLancamento">
+																	<f:ajax event="click" render="idFormContratoView:idFragmentGerarBoleto" execute="idFormContratoView:idDataTableContratoLancamento" immediate="true"/>
+																</h:selectBooleanCheckbox>
+															</h:column>	
+															
+															<h:column>
+																<f:facet name="header">#{resources['label.global.data']}</f:facet>
+																<h:outputText value="#{lancamento.dataLancamento}">
+																	<f:convertDateTime pattern="dd/MM/yyyy" />
+																</h:outputText>
+															</h:column>
+															<h:column>
+																<f:facet name="header">#{resources['label.global.descricao']}</f:facet>
+																<h:outputText value="#{lancamento.descricao}" />
+															</h:column>
+															<h:column>
+																<f:facet name="header">#{resources['label.global.valor']}</f:facet>
+																<h:outputText value="#{lancamento.valor}">
+																	<f:convertNumber pattern="#,##0.00" /> 
+																</h:outputText>
+															</h:column>
+														</h:dataTable>
+														
+													</div>
+												</div>
+												<div class="row">
+													<h:panelGroup id="idFragmentGerarBoleto">
+														<div class="col-sm-12">
+															<h:outputText value="#{resources['label.global.datavencimento']}" />
+															<h:inputText id="idInputDataVencimento" value="#{contratoViewController.contratoTO.dataVencimentoBoleto}" disabled="#{not contratoViewController.exibeBotaoGerarBoleto}">
+																<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+																<f:ajax  event="blur" />
+															</h:inputText>
+															<br />
+															<br />
+															<h:commandButton id="idBotaoGerarBoleto" value="#{resources['label.global.gerarboletoselecionados']}" immediate="true" disabled="#{not contratoViewController.exibeBotaoGerarBoleto}"> 
+																<f:ajax listener="#{contratoViewController.gerarBoletoListaContratoLancamento()}" event="click" execute="idFragmentGerarBoleto" render="idFormContratoView" />
+															</h:commandButton>
+														</div>
+													</h:panelGroup>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									
+		
+									<div class="card card-accent-info">
+										<div class="card-header">
+											<strong>#{resources['label.global.boletos']}</strong>
+										</div>
+		
+										<div class="card-block">
+		
+											<div class="row">
+												<div class="col-sm-12">
+													<div class="form-group">
+		
+														<h:dataTable id="idDataTableContratoBoleto"
+															rendered="#{contratoViewController.contratoTO.contrato.boletos ne null and  not empty contratoViewController.contratoTO.contrato.boletos}"
+															value="#{contratoViewController.contratoTO.contrato.boletos}"
+															var="boleto" styleClass="table">
+		
+															<h:column>
+																<f:facet name="header">#{resources['label.global.data']}</f:facet>
+																<h:outputText value="#{boleto.dataCriacao}">
+																	<f:convertDateTime pattern="dd/MM/yyyy" />
+																</h:outputText>
+															</h:column>
+															<h:column>
+																<f:facet name="header">#{resources['label.global.valor']}</f:facet>
+																<h:outputText value="#{boleto.valor}">
+																	<f:convertNumber pattern="#,##0.00" /> 
+																</h:outputText>
+															</h:column>
+															<h:column>
+																<f:facet name="header">#{resources['label.global.datavencimento']}</f:facet>
+																<h:outputText value="#{boleto.dataVencimento}">
+																	<f:convertDateTime pattern="dd/MM/yyyy" />
+																</h:outputText>
+															</h:column>
+															
+															<h:column>
+																<f:facet name="header">#{resources['label.global.itens']}</f:facet>
+																<ul>
+																	<ui:repeat var="lancamento" value="#{boleto.lancamentos}">
+																		<li>#{lancamento.contratoLancamento.descricao}: <h:outputText value="#{lancamento.contratoLancamento.valor}"><f:convertNumber pattern="#,##0.00" /></h:outputText></li>	
+																	</ui:repeat>
+																</ul>
+															</h:column>
+															
+															<h:column>
+																<f:facet name="header">#{resources['label.global.status']}</f:facet>
+																<h:outputText value="#{boleto.status.name}" />
+															</h:column>
+															
+		
+															<h:column>
+																<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+																<h:commandLink 
+																	action="#{contratoViewController.downloadBoleto(boleto)}"
+																	value="Download" />
+																| 	
+																<h:commandLink value="#{resources['label.global.excluir']}" rendered="#{boleto.status.name eq 'ABERTO'}">
+																	<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
+																</h:commandLink>
+																
+																
+															</h:column>
+														</h:dataTable>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</ui:fragment>	
+							
+						</div>
+						<!-- /.tab-pane -->
+
+						<div class="#{contratoViewController.contratoTO.abaAtiva eq 'logs'?'active':''} tab-pane" id="logs"></div>
+
+						<div class="tab-pane" id="tab-equipamentos"></div>
+						<!-- /.tab-pane -->
+					</div>
+					<!-- /.tab-content -->
+				</div>
+				<!-- /.nav-tabs-custom -->
+			</div>
+			<!-- /.col -->
+		</div>
+	</h:form>
+	</ui:define>
+
+</ui:composition>

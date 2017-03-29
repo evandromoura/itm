@@ -11,7 +11,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,10 +38,6 @@ public class Boleto implements java.io.Serializable {
 	@Column(name = "id", unique = true, nullable = false) 
 	private Integer id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_cliente")
-	private Cliente cliente;
-	
 	private BigDecimal valor;
 	
 	@Temporal(TemporalType.DATE)
@@ -58,6 +53,10 @@ public class Boleto implements java.io.Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	private StatusBoletoEnum status;
+	
+	@ManyToOne
+	@JoinColumn(name="id_contrato")
+	private Contrato contrato;
 
 	public Boleto() {
 	}
@@ -74,14 +73,6 @@ public class Boleto implements java.io.Serializable {
 		this.id = id;
 	}
 
-	
-	public Cliente getCliente() {
-		return this.cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
 
 	public BigDecimal getValor() {
 		return this.valor;
@@ -122,6 +113,14 @@ public class Boleto implements java.io.Serializable {
 
 	public void setStatus(StatusBoletoEnum status) {
 		this.status = status;
+	}
+
+	public Contrato getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
 	}
 
 }

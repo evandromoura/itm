@@ -1,8 +1,6 @@
 package br.com.trixti.itm.controller.cliente;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -12,20 +10,10 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Cliente;
-import br.com.trixti.itm.entity.ClienteEquipamento;
-import br.com.trixti.itm.entity.ClienteGrupo;
-import br.com.trixti.itm.entity.ClienteProduto;
-import br.com.trixti.itm.entity.ContaCorrente;
-import br.com.trixti.itm.entity.Equipamento;
-import br.com.trixti.itm.entity.Grupo;
-import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.service.cliente.ClienteService;
-import br.com.trixti.itm.service.equipamento.EquipamentoService;
-import br.com.trixti.itm.service.grupo.GrupoService;
-import br.com.trixti.itm.service.produto.ProdutoService;
+import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.to.ClienteTO;
-import br.com.trixti.itm.util.UtilData;
 
 
 @ViewScoped
@@ -35,9 +23,7 @@ public class ClienteController extends AbstractController<Cliente> {
 	private ClienteTO clienteTO;
 	
 	private @Inject ClienteService clienteService;
-	private @Inject ProdutoService produtoService;
-	private @Inject EquipamentoService equipamentoService;
-	private @Inject GrupoService grupoService;
+	private @Inject ContratoService contratoService;
 
 	
 	@PostConstruct
@@ -59,16 +45,6 @@ public class ClienteController extends AbstractController<Cliente> {
 	private void inicializarIncluir(){
 		getClienteTO().setCliente(new Cliente());
 		getClienteTO().getCliente().setTipoPessoa(TipoPessoaEnum.FISICA);
-		getClienteTO().getCliente().setClienteProdutos(new ArrayList<ClienteProduto>());
-		getClienteTO().setProduto(new Produto());
-		
-		getClienteTO().setEquipamento(new Equipamento());
-		getClienteTO().getCliente().setClienteEquipamentos(new ArrayList<ClienteEquipamento>());
-		
-		getClienteTO().setGrupo(new Grupo());
-		getClienteTO().getCliente().setClienteGrupos(new ArrayList<ClienteGrupo>());
-		
-		getClienteTO().getCliente().setContaCorrenteBoleto(new ContaCorrente());
 	}
 	
 	private void inicializarAlterar(Serializable id){
@@ -106,62 +82,18 @@ public class ClienteController extends AbstractController<Cliente> {
 		pesquisar();
 	}
 	
-	public void adicionarProduto(){
-		ClienteProduto clienteProduto = new ClienteProduto();
-		clienteProduto.setCliente(getClienteTO().getCliente());
-		Produto produto = produtoService.recuperar(getClienteTO().getProduto().getId());
-		clienteProduto.setValor(produto.getValor());
-		clienteProduto.setValorBase(produto.getValor());
-		clienteProduto.setProduto(produto);
-		
-		Date dataLocal = new Date();
-		clienteProduto.setDataCriacao(dataLocal);
-		clienteProduto.setDataInicio(dataLocal);
-		UtilData utilData = new UtilData();
-		clienteProduto.setDataFim(utilData.adicionarAnos(dataLocal, 1));
-		getClienteTO().getCliente().getClienteProdutos().add(clienteProduto);
-	}
-	
-	public void removerProduto(ClienteProduto clienteProduto){
-		getClienteTO().getCliente().getClienteProdutos().remove(clienteProduto);
-	}
 	
 	
-	public void adicionarEquipamento(){
-		ClienteEquipamento clienteEquipamento = new ClienteEquipamento();
-		clienteEquipamento.setCliente(getClienteTO().getCliente());
-		Equipamento equipamento = equipamentoService.recuperar(getClienteTO().getEquipamento().getId());
-		Date dataLocal = new Date();
-		clienteEquipamento.setDataCriacao(dataLocal);
-		clienteEquipamento.setEquipamento(equipamento);
-		getClienteTO().getCliente().getClienteEquipamentos().add(clienteEquipamento);
-	}
-	
-	public void removerEquipamento(ClienteEquipamento clienteEquipamento){
-		getClienteTO().getCliente().getClienteEquipamentos().remove(clienteEquipamento);
-	}
-	
-	
-	public void adicionarGrupo(){
-		ClienteGrupo clienteGrupo = new ClienteGrupo();
-		clienteGrupo.setCliente(getClienteTO().getCliente());
-		Grupo grupo = grupoService.recuperar(getClienteTO().getGrupo().getId());
-		Date dataLocal = new Date();
-		clienteGrupo.setDataCriacao(dataLocal);
-		clienteGrupo.setGrupo(grupo);
-		getClienteTO().getCliente().getClienteGrupos().add(clienteGrupo);
-	}
-	
-	public void removerGrupo(ClienteGrupo clienteGrupo){
-		getClienteTO().getCliente().getClienteGrupos().remove(clienteGrupo);
-	}
-	
-	public void ativarDesativarClienteProduto(ClienteProduto clienteProduto){
-		if(clienteProduto.getDataExclusao() != null){
-			clienteProduto.setDataExclusao(null);
+	public String adicionarContrato(){
+		if(getClienteTO().getCliente().getId() == null){
+			clienteService.incluir(getClienteTO().getCliente());
 		}else{
-			clienteProduto.setDataExclusao(new Date());
-		}	
+			clienteService.alterar(getClienteTO().getCliente());
+		}
+		getClienteTO().getContrato().setCliente(getClienteTO().getCliente());
+		contratoService.incluir(getClienteTO().getContrato());
+		return "/pages/contrato/contrato_form.xhtml?faces-redirect=true&id="+getClienteTO().getContrato().getId();
+		
 	}
 	
 
