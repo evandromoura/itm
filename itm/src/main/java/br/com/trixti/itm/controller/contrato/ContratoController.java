@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoGrupo;
 import br.com.trixti.itm.entity.ContratoProduto;
@@ -17,6 +18,7 @@ import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.service.contrato.ContratoService;
+import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
 import br.com.trixti.itm.service.grupo.GrupoService;
 import br.com.trixti.itm.service.produto.ProdutoService;
@@ -32,6 +34,7 @@ public class ContratoController extends AbstractController<Contrato> {
 	private @Inject ProdutoService produtoService;
 	private @Inject EquipamentoService equipamentoService;
 	private @Inject GrupoService grupoService;
+	private @Inject ContratoAutenticacaoService contratoAutenticacaoService;
 	
 	private ContratoTO contratoTO;
 	
@@ -89,6 +92,13 @@ public class ContratoController extends AbstractController<Contrato> {
 		contratoGrupo.setDataCriacao(dataLocal);
 		contratoGrupo.setGrupo(grupo);
 		getContratoTO().getContrato().getContratoGrupos().add(contratoGrupo);
+	}
+	
+	public void adicionarContratoAutenticacao(){
+		getContratoTO().getContratoAutenticacao().setContrato(getContratoTO().getContrato());
+		getContratoTO().getContratoAutenticacao().setDataCriacao(new Date());
+		getContratoTO().getContrato().getAutenticacoes().add(getContratoTO().getContratoAutenticacao());
+		getContratoTO().setContratoAutenticacao(null);
 	}
 	
 	public void removerGrupo(ContratoGrupo contratoGrupo){

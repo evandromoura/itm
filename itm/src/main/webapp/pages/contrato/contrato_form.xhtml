@@ -308,6 +308,60 @@
 
 						</div>
 					</div>
+					
+					
+			<div class="card card-accent-success">
+						<div class="card-header">
+							<strong>#{resources['label.global.autenticacao']}</strong>
+						</div>
+
+						<div class="card-block">
+
+							<h:panelGroup id="idGroupAutenticacao">
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label>#{resources['label.global.username']} : </label>
+											<h:inputText value="#{contratoController.contratoTO.contratoAutenticacao.username}" />
+											<br />
+											<h:commandButton
+												value="#{resources['label.global.adicionar']}">
+												<f:ajax event="click"
+													listener="#{contratoController.adicionarContratoAutenticacao()}"
+													execute="idGroupAutenticacao" render="idGroupAutenticacao" />
+											</h:commandButton>
+										</div>
+									</div>
+								</div>
+
+
+
+								<div class="row">
+									<div class="col-sm-12">
+										<h:dataTable id="idDataTableContratoAutenticacao"
+											rendered="#{contratoController.contratoTO.contrato.autenticacoes ne null and  not empty contratoController.contratoTO.contrato.autenticacoes}"
+											value="#{contratoController.contratoTO.contrato.autenticacoes}"
+											var="autenticacao" styleClass="table">
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.data']}</f:facet>
+												<h:outputText value="#{autenticacao.dataCriacao}">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:outputText>
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.username']}</f:facet>
+												<h:outputText value="#{autenticacao.username}" />
+											</h:column>
+
+										</h:dataTable>
+									</div>
+								</div>
+							</h:panelGroup>
+
+						</div>
+					</div>		
 
 
 

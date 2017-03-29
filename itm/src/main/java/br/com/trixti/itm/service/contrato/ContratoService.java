@@ -11,12 +11,13 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.contrato.ContratoDAO;
-import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoGrupo;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.service.AbstractService;
+import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
 import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
 import br.com.trixti.itm.service.contratogrupo.ContratoGrupoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
@@ -31,6 +32,7 @@ public class ContratoService extends AbstractService<Contrato> {
 	private @Inject ContratoGrupoService contratoGrupoService;
 	private @Inject ContratoEquipamentoService contratoEquipamentoService;
 	private @Inject ContratoLancamentoService contratoLancamentoService;
+	private @Inject ContratoAutenticacaoService contratoAutenticacaoService;
 	
 	
 	@Override
@@ -83,6 +85,14 @@ public class ContratoService extends AbstractService<Contrato> {
 				contratoEquipamentoService.incluir(contratoEquipamento);
 			}else{
 				contratoEquipamentoService.alterar(contratoEquipamento);
+			}	
+		}
+		
+		for(ContratoAutenticacao autenticacao:entidade.getAutenticacoes()){
+			if(autenticacao.getId() == null){
+				contratoAutenticacaoService.incluir(autenticacao);
+			}else{
+				contratoAutenticacaoService.alterar(autenticacao);
 			}	
 		}
 		

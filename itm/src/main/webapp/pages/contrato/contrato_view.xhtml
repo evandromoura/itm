@@ -80,31 +80,13 @@
 										</h:panelGroup>
 									</div>
 									<div class="row">
-										<div class="col-sm-12">
+										<div class="col-sm-6">
 											<div class="form-group">
 												<label for="formContrato:contrato_nome">#{resources['label.global.nome']}:</label><br />
 												#{contratoViewController.contratoTO.contrato.cliente.nome}
 											</div>
 										</div>
-									</div>
-									<div class="row">
 										<div class="col-sm-6">
-											<div class="form-group">
-
-												<label for="formContrato:contrato_telefone_celular">#{resources['label.global.endereco']}:</label><br />
-												#{contratoViewController.contratoTO.contrato.cliente.endereco}
-											</div>
-										</div>
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label for="formContrato:contrato_telefone_celular">#{resources['label.global.celular']}:</label><br />
-												#{contratoViewController.contratoTO.contrato.cliente.telefoneCelular}
-											</div>
-										</div>
-									</div>
-
-									<div class="row">
-										<div class="col-sm-12">
 											<div class="form-group">
 												<label for="formContrato:contrato_diamesvencimento">#{resources['label.global.diamesvencimento']}:</label><br />
 												#{contratoViewController.contratoTO.contrato.diaMesVencimento}
@@ -423,7 +405,6 @@
 																	<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
 																</h:commandLink>
 																
-																
 															</h:column>
 														</h:dataTable>
 													</div>
@@ -432,20 +413,10 @@
 										</div>
 									</div>
 								</ui:fragment>	
-							
 						</div>
-						<!-- /.tab-pane -->
-
-						<div class="#{contratoViewController.contratoTO.abaAtiva eq 'logs'?'active':''} tab-pane" id="logs"></div>
-
-						<div class="tab-pane" id="tab-equipamentos"></div>
-						<!-- /.tab-pane -->
 					</div>
-					<!-- /.tab-content -->
 				</div>
-				<!-- /.nav-tabs-custom -->
 			</div>
-			<!-- /.col -->
 		</div>
 	</h:form>
 	</ui:define>

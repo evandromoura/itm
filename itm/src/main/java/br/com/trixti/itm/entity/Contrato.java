@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "itm_contrato", schema = "public")
@@ -64,8 +65,10 @@ public class Contrato implements java.io.Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<Boleto> boletos;
 	
-	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
+	private List<ContratoAutenticacao> autenticacoes;
+	
+	@Transient
 	private List<ContratoLancamento> lancamentos;
 
 	public Integer getId() {
@@ -170,6 +173,14 @@ public class Contrato implements java.io.Serializable {
 
 	public void setDataExclusao(Date dataExclusao) {
 		this.dataExclusao = dataExclusao;
+	}
+
+	public List<ContratoAutenticacao> getAutenticacoes() {
+		return autenticacoes;
+	}
+
+	public void setAutenticacoes(List<ContratoAutenticacao> autenticacoes) {
+		this.autenticacoes = autenticacoes;
 	}
 	
 }

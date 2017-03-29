@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Cliente;
+import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
@@ -45,10 +46,12 @@ public class ClienteController extends AbstractController<Cliente> {
 	private void inicializarIncluir(){
 		getClienteTO().setCliente(new Cliente());
 		getClienteTO().getCliente().setTipoPessoa(TipoPessoaEnum.FISICA);
+		getClienteTO().getContrato().setContaCorrente(new ContaCorrente());
 	}
 	
 	private void inicializarAlterar(Serializable id){
 		getClienteTO().setCliente(clienteService.recuperar(id));
+		getClienteTO().getContrato().setContaCorrente(new ContaCorrente());
 	}
 	
 	public void pesquisar(){

@@ -3,6 +3,7 @@ package br.com.trixti.itm.to;
 import java.util.Date;
 
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
@@ -40,6 +41,8 @@ public class ContratoTO {
 	
 	
 	private String abaAtiva;
+	
+	private ContratoAutenticacao contratoAutenticacao;
 
 	
 
@@ -113,6 +116,18 @@ public class ContratoTO {
 
 	public void setDataVencimentoBoleto(Date dataVencimentoBoleto) {
 		this.dataVencimentoBoleto = dataVencimentoBoleto;
+	}
+
+	public ContratoAutenticacao getContratoAutenticacao() {
+		if (contratoAutenticacao == null) {
+			contratoAutenticacao = new ContratoAutenticacao();
+		}
+
+		return contratoAutenticacao;
+	}
+
+	public void setContratoAutenticacao(ContratoAutenticacao contratoAutenticacao) {
+		this.contratoAutenticacao = contratoAutenticacao;
 	}
 
 	

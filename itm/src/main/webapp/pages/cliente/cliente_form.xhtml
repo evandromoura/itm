@@ -101,25 +101,35 @@
 					<div class="card-block">
 						
 						<div class="row">
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<div class="form-group">
 								<label for="formCliente:contrato_identificador">#{resources['label.global.identificador']}</label>   
 									<h:inputText value="#{clienteController.clienteTO.contrato.identificador}" id="contrato_identificador" styleClass="form-control"/>
 								</div>
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-3">
+								<div class="form-group">
+								<label for="formCliente:gera_boleto">#{resources['label.global.contacorrenteboleto']}</label>
+									<h:selectOneMenu value="#{clienteController.clienteTO.contrato.contaCorrente.id}" styleClass="form-control">
+										<f:selectItems value="#{combosBean.listaContaCorrente}" 
+											var="conta" itemLabel="#{conta.nome}"  itemValue="#{conta.id}"/>
+									</h:selectOneMenu>   
+								</div>
+							</div>
+							<div class="col-sm-3">
 								<div class="form-group">
 								<label for="formCliente:contrato_vencimento">#{resources['label.global.diamesvencimento']}</label>   
 									<h:inputText value="#{clienteController.clienteTO.contrato.diaMesVencimento}" id="contrato_vencimento" styleClass="form-control"/>
 								</div>
 							</div>
 							
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<div class="form-group">
 								<label for="formCliente:gera_boleto">#{resources['label.global.geraboleto']}</label>   
 									<h:selectBooleanCheckbox value="#{clienteController.clienteTO.contrato.geraBoleto}" id="gera_boleto" styleClass="form-control"/>
 								</div>
 							</div>
+							
 							<div class="col-sm-4">
 								<div class="form-group">
 									<h:commandButton action="#{clienteController.adicionarContrato}" styleClass="btn btn-success" value="#{resources['label.global.adicionarcontrato']}" />

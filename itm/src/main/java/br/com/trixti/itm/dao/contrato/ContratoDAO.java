@@ -53,6 +53,9 @@ public class ContratoDAO extends AbstractDAO<Contrato> {
 				}
 			}
 		}
+		if(contrato.getAutenticacoes() != null){
+			contrato.getAutenticacoes().size();
+		}
 		
 		if(contrato.getContaCorrente() != null){
 			contrato.getContaCorrente().getId();
