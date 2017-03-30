@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formContaCorrente">
+
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.pesquisar']}</strong>
+					</div>
+					<div class="card-block">
+
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formContaCorrente:nome_conta">#{resources['label.global.nomedaconta']}</label>
+									<h:inputText
+										value="#{contaCorrenteController.contaCorrenteTO.contaPesquisa.nome}"
+										id="nome_conta" styleClass="form-control" />
+								</div>
+							</div>
+
+
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formContaCorrente:nome_banco">#{resources['label.global.banco']}</label>
+									<h:inputText
+										value="#{contaCorrenteController.contaCorrenteTO.contaPesquisa.banco}"
+										id="nome_banco" styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<h:commandButton action="#{contaCorrenteController.pesquisar()}" value="#{resources['label.global.pesquisar']}" />						
+						</div>
+
+
+					</div>
+				</div>
+
+
+				<div class="card">
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
+								<h:dataTable value="#{contaCorrenteController.contaCorrenteTO.contas}" var="conta" styleClass="table table-bordered table-striped">
+									<h:column>
+										<f:facet name="header">#{resources['label.global.id']}</f:facet>
+										<h:outputText value="#{conta.id}" />
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.nome']}</f:facet>
+										<h:outputText value="#{conta.nome}" />
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.banco']}</f:facet>
+										<h:outputText value="#{conta.banco}" />
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+										 <a href="#{request.contextPath}/contacorrente/editar/#{conta.id}" class="btn btn-primary">#{resources['label.global.editar']}</a> 
+									</h:column>
+									
+								</h:dataTable>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</h:form>
+
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</ui:define>
+
+
+</ui:composition>

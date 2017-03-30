@@ -1,5 +1,7 @@
 package br.com.trixti.itm.service.contacorrente;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -16,6 +18,10 @@ public class ContaCorrenteService extends AbstractService<ContaCorrente> {
 	@Override
 	public AbstractDAO<ContaCorrente> getDAO() {
 		return contaCorrenteDAO;
+	}
+
+	public List<ContaCorrente> pesquisar(ContaCorrente contaCorrente) {
+		return contaCorrenteDAO.pesquisar(contaCorrente);
 	}
 	
 	
