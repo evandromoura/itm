@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formContaCorrente">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.cadastrocontabanco']}</strong> 
+					</div>
+					<div class="card-block">
+						
+				
+						
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formContaCorrente:nome_conta">#{resources['label.global.nomedaconta']}</label> 
+									<h:inputText value="#{contaCorrenteController.contaCorrente.nome}" id="nome_conta" styleClass="form-control" />
+								</div>
+							</div>
+				
+						
+							<div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formContaCorrente:nome_banco">#{resources['label.global.banco']}</label> 
+									<h:inputText value="#{contaCorrenteController.contaCorrente.banco}" id="nome_banco" styleClass="form-control" />
+								</div>
+							</div>
+							
+							
+										</div>
+						<div class="row">
+						
+						
+						
+							<div class="col-sm-4">
+								<div class="form-group">
+								<label for="formContaCorrente:numero_agencia">#{resources['label.global.numeroagencia']}</label>  
+									<h:inputText value="#{contaCorrenteController.contaCorrente.numeroAgencia}" id="numero_agencia" styleClass="form-control"/> 
+									
+								</div>
+							</div>
+							
+						
+						
+							<div class="col-sm-4">
+								<div class="form-group">
+								<label for="formContaCorrente:numero_conta">#{resources['label.global.numeroconta']}</label>  
+									<h:inputText value="#{contaCorrenteController.contaCorrente.numeroContaCorrente}" id="numero_conta" styleClass="form-control"/> 
+								</div>
+							</div>
+							
+							
+														
+							<div class="col-sm-1">
+								<div class="form-group">
+								<label for="formContaCorrente:digito_conta">#{resources['label.global.digito']}</label>  
+									<h:inputText value="#{contaCorrenteController.contaCorrente.digitoContaCorrente}" id="digito_conta" styleClass="form-control"/> 
+									
+								</div>
+							</div>
+							
+						
+
+							
+							
+							
+							
+							
+							
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+								
+								<label for="formContaCorrente:numero_carteira">#{resources['label.global.numerocarteira']}</label>  
+									<h:inputText value="#{contaCorrenteController.contaCorrente.numeroCarteira}" id="numero_carteira" styleClass="form-control"/>
+									
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			 
+				
+ 				<div class="card">
+					<div class="card-block">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+<!-- 										<h:commandLink action="" value="Gravar"  styleClass="btn btn-sm btn-primary" />
+ -->
+<!--  										<h:commandLink action="" value="Cancelar"  styleClass="btn btn-sm btn-danger" />
+ -->									</div>
+								</div>
+							</div>
+					</div>	
+				</div>	
+
+			</h:form>
+
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+	</ui:define>
+
+
+</ui:composition>
