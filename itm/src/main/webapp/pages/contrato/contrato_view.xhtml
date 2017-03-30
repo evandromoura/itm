@@ -112,7 +112,7 @@
 												<h:dataTable id="idDataTableContratoProduto"
 													rendered="#{contratoViewController.contratoTO.contrato.contratoProdutos ne null and  not empty contratoViewController.contratoTO.contrato.contratoProdutos}"
 													value="#{contratoViewController.contratoTO.contrato.contratoProdutos}"
-													var="contratoProduto" styleClass="table">
+													var="contratoProduto" styleClass="table table-bordered table-striped">
 
 													<h:column>
 														<f:facet name="header">#{resources['label.global.data']}</f:facet>
@@ -179,7 +179,7 @@
 												<h:dataTable id="idDataTableContratoGrupo"
 													rendered="#{contratoViewController.contratoTO.contrato.contratoGrupos ne null and  not empty contratoViewController.contratoTO.contrato.contratoGrupos}"
 													value="#{contratoViewController.contratoTO.contrato.contratoGrupos}"
-													var="contratoGrupo" styleClass="table">
+													var="contratoGrupo" styleClass="table table-bordered table-striped">
 
 													<h:column>
 														<f:facet name="header">#{resources['label.global.data']}</f:facet>
@@ -215,7 +215,7 @@
 												<h:dataTable id="idDataTableContratoEquipamento"
 													rendered="#{contratoViewController.contratoTO.contrato.contratoEquipamentos ne null and  not empty contratoViewController.contratoTO.contrato.contratoEquipamentos}"
 													value="#{contratoViewController.contratoTO.contrato.contratoEquipamentos}"
-													var="contratoEquipamento" styleClass="table">
+													var="contratoEquipamento" styleClass="table table-bordered table-striped">
 
 													<h:column>
 														<f:facet name="header">#{resources['label.global.data']}</f:facet>
@@ -294,7 +294,7 @@
 														<h:dataTable id="idDataTableContratoLancamento"
 															rendered="#{contratoViewController.contratoTO.contrato.lancamentos ne null and  not empty contratoViewController.contratoTO.contrato.lancamentos}"
 															value="#{contratoViewController.contratoTO.contrato.lancamentos}"
-															var="lancamento" styleClass="table">
+															var="lancamento" styleClass="table table-bordered table-striped">
 															
 															<h:column>
 																<f:facet name="header">#{resources['label.global.selecionar']}</f:facet>
@@ -359,7 +359,7 @@
 														<h:dataTable id="idDataTableContratoBoleto"
 															rendered="#{contratoViewController.contratoTO.contrato.boletos ne null and  not empty contratoViewController.contratoTO.contrato.boletos}"
 															value="#{contratoViewController.contratoTO.contrato.boletos}"
-															var="boleto" styleClass="table">
+															var="boleto" styleClass="table table-bordered table-striped">
 		
 															<h:column>
 																<f:facet name="header">#{resources['label.global.data']}</f:facet>
