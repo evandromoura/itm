@@ -14,6 +14,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 		 
 		  @URLMapping(id = "contrato_form", pattern = "/contrato", viewId = "/pages/contrato/contrato_form.jsf"),
 		  @URLMapping(id = "contrato_view", pattern = "/contrato/view/#{parametro}", viewId = "/pages/contrato/contrato_view.jsf"),
+		  @URLMapping(id = "contrato_form_edit", pattern = "/contrato/#{acao}/#{id}", viewId = "/pages/contrato/contrato_form.jsf"),
 		  
 		  
 		  @URLMapping(id = "contacorrente_list", pattern = "/contacorrente", viewId = "/pages/contacorrente/contacorrente_list.jsf"),

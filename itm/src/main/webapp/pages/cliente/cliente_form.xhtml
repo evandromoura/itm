@@ -14,7 +14,7 @@
 			<li class="breadcrumb-item active">#{clienteController.clienteTO.cliente.nome}</li>
 		</ui:fragment>
 		<ui:fragment rendered="#{clienteController.clienteTO.cliente.id eq null}">
-			<li class="breadcrumb-item active">#{resources['label.global.novoregistro']}</li>
+			<li class="breadcrumb-item active">#{resources['label.global.novocliente']}</li>
 		</ui:fragment>
 	</ui:define>
 
@@ -152,6 +152,40 @@
 							
 					</div>
 				</div>	
+				
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.contratos']}</strong>
+					</div>
+					<div class="card-block">
+					
+						<h:dataTable id="idDataTableContrato"
+										rendered="#{clienteController.clienteTO.cliente.contratos ne null and  not empty clienteController.clienteTO.cliente.contratos}"
+										value="#{clienteViewController.clienteTO.cliente.contratos}"
+										var="contrato" styleClass="table">
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{resources['label.global.data']}" />
+								</f:facet>
+								<h:outputText value="#{contrato.dataCriacao}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+								</h:outputText>  
+							</h:column>			
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{resources['label.global.identificador']}" />
+								</f:facet>
+								<h:outputText value="#{contrato.identificador}" />  
+							</h:column>			
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="#{resources['label.global.acoes']}" />
+								</f:facet>
+								<a href="#{request.contextPath}/contrato/editar/#{contrato.id}" class="btn btn-info">#{resources['label.global.editar']}</a>
+							</h:column>			
+						</h:dataTable>
+					</div>
+				</div>
 				
 				
 				 

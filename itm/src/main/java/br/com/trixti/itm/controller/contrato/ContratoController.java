@@ -46,8 +46,6 @@ public class ContratoController extends AbstractController<Contrato> {
 	}
 	
 	
-	
-	
 	public void adicionarProduto(){
 		ContratoProduto contratoProduto = new ContratoProduto();
 		contratoProduto.setContrato(getContratoTO().getContrato());
@@ -116,12 +114,13 @@ public class ContratoController extends AbstractController<Contrato> {
 	public String gravar(){
 		if(getContratoTO().getContrato().getId() == null){
 			contratoService.incluir(getContratoTO().getContrato());
-			 getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));  
+			 getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));
+			 return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 		}else{
 			contratoService.alterar(getContratoTO().getContrato());
 			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Alterado com Sucesso", "O Registro foi alterado na base"));
+			return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 		}
-		return "sucesso";
 	}
 
 

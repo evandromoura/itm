@@ -32,8 +32,8 @@ public class ContratoDAO extends AbstractDAO<Contrato> {
 		}
 		if(contrato.getContratoProdutos() != null){
 			for(ContratoProduto contratoProduto:contrato.getContratoProdutos()){
-				System.out.println(contratoProduto.getProduto().getId());
-				System.out.println(contratoProduto.getProduto().getNome());
+				contratoProduto.getProduto().getId();
+				contratoProduto.getProduto().getNome();
 			}
 		}
 		
