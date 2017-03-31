@@ -6,6 +6,13 @@
 	template="/WEB-INF/templates/default.xhtml">
 
 
+
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">Home</a></li>
+		<li class="breadcrumb-item"><a href="#{request.contextPath}/cliente">#{resources['label.global.cliente']}</a></li>
+		<li class="breadcrumb-item active">#{clienteViewController.clienteTO.cliente.nome}</li>
+	</ui:define>
+
 	<ui:define name="corpo">
 		<h:form id="idFormClienteView">
 		<div class="row">

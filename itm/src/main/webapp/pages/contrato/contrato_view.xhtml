@@ -6,6 +6,15 @@
 	template="/WEB-INF/templates/default.xhtml">
 
 
+
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">Home</a></li>
+		<li class="breadcrumb-item"><a href="#{request.contextPath}/cliente">#{resources['label.global.cliente']}</a></li>
+		<li class="breadcrumb-item"><a href="#{request.contextPath}/cliente/view/#{contratoViewController.contratoTO.contrato.cliente.id}">#{contratoViewController.contratoTO.contrato.cliente.nome}</a></li>
+		<li class="breadcrumb-item active">#{contratoViewController.contratoTO.contrato.identificador}</li>
+		
+	</ui:define>
+
 	<ui:define name="corpo">
 		<h:form id="idFormContratoView">
 		<div class="row">
@@ -112,7 +121,7 @@
 												<h:dataTable id="idDataTableContratoProduto"
 													rendered="#{contratoViewController.contratoTO.contrato.contratoProdutos ne null and  not empty contratoViewController.contratoTO.contrato.contratoProdutos}"
 													value="#{contratoViewController.contratoTO.contrato.contratoProdutos}"
-													var="contratoProduto" styleClass="table table-bordered table-striped">
+													var="contratoProduto" styleClass="table table-bordered table-striped" >
 
 													<h:column>
 														<f:facet name="header">#{resources['label.global.data']}</f:facet>

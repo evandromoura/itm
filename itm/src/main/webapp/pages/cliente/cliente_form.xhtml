@@ -6,6 +6,18 @@
 	template="/WEB-INF/templates/default.xhtml">
 
 
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">Home</a></li>
+		<li class="breadcrumb-item"><a href="#{request.contextPath}/cliente">#{resources['label.global.clientes']}</a></li>
+		<ui:fragment rendered="#{clienteController.clienteTO.cliente.id ne null}">
+			<li class="breadcrumb-item active">#{resources['label.global.editar']}</li>
+			<li class="breadcrumb-item active">#{clienteController.clienteTO.cliente.nome}</li>
+		</ui:fragment>
+		<ui:fragment rendered="#{clienteController.clienteTO.cliente.id eq null}">
+			<li class="breadcrumb-item active">#{resources['label.global.novoregistro']}</li>
+		</ui:fragment>
+	</ui:define>
+
 	<ui:define name="corpo">
 		<div class="col-sm-12">
 			<h:form id="formCliente">
