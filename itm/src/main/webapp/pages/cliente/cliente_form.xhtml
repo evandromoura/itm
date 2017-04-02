@@ -3,17 +3,20 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
 	template="/WEB-INF/templates/default.xhtml">
-
 
 	<ui:define name="breadcrumb">
 		<li class="breadcrumb-item"><a href="#">Home</a></li>
-		<li class="breadcrumb-item"><a href="#{request.contextPath}/cliente">#{resources['label.global.clientes']}</a></li>
-		<ui:fragment rendered="#{clienteController.clienteTO.cliente.id ne null}">
+		<li class="breadcrumb-item"><a
+			href="#{request.contextPath}/cliente">#{resources['label.global.clientes']}</a></li>
+		<ui:fragment
+			rendered="#{clienteController.clienteTO.cliente.id ne null}">
 			<li class="breadcrumb-item active">#{resources['label.global.editar']}</li>
 			<li class="breadcrumb-item active">#{clienteController.clienteTO.cliente.nome}</li>
 		</ui:fragment>
-		<ui:fragment rendered="#{clienteController.clienteTO.cliente.id eq null}">
+		<ui:fragment
+			rendered="#{clienteController.clienteTO.cliente.id eq null}">
 			<li class="breadcrumb-item active">#{resources['label.global.novocliente']}</li>
 		</ui:fragment>
 	</ui:define>
@@ -26,182 +29,217 @@
 						<strong>#{resources['label.global.cadastro']}</strong> <small>#{resources['label.global.clientes']}</small>
 					</div>
 					<div class="card-block">
-						
+
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
-									<label>#{resources['label.global.tipopessoa']}</label> 
-									<h:selectOneRadio value="#{clienteController.clienteTO.cliente.tipoPessoa}">
-										<f:selectItems value="#{combosBean.tipoPessoa}" var="tipoPessoa" itemValue="#{tipoPessoa}" itemLabel="#{resources[tipoPessoa.key]}" />
-										<f:ajax event="click" render="idTipoPessoa" immediate="true"   execute="@this"/>
+									<label>#{resources['label.global.tipopessoa']}</label>
+									<h:selectOneRadio
+										value="#{clienteController.clienteTO.cliente.tipoPessoa}">
+										<f:selectItems value="#{combosBean.tipoPessoa}"
+											var="tipoPessoa" itemValue="#{tipoPessoa}"
+											itemLabel="#{resources[tipoPessoa.key]}" />
+										<f:ajax event="click" render="idTipoPessoa" immediate="true"
+											execute="@this" />
 									</h:selectOneRadio>
 								</div>
 							</div>
 						</div>
-						
+
 						<div class="row">
-							<h:panelGroup id="idTipoPessoa">	
-								<ui:fragment rendered="#{clienteController.clienteTO.cliente.tipoPessoa.name eq 'FISICA'}">
+							<h:panelGroup id="idTipoPessoa">
+								<ui:fragment
+									rendered="#{clienteController.clienteTO.cliente.tipoPessoa.name eq 'FISICA'}">
 									<div class="col-sm-12">
 										<div class="form-group">
-											<label>#{resources['label.global.cpf']}</label> 
-											<h:inputText value="#{clienteController.clienteTO.cliente.cpfCnpj}" id="cliente_cpf" styleClass="form-control" />
+											<label>#{resources['label.global.cpf']}</label>
+
+											<itm:cpf
+												value="#{clienteController.clienteTO.cliente.cpfCnpj}"
+												id="cliente_cpf" styleClass="form-control" />
 										</div>
 									</div>
 								</ui:fragment>
-								<ui:fragment rendered="#{clienteController.clienteTO.cliente.tipoPessoa.name eq 'JURIDICA'}"> 
+								<ui:fragment
+									rendered="#{clienteController.clienteTO.cliente.tipoPessoa.name eq 'JURIDICA'}">
 									<div class="col-sm-12">
 										<div class="form-group">
-											<label>#{resources['label.global.cnpj']}</label> 
-											<h:inputText value="#{clienteController.clienteTO.cliente.cpfCnpj}" id="cliente_cnpj" styleClass="form-control" />
+											<label>#{resources['label.global.cnpj']}</label>
+											<itm:cnpj value="#{clienteController.clienteTO.cliente.cpfCnpj}"
+												id="cliente_cnpj" styleClass="form-control" />
 										</div>
 									</div>
 								</ui:fragment>
 							</h:panelGroup>
-							
-						</div>		
-						
+
+						</div>
+
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
-									<label for="formCliente:cliente_nome">#{resources['label.global.nome']}</label> 
-									<h:inputText value="#{clienteController.clienteTO.cliente.nome}" id="cliente_nome" styleClass="form-control" />
+									<label for="formCliente:cliente_nome">#{resources['label.global.nome']}</label>
+									<h:inputText
+										value="#{clienteController.clienteTO.cliente.nome}"
+										id="cliente_nome" styleClass="form-control" />
 								</div>
 							</div>
-						</div>		
+						</div>
 						<div class="row">
-							<div class="col-sm-12">		
+							<div class="col-sm-12">
 								<div class="form-group">
-									<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}</label> 
-									<h:inputText value="#{clienteController.clienteTO.cliente.telefoneCelular}" id="cliente_telefone_celular" styleClass="form-control" />
+									<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}</label>
+									<h:inputText
+										value="#{clienteController.clienteTO.cliente.telefoneCelular}"
+										id="cliente_telefone_celular" styleClass="form-control" />
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-4">
 								<div class="form-group">
-								<label for="formCliente:cliente_uf">#{resources['label.global.uf']}</label>  
-									<h:inputText value="#{clienteController.clienteTO.cliente.uf}" id="cliente_uf" styleClass="form-control"/> 
+									<label for="formCliente:cliente_uf">#{resources['label.global.uf']}</label>
+									<h:inputText value="#{clienteController.clienteTO.cliente.uf}"
+										id="cliente_uf" styleClass="form-control" />
 								</div>
 							</div>
-							
+
 							<div class="col-sm-4">
 								<div class="form-group">
-								<label for="formCliente:cliente_cep">#{resources['label.global.cep']}</label>  
-									<h:inputText value="#{clienteController.clienteTO.cliente.cep}" id="cliente_cep" styleClass="form-control"/> 
-									
+									<label for="formCliente:cliente_cep">#{resources['label.global.cep']}</label>
+									<itm:cep value="#{clienteController.clienteTO.cliente.cep}"
+										id="cliente_cep" styleClass="form-control" />
+
 								</div>
 							</div>
 							<div class="col-sm-4">
 								<div class="form-group">
-								
-								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.endereco']}</label>  
-									<h:inputText value="#{clienteController.clienteTO.cliente.endereco}" id="cliente_endereco" styleClass="form-control"/>
-									
+
+									<label for="formCliente:cliente_telefone_celular">#{resources['label.global.endereco']}</label>
+									<h:inputText
+										value="#{clienteController.clienteTO.cliente.endereco}"
+										id="cliente_endereco" styleClass="form-control" />
+
 								</div>
 							</div>
 						</div>
-						
+
 					</div>
 				</div>
-				
+
 				<div class="card card-accent-warning">
 					<div class="card-header">
 						<strong>#{resources['label.global.adicionarcontrato']}</strong>
-					</div>	
-					
+					</div>
+
 					<div class="card-block">
-						
+
 						<div class="row">
-							<div class="col-sm-3">
+							<div class="col-sm-6">
 								<div class="form-group">
-								<label for="formCliente:contrato_identificador">#{resources['label.global.identificador']}</label>   
-									<h:inputText value="#{clienteController.clienteTO.contrato.identificador}" id="contrato_identificador" styleClass="form-control"/>
+									<label for="formCliente:contrato_identificador">#{resources['label.global.identificador']}</label>
+									<h:inputText
+										value="#{clienteController.clienteTO.contrato.identificador}"
+										id="contrato_identificador" styleClass="form-control" />
 								</div>
 							</div>
-							<div class="col-sm-3">
+							<div class="col-sm-6">
 								<div class="form-group">
-								<label for="formCliente:gera_boleto">#{resources['label.global.contacorrenteboleto']}</label>
-									<h:selectOneMenu value="#{clienteController.clienteTO.contrato.contaCorrente.id}" styleClass="form-control">
-										<f:selectItems value="#{combosBean.listaContaCorrente}" 
-											var="conta" itemLabel="#{conta.nome}"  itemValue="#{conta.id}"/>
-									</h:selectOneMenu>   
+									<label for="formCliente:gera_boleto">#{resources['label.global.contacorrenteboleto']}</label>
+									<h:selectOneMenu
+										value="#{clienteController.clienteTO.contrato.contaCorrente.id}"
+										styleClass="form-control">
+										<f:selectItems value="#{combosBean.listaContaCorrente}"
+											var="conta" itemLabel="#{conta.nome}" itemValue="#{conta.id}" />
+									</h:selectOneMenu>
 								</div>
 							</div>
-							<div class="col-sm-3">
+							<div class="col-sm-6">
 								<div class="form-group">
-								<label for="formCliente:contrato_vencimento">#{resources['label.global.diamesvencimento']}</label>   
-									<h:inputText value="#{clienteController.clienteTO.contrato.diaMesVencimento}" id="contrato_vencimento" styleClass="form-control"/>
+									<label for="formCliente:contrato_vencimento">#{resources['label.global.diamesvencimento']}</label>
+									<itm:numero
+										value="#{clienteController.clienteTO.contrato.diaMesVencimento}"
+										id="contrato_vencimento" styleClass="form-control" />
 								</div>
 							</div>
-							
-							<div class="col-sm-3">
+
+							<div class="col-sm-6">
 								<div class="form-group">
-								<label for="formCliente:gera_boleto">#{resources['label.global.geraboleto']}</label>   
-									<h:selectBooleanCheckbox value="#{clienteController.clienteTO.contrato.geraBoleto}" id="gera_boleto" styleClass="form-control"/>
+									<label for="formCliente:gera_boleto">#{resources['label.global.geraboleto']}</label>
+									<h:selectBooleanCheckbox
+										value="#{clienteController.clienteTO.contrato.geraBoleto}"
+										id="gera_boleto" styleClass="form-control" />
 								</div>
 							</div>
-							
+
 							<div class="col-sm-4">
 								<div class="form-group">
-									<h:commandButton action="#{clienteController.adicionarContrato}" styleClass="btn btn-success" value="#{resources['label.global.adicionarcontrato']}" />
+									<h:commandButton
+										action="#{clienteController.adicionarContrato}"
+										styleClass="btn btn-success"
+										value="#{resources['label.global.adicionarcontrato']}" />
 								</div>
 							</div>
-						
+
 						</div>
-							
-					</div>
-				</div>	
-				
-				<div class="card card-accent-info">
-					<div class="card-header">
-						<strong>#{resources['label.global.contratos']}</strong>
-					</div>
-					<div class="card-block">
-					
-						<h:dataTable id="idDataTableContrato"
-										rendered="#{clienteController.clienteTO.cliente.contratos ne null and  not empty clienteController.clienteTO.cliente.contratos}"
-										value="#{clienteViewController.clienteTO.cliente.contratos}"
-										var="contrato" styleClass="table">
-							<h:column>
-								<f:facet name="header">
-									<h:outputText value="#{resources['label.global.data']}" />
-								</f:facet>
-								<h:outputText value="#{contrato.dataCriacao}">
-									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
-								</h:outputText>  
-							</h:column>			
-							<h:column>
-								<f:facet name="header">
-									<h:outputText value="#{resources['label.global.identificador']}" />
-								</f:facet>
-								<h:outputText value="#{contrato.identificador}" />  
-							</h:column>			
-							<h:column>
-								<f:facet name="header">
-									<h:outputText value="#{resources['label.global.acoes']}" />
-								</f:facet>
-								<a href="#{request.contextPath}/contrato/editar/#{contrato.id}" class="btn btn-info">#{resources['label.global.editar']}</a>
-							</h:column>			
-						</h:dataTable>
+
 					</div>
 				</div>
-				
-				
-				 
-				
+				<ui:fragment
+					rendered="#{clienteController.clienteTO.cliente.contratos ne null and  not empty clienteController.clienteTO.cliente.contratos}">
+
+					<div class="card card-accent-info">
+						<div class="card-header">
+							<strong>#{resources['label.global.contratos']}</strong>
+						</div>
+						<div class="card-block">
+
+							<h:dataTable id="idDataTableContrato"
+								value="#{clienteViewController.clienteTO.cliente.contratos}"
+								var="contrato" styleClass="table">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="#{resources['label.global.data']}" />
+									</f:facet>
+									<h:outputText value="#{contrato.dataCriacao}">
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText
+											value="#{resources['label.global.identificador']}" />
+									</f:facet>
+									<h:outputText value="#{contrato.identificador}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="#{resources['label.global.acoes']}" />
+									</f:facet>
+									<a href="#{request.contextPath}/contrato/editar/#{contrato.id}"
+										class="btn btn-info">#{resources['label.global.editar']}</a>
+								</h:column>
+							</h:dataTable>
+						</div>
+					</div>
+				</ui:fragment>
+
+
+
+
 				<div class="card">
 					<div class="card-block">
-							<div class="row">
-								<div class="col-sm-12">
-									<div class="form-group">
-										<h:commandLink action="#{clienteController.gravar()}" value="Gravar"  styleClass="btn btn-sm btn-primary" />
-										<h:commandLink action="#{clienteController.cancelar()}" value="Cancelar"  styleClass="btn btn-sm btn-danger" />
-									</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<h:commandLink action="#{clienteController.gravar()}"
+										value="Gravar" styleClass="btn btn-sm btn-primary" />
+									<h:commandLink action="#{clienteController.cancelar()}"
+										value="Cancelar" styleClass="btn btn-sm btn-danger" />
 								</div>
 							</div>
-					</div>	
-				</div>	
+						</div>
+					</div>
+				</div>
 
 			</h:form>
 
