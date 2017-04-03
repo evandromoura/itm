@@ -1,7 +1,6 @@
 package br.com.trixti.itm.controller.cliente;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -82,12 +81,11 @@ public class ClienteController extends AbstractController<Cliente> {
 	
 	public String cancelar(){
 		getClienteTO().setCliente(null);
-		pesquisar();
-		return "cancelar";
+		return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 	}
 	
-	public void excluir(Cliente cliente){
-		clienteService.excluir(cliente);
+	public void excluir(){
+		clienteService.excluir(clienteService.recuperar(getClienteTO().getCliente().getId()));
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi excluido na base"));
 		pesquisar();
 	}

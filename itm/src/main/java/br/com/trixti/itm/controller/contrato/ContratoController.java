@@ -10,7 +10,6 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Contrato;
-import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoGrupo;
 import br.com.trixti.itm.entity.ContratoProduto;
@@ -121,6 +120,11 @@ public class ContratoController extends AbstractController<Contrato> {
 			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Alterado com Sucesso", "O Registro foi alterado na base"));
 			return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 		}
+	}
+	
+	public String cancelar(){
+		getContratoTO().setContrato(null);
+		return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 	}
 
 

@@ -3,11 +3,12 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
 	template="/WEB-INF/templates/default.xhtml">
 
 
 	<ui:define name="breadcrumb">
-		<li class="breadcrumb-item"><a href="#">Home</a></li>
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
 		<li class="breadcrumb-item">#{resources['label.global.cliente']}</li>
 	</ui:define>
 
@@ -23,7 +24,7 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="idFormPesquisarCliente:cliente_nome">#{resources['label.global.nome']}</label> 
-									<h:inputText value="#{clienteController.clienteTO.clientePesquisa.nome}" id="cliente_nome" styleClass="form-control" />
+									<h:inputText  value="#{clienteController.clienteTO.clientePesquisa.nome}" id="cliente_nome" styleClass="form-control" />
 								</div>
 							</div>
 							
@@ -39,9 +40,11 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
-									<h:commandLink action="#{clienteController.pesquisar()}" value="#{resources['label.global.pesquisar']}" styleClass="btn btn-lg btn-primary"  />
+									<h:commandLink action="#{clienteController.pesquisar()}" styleClass="btn btn-lg btn-primary" id="idBotaoPesquisar">
+										<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
+									</h:commandLink>
 									<a href="#{request.contextPath}/cliente/novo" class="btn btn-lg btn-success">
-										#{resources['label.global.novocliente']}
+										<i class="fa fa-user-plus" /> #{resources['label.global.novocliente']}
 									</a>
 							</div>
 						</div>   			
@@ -67,22 +70,49 @@
 								
 								<h:column><f:facet name="header">#{resources['label.global.acoes']}</f:facet>
 								<div>
-									<a href="#{request.contextPath}/cliente/editar/#{cliente.id}" class="btn btn-info">Editar</a>  
+									<a href="#{request.contextPath}/cliente/editar/#{cliente.id}" class="btn btn-md btn-info">
+										<i class="fa fa-pencil-square-o" /> #{resources['label.global.editar']}
+									</a>  
 									<h:outputText value=" " />
-									<h:commandLink action="#{clienteController.excluir(cliente)}" styleClass="btn btn-danger" value="Excluir" />
+									
+									<h:commandButton value="#{resources['label.global.excluir']}" styleClass="btn btn-danger">
+								        <f:setPropertyActionListener target="#{clienteController.clienteTO.cliente}" value="#{cliente}" />
+								        <f:ajax />
+								       	<f:passThroughAttribute name="data-toggle" value="modal" />
+										<f:passThroughAttribute name="data-target" value="#idConfirmExcluirCliente" />
+								    </h:commandButton>
 								</div>
 								</h:column>
 							</h:dataTable>
 						</div>
 					</div>
 				</ui:fragment>	
+				
+				<script>
+				//<![CDATA[
+				$(function(){
+					  $('form').on('keypress', function(event){
+					    if(event.which === 13 && $(event.target).is(':input')){
+					        event.preventDefault();
+					        document.getElementById('idFormPesquisarCliente:idBotaoPesquisar').click();
+					    }
+					  });
+					});
+					document.getElementById('idFormPesquisarCliente:cliente_nome').focus();
+				//]]>
+
+				</script>
+				
+				<itm:confirm id="idConfirmExcluirCliente" titulo="#{resources['label.global.confirmacao']}" mensagem="#{resources['label.global.desejaexcluirregistro']}">
+					<h:commandLink action="#{clienteController.excluir()}" class="btn btn-md btn-info">
+						<i class="fa fa-pencil-square-o" /> #{resources['label.global.excluir']}
+					</h:commandLink>
+				</itm:confirm>
 
 			</h:form>
 
 		</div>
-
-
-
+		
 	</ui:define>
 
 

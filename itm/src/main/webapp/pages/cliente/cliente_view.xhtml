@@ -26,7 +26,9 @@
 			<div class="col-md-12">
 							<div class="card card-accent-info">
 								<div class="card-header">
-									<strong>#{resources['label.global.informacoes']}</strong>
+								<i class="fa fa-newspaper-o" /><strong>#{resources['label.global.informacoes']}</strong>
+									<a href="#{request.contextPath}/cliente/editar/#{clienteViewController.clienteTO.cliente.id}"><span class="badge badge-success float-right">#{resources['label.global.editar']}</span></a>
+									<span class="float-right"><h:outputText value=" " /></span>
 								</div>
 								<div class="card-block">
 									<div class="row">

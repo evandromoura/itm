@@ -9,7 +9,6 @@ import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.BoletoLancamento;
-import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.util.UtilData;

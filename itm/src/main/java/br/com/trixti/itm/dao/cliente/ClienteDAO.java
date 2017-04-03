@@ -11,7 +11,6 @@ import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.Cliente;
-import br.com.trixti.itm.entity.Contrato;
 
 
 @Stateless
@@ -46,9 +45,9 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 	}
 	
 	private Cliente inicializarCliente(Cliente cliente){
-//		if(cliente.getContratos() != null){
-//			cliente.getContratos().size();
-//		}
+		if(cliente.getContratos() != null){
+			cliente.getContratos().size();
+		}
 		return cliente;
 	}
 
