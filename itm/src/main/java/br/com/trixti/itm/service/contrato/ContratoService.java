@@ -23,6 +23,7 @@ import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
 import br.com.trixti.itm.service.contratogrupo.ContratoGrupoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
+import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 
 @Stateless
 public class ContratoService extends AbstractService<Contrato> {
@@ -34,6 +35,7 @@ public class ContratoService extends AbstractService<Contrato> {
 	private @Inject ContratoEquipamentoService contratoEquipamentoService;
 	private @Inject ContratoLancamentoService contratoLancamentoService;
 	private @Inject ContratoAutenticacaoService contratoAutenticacaoService;
+	private @Inject FreeRadiusService freeRadiusService;
 	
 	
 	@Override
@@ -56,9 +58,8 @@ public class ContratoService extends AbstractService<Contrato> {
 //		contratoProdutoService.incluirLista(entidade.getContratoProdutos());
 //		contratoGrupoService.incluirLista(entidade.getContratoGrupos());
 //		contratoEquipamentoService.incluirLista(entidade.getContratoEquipamentos());
-		/**
-		 * TODO: Desenvolver a ligação com o Radius  (radcheck, radgroupcheck)
-		 */
+		
+		freeRadiusService.sincronizarContrato(entidade);
 	}
 	
 	
@@ -96,8 +97,7 @@ public class ContratoService extends AbstractService<Contrato> {
 				contratoAutenticacaoService.alterar(autenticacao);
 			}	
 		}
-		
-		
+		freeRadiusService.sincronizarContrato(entidade);
 	}
 	
 	public List<Contrato> listarAtivo() {

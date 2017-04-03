@@ -23,8 +23,10 @@
 		<h:outputStylesheet name="template/css/font-awesome.min.css" />
 		<h:outputStylesheet name="template/css/simple-line-icons.css" />
 		<h:outputStylesheet name="template/css/style.css" />
-		<h:outputScript 	name="template/js/mascaras.js" />
+		<h:outputScript name="template/js/mascaras.js" />
 		<h:outputScript name="template/js/libs/jquery.min.js" />
+		<h:outputScript name="template/js/libs/bootstrap.min.js" />
+		<h:outputScript name="template/js/app.js" />
 	</h:head>
 
 	<h:body styleClass="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
@@ -36,6 +38,7 @@
 				<ol class="breadcrumb mb-0">
 					<ui:insert name="breadcrumb" />
 				</ol>
+				<a href="#"><span class="badge badge-success float-right">#{resources['label.global.voltar']}</span></a>
 				<h:messages showSummary="true" showDetail="false" infoClass="alert alert-success" errorClass="alert alert-danger" layout="list"/>
 				<div class="container-fluid">
 					<ui:insert name="corpo" />
@@ -46,8 +49,7 @@
 		<ui:include src="rodape.xhtml" />
 		
 		
-		<h:outputScript name="template/js/libs/bootstrap.min.js" />
-		<h:outputScript name="template/js/app.js" />
+		
 
 
 	</h:body>

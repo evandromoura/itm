@@ -322,17 +322,24 @@
 								<div class="row">
 									<div class="col-sm-4">
 										<div class="form-group">
-											<label>#{resources['label.global.username']} : </label>
-											<h:inputText value="#{contratoController.contratoTO.contratoAutenticacao.username}" />
-											<br />
-											<h:commandButton
-												value="#{resources['label.global.adicionar']}">
-												<f:ajax event="click"
-													listener="#{contratoController.adicionarContratoAutenticacao()}"
-													execute="idGroupAutenticacao" render="idGroupAutenticacao" />
-											</h:commandButton>
+												<label>#{resources['label.global.username']} : </label>
+												<h:inputText  value="#{contratoController.contratoTO.contratoAutenticacao.username}" styleClass="form-group" />
+												<br />
+												<label>#{resources['label.global.senha']} : </label> 
+												<h:inputText  value="#{contratoController.contratoTO.contratoAutenticacao.senha}" styleClass="form-group"/>
+												
+												<label>#{resources['label.global.ip']} : </label> 
+												<h:inputText  value="#{contratoController.contratoTO.contratoAutenticacao.ip}" styleClass="form-group"/>
 										</div>
 									</div>
+								</div>
+								<div class="col-sm-4">
+									<h:commandButton
+										value="#{resources['label.global.adicionar']}">
+										<f:ajax event="click"
+											listener="#{contratoController.adicionarContratoAutenticacao()}"
+											execute="idGroupAutenticacao" render="idGroupAutenticacao" />
+									</h:commandButton>
 								</div>
 
 

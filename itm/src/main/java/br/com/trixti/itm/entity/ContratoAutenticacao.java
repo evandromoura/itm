@@ -35,9 +35,13 @@ public class ContratoAutenticacao implements java.io.Serializable {
 	
 	private String username;
 	
+	private String senha;
+	
 	@ManyToOne
 	@JoinColumn(name="id_contrato")
 	private Contrato contrato;
+	
+	private String ip;
 	
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -74,6 +78,22 @@ public class ContratoAutenticacao implements java.io.Serializable {
 
 	public void setDataCriacao(Date dataCriacao) {
 		this.dataCriacao = dataCriacao;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 
 }

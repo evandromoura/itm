@@ -14,4 +14,15 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#pages#cliente#cliente_list.xhtml"
   PATH="/pages/cliente/cliente_list.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#grupo#grupo_form.xhtml"
+  PATH="/pages/grupo/grupo_form.xhtml" SHAPE="32,161,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#grupo#grupo_form.xhtml:0" NAME="item"
+   PATH="/pages/grupo/grupo_form.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="sucesso::#pages#grupo#grupo_list.xhtml"
+    NAME="output" PATH="/pages/grupo/grupo_list.xhtml"
+    TARGET="rules:#pages#grupo#grupo_list.xhtml" TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#grupo#grupo_list.xhtml"
+  PATH="/pages/grupo/grupo_list.xhtml" SHAPE="240,177,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

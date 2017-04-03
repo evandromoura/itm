@@ -13,7 +13,6 @@
 		<li class="breadcrumb-item"><a href="#{request.contextPath}/cliente">#{resources['label.global.cliente']}</a></li>
 		<li class="breadcrumb-item"><a href="#{request.contextPath}/cliente/view/#{contratoViewController.contratoTO.contrato.cliente.id}">#{contratoViewController.contratoTO.contrato.cliente.nome}</a></li>
 		<li class="breadcrumb-item active">#{contratoViewController.contratoTO.contrato.identificador}</li>
-		
 	</ui:define>
 
 	<ui:define name="corpo">
@@ -25,6 +24,8 @@
 
 			<div class="col-md-12">
 				<h1 class="profile-username text-center">#{contratoViewController.contratoTO.contrato.identificador}</h1>
+				<a href="#{request.contextPath}/contrato/editar/#{contratoViewController.contratoTO.contrato.id}"><span class="badge badge-success float-right">#{resources['label.global.editar']}</span></a>
+				<a href="#{request.contextPath}/contrato/editar/#{contratoViewController.contratoTO.contrato.id}"><span class="badge badge-success float-right">#{resources['label.global.editar']}</span></a>
 			</div>
 			<div class="col-md-12">
 				<div class="nav-tabs-custom">

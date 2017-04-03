@@ -28,53 +28,55 @@ import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilArquivo;
 
-
 @ViewScoped
 @ManagedBean
-public class ContratoViewController  extends AbstractController<Contrato>{
-	
-	
+public class ContratoViewController extends AbstractController<Contrato> {
+
 	private ContratoTO contratoTO;
 	private @Inject ContratoService contratoService;
 	private @Inject GeradorBoletoService geradorBoletoService;
 	private @Inject ContratoLancamentoService contratoLancamentoService;
 	private @Inject BoletoService boletoService;
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		inicializar();
 		getContratoTO().setAbaAtiva("dadosgerais");
 	}
-	
-	private void inicializar(){
-		String parametro =getRequest().getParameter("parametro");
+
+	private void inicializar() {
+		String parametro = getRequest().getParameter("parametro");
 		getContratoTO().setContrato(contratoService.recuperarCompleto(new Integer(parametro)));
 		getContratoTO().setDataVencimentoBoleto(null);
 	}
-	
-	
-	public void downloadBoleto(Boleto boleto) throws Exception{
-		File arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
-		if(arquivoBoleto != null){
-			UtilArquivo utilArquivo = new UtilArquivo();
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-			utilArquivo.convertFileToByteArrayOutputStream(arquivoBoleto, byteArrayOutputStream);
-			download(byteArrayOutputStream, arquivoBoleto.getName());
+
+	public void downloadBoleto(Boleto boleto) throws Exception {
+		try {
+			File arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
+			if (arquivoBoleto != null) {
+				UtilArquivo utilArquivo = new UtilArquivo();
+				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+				utilArquivo.convertFileToByteArrayOutputStream(arquivoBoleto, byteArrayOutputStream);
+				download(byteArrayOutputStream, arquivoBoleto.getName());
+			}
+		} catch (Exception e) {
+			getFacesContext().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage()));
 		}	
 	}
-	
-	public void criarContratoLancamento(){
+
+	public void criarContratoLancamento() {
 		getContratoTO().getContratoLancamento().setContrato(getContratoTO().getContrato());
 		getContratoTO().getContratoLancamento().setDataLancamento(new Date());
 		getContratoTO().getContratoLancamento().setStatus(StatusLancamentoEnum.PENDENTE);
 		contratoLancamentoService.incluir(getContratoTO().getContratoLancamento());
-		if(getContratoTO().getContratoLancamento().isGeraBoleto()){
+		if (getContratoTO().getContratoLancamento().isGeraBoleto()) {
 			Boleto boleto = new Boleto();
 			boleto.setContrato(getContratoTO().getContrato());
 			boleto.setDataCriacao(new Date());
 			boleto.setDataVencimento(new Date());
 			boleto.setValor(getContratoTO().getContratoLancamento().getValor());
-			List<BoletoLancamento> listaBoletoLancamento  = new ArrayList<BoletoLancamento>();
+			List<BoletoLancamento> listaBoletoLancamento = new ArrayList<BoletoLancamento>();
 			BoletoLancamento boletoLancamento = new BoletoLancamento();
 			boletoLancamento.setBoleto(boleto);
 			boletoLancamento.setContratoLancamento(getContratoTO().getContratoLancamento());
@@ -82,59 +84,64 @@ public class ContratoViewController  extends AbstractController<Contrato>{
 			boleto.setLancamentos(listaBoletoLancamento);
 			boleto.setStatus(StatusBoletoEnum.ABERTO);
 			boletoService.incluir(boleto);
-		}	
+		}
 		getContratoTO().setContratoLancamento(null);
-		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Incluido com Sucesso", "O Registro foi alterado na base"));
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Incluido com Sucesso",
+				"O Registro foi alterado na base"));
 		inicializar();
 	}
-	
-	
-	public void gerarBoletoListaContratoLancamento(){
+
+	public void gerarBoletoListaContratoLancamento() {
 		
-		Boleto boleto = new Boleto();
-		boleto.setContrato(getContratoTO().getContrato());
-		Date dataAtual = new Date();
-		boleto.setDataCriacao(dataAtual);
-		boleto.setDataVencimento(getContratoTO().getDataVencimentoBoleto());
-		boleto.setLancamentos(new ArrayList<BoletoLancamento>());
-		BigDecimal totalBoleto = new BigDecimal(0);
-		for (ContratoLancamento contratoLancamento:getContratoTO().getContrato().getLancamentos()){
-			if(contratoLancamento.isSelecionado()){
-				BoletoLancamento boletoLancamento = new BoletoLancamento();
-				boletoLancamento.setBoleto(boleto);
-				boletoLancamento.setContratoLancamento(contratoLancamento);
-				boleto.getLancamentos().add(boletoLancamento);
-				totalBoleto = contratoLancamento.getTipoLancamento().equals(TipoLancamentoEnum.DEBITO)?
-						totalBoleto.add(contratoLancamento.getValor()):totalBoleto.subtract(contratoLancamento.getValor());
-				
+			Boleto boleto = new Boleto();
+			boleto.setContrato(getContratoTO().getContrato());
+			Date dataAtual = new Date();
+			boleto.setDataCriacao(dataAtual);
+			boleto.setDataVencimento(getContratoTO().getDataVencimentoBoleto());
+			boleto.setLancamentos(new ArrayList<BoletoLancamento>());
+			BigDecimal totalBoleto = new BigDecimal(0);
+			for (ContratoLancamento contratoLancamento : getContratoTO().getContrato().getLancamentos()) {
+				if (contratoLancamento.isSelecionado()) {
+					BoletoLancamento boletoLancamento = new BoletoLancamento();
+					boletoLancamento.setBoleto(boleto);
+					boletoLancamento.setContratoLancamento(contratoLancamento);
+					boleto.getLancamentos().add(boletoLancamento);
+					totalBoleto = contratoLancamento.getTipoLancamento().equals(TipoLancamentoEnum.DEBITO)
+							? totalBoleto.add(contratoLancamento.getValor())
+							: totalBoleto.subtract(contratoLancamento.getValor());
+
+				}
 			}
-		}
-		if(boleto.getLancamentos().size() > 0){ 
-			boleto.setValor(totalBoleto);
-			boleto.setStatus(StatusBoletoEnum.ABERTO);
-			boletoService.incluir(boleto);
-			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Incluido com Sucesso", "O Registro foi alterado na base"));
-		}
-		inicializar();
+			if (boleto.getLancamentos().size() > 0) {
+				boleto.setValor(totalBoleto);
+				boleto.setStatus(StatusBoletoEnum.ABERTO);
+				boletoService.incluir(boleto);
+				getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Incluido com Sucesso",
+						"O Registro foi alterado na base"));
+			}
+			inicializar();
+		
+
 	}
-	
-	public void excluirBoleto(Boleto boleto){
+
+	public void excluirBoleto(Boleto boleto) {
 		boletoService.excluir(boleto);
-		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Incluido com Sucesso", "O Registro foi alterado na base"));
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Incluido com Sucesso",
+				"O Registro foi alterado na base"));
 		inicializar();
 	}
-	
-	
-	public void excluirContratoLancamento(ContratoLancamento contratoLancamento){
+
+	public void excluirContratoLancamento(ContratoLancamento contratoLancamento) {
 		contratoLancamentoService.excluir(contratoLancamento);
-		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi alterado na base"));
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso",
+				"O Registro foi alterado na base"));
 		inicializar();
 	}
-	
-	public boolean isExibeBotaoGerarBoleto(){
-		if(getContratoTO().getContrato().getLancamentos() != null){
-			for(ContratoLancamento lancamento:getContratoTO().getContrato().getLancamentos()){
-				if (lancamento.isSelecionado()){
+
+	public boolean isExibeBotaoGerarBoleto() {
+		if (getContratoTO().getContrato().getLancamentos() != null) {
+			for (ContratoLancamento lancamento : getContratoTO().getContrato().getLancamentos()) {
+				if (lancamento.isSelecionado()) {
 					return true;
 				}
 			}
@@ -149,10 +156,8 @@ public class ContratoViewController  extends AbstractController<Contrato>{
 		return contratoTO;
 	}
 
-
 	public void setContratoTO(ContratoTO contratoTO) {
 		this.contratoTO = contratoTO;
 	}
-	
 
 }
