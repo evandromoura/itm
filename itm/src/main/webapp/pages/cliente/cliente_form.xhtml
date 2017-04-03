@@ -36,7 +36,7 @@
 									<label>#{resources['label.global.tipopessoa']}</label>
 									<h:selectOneRadio
 										value="#{clienteController.clienteTO.cliente.tipoPessoa}">
-										<f:selectItems value="#{combosBean.tipoPessoa}"
+										<f:selectItems value="#{combosBean.tipoPessoa}" 
 											var="tipoPessoa" itemValue="#{tipoPessoa}"
 											itemLabel="#{resources[tipoPessoa.key]}" />
 										<f:ajax event="click" render="idTipoPessoa" immediate="true"
@@ -54,7 +54,7 @@
 										<div class="form-group">
 											<label>#{resources['label.global.cpf']}</label>
 
-											<itm:cpf
+											<itm:cpf required="true" label="#{resources['label.global.cpf']}"
 												value="#{clienteController.clienteTO.cliente.cpfCnpj}"
 												id="cliente_cpf" styleClass="form-control" />
 										</div>
@@ -65,7 +65,7 @@
 									<div class="col-sm-12">
 										<div class="form-group">
 											<label>#{resources['label.global.cnpj']}</label>
-											<itm:cnpj value="#{clienteController.clienteTO.cliente.cpfCnpj}"
+											<itm:cnpj value="#{clienteController.clienteTO.cliente.cpfCnpj}" label="#{resources['label.global.cnpj']}"
 												id="cliente_cnpj" styleClass="form-control" />
 										</div>
 									</div>
@@ -79,8 +79,8 @@
 								<div class="form-group">
 									<label for="formCliente:cliente_nome">#{resources['label.global.nome']}</label>
 									<h:inputText
-										value="#{clienteController.clienteTO.cliente.nome}"
-										id="cliente_nome" styleClass="form-control" />
+										value="#{clienteController.clienteTO.cliente.nome}" label="#{resources['label.global.nome']}"
+										id="cliente_nome" styleClass="form-control" required="true" />
 								</div>
 							</div>
 						</div>
@@ -128,6 +128,7 @@
 
 				<div class="card card-accent-warning">
 					<div class="card-header">
+						<i class="fa fa-plus-square-o" />
 						<strong>#{resources['label.global.adicionarcontrato']}</strong>
 					</div>
 
@@ -173,10 +174,12 @@
 
 							<div class="col-sm-4">
 								<div class="form-group">
-									<h:commandButton
+									<h:commandLink
 										action="#{clienteController.adicionarContrato}"
-										styleClass="btn btn-success"
-										value="#{resources['label.global.adicionarcontrato']}" />
+										styleClass="btn btn-lg btn-info">
+										<i class="fa fa-magic" />
+										#{resources['label.global.adicionarcontrato']}
+									</h:commandLink>	
 								</div>
 							</div>
 
@@ -216,10 +219,11 @@
 										<h:outputText value="#{resources['label.global.acoes']}" />
 									</f:facet>
 									<a href="#{request.contextPath}/contrato/editar/#{contrato.id}"
-										class="btn btn-info">#{resources['label.global.editar']}</a>
+										class="btn btn-info"><i class="fa fa-floppy-o" /> #{resources['label.global.editar']}</a>
 									<h:outputText value=" " />	 
-									<h:commandLink value="#{resources['label.global.excluir']}" styleClass="btn btn-danger">
+									<h:commandLink styleClass="btn btn-danger">
 										<f:ajax listener="#{clienteController.excluirContrato(contrato)}" event="click" render="formCliente"  immediate="true" execute="@this" />
+										<i class="fa fa-times" /> #{resources['label.global.excluir']}
 									</h:commandLink>
 								</h:column>
 							</h:dataTable>
@@ -235,11 +239,13 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
-									<h:commandLink action="#{clienteController.gravar()}"
-										value="Gravar" styleClass="btn btn-lg btn-success" />
+									<h:commandLink action="#{clienteController.gravar()}" styleClass="btn btn-lg btn-success">
+										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
+									</h:commandLink>	
 									<h:outputText value=" " />	
-									<h:commandLink action="#{clienteController.cancelar()}"
-										value="Cancelar" styleClass="btn btn-lg btn-danger" />
+									<h:commandLink action="#{clienteController.cancelar()}" styleClass="btn btn-lg btn-danger" immediate="true">
+										<i class="fa fa-times" /> #{resources['label.global.cancelar']}
+									</h:commandLink>	
 								</div>
 							</div>
 						</div>

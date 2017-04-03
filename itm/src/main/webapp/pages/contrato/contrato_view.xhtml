@@ -30,19 +30,21 @@
 				<div class="nav-tabs-custom">
 					<ul class="nav nav-tabs">
 						<li class="#{contratoViewController.contratoTO.abaAtiva eq 'dadosgerais'?'active':''}">
-							<h:commandLink value="#{resources['label.global.dadosgerais']}">
+							<h:commandLink>
 								<f:ajax event="click" immediate="true"/>
 								<f:passThroughAttribute name="href" value="#dadosgerais" />
 								<f:passThroughAttribute name="data-toggle" value="tab" />
 								<f:setPropertyActionListener value="dadosgerais" target="#{contratoViewController.contratoTO.abaAtiva}" />
+								<i class="fa fa-newspaper-o" /> #{resources['label.global.dadosgerais']}
 							</h:commandLink>
 						</li>
 						<li class="#{contratoViewController.contratoTO.abaAtiva eq 'financeiro'?'active':''}">
-							<h:commandLink value="#{resources['label.global.financeiro']}">
+							<h:commandLink>
 								<f:ajax /> 
 								<f:passThroughAttribute name="href" value="#financeiro" />
 								<f:passThroughAttribute name="data-toggle" value="tab" />
 								<f:setPropertyActionListener value="financeiro" target="#{contratoViewController.contratoTO.abaAtiva}" />
+								<i class="fa fa-money" /> #{resources['label.global.financeiro']}
 							</h:commandLink>
 						</li>
 						
@@ -59,6 +61,7 @@
 						<div class="#{contratoViewController.contratoTO.abaAtiva eq 'dadosgerais'?'active':''} tab-pane" id="dadosgerais">
 							<div class="card card-accent-info">
 								<div class="card-header">
+									<i class="fa fa-user" />
 									<strong>#{resources['label.global.informacoes']}</strong>
 								</div>
 								<div class="card-block">
@@ -110,6 +113,7 @@
 
 							<div class="card card-accent-warning">
 								<div class="card-header">
+									<i class="fa fa-tags" />
 									<strong>#{resources['label.global.produtos']}</strong>
 								</div>
 
@@ -177,6 +181,7 @@
 
 							<div class="card card-accent-success">
 								<div class="card-header">
+									<i class="fa fa-sliders" />
 									<strong>#{resources['label.global.grupos']}</strong>
 								</div>
 
@@ -213,6 +218,7 @@
 
 							<div class="card card-accent-danger">
 								<div class="card-header">
+									<i class="fa fa-cogs" />
 									<strong>#{resources['label.global.equipamentos']}</strong>
 								</div>
 
@@ -381,6 +387,7 @@
 		
 									<div class="card card-accent-info">
 										<div class="card-header">
+											<i class="fa fa-money" />
 											<strong>#{resources['label.global.boletos']}</strong>
 										</div>
 		

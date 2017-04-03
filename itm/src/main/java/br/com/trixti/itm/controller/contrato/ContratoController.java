@@ -122,6 +122,11 @@ public class ContratoController extends AbstractController<Contrato> {
 			return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 		}
 	}
+	
+	public String cancelar(){
+		getContratoTO().setContrato(null);
+		return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
+	}
 
 
 	public ContratoTO getContratoTO() {

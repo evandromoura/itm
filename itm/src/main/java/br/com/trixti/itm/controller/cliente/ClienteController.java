@@ -82,12 +82,11 @@ public class ClienteController extends AbstractController<Cliente> {
 	
 	public String cancelar(){
 		getClienteTO().setCliente(null);
-		pesquisar();
-		return "cancelar";
+		return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 	}
 	
 	public void excluir(Cliente cliente){
-		clienteService.excluir(cliente);
+		clienteService.excluir(clienteService.recuperar(cliente.getId()));
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi excluido na base"));
 		pesquisar();
 	}

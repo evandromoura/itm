@@ -369,8 +369,12 @@
 							<div class="row">
 								<div class="col-sm-12">
 									<div class="form-group">
-										<h:commandLink action="#{contratoController.gravar()}" value="Gravar"  styleClass="btn btn-sm btn-primary" />
-										<h:commandLink action="#{contratoController.cancelar()}" value="Cancelar"  styleClass="btn btn-sm btn-danger" />
+										<h:commandLink action="#{contratoController.gravar()}" styleClass="btn btn-lg btn-primary">
+											<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
+										</h:commandLink>
+										<h:commandLink action="#{contratoController.cancelar()}" value="Cancelar"  immediate="true" styleClass="btn btn-lg btn-danger">
+										
+										</h:commandLink>
 									</div>
 								</div>
 							</div>

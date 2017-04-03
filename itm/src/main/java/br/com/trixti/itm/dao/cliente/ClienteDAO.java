@@ -46,9 +46,9 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 	}
 	
 	private Cliente inicializarCliente(Cliente cliente){
-//		if(cliente.getContratos() != null){
-//			cliente.getContratos().size();
-//		}
+		if(cliente.getContratos() != null){
+			cliente.getContratos().size();
+		}
 		return cliente;
 	}
 
