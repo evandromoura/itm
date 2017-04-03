@@ -66,7 +66,6 @@ public class ContratoViewController  extends AbstractController<Contrato>{
 	public void criarContratoLancamento(){
 		getContratoTO().getContratoLancamento().setContrato(getContratoTO().getContrato());
 		getContratoTO().getContratoLancamento().setDataLancamento(new Date());
-		getContratoTO().getContratoLancamento().setTipoLancamento(TipoLancamentoEnum.DEBITO);
 		getContratoTO().getContratoLancamento().setStatus(StatusLancamentoEnum.PENDENTE);
 		contratoLancamentoService.incluir(getContratoTO().getContratoLancamento());
 		if(getContratoTO().getContratoLancamento().isGeraBoleto()){
@@ -105,7 +104,9 @@ public class ContratoViewController  extends AbstractController<Contrato>{
 				boletoLancamento.setBoleto(boleto);
 				boletoLancamento.setContratoLancamento(contratoLancamento);
 				boleto.getLancamentos().add(boletoLancamento);
-				totalBoleto = totalBoleto.add(contratoLancamento.getValor());
+				totalBoleto = contratoLancamento.getTipoLancamento().equals(TipoLancamentoEnum.DEBITO)?
+						totalBoleto.add(contratoLancamento.getValor()):totalBoleto.subtract(contratoLancamento.getValor());
+				
 			}
 		}
 		if(boleto.getLancamentos().size() > 0){ 
@@ -120,6 +121,13 @@ public class ContratoViewController  extends AbstractController<Contrato>{
 	public void excluirBoleto(Boleto boleto){
 		boletoService.excluir(boleto);
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Incluido com Sucesso", "O Registro foi alterado na base"));
+		inicializar();
+	}
+	
+	
+	public void excluirContratoLancamento(ContratoLancamento contratoLancamento){
+		contratoLancamentoService.excluir(contratoLancamento);
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi alterado na base"));
 		inicializar();
 	}
 	

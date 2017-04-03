@@ -3,11 +3,13 @@ package br.com.trixti.itm.dao.contratolancamento;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.BoletoLancamento;
+import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.util.UtilData;
@@ -38,6 +40,17 @@ public class ContratoLancamentoDAO extends AbstractDAO<ContratoLancamento> {
 	    				)).getResultList();
 	    		
 	    		
+	}
+
+	public void excluirPorContrato(Contrato contrato) {
+			StringBuilder jql = new StringBuilder("DELETE FROM ");
+			jql.append(this.getEntityType().getName());
+			jql.append(" entity ");
+			jql.append(" WHERE ");
+			jql.append(" entity.contrato =:contrato ");
+			Query query = this.getManager().createQuery(jql.toString());
+			query.setParameter("contrato", contrato);
+			query.executeUpdate();
 	}
 
 	

@@ -2,5 +2,9 @@ package br.com.trixti.itm.entity;
 
 public enum TipoLancamentoEnum {
 
-	CREDITO,DEBITO;
+	DEBITO,CREDITO;
+	
+	public String getName(){
+		return name();
+	}
 }

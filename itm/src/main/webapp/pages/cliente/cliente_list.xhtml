@@ -16,7 +16,7 @@
 			<h:form id="idFormPesquisarCliente">
 				<div class="card">
 					<div class="card-header">
-						<strong>Pesquisar</strong> <small>Clientes</small>
+						<strong>#{resources['label.global.pesquisar']}</strong> <small>#{resources['label.global.clientes']}</small>
 					</div>
 					<div class="card-block">
 						<div class="row">
@@ -39,8 +39,8 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
-									<h:commandLink action="#{clienteController.pesquisar()}" value="#{resources['label.global.pesquisar']}" styleClass="btn btn-sm btn-primary"  />
-									<a href="#{request.contextPath}/cliente/novo" class="btn btn-sm btn-success">
+									<h:commandLink action="#{clienteController.pesquisar()}" value="#{resources['label.global.pesquisar']}" styleClass="btn btn-lg btn-primary"  />
+									<a href="#{request.contextPath}/cliente/novo" class="btn btn-lg btn-success">
 										#{resources['label.global.novocliente']}
 									</a>
 							</div>
@@ -51,7 +51,7 @@
 				<ui:fragment rendered="#{not empty clienteController.clienteTO.clientes}">
 					<div class="card">
 						<div class="card-header">
-							<i class="fa fa-align-justify"></i> Resultado da pesquisa
+							<i class="fa fa-align-justify"></i> #{resources['label.global.resultadopesquisa']}
 						</div>
 						<div class="card-block">
 							<h:dataTable var="cliente"
@@ -62,13 +62,14 @@
 									<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.cpfCnpj}</a>
 								</h:column>
 								
-								<h:column><f:facet name="header">#{resources['label.global.nome']}</f:facet>#{cliente.nome}</h:column>
+								<h:column><f:facet name="header">#{resources['label.global.nome']}</f:facet>
+								<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.nome}</a></h:column>
 								
 								<h:column><f:facet name="header">#{resources['label.global.acoes']}</f:facet>
 								<div>
 									<a href="#{request.contextPath}/cliente/editar/#{cliente.id}" class="btn btn-info">Editar</a>  
 									<h:outputText value=" " />
-									<h:commandLink action="#{clienteController.excluir(cliente)}" styleClass="btn btn-info" value="Excluir" />
+									<h:commandLink action="#{clienteController.excluir(cliente)}" styleClass="btn btn-danger" value="Excluir" />
 								</div>
 								</h:column>
 							</h:dataTable>

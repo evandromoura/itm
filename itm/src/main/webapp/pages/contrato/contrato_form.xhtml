@@ -5,7 +5,15 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/default.xhtml">
 
-
+	
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">Home</a></li>
+		<li class="breadcrumb-item"><a href="#{request.contextPath}/cliente">#{resources['label.global.cliente']}</a></li>
+		<li class="breadcrumb-item">#{resources['label.global.editar']}</li>
+		<li class="breadcrumb-item"><a href="#{request.contextPath}/cliente/editar/#{contratoController.contratoTO.contrato.cliente.id}">#{contratoController.contratoTO.contrato.cliente.nome}</a></li>
+		<li class="breadcrumb-item active">#{contratoController.contratoTO.contrato.identificador}</li>
+	</ui:define>
+	
 	<ui:define name="corpo">
 		<div class="col-sm-12">
 			<h:form id="formContrato">
@@ -13,7 +21,6 @@
 					<div class="card-header">
 						<strong>#{resources['label.global.detalhes']}</strong>
 					</div>
-
 					<div class="card-block">
 						<div class="row">
 							<div class="col-sm-4">
@@ -40,9 +47,8 @@
 						</div>
 
 					</div>
-
-
-
+				</div>	
+					<br />
 					<div class="card card-accent-warning">
 						<div class="card-header">
 							<strong>#{resources['label.global.produtos']}</strong>
@@ -157,9 +163,7 @@
 
 						</div>
 					</div>
-
-
-
+					<br />
 					<div class="card card-accent-danger">
 						<div class="card-header">
 							<strong>#{resources['label.global.equipamentos']}</strong>
@@ -238,9 +242,7 @@
 
 						</div>
 					</div>
-
-
-
+					<br />
 					<div class="card card-accent-success">
 						<div class="card-header">
 							<strong>#{resources['label.global.grupos']}</strong>
@@ -308,9 +310,8 @@
 
 						</div>
 					</div>
-					
-					
-			<div class="card card-accent-success">
+					<br />
+					<div class="card card-accent-success">
 						<div class="card-header">
 							<strong>#{resources['label.global.autenticacao']}</strong>
 						</div>
@@ -361,11 +362,9 @@
 							</h:panelGroup>
 
 						</div>
-					</div>		
-
-
-
-			<div class="card">
+					</div>
+					<br />
+					<div class="card">
 					<div class="card-block">
 							<div class="row">
 								<div class="col-sm-12">
@@ -379,7 +378,6 @@
 				</div>	
 
 
-				</div>
 
 			</h:form>
 

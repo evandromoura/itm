@@ -3,12 +3,14 @@ package br.com.trixti.itm.dao.contrato;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.BoletoLancamento;
+import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoGrupo;
@@ -69,6 +71,26 @@ public class ContratoDAO extends AbstractDAO<Contrato> {
 		Root<Contrato> root = criteria.from(Contrato.class);
 		return getManager().createQuery(
 				criteria.select(root).where(getCriteriaBuilder().isNull(root.get("dataExclusao")))).getResultList();
+	}
+
+
+	public List<Contrato> pesquisarPorCliente(Cliente cliente) {
+		CriteriaQuery<Contrato> criteria = getCriteriaBuilder().createQuery(Contrato.class);
+		Root<Contrato> root = criteria.from(Contrato.class);
+		return getManager().createQuery(
+				criteria.select(root).where(getCriteriaBuilder().equal(root.get("cliente"),cliente))).getResultList();
+	}
+	
+	public void excluirPorCliente(Cliente cliente){
+		StringBuilder jql = new StringBuilder("DELETE FROM ");
+		jql.append(this.getEntityType().getName());
+		jql.append(" entity ");
+		jql.append(" WHERE ");
+		jql.append(" entity.cliente =:cliente ");
+		Query query = this.getManager().createQuery(jql.toString());
+		query.setParameter("cliente", cliente);
+		query.executeUpdate();
+		
 	}
 
 }

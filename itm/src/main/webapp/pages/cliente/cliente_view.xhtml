@@ -30,7 +30,7 @@
 								</div>
 								<div class="card-block">
 									<div class="row">
-										<div class="col-sm-6">
+										<div class="col-sm-4">
 											<div class="form-group">
 												<label>#{resources['label.global.tipopessoa']}:</label><br />
 												#{clienteViewController.clienteTO.cliente.tipoPessoa}
@@ -47,13 +47,19 @@
 											</ui:fragment>
 											<ui:fragment
 												rendered="#{clienteViewController.clienteTO.cliente.tipoPessoa.name eq 'JURIDICA'}">
-												<div class="col-sm-6">
+												<div class="col-sm-4">
 													<div class="form-group">
 														<label>#{resources['label.global.cnpj']}:</label>
 														#{clienteViewController.clienteTO.cliente.cpfCnpj}
 													</div>
 												</div>
 											</ui:fragment>
+											<div class="col-sm-4">
+											<div class="form-group">
+												<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}:</label><br />
+												#{clienteViewController.clienteTO.cliente.telefoneCelular}
+											</div>
+										</div>
 										</h:panelGroup>
 									</div>
 									<div class="row">
@@ -72,58 +78,51 @@
 												#{clienteViewController.clienteTO.cliente.endereco}
 											</div>
 										</div>
-										<div class="col-sm-6">
-											<div class="form-group">
-												<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}:</label><br />
-												#{clienteViewController.clienteTO.cliente.telefoneCelular}
-											</div>
-										</div>
+										
 									</div>
 								</div>
 							</div>
-
 						</div>
 						
-						
-						
-						
-						<div class="col-md-12">
-							<div class="card card-accent-info">
-								<div class="card-header">
-									<strong>#{resources['label.global.contratos']}</strong>
-								</div>
-								<div class="card-block">
-								
-									<h:dataTable id="idDataTableContrato"
-													rendered="#{clienteViewController.clienteTO.cliente.contratos ne null and  not empty clienteViewController.clienteTO.cliente.contratos}"
-													value="#{clienteViewController.clienteTO.cliente.contratos}"
-													var="contrato" styleClass="table">
+						<ui:fragment rendered="#{clienteViewController.clienteTO.cliente.contratos ne null and  not empty clienteViewController.clienteTO.cliente.contratos}">
+							<div class="col-md-12">
+								<div class="card card-accent-info">
+									<div class="card-header">
+										<strong>#{resources['label.global.contratos']}</strong>
+									</div>
+									<div class="card-block">
+									
+										<h:dataTable id="idDataTableContrato"
+														rendered="#{clienteViewController.clienteTO.cliente.contratos ne null and  not empty clienteViewController.clienteTO.cliente.contratos}"
+														value="#{clienteViewController.clienteTO.cliente.contratos}"
+														var="contrato" styleClass="table table-bordered table-striped">
+												
+											<h:column>
+												<f:facet name="header">
+													<h:outputText value="#{resources['label.global.data']}" />
+												</f:facet>
+												<h:outputText value="#{contrato.dataCriacao}">
+													<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+												</h:outputText>  
 											
-										<h:column>
-											<f:facet name="header">
-												<h:outputText value="#{resources['label.global.data']}" />
-											</f:facet>
-											<h:outputText value="#{contrato.dataCriacao}">
-												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
-											</h:outputText>  
-										
-										</h:column>			
-										<h:column>
-											<f:facet name="header">
-												<h:outputText value="#{resources['label.global.identificador']}" />
-											</f:facet>
+											</h:column>			
+											<h:column>
+												<f:facet name="header">
+													<h:outputText value="#{resources['label.global.identificador']}" />
+												</f:facet>
+												
+												<a href="#{request.contextPath}/contrato/view/#{contrato.id}"><h:outputText value="#{contrato.identificador}" /></a>  
 											
-											<a href="#{request.contextPath}/contrato/view/#{contrato.id}"><h:outputText value="#{contrato.identificador}" /></a>  
-										
-										</h:column>			
-													
-									</h:dataTable>
-													
-								
-								
+											</h:column>			
+														
+										</h:dataTable>
+														
+									
+									
+									</div>
 								</div>
-							</div>
-						</div>		
+							</div>		
+						</ui:fragment>	
 					</div>
 	</h:form>
 	</ui:define>

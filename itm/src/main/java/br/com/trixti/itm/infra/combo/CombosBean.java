@@ -9,6 +9,7 @@ import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
+import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.service.contacorrente.ContaCorrenteService;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
@@ -41,6 +42,10 @@ public class CombosBean {
    
    public List<ContaCorrente> getListaContaCorrente(){
 	   return contaCorrenteService.listar();
+   }
+   
+   public TipoLancamentoEnum[] getListaTipoLancamento(){
+	   return TipoLancamentoEnum.values();
    }
 	
 }

@@ -1,6 +1,7 @@
 package br.com.trixti.itm.controller.cliente;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -11,6 +12,7 @@ import javax.inject.Inject;
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ContaCorrente;
+import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
@@ -69,8 +71,13 @@ public class ClienteController extends AbstractController<Cliente> {
 			clienteService.alterar(getClienteTO().getCliente());
 			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Alterado com Sucesso", "O Registro foi alterado na base"));
 		}
-		pesquisar();
-		return "sucesso";
+		return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
+	}
+	
+	public void excluirContrato(Contrato contrato){
+		contratoService.excluir(contrato);
+		getClienteTO().getCliente().getContratos().remove(contrato);
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi excluido na base"));
 	}
 	
 	public String cancelar(){

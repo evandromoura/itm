@@ -13,6 +13,7 @@ import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.cliente.ClienteDAO;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.service.AbstractService;
+import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
 import br.com.trixti.itm.service.contratogrupo.ContratoGrupoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
@@ -29,6 +30,7 @@ import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
 public class ClienteService extends AbstractService<Cliente> {
 	
 	private @Inject ClienteDAO clienteDAO;
+	private @Inject ContratoService contratoService;
 	
 	
 	@Override
@@ -55,6 +57,7 @@ public class ClienteService extends AbstractService<Cliente> {
 	@Override
 	public Cliente recuperar(Serializable id) {
 		Cliente cliente =  super.recuperar(id);
+		cliente.setContratos(contratoService.pesquisarPorCliente(cliente));
 //		cliente.setLancamentos(contratoLancamentoService.pesquisarLancamentoAberto(cliente));
 		return cliente;
 	}

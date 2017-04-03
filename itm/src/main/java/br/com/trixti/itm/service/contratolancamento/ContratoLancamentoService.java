@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import br.com.trixti.itm.dao.AbstractDAO;
@@ -63,6 +65,11 @@ public class ContratoLancamentoService extends AbstractService<ContratoLancament
 
 	public List<ContratoLancamento> pesquisarLancamentoAberto(Contrato contrato) {
 		return contratoLancamentoDAO.pesquisarLancamentoAberto(contrato); 
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void excluirPorContrato(Contrato contrato){
+		contratoLancamentoDAO.excluirPorContrato(contrato);
 	}
 	
 }

@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.contrato.ContratoDAO;
+import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoEquipamento;
@@ -111,8 +112,18 @@ public class ContratoService extends AbstractService<Contrato> {
 		contrato.setLancamentos(contratoLancamentoService.pesquisarLancamentoAberto(contrato));
 		return contrato;
 	}
+
+	public List<Contrato> pesquisarPorCliente(Cliente cliente) {
+		return contratoDAO.pesquisarPorCliente(cliente);
+	}
+
 	
-	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	@Override
+	public void excluir(Contrato entidade) {
+		contratoLancamentoService.excluirPorContrato(entidade);
+		super.excluir(entidade);
+	}
 	
 	
 }

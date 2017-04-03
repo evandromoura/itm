@@ -7,9 +7,9 @@
 	template="/WEB-INF/templates/default.xhtml">
 
 	<ui:define name="breadcrumb">
-		<li class="breadcrumb-item"><a href="#">Home</a></li>
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
 		<li class="breadcrumb-item"><a
-			href="#{request.contextPath}/cliente">#{resources['label.global.clientes']}</a></li>
+			href="#{request.contextPath}/cliente">#{resources['label.global.cliente']}</a></li>
 		<ui:fragment
 			rendered="#{clienteController.clienteTO.cliente.id ne null}">
 			<li class="breadcrumb-item active">#{resources['label.global.editar']}</li>
@@ -157,8 +157,8 @@
 								<div class="form-group">
 									<label for="formCliente:contrato_vencimento">#{resources['label.global.diamesvencimento']}</label>
 									<itm:numero
-										value="#{clienteController.clienteTO.contrato.diaMesVencimento}"
-										id="contrato_vencimento" styleClass="form-control" />
+										value="#{clienteController.clienteTO.contrato.diaMesVencimento}" maxlength="2" 
+										id="contrato_vencimento" styleClass="form-control"  />
 								</div>
 							</div>
 
@@ -194,8 +194,8 @@
 						<div class="card-block">
 
 							<h:dataTable id="idDataTableContrato"
-								value="#{clienteViewController.clienteTO.cliente.contratos}"
-								var="contrato" styleClass="table">
+								value="#{clienteController.clienteTO.cliente.contratos}"
+								var="contrato" styleClass="table table-bordered table-striped"> 
 								<h:column>
 									<f:facet name="header">
 										<h:outputText value="#{resources['label.global.data']}" />
@@ -217,6 +217,10 @@
 									</f:facet>
 									<a href="#{request.contextPath}/contrato/editar/#{contrato.id}"
 										class="btn btn-info">#{resources['label.global.editar']}</a>
+									<h:outputText value=" " />	 
+									<h:commandLink value="#{resources['label.global.excluir']}" styleClass="btn btn-danger">
+										<f:ajax listener="#{clienteController.excluirContrato(contrato)}" event="click" render="formCliente"  immediate="true" execute="@this" />
+									</h:commandLink>
 								</h:column>
 							</h:dataTable>
 						</div>
@@ -232,9 +236,10 @@
 							<div class="col-sm-12">
 								<div class="form-group">
 									<h:commandLink action="#{clienteController.gravar()}"
-										value="Gravar" styleClass="btn btn-sm btn-primary" />
+										value="Gravar" styleClass="btn btn-lg btn-success" />
+									<h:outputText value=" " />	
 									<h:commandLink action="#{clienteController.cancelar()}"
-										value="Cancelar" styleClass="btn btn-sm btn-danger" />
+										value="Cancelar" styleClass="btn btn-lg btn-danger" />
 								</div>
 							</div>
 						</div>

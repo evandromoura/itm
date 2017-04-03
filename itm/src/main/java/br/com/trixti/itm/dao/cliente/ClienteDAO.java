@@ -46,37 +46,9 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 	}
 	
 	private Cliente inicializarCliente(Cliente cliente){
-		if(cliente.getContratos() != null){
-			cliente.getContratos().size();
-		}
-//		if(cliente.getContratoProdutos() != null){
-//			for(ContratoProduto contratoProduto:cliente.getContratoProdutos()){
-//				System.out.println(contratoProduto.getProduto().getId());
-//				System.out.println(contratoProduto.getProduto().getNome());
-//			}
+//		if(cliente.getContratos() != null){
+//			cliente.getContratos().size();
 //		}
-//		
-//		if(cliente.getContratoGrupos() != null){
-//			for(ContratoGrupo contratoGrupo:cliente.getContratoGrupos()){
-//				contratoGrupo.getGrupo().getId();
-//			}
-//		}
-//		
-//		if(cliente.getBoletos() != null){
-//			cliente.getBoletos().size();
-//			for(Boleto boleto:cliente.getBoletos()){
-//				if(boleto.getLancamentos() != null){
-//					for(BoletoLancamento boletoLancamento:boleto.getLancamentos()){
-//						boletoLancamento.getContratoLancamento().getDescricao();
-//					}
-//				}
-//			}
-//		}
-//		
-//		if(cliente.getContaCorrenteBoleto() != null){
-//			cliente.getContaCorrenteBoleto().getId();
-//		}
-		
 		return cliente;
 	}
 
