@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
+		<li class="breadcrumb-item">#{resources['label.global.grupo']}</li>
+	</ui:define>
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="idFormPesquisarGrupo">
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.cadastro']}</strong> <small>#{resources['label.global.grupo']}</small>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarGrupo:grupo_nome">#{resources['label.global.nome']}</label> 
+									<h:inputText  value="#{grupoController.grupoTO.grupo.nome}" id="grupo_nome" styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+									<h:commandLink action="#{grupoController.gravar}" styleClass="btn btn-lg btn-success" id="idBotaoPesquisar">
+										<i class="fa fa-search-plus" /> #{resources['label.global.gravar']}
+									</h:commandLink>
+							</div>
+						</div>	
+					</div>
+				</div>
+				
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.listapropriedades']}</strong>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="idFormPesquisarGrupo:grupo_parametro_propriedade">#{resources['label.global.propriedades']}</label> 
+									<h:inputText  value="#{grupoController.grupoTO.grupoParametro.propriedade}" id="grupo_parametro_propriedade" styleClass="form-control" />
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="idFormPesquisarGrupo:grupo_parametro_operador">#{resources['label.global.operador']}</label> 
+									<h:inputText  value="#{grupoController.grupoTO.grupoParametro.operador}" id="grupo_parametro_operador" styleClass="form-control" />
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="idFormPesquisarGrupo:grupo_parametro_valor">#{resources['label.global.valor']}</label> 
+									<h:inputText  value="#{grupoController.grupoTO.grupoParametro.valor}" id="grupo_parametro_valor" styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+									<h:commandLink action="#{grupoController.adicionarGrupoParametro}" styleClass="btn btn-lg btn-success" id="idBotaoAdicionarParametro">
+										<i class="fa fa-search-plus" /> #{resources['label.global.adicionar']}
+									</h:commandLink>
+							</div>
+						</div>	
+					</div>
+				</div>
+				
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.listapropriedades']}</strong>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<h:dataTable value="#{grupoController.grupoTO.grupo.grupoParametros}" var="grupoParametro"  styleClass="table table-bordered table-striped">
+									<h:column>
+										<f:facet name="header">#{resources['label.global.propriedade']}
+										</f:facet>
+										#{grupoParametro.propriedade}
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.operador']}
+										</f:facet>
+										#{grupoParametro.operador}
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">#{resources['label.global.valor']}
+											</f:facet>
+											#{grupoParametro.valor}
+									</h:column>
+									<h:column>
+										<f:facet name="header">#{resources['label.global.acoes']}
+											</f:facet>
+											<h:commandLink action="#{grupoController.excluirGrupoParametro(grupoParametro)}" styleClass="btn btn-danger"
+											 value="#{resources['label.global.excluir']}" immediate="true" />
+									</h:column>
+							</h:dataTable>
+						</div>	
+					</div>
+				</div>
+			</h:form>
+		</div>					
+		
+	</ui:define>
+
+
+</ui:composition>

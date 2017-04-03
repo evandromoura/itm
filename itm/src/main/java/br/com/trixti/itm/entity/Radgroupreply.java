@@ -4,7 +4,10 @@ package br.com.trixti.itm.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -14,7 +17,14 @@ import javax.persistence.Table;
 @Table(name = "radgroupreply", schema = "public")
 public class Radgroupreply implements java.io.Serializable {
 
+	
+	private static final long serialVersionUID = -3722274563540545131L;
+
+	@Id
+	@SequenceGenerator(name="RADGROUPREPLY_ID_GENERATOR", sequenceName="radgroupreply_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="RADGROUPREPLY_ID_GENERATOR") 
 	private int id;
+	
 	private String groupname;
 	private String attribute;
 	private String op;
@@ -31,9 +41,7 @@ public class Radgroupreply implements java.io.Serializable {
 		this.value = value;
 	}
 
-	@Id
-
-	@Column(name = "id", unique = true, nullable = false)
+	
 	public int getId() {
 		return this.id;
 	}

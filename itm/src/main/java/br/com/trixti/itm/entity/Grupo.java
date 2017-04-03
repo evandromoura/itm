@@ -4,11 +4,14 @@ package br.com.trixti.itm.entity;
 
 import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -21,7 +24,8 @@ public class Grupo implements java.io.Serializable {
 	private static final long serialVersionUID = -8140969307057217925L;
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@SequenceGenerator(name="GRUPO_ID_GENERATOR", sequenceName="itm_cliente_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="GRUPO_ID_GENERATOR") 
 	private Integer id;
 	
 	private String nome;
@@ -29,7 +33,7 @@ public class Grupo implements java.io.Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "grupo")
 	private List<ContratoGrupo> contratoGrupos;
 	
-	@OneToMany(mappedBy="grupo")
+	@OneToMany(mappedBy="grupo",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<GrupoParametro> grupoParametros;
 
 	public Grupo() {
