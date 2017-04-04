@@ -65,10 +65,12 @@ public class ClienteController extends AbstractController<Cliente> {
 	public String gravar(){
 		if(getClienteTO().getCliente().getId() == null){
 			clienteService.incluir(getClienteTO().getCliente());
-			 getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));  
+			 getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));
+			 getFacesContext().getExternalContext().getFlash().setKeepMessages(true);
 		}else{
 			clienteService.alterar(getClienteTO().getCliente());
 			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Alterado com Sucesso", "O Registro foi alterado na base"));
+			getFacesContext().getExternalContext().getFlash().setKeepMessages(true);
 		}
 		return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 	}
