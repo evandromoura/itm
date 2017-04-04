@@ -384,9 +384,9 @@
 											
 											<h:column>
 												<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+												<h:commandLink action="#{contratoController.removerAutenticacao(autenticacao)}" value="#{resources['label.global.excluir']}"  styleClass="btn btn-info"/>
 											</h:column>
 										</h:dataTable>
-										<h:commandLink action="#{contratoController.teste()}" value="TESTEEE" />
 									</div>
 								</div>
 							</h:panelGroup>
