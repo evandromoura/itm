@@ -3399,6 +3399,7 @@ a.badge:focus, a.badge:hover {
   border-radius: 10rem; }
 
 .alert {
+  list-style:none;
   padding: 0.75rem 1.25rem;
   margin-bottom: 1rem;
   border: 1px solid transparent; }
