@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoGrupo;
 import br.com.trixti.itm.entity.ContratoProduto;
@@ -92,14 +93,26 @@ public class ContratoController extends AbstractController<Contrato> {
 	}
 	
 	public void adicionarContratoAutenticacao(){
-		getContratoTO().getContratoAutenticacao().setContrato(getContratoTO().getContrato());
-		getContratoTO().getContratoAutenticacao().setDataCriacao(new Date());
-		getContratoTO().getContrato().getAutenticacoes().add(getContratoTO().getContratoAutenticacao());
-		getContratoTO().setContratoAutenticacao(null);
+		if(getContratoTO().getContrato().getAutenticacoes() == null || 
+				getContratoTO().getContrato().getAutenticacoes().isEmpty() || 
+					getContratoTO().getContrato().getAutenticacoes().size() == 0){
+			getContratoTO().getContratoAutenticacao().setContrato(getContratoTO().getContrato());
+			getContratoTO().getContratoAutenticacao().setDataCriacao(new Date());
+			getContratoTO().getContrato().getAutenticacoes().add(getContratoTO().getContratoAutenticacao());
+			getContratoTO().setContratoAutenticacao(null);
+		}	
 	}
 	
 	public void removerGrupo(ContratoGrupo contratoGrupo){
 		getContratoTO().getContrato().getContratoGrupos().remove(contratoGrupo);
+	}
+	
+	public void removerAutenticacao(ContratoAutenticacao contratoAutenticacao){
+		getContratoTO().getContrato().getAutenticacoes().remove(contratoAutenticacao);
+	}
+	
+	public void teste(){
+		System.out.println("teste");
 	}
 	
 	public void ativarDesativarContratoProduto(ContratoProduto contratoProduto){

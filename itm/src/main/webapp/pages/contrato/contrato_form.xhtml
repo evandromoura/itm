@@ -3,7 +3,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	template="/WEB-INF/templates/default.xhtml">
+	template="/WEB-INF/templates/default.xhtml"
+                xmlns:itm="http://java.sun.com/jsf/composite/components">
 
 	
 	<ui:define name="breadcrumb">
@@ -319,28 +320,36 @@
 						<div class="card-block">
 
 							<h:panelGroup id="idGroupAutenticacao">
-								<div class="row">
-									<div class="col-sm-4">
-										<div class="form-group">
-												<label>#{resources['label.global.username']} : </label>
-												<h:inputText  value="#{contratoController.contratoTO.contratoAutenticacao.username}" styleClass="form-group" />
-												<br />
-												<label>#{resources['label.global.senha']} : </label> 
-												<h:inputText  value="#{contratoController.contratoTO.contratoAutenticacao.senha}" styleClass="form-group"/>
-												
-												<label>#{resources['label.global.ip']} : </label> 
-												<h:inputText  value="#{contratoController.contratoTO.contratoAutenticacao.ip}" styleClass="form-group"/>
+							  <ui:fragment rendered="#{contratoController.contratoTO.contrato.autenticacoes.size() eq 0}">
+									<div class="row">
+										<div class="col-sm-4">
+											<div class="form-group">
+													<label for="formContrato:idAutenticacaoUsername">#{resources['label.global.username']} : </label>
+													<h:inputText id="idAutenticacaoUsername" value="#{contratoController.contratoTO.contratoAutenticacao.username}" styleClass="form-control" />
+											</div>
 										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+													<label>#{resources['label.global.senha']} : </label> 
+													<h:inputText  value="#{contratoController.contratoTO.contratoAutenticacao.senha}" styleClass="form-control"/>
+											</div>		
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+													<label>#{resources['label.global.ip']} : </label>
+													<h:inputText value="#{contratoController.contratoTO.contratoAutenticacao.ip}" styleClass="form-control"/>
+											</div>
+										</div>
+									<div class="col-sm-4">
+										<h:commandButton
+											value="#{resources['label.global.adicionar']}">
+											<f:ajax event="click"
+												listener="#{contratoController.adicionarContratoAutenticacao()}"
+												execute="idGroupAutenticacao" render="idGroupAutenticacao" />
+										</h:commandButton>
 									</div>
-								</div>
-								<div class="col-sm-4">
-									<h:commandButton
-										value="#{resources['label.global.adicionar']}">
-										<f:ajax event="click"
-											listener="#{contratoController.adicionarContratoAutenticacao()}"
-											execute="idGroupAutenticacao" render="idGroupAutenticacao" />
-									</h:commandButton>
-								</div>
+									</div>
+								</ui:fragment>
 
 
 
@@ -362,8 +371,22 @@
 												<f:facet name="header">#{resources['label.global.username']}</f:facet>
 												<h:outputText value="#{autenticacao.username}" />
 											</h:column>
-
+											
+											<h:column>
+												<f:facet name="header">#{resources['label.global.senha']}</f:facet>
+												<h:outputText value="#{autenticacao.senha}" />
+											</h:column>
+											
+											<h:column>
+												<f:facet name="header">#{resources['label.global.ip']}</f:facet>
+												<h:outputText value="#{autenticacao.ip}" />
+											</h:column>
+											
+											<h:column>
+												<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+											</h:column>
 										</h:dataTable>
+										<h:commandLink action="#{contratoController.teste()}" value="TESTEEE" />
 									</div>
 								</div>
 							</h:panelGroup>
