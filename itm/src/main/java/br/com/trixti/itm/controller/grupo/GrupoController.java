@@ -51,6 +51,9 @@ public class GrupoController extends AbstractController<Cliente> {
 
 	public void pesquisar(){
 		getGrupoTO().setGrupos(grupoService.pesquisar(getGrupoTO().getGrupoPesquisa()));
+		if(getGrupoTO().getGrupos() == null || getGrupoTO().getGrupos().isEmpty()){
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nenhum registro encontrado!", "O Registro foi incluido na base"));
+		}
 	}
 	
 	//TODO Alterar para resources properties
@@ -58,9 +61,11 @@ public class GrupoController extends AbstractController<Cliente> {
 		if(getGrupoTO().getGrupo().getId() == null){
 			grupoService.incluir(getGrupoTO().getGrupo());
 			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));
+			getFacesContext().getExternalContext().getFlash().setKeepMessages(true);
 		}else{
 			grupoService.alterar(getGrupoTO().getGrupo());
 			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Alterado com Sucesso", "O Registro foi incluido na base"));
+			getFacesContext().getExternalContext().getFlash().setKeepMessages(true);
 		}
 		return "sucesso";
 	}
