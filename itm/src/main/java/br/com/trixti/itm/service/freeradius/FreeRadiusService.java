@@ -60,12 +60,12 @@ public class FreeRadiusService {
 		radcheckLoginSimultaneo.setUsername(contrato.getAutenticacoes().get(0).getUsername());
 		listaRadCheck.add(radcheckLoginSimultaneo);
 		if(contrato.getAutenticacoes().get(0).getIp() != null && !contrato.getAutenticacoes().get(0).getIp().equals("")){
-			Radcheck radcheckIP = new Radcheck();
-			radcheckIP.setAttribute("Framed-IP-Address");
-			radcheckIP.setOp("=");
-			radcheckIP.setValue(contrato.getAutenticacoes().get(0).getIp());
-			radcheckIP.setUsername(contrato.getAutenticacoes().get(0).getUsername());
-			listaRadCheck.add(radcheckIP);
+//			Radcheck radcheckIP = new Radcheck();
+//			radcheckIP.setAttribute("Framed-IP-Address");
+//			radcheckIP.setOp("=");
+//			radcheckIP.setValue(contrato.getAutenticacoes().get(0).getIp());
+//			radcheckIP.setUsername(contrato.getAutenticacoes().get(0).getUsername());
+//			listaRadCheck.add(radcheckIP);
 		}
 		radcheckService.incluirLista(listaRadCheck);
 	}

@@ -58,11 +58,11 @@ public class ContratoProduto implements java.io.Serializable {
 	
 	
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="data_inicio")
 	private Date dataInicio;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="data_fim")
 	private Date dataFim;
 	

@@ -9,6 +9,7 @@ import javax.persistence.criteria.Root;
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
+import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.util.UtilData;
 
 public class BoletoDAO extends AbstractDAO<Boleto> {
@@ -27,6 +28,16 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 								getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataCriacao"), dataPrimeiroDia)
 								)
 						)).getResultList();
+	}
+
+	public Boleto recuperarBoletoContrato(Contrato contrato, Date dataVencimento) {
+		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
+		Root<Boleto> root = criteria.from(Boleto.class);
+		return getManager().createQuery(criteria.select(root).
+				where(
+						getCriteriaBuilder().equal(root.get("contrato"),contrato),
+						getCriteriaBuilder().equal(root.get("dataVencimento"),dataVencimento)
+						)).getSingleResult();
 	}
 	
 }

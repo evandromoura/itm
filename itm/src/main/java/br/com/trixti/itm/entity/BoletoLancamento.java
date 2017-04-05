@@ -2,6 +2,7 @@ package br.com.trixti.itm.entity;
 // default package
 // Generated 22/02/2017 14:34:07 by Hibernate Tools 4.3.4.Final
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,10 +34,17 @@ public class BoletoLancamento implements java.io.Serializable {
 	@JoinColumn(name = "id_boleto")
 	private Boleto boleto;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY,cascade=CascadeType.PERSIST)
 	@JoinColumn(name = "id_lancamento")
 	private ContratoLancamento contratoLancamento;
 
+	
+	public BoletoLancamento(){}
+	
+	public BoletoLancamento(Boleto boleto,ContratoLancamento contratoLancamento){
+		setBoleto(boleto);
+		setContratoLancamento(contratoLancamento);
+	}
 	public Integer getId() {
 		return id;
 	}

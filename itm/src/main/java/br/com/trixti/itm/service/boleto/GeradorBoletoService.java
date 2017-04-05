@@ -102,6 +102,12 @@ public class GeradorBoletoService {
 //
 //
          BoletoViewer boletoViewer = new BoletoViewer(boletoGerado);
+         StringBuilder sb = new StringBuilder();
+         for(int i=0;i<boletoViewer.getBoleto().getCodigoDeBarras().getFieldsLength();i++){
+        	 sb.append(boletoViewer.getBoleto().getCodigoDeBarras().get(i).getValue());
+        	 System.out.println(sb.toString());
+         }
+         System.out.println(sb.toString());
          String nomeArquivo = boleto.getContrato().getCliente().getNome() + boleto.getDataVencimento().toString()+".pdf";
          File arquivoPdf = boletoViewer.getPdfAsFile(nomeArquivo);
          return arquivoPdf;

@@ -65,6 +65,18 @@ public class ContratoLancamento implements java.io.Serializable {
 	
 	@Transient
 	private boolean selecionado;
+	
+	public ContratoLancamento(){}
+	
+	public ContratoLancamento(Contrato contrato,
+				BigDecimal valor,TipoLancamentoEnum tipoLancamento,Date dataLancamento,
+				StatusLancamentoEnum status){
+		setContrato(contrato);
+		setValor(valor);
+		setTipoLancamento(tipoLancamento);
+		setDataLancamento(dataLancamento);
+		setStatus(status);
+	}
 
 	public Integer getId() {
 		return id;

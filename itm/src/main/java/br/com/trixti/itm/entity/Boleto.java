@@ -3,6 +3,7 @@ package br.com.trixti.itm.entity;
 // Generated 22/02/2017 14:34:07 by Hibernate Tools 4.3.4.Final
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -59,6 +60,18 @@ public class Boleto implements java.io.Serializable {
 	private Contrato contrato;
 
 	public Boleto() {
+	}
+	
+	public Boleto(BigDecimal valor,Date dataVencimento,
+				Date dataCriacao,StatusBoletoEnum status,Contrato contrato,
+				BoletoLancamento... lancamentos) {
+		
+		setValor(valor);
+		setDataVencimento(dataVencimento);
+		setDataCriacao(dataCriacao);
+		setStatus(status);
+		setContrato(contrato);
+		setLancamentos(Arrays.asList(lancamentos));
 	}
 
 	public Boleto(Integer id) {

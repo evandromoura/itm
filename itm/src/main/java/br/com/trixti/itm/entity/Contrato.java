@@ -5,6 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.xml.ws.WebEndpoint;
 
 @Entity
 @Table(name = "itm_contrato", schema = "public")
@@ -70,6 +73,9 @@ public class Contrato implements java.io.Serializable {
 	
 	@Transient
 	private List<ContratoLancamento> lancamentos;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusContrato status;
 
 	public Integer getId() {
 		return id;
