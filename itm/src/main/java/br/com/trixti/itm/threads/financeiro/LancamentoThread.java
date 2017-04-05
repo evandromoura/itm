@@ -1,4 +1,4 @@
-package br.com.trixti.itm.threads.boleto;
+package br.com.trixti.itm.threads.financeiro;
 
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
