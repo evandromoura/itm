@@ -51,7 +51,9 @@ public class FinanceiroThread {
 				List<ContratoProduto> produtos = contratoProdutoService.pesquisarVigentePorContrato(contrato);
 				Boleto boleto = new Boleto();
 				UtilData utilData = new UtilData();
-				Date dataVencimento = utilData.ajustaData(new Date(), contrato.getDiaMesVencimento(), 23, 59, 59);
+				Date dataVencimento = utilData.ajustaData(utilData.adicionarMeses(new Date(), 1),
+						contrato.getDiaMesVencimento(), 23, 59, 59);
+				
 				Boleto boletoJaCriado = boletoService.recuperarBoletoContrato(contrato, dataVencimento);
 				if (boletoJaCriado == null) {
 					for (ContratoLancamento lancamentoAberto : lancamentosEmAberto) {
@@ -77,15 +79,35 @@ public class FinanceiroThread {
 						lancamentosBoleto.add(boletoLancamento);
 						valor = valor.add(produto.getValor());
 					}
-					boleto.setContrato(contrato);
-					boleto.setLancamentos(lancamentosBoleto);
-					boleto.setDataCriacao(new Date());
-					boleto.setStatus(StatusBoletoEnum.ABERTO);
-					boleto.setValor(valor);
-					boleto.setDataVencimento(dataVencimento);
-					boletoService.incluir(boleto);
+					if(valor.intValue() > 0){
+						boleto.setContrato(contrato);
+						boleto.setLancamentos(lancamentosBoleto);
+						boleto.setDataCriacao(new Date());
+						boleto.setStatus(StatusBoletoEnum.ABERTO);
+						boleto.setValor(valor);
+						boleto.setDataVencimento(dataVencimento);
+						boletoService.incluir(boleto);
+					}else{
+						boleto.setContrato(contrato);
+						boleto.setLancamentos(lancamentosBoleto);
+						boleto.setDataCriacao(new Date());
+						boleto.setStatus(StatusBoletoEnum.PAGO);
+						boleto.setValor(BigDecimal.ZERO);
+						boleto.setDataVencimento(dataVencimento);
+						boletoService.incluir(boleto);
+						//TODO: getResources
+						contratoLancamentoService.incluir(
+								new ContratoLancamento("Credito em Conta",contrato,valor.abs(),TipoLancamentoEnum.CREDITO, 
+										new Date(), StatusLancamentoEnum.PENDENTE));
+						
+					}	
 				}
 			}
 		}
+	}
+	
+	public static void main(String[] args) {
+		BigDecimal total = new BigDecimal(-10.3);
+		System.out.println(total);
 	}
 }
