@@ -18,15 +18,19 @@ import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoLancamento;
+import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
+import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
+import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilArquivo;
+import br.com.trixti.itm.util.UtilData;
 
 @ViewScoped
 @ManagedBean
@@ -37,11 +41,13 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject GeradorBoletoService geradorBoletoService;
 	private @Inject ContratoLancamentoService contratoLancamentoService;
 	private @Inject BoletoService boletoService;
+	private @Inject ParametroService parametroService;
 
 	@PostConstruct
 	public void init() {
 		inicializar();
 		getContratoTO().setAbaAtiva("dadosgerais");
+		getContratoTO().setParametro(parametroService.recuperarParametro());
 	}
 
 	private void inicializar() {
@@ -69,7 +75,6 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		getContratoTO().getContratoLancamento().setContrato(getContratoTO().getContrato());
 		getContratoTO().getContratoLancamento().setDataLancamento(new Date());
 		getContratoTO().getContratoLancamento().setStatus(StatusLancamentoEnum.PENDENTE);
-		contratoLancamentoService.incluir(getContratoTO().getContratoLancamento());
 		if (getContratoTO().getContratoLancamento().isGeraBoleto()) {
 			Boleto boleto = new Boleto();
 			boleto.setContrato(getContratoTO().getContrato());
@@ -147,6 +152,13 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			}
 		}
 		return false;
+	}
+	
+	public void desbloquearContratoTemporariamente(){
+		UtilData utilData = new UtilData();
+		getContratoTO().getContrato().setStatus(StatusContrato.ATIVO);
+		getContratoTO().getContrato().setDataParaBloqueio(utilData.adicionaDias(new Date(), getContratoTO().getParametro().getQtdDiasDesbloqueioTemporario()));
+		contratoService.alterar(getContratoTO().getContrato());
 	}
 
 	public ContratoTO getContratoTO() {

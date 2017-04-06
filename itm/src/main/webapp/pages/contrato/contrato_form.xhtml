@@ -104,29 +104,24 @@
 
 											<h:column>
 												<f:facet name="header">#{resources['label.global.valorbase']}</f:facet>
-												<h:outputText value="#{contratoProduto.produto.valor}" />
+												<h:outputText value="#{contratoProduto.produto.valor}">
+													<f:convertNumber pattern="#,##0.00" />
+												</h:outputText>	 
 											</h:column>
 
 											<h:column>
 												<f:facet name="header">#{resources['label.global.valortotal']}</f:facet>
-												<h:inputText value="#{contratoProduto.valor}"
-													styleClass="form-control" />
+												<itm:moeda value="#{contratoProduto.valor}" styleClass="form-control" />
 											</h:column>
 
 											<h:column>
 												<f:facet name="header">#{resources['label.global.datainicio']}</f:facet>
-												<h:inputText value="#{contratoProduto.dataInicio}"
-													styleClass="form-control">
-													<f:convertDateTime pattern="dd/MM/yyyy" />
-												</h:inputText>
+												<itm:data value="#{contratoProduto.dataInicio}"  styleClass="form-control"/>
 											</h:column>
 
 											<h:column>
 												<f:facet name="header">#{resources['label.global.datafim']}</f:facet>
-												<h:inputText value="#{contratoProduto.dataFim}"
-													styleClass="form-control">
-													<f:convertDateTime pattern="dd/MM/yyyy" />
-												</h:inputText>
+												<itm:data value="#{contratoProduto.dataFim}" styleClass="form-control"/>
 											</h:column>
 
 											<h:column
@@ -325,7 +320,9 @@
 										<div class="col-sm-4">
 											<div class="form-group">
 													<label for="formContrato:idAutenticacaoUsername">#{resources['label.global.username']} : </label>
-													<h:inputText id="idAutenticacaoUsername" value="#{contratoController.contratoTO.contratoAutenticacao.username}" styleClass="form-control" />
+													<h:inputText id="idAutenticacaoUsername" value="#{contratoController.contratoTO.contratoAutenticacao.username}" styleClass="form-control">
+														<f:validator validatorId="UsernameValidator" />
+													</h:inputText>
 											</div>
 										</div>
 										<div class="col-sm-4">

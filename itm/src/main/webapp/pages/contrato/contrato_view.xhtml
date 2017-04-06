@@ -24,8 +24,13 @@
 
 			<div class="col-md-12">
 				<h1 class="profile-username text-center">#{contratoViewController.contratoTO.contrato.identificador}</h1>
-				<a href="#{request.contextPath}/contrato/editar/#{contratoViewController.contratoTO.contrato.id}"><span class="badge badge-success float-right">#{resources['label.global.editar']}</span></a>
-				<a href="#{request.contextPath}/contrato/editar/#{contratoViewController.contratoTO.contrato.id}"><span class="badge badge-success float-right">#{resources['label.global.editar']}</span></a>
+				<ui:fragment rendered="#{contratoViewController.contratoTO.contrato.dataParaBloqueio ne null}">
+					<h4 class="alert alert-danger text-center">#{resources['label.global.contratobloqueadonovamente']} 
+						<h:outputText value="#{contratoViewController.contratoTO.contrato.dataParaBloqueio}">
+							<f:convertDateTime pattern="dd/MM/yyyy"/>
+						</h:outputText>
+					</h4>
+				</ui:fragment>	
 			</div>
 			<div class="col-md-12">
 				<div class="nav-tabs-custom">
@@ -64,6 +69,7 @@
 								<div class="card-header">
 									<i class="fa fa-user" />
 									<strong>#{resources['label.global.informacoes']}</strong>
+									<a href="#{request.contextPath}/contrato/editar/#{contratoViewController.contratoTO.contrato.id}"><span class="badge badge-success float-right">#{resources['label.global.editar']}</span></a>
 								</div>
 								<div class="card-block">
 									<div class="row">
@@ -109,9 +115,13 @@
 									</div>
 								</div>
 							</div>
-
-
-
+							<ui:fragment rendered="#{contratoViewController.contratoTO.contrato.status.name() eq 'BLOQUEADO'}">
+								<br />
+								<a href="#" data-toggle="modal" data-target="#idDesbloquearContrato" class="btn btn-info">#{resources['label.global.desbloquear']} </a>
+								<br /> 
+								<h:outputText value=" " />
+							</ui:fragment>
+							
 							<div class="card card-accent-warning">
 								<div class="card-header">
 									<i class="fa fa-tags" />
@@ -407,10 +417,14 @@
 															var="boleto" styleClass="table table-bordered table-striped">
 		
 															<h:column>
-																<f:facet name="header">#{resources['label.global.data']}</f:facet>
-																<h:outputText value="#{boleto.dataCriacao}">
+																<f:facet name="header">#{resources['label.global.datavencimento']}</f:facet>
+																<h:outputText value="#{boleto.dataVencimento}">
 																	<f:convertDateTime pattern="dd/MM/yyyy" />
 																</h:outputText>
+															</h:column>
+															<h:column>
+																<f:facet name="header">#{resources['label.global.status']}</f:facet>
+																<h:outputText value="#{boleto.status.name}" />
 															</h:column>
 															<h:column>
 																<f:facet name="header">#{resources['label.global.valor']}</f:facet>
@@ -418,13 +432,6 @@
 																	<f:convertNumber pattern="#,##0.00" /> 
 																</h:outputText>
 															</h:column>
-															<h:column>
-																<f:facet name="header">#{resources['label.global.datavencimento']}</f:facet>
-																<h:outputText value="#{boleto.dataVencimento}">
-																	<f:convertDateTime pattern="dd/MM/yyyy" />
-																</h:outputText>
-															</h:column>
-															
 															<h:column>
 																<f:facet name="header">#{resources['label.global.itens']}</f:facet>
 																<ul>
@@ -435,18 +442,12 @@
 															</h:column>
 															
 															<h:column>
-																<f:facet name="header">#{resources['label.global.status']}</f:facet>
-																<h:outputText value="#{boleto.status.name}" />
-															</h:column>
-															
-		
-															<h:column>
 																<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
 																<h:commandLink 
 																	action="#{contratoViewController.downloadBoleto(boleto)}"
 																	value="Download" />
 																| 	
-																<h:commandLink value="#{resources['label.global.excluir']}" rendered="#{boleto.status.name eq 'ABERTO'}">
+																<h:commandLink value="#{resources['label.global.excluir']}">
 																	<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
 																</h:commandLink>
 																
@@ -463,6 +464,14 @@
 				</div>
 			</div>
 		</div>
+		
+		<itm:confirm id="idDesbloquearContrato" titulo="#{resources['label.global.confirmacao']}" mensagem="#{resources['label.global.desejadesbloquearcontrato']}">
+					<h:commandLink action="#{contratoViewController.desbloquearContratoTemporariamente()}" class="btn btn-md btn-info">
+						<i class="fa fa-pencil-square-o" /> #{resources['label.global.desbloquear']} 
+					</h:commandLink>
+				</itm:confirm>
+				
+				
 	</h:form>
 	</ui:define>
 

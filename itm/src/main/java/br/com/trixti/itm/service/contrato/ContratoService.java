@@ -17,6 +17,7 @@ import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoGrupo;
 import br.com.trixti.itm.entity.ContratoProduto;
+import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
 import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
@@ -54,12 +55,15 @@ public class ContratoService extends AbstractService<Contrato> {
 	@Override
 	public void incluir(Contrato entidade) {
 		entidade.setDataCriacao(new Date());
+		entidade.setStatus(StatusContrato.ATIVO);
 		super.incluir(entidade);
 //		contratoProdutoService.incluirLista(entidade.getContratoProdutos());
 //		contratoGrupoService.incluirLista(entidade.getContratoGrupos());
 //		contratoEquipamentoService.incluirLista(entidade.getContratoEquipamentos());
 		
 		freeRadiusService.sincronizarContrato(entidade);
+		
+		
 	}
 	
 	

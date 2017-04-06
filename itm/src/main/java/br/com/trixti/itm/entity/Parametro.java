@@ -31,6 +31,21 @@ public class Parametro implements java.io.Serializable {
 
 	private String cnpj;
 	
+	@Column(name="qtd_dias_desbloqueio_temporario")
+	private Integer qtdDiasDesbloqueioTemporario;
+	
+	
+	@Column(name="qtd_dias_bloqueio")
+	private Integer qtdDiasBloqueio;
+	
+	
+	@Column(name="qtd_dias_aviso")
+	private Integer qtdDiasAviso;
+	
+	
+	@Column(name="qtd_dias_inativacao")
+	private Integer qtdDiasInativacao;
+	
 
 	public Integer getId() {
 		return id;
@@ -54,6 +69,38 @@ public class Parametro implements java.io.Serializable {
 
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
+	}
+
+	public Integer getQtdDiasDesbloqueioTemporario() {
+		return qtdDiasDesbloqueioTemporario;
+	}
+
+	public void setQtdDiasDesbloqueioTemporario(Integer qtdDiasDesbloqueioTemporario) {
+		this.qtdDiasDesbloqueioTemporario = qtdDiasDesbloqueioTemporario;
+	}
+
+	public Integer getQtdDiasBloqueio() {
+		return qtdDiasBloqueio;
+	}
+
+	public void setQtdDiasBloqueio(Integer qtdDiasBloqueio) {
+		this.qtdDiasBloqueio = qtdDiasBloqueio;
+	}
+
+	public Integer getQtdDiasAviso() {
+		return qtdDiasAviso;
+	}
+
+	public void setQtdDiasAviso(Integer qtdDiasAviso) {
+		this.qtdDiasAviso = qtdDiasAviso;
+	}
+
+	public Integer getQtdDiasInativacao() {
+		return qtdDiasInativacao;
+	}
+
+	public void setQtdDiasInativacao(Integer qtdDiasInativacao) {
+		this.qtdDiasInativacao = qtdDiasInativacao;
 	}
 	
 

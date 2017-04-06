@@ -69,4 +69,8 @@ public class BoletoService extends AbstractService<Boleto>{
 	public AbstractDAO<Boleto> getDAO() {
 		return boletoDAO;
 	}
+
+	public List<Boleto> pesquisarBoletoEmAbertoContrato(Contrato contrato) {
+		return boletoDAO.pesquisarBoletoEmAbertoContrato(contrato);
+	}
 }

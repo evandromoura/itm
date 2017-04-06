@@ -48,11 +48,13 @@ public class ClienteController extends AbstractController<Cliente> {
 		getClienteTO().setCliente(new Cliente());
 		getClienteTO().getCliente().setTipoPessoa(TipoPessoaEnum.FISICA);
 		getClienteTO().getContrato().setContaCorrente(new ContaCorrente());
+		getClienteTO().getContrato().setGeraBoleto(true);
 	}
 	
 	private void inicializarAlterar(Serializable id){
 		getClienteTO().setCliente(clienteService.recuperar(id));
 		getClienteTO().getContrato().setContaCorrente(new ContaCorrente());
+		getClienteTO().getContrato().setGeraBoleto(true);
 	}
 	
 	public void pesquisar(){

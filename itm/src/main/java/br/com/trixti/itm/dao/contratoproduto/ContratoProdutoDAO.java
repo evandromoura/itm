@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
@@ -18,6 +19,7 @@ public class ContratoProdutoDAO extends AbstractDAO<ContratoProduto> {
 		Root<ContratoProduto> root = criteria.from(ContratoProduto.class);
 		Date dataAtual = new Date();
 		UtilData utilData = new UtilData();
+		root.fetch("produto",JoinType.LEFT);
 		return getManager().createQuery(criteria.select(root)
 				.where(
 						getCriteriaBuilder().equal(root.get("contrato"), contrato),

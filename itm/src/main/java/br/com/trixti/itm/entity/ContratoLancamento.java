@@ -68,9 +68,10 @@ public class ContratoLancamento implements java.io.Serializable {
 	
 	public ContratoLancamento(){}
 	
-	public ContratoLancamento(Contrato contrato,
+	public ContratoLancamento(String descricao,Contrato contrato,
 				BigDecimal valor,TipoLancamentoEnum tipoLancamento,Date dataLancamento,
 				StatusLancamentoEnum status){
+		setDescricao(descricao);
 		setContrato(contrato);
 		setValor(valor);
 		setTipoLancamento(tipoLancamento);

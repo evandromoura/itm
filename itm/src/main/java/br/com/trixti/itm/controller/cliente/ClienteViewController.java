@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
+import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.to.ClienteTO;
@@ -46,7 +47,6 @@ public class ClienteViewController  extends AbstractController<Cliente>{
 			download(byteArrayOutputStream, arquivoBoleto.getName());
 		}	
 	}
-	
 
 	public ClienteTO getClienteTO() {
 		if (clienteTO == null) {

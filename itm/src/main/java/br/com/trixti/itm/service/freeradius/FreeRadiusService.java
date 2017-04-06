@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import br.com.trixti.itm.entity.Contrato;
@@ -86,5 +88,24 @@ public class FreeRadiusService {
 		}
 		radgroupreplyService.incluirLista(listaRadgroupreply);
 	}
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void bloquearContrato(Contrato contrato) {
+		Radcheck radcheck = new Radcheck();
+		radcheck.setAttribute("Auth-Type");
+		radcheck.setOp(":=");
+		radcheck.setValue("Reject");
+		radcheck.setUsername(contrato.getAutenticacoes().get(0).getUsername());
+		radcheckService.incluir(radcheck);
+	}
+	
+	public void desbloquearContrato(Contrato contrato){
+		
+		radcheckService.excluirPorUsernameAttributeValue(contrato.getAutenticacoes().get(0).getUsername(),"Auth-Type","Reject");
+		
+		
+	}
+	
+	
 	
 }

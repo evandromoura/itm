@@ -71,5 +71,5 @@ public class ContratoLancamentoService extends AbstractService<ContratoLancament
 	public void excluirPorContrato(Contrato contrato){
 		contratoLancamentoDAO.excluirPorContrato(contrato);
 	}
-	
+
 }

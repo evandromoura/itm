@@ -22,4 +22,9 @@ public class RadcheckService extends AbstractService<Radcheck> {
 		radcheckDAO.excluirPorUsername(username);
 	}
 
+	public void excluirPorUsernameAttributeValue(String username, String attribute, String value) {
+		radcheckDAO.excluirPorUsernameAttributeValue(username,attribute,value);
+		
+	}
+
 }

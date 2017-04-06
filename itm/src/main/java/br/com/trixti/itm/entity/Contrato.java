@@ -71,6 +71,10 @@ public class Contrato implements java.io.Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<ContratoAutenticacao> autenticacoes;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="data_para_bloqueio")
+	private Date dataParaBloqueio;
+	
 	@Transient
 	private List<ContratoLancamento> lancamentos;
 	
@@ -187,6 +191,22 @@ public class Contrato implements java.io.Serializable {
 
 	public void setAutenticacoes(List<ContratoAutenticacao> autenticacoes) {
 		this.autenticacoes = autenticacoes;
+	}
+
+	public StatusContrato getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusContrato status) {
+		this.status = status;
+	}
+
+	public Date getDataParaBloqueio() {
+		return dataParaBloqueio;
+	}
+
+	public void setDataParaBloqueio(Date dataParaBloqueio) {
+		this.dataParaBloqueio = dataParaBloqueio;
 	}
 	
 }

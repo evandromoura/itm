@@ -7,6 +7,7 @@ import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
+import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.Produto;
 
 public class ContratoTO {
@@ -44,7 +45,7 @@ public class ContratoTO {
 	
 	private ContratoAutenticacao contratoAutenticacao;
 
-	
+	private Parametro parametro;
 
 	public Contrato getContrato() {
 		if (contrato == null) {
@@ -128,6 +129,14 @@ public class ContratoTO {
 
 	public void setContratoAutenticacao(ContratoAutenticacao contratoAutenticacao) {
 		this.contratoAutenticacao = contratoAutenticacao;
+	}
+
+	public Parametro getParametro() {
+		return parametro;
+	}
+
+	public void setParametro(Parametro parametro) {
+		this.parametro = parametro;
 	}
 
 	
