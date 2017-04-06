@@ -18,14 +18,18 @@ import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.ContratoProduto;
+import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
+import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
+import br.com.trixti.itm.service.freeradius.FreeRadiusService;
+import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.util.UtilData;
 
 @Named
@@ -36,16 +40,58 @@ public class FinanceiroThread {
 	private @Inject ClienteService clienteService;
 	private @Inject ContratoProdutoService contratoProdutoService;
 	private @Inject ContratoLancamentoService contratoLancamentoService;
+	private @Inject ContratoService contratoService;
 	private @Inject BoletoService boletoService;
+	private @Inject FreeRadiusService freeRadiusService;
+	private @Inject ParametroService parametroService;
+	private Parametro parametro;
 
 	@Schedule(minute = "*", hour = "*", persistent = false)
 	public void executar() throws Exception {
-
+		parametro = parametroService.recuperarParametro();
 		List<Cliente> clientes = clienteService.listarAtivo();
 		for (Cliente cliente : clientes) {
 			BigDecimal valor = BigDecimal.ZERO;
 			List<BoletoLancamento> lancamentosBoleto = new ArrayList<BoletoLancamento>();
 			for (Contrato contrato : cliente.getContratos()) {
+				gerarBoleto(valor, lancamentosBoleto, contrato);
+				verificarContrato(contrato);
+			}
+		}
+	}
+	
+	
+	private void verificarContrato(Contrato contrato){
+
+		/*
+		 * Bloqueio
+		 */
+		UtilData utilData = new UtilData();
+		List<Boleto> boletos = boletoService.pesquisarBoletoEmAbertoContrato(contrato);
+		boolean desbloquear = true;
+		for(Boleto boleto:boletos){
+			if(utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasBloqueio()  && 
+					(contrato.getDataParaBloqueio() == null || 
+						utilData.data1MaiorIgualData2(new Date(),contrato.getDataParaBloqueio()))){
+				if(contrato.getStatus().equals(StatusContrato.ATIVO)){
+					contrato.setStatus(StatusContrato.BLOQUEADO);
+					contratoService.alterar(contrato);
+					freeRadiusService.bloquearContrato(contrato);
+				}	
+				desbloquear = false;
+			}
+		}
+		if(desbloquear && contrato.getStatus().equals(StatusContrato.BLOQUEADO)){
+			contrato.setStatus(StatusContrato.ATIVO);
+			contrato.setDataParaBloqueio(null);
+			contratoService.alterar(contrato);
+			freeRadiusService.desbloquearContrato(contrato);
+		}
+		
+	}
+
+	private void gerarBoleto(BigDecimal valor, List<BoletoLancamento> lancamentosBoleto, Contrato contrato) {
+		if (contrato.isGeraBoleto()){
 				List<ContratoLancamento> lancamentosEmAberto = contratoLancamentoService
 						.pesquisarLancamentoAberto(contrato);
 				List<ContratoProduto> produtos = contratoProdutoService.pesquisarVigentePorContrato(contrato);
@@ -63,7 +109,6 @@ public class FinanceiroThread {
 					}
 
 					for (ContratoProduto produto : produtos) {
-						
 						ContratoLancamento contratoLancamento = new ContratoLancamento();
 						contratoLancamento.setContrato(contrato);
 						contratoLancamento.setDataLancamento(new Date());
@@ -96,12 +141,13 @@ public class FinanceiroThread {
 						boleto.setDataVencimento(dataVencimento);
 						boletoService.incluir(boleto);
 						//TODO: getResources
-						contratoLancamentoService.incluir(
-								new ContratoLancamento("Credito em Conta",contrato,valor.abs(),TipoLancamentoEnum.CREDITO, 
-										new Date(), StatusLancamentoEnum.PENDENTE));
+						if(valor.abs().intValue() > 0){
+							contratoLancamentoService.incluir(
+									new ContratoLancamento("Credito em Conta",contrato,valor.abs(),TipoLancamentoEnum.CREDITO, 
+											new Date(), StatusLancamentoEnum.PENDENTE));
+						}	
 						
-					}	
-				}
+				}	
 			}
 		}
 	}
@@ -109,5 +155,15 @@ public class FinanceiroThread {
 	public static void main(String[] args) {
 		BigDecimal total = new BigDecimal(-10.3);
 		System.out.println(total);
+	}
+
+
+	public Parametro getParametro() {
+		return parametro;
+	}
+
+
+	public void setParametro(Parametro parametro) {
+		this.parametro = parametro;
 	}
 }
