@@ -4,10 +4,16 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 
-
-
 	<div class="sidebar">
 		<nav class="sidebar-nav">
+			<ul class="nav">
+				<li class="nav-title text-center"><span>#{resources['label.global.menu']}</span></li>
+				<li class="nav-item">
+					<a class="nav-link" href="#{request.contextPath}/home">
+						<i class="icon-home"></i> #{resources['label.global.home']} 
+					</a>
+				</li>
+			</ul>	
 			<ul class="nav">
 				<li class="nav-title text-center"><span>Cadastro</span></li>
 				<li class="nav-item">
@@ -24,6 +30,16 @@
 					<a class="nav-link" href="#{request.contextPath}/grupo">
 						<i class="icon-speedometer"></i> #{resources['label.global.grupo']} 
 					</a>
+				</li>
+				<li>
+					<hr />
+				</li>
+				<li class="nav-item">
+					<h:form>
+						<h:commandLink action="#{simpleAuthenticator.logout()}" immediate="true" styleClass="nav-link">
+							<i class="icon-logout"></i> #{resources['label.global.sair']} 
+						</h:commandLink>	
+					</h:form>
 				</li>
 			</ul>
 		</nav>

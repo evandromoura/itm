@@ -4,22 +4,22 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.inject.Model;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
-import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.to.ClienteTO;
 import br.com.trixti.itm.util.UtilArquivo;
 
-
+@Model
 @ViewScoped
-@ManagedBean
+@Admin
 public class ClienteViewController  extends AbstractController<Cliente>{
 	
 	

@@ -3,8 +3,8 @@ package br.com.trixti.itm.controller.cliente;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
@@ -13,20 +13,21 @@ import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
+import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.to.ClienteTO;
 
 
+@Model
 @ViewScoped
-@ManagedBean
+@Admin
 public class ClienteController extends AbstractController<Cliente> {
 	
 	private ClienteTO clienteTO;
 	
 	private @Inject ClienteService clienteService;
 	private @Inject ContratoService contratoService;
-
 	
 	@PostConstruct
 	private void init(){
@@ -57,6 +58,7 @@ public class ClienteController extends AbstractController<Cliente> {
 		getClienteTO().getContrato().setGeraBoleto(true);
 	}
 	
+//	@Admin
 	public void pesquisar(){
 		getClienteTO().setClientes(clienteService.pesquisar(getClienteTO().getClientePesquisa()));
 		if(getClienteTO().getClientes().isEmpty()){

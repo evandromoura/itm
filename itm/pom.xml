@@ -27,6 +27,7 @@
         <version.war.plugin>2.5</version.war.plugin>
         <maven.compiler.target>1.7</maven.compiler.target>
         <maven.compiler.source>1.7</maven.compiler.source>
+         <version.picketlink.javaee.bom>2.7.1.Final</version.picketlink.javaee.bom>
     </properties>
 
 
@@ -46,11 +47,23 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+		        <groupId>org.picketlink</groupId>
+		        <artifactId>picketlink-javaee-6.0</artifactId>
+		        <version>${version.picketlink.javaee.bom}</version>
+		        <scope>import</scope>
+		        <type>pom</type>
+		      </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
 <!-- DEPENDENCIAS DO PROJETO -->
+		<dependency>
+	      <groupId>org.picketlink</groupId>
+	      <artifactId>picketlink</artifactId>
+	      <scope>compile</scope>
+	    </dependency>
 		<dependency>
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>javax.servlet-api</artifactId>
@@ -150,13 +163,14 @@
 		   <artifactId>jrimum-bopepo</artifactId>  
 		   <version>0.2.3-SNAPSHOT</version>  
 		</dependency>
-
 		
-<!-- 		<dependency> -->
-<!-- 	    <groupId>org.grails.plugins</groupId> -->
-<!-- 	    <artifactId>jrimum-bopepo</artifactId> -->
-<!-- 	    <version>0.4</version> -->
-<!-- 	</dependency> -->
+		<dependency>
+		    <groupId>org.highfaces</groupId>
+		    <artifactId>highfaces</artifactId>
+		    <version>1.2</version>
+		</dependency>
+		
+
         
 <!-- FIM DAS DEPENDENCIAS DO PROJETO -->
     </dependencies>

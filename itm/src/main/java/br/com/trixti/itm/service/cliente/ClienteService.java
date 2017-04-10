@@ -69,6 +69,14 @@ public class ClienteService extends AbstractService<Cliente> {
 		super.excluir(entidade);
 	}
 	
+	public Cliente recuperarPorAutenticacao(String username,String senha){
+		try{
+			return clienteDAO.recuperarPorAutenticacao(username, senha);
+		}catch(Exception e){
+			return null;
+		}	
+	}
+	
 	
 	
 

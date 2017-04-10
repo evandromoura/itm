@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -61,6 +62,17 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		return getManager().createQuery(
 				criteria.select(root).where(getCriteriaBuilder().isNull(root.get("dataExclusao")))).getResultList();
 	}
+	
+	public Cliente recuperarPorAutenticacao(String username,String senha){
+		CriteriaQuery<Cliente> criteria = getCriteriaBuilder().createQuery(Cliente.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		
+		return getManager().createQuery(criteria.select(root)
+				.where(getCriteriaBuilder().equal(root.join("contratos",JoinType.LEFT).join("autenticacoes",JoinType.LEFT).get("username"), username),
+						getCriteriaBuilder().equal(root.join("contratos",JoinType.LEFT).join("autenticacoes",JoinType.LEFT).get("senha"), senha))
+				).setMaxResults(1).getSingleResult();
+	}
+	
 
 }
 
