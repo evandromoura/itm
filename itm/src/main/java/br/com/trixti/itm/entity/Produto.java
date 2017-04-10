@@ -10,8 +10,11 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,14 +27,26 @@ import javax.persistence.TemporalType;
 public class Produto implements java.io.Serializable {
 
 	private static final long serialVersionUID = 22775385501094990L;
+	
+	@Id
+	@SequenceGenerator(name="PRODUTO_ID_GENERATOR", sequenceName="itm_produto_id_seq", allocationSize = 1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PRODUTO_ID_GENERATOR") 
 	private Integer id;
+	
+	
 	private String nome;
 	private String tipo;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_inicio", length = 29)
 	private Date dataInicio;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_fim", length = 29)
 	private Date dataFim;
 	
 	private BigDecimal valor;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto")
 	private Set<ContratoProduto> contratoProdutos = new HashSet<ContratoProduto>(0);
 
 	public Produto() {
@@ -51,9 +66,6 @@ public class Produto implements java.io.Serializable {
 		this.contratoProdutos = contratoProdutos;
 	}
 
-	@Id
-
-	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
 	}
@@ -62,7 +74,6 @@ public class Produto implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "nome")
 	public String getNome() {
 		return this.nome;
 	}
@@ -71,7 +82,6 @@ public class Produto implements java.io.Serializable {
 		this.nome = nome;
 	}
 
-	@Column(name = "tipo")
 	public String getTipo() {
 		return this.tipo;
 	}
@@ -80,8 +90,7 @@ public class Produto implements java.io.Serializable {
 		this.tipo = tipo;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_inicio", length = 29)
+	
 	public Date getDataInicio() {
 		return this.dataInicio;
 	}
@@ -90,8 +99,7 @@ public class Produto implements java.io.Serializable {
 		this.dataInicio = dataInicio;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_fim", length = 29)
+	
 	public Date getDataFim() {
 		return this.dataFim;
 	}
@@ -100,7 +108,7 @@ public class Produto implements java.io.Serializable {
 		this.dataFim = dataFim;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto")
+	
 	public Set<ContratoProduto> getContratoProdutos() {
 		return this.contratoProdutos;
 	}
