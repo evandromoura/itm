@@ -170,6 +170,11 @@
 		    <version>1.2</version>
 		</dependency>
 		
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-envers</artifactId>
+		    <scope>provided</scope>
+		</dependency>
 
         
 <!-- FIM DAS DEPENDENCIAS DO PROJETO -->
