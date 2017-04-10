@@ -85,7 +85,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-12">
+							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}</label>
 									<h:inputText
@@ -93,24 +93,24 @@
 										id="cliente_telefone_celular" styleClass="form-control" />
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="formCliente:cliente_uf">#{resources['label.global.uf']}</label>
-									<h:inputText value="#{clienteController.clienteTO.cliente.uf}"
-										id="cliente_uf" styleClass="form-control" />
+							
+							<div class="col-sm-6">
+								<div class="form-group"> 
+									<label for="formCliente:cliente_email">#{resources['label.global.email']}</label>
+									<h:inputText
+										value="#{clienteController.clienteTO.cliente.email}"
+										id="cliente_email" styleClass="form-control" />
 								</div>
 							</div>
-
-							<div class="col-sm-4">
+						</div>
+						<div class="row">
+							<div class="col-sm-2"> 
 								<div class="form-group">
 									<label for="formCliente:cliente_cep">#{resources['label.global.cep']}</label>
 									<itm:cep value="#{clienteController.clienteTO.cliente.cep}"
 										id="cliente_cep" styleClass="form-control" />
-
 								</div>
-							</div>
+							</div> 
 							<div class="col-sm-4">
 								<div class="form-group">
 
@@ -119,6 +119,47 @@
 										value="#{clienteController.clienteTO.cliente.endereco}"
 										id="cliente_endereco" styleClass="form-control" />
 
+								</div>
+							</div>
+							
+							<div class="col-sm-1">
+								<div class="form-group">
+
+									<label for="formCliente:cliente_numero_endereco">#{resources['label.global.numero']}</label>
+									<h:inputText
+										value="#{clienteController.clienteTO.cliente.numeroEndereco}"
+										id="cliente_numero_endereco" styleClass="form-control" /> 
+
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group">
+
+									<label for="formCliente:cliente_bairro">#{resources['label.global.bairro']}</label> 
+									<h:inputText
+										value="#{clienteController.clienteTO.cliente.bairro}"
+										id="cliente_bairro" styleClass="form-control" />
+
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group">
+
+									<label for="formCliente:cliente_cidade">#{resources['label.global.cidade']}</label>  
+									<h:inputText
+										value="#{clienteController.clienteTO.cliente.cidade}"
+										id="cliente_cidade" styleClass="form-control" />
+
+								</div>
+							</div>
+							
+							<div class="col-sm-1">
+								<div class="form-group">
+									<label for="formCliente:cliente_uf">#{resources['label.global.uf']}</label>
+									<h:inputText value="#{clienteController.clienteTO.cliente.uf}"
+										id="cliente_uf" styleClass="form-control" />
 								</div>
 							</div>
 						</div>

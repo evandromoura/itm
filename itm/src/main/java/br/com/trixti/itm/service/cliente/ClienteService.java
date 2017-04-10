@@ -59,6 +59,7 @@ public class ClienteService extends AbstractService<Cliente> {
 		return cliente;
 	}
 
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	@Override
 	public void excluir(Cliente entidade) {
 		if(entidade.getContratos() != null){

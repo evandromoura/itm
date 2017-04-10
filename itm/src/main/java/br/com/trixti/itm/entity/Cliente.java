@@ -58,6 +58,8 @@ public class Cliente implements java.io.Serializable {
 
 	private String uf;
 	
+	private String cidade;
+	
 	@Column(name = "numero_endereco")
 	private String numeroEndereco;
 	
@@ -201,6 +203,14 @@ public class Cliente implements java.io.Serializable {
 
 	public void setContratos(List<Contrato> contratos) {
 		this.contratos = contratos;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
 	}
 	
 

@@ -100,12 +100,12 @@ public class FreeRadiusService {
 	}
 	
 	public void desbloquearContrato(Contrato contrato){
-		
 		radcheckService.excluirPorUsernameAttributeValue(contrato.getAutenticacoes().get(0).getUsername(),"Auth-Type","Reject");
-		
-		
 	}
 	
-	
+	public void excluirPorUsername(String username){
+		radcheckService.excluirPorUsername(username);
+		radusergroupService.excluirPorUsername(username);
+	}
 	
 }

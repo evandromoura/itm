@@ -7,11 +7,14 @@ import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.contratoautenticacao.ContratoAutenticacaoDAO;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.service.AbstractService;
+import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 
 @Stateless
 public class ContratoAutenticacaoService extends AbstractService<ContratoAutenticacao> {
 
 	private @Inject ContratoAutenticacaoDAO contratoAutenticacaoDAO;
+	
+	private @Inject FreeRadiusService freeRadiusService;
 	
 	@Override
 	public AbstractDAO<ContratoAutenticacao> getDAO() {
@@ -25,5 +28,13 @@ public class ContratoAutenticacaoService extends AbstractService<ContratoAutenti
 			return null;
 		}	
 	}
+
+	@Override
+	public void excluir(ContratoAutenticacao entidade) {
+		freeRadiusService.excluirPorUsername(entidade.getUsername());
+		super.excluir(entidade);
+	}
+	
+	
 	
 }
