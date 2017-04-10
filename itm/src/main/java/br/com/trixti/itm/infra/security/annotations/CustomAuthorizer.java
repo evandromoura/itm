@@ -20,6 +20,7 @@ import static org.picketlink.idm.model.basic.BasicModel.getRole;
 import static org.picketlink.idm.model.basic.BasicModel.hasRole;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import org.apache.deltaspike.security.api.authorization.Secures;
 import org.picketlink.Identity;
@@ -37,6 +38,7 @@ import br.com.trixti.itm.enums.PerfilEnum;
 @ApplicationScoped
 public class CustomAuthorizer {
 
+	private @Inject CustomIdentity customIdentity;
     /**
      * This method is used to check if classes and methods annotated with {@link Admin} can perform
      * the operation or not
@@ -46,18 +48,24 @@ public class CustomAuthorizer {
      * @return true if the user can execute the method or class
      * @throws Exception
      */
-    @Secures
+//    @Secures
+//    @Admin
+//    public boolean doAdminCheck(Identity identity, IdentityManager identityManager, RelationshipManager relationshipManager) throws Exception {
+//        try{
+//        	if(getRole(identityManager, PerfilEnum.ADMIN.name()) != null){
+//        		return hasRole(relationshipManager, identity.getAccount(), getRole(identityManager, PerfilEnum.ADMIN.name()));
+//        	}else{
+//        		return false;
+//        	}	
+//        }catch(Exception e){
+//        	return false;
+//        }	
+//    }
+	
+	@Secures
     @Admin
     public boolean doAdminCheck(Identity identity, IdentityManager identityManager, RelationshipManager relationshipManager) throws Exception {
-        try{
-        	if(getRole(identityManager, PerfilEnum.ADMIN.name()) != null){
-        		return hasRole(relationshipManager, identity.getAccount(), getRole(identityManager, PerfilEnum.ADMIN.name()));
-        	}else{
-        		return false;
-        	}	
-        }catch(Exception e){
-        	return false;
-        }	
+        return customIdentity.getPerfil().equals(PerfilEnum.ADMIN);
     }
 
     /**

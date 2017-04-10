@@ -15,10 +15,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 
+@Audited
 @Entity
 @Table(name = "itm_cliente", schema = "public")
+@AuditTable(value="itm_cliente_historico") 
 public class Cliente implements java.io.Serializable {
 
 	private static final long serialVersionUID = -3714699261681620589L;
@@ -63,6 +69,7 @@ public class Cliente implements java.io.Serializable {
 	@Column(name = "data_exclusao", length = 29)
 	private Date dataExclusao;
 	
+	@NotAudited
 	@OneToMany(mappedBy="cliente")
 	private List<Contrato> contratos;
 	
