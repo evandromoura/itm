@@ -47,6 +47,8 @@ public class SimpleAuthenticator extends BaseAuthenticator {
 	}
 
 	public String logout() {
+		customIdentity.setCliente(null);
+		customIdentity.setPerfil(null);
 		identity.logout();
 		return "/login?faces-redirect=true";
 	}

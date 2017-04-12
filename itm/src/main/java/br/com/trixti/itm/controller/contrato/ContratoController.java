@@ -24,6 +24,7 @@ import br.com.trixti.itm.service.grupo.GrupoService;
 import br.com.trixti.itm.service.produto.ProdutoService;
 import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilData;
+import br.com.trixti.itm.util.UtilRandomString;
 
 @ViewScoped
 @ManagedBean
@@ -43,6 +44,7 @@ public class ContratoController extends AbstractController<Contrato> {
 	private void init(){
 		String id = getRequest().getParameter("id");
 		getContratoTO().setContrato(contratoService.recuperarCompleto(Integer.valueOf(id)));
+		getContratoTO().getContratoAutenticacao().setSenha(new UtilRandomString(6).nextString());
 	}
 	
 	

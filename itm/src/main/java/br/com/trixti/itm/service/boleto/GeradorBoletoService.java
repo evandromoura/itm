@@ -52,8 +52,6 @@ public class GeradorBoletoService {
          enderecoSac.setLogradouro("");
          enderecoSac.setNumero(boleto.getContrato().getCliente().getNumeroEndereco());
          sacado.addEndereco(enderecoSac);
-
-         
          
          ContaBancaria contaBancaria = new ContaBancaria(
         		 getBanco(boleto.getContrato().getContaCorrente().getBanco()).create());
@@ -68,7 +66,8 @@ public class GeradorBoletoService {
          contaBancaria.setAgencia(new Agencia(Integer.valueOf(boleto.getContrato().getContaCorrente().getNumeroAgencia())));
 //         
          Titulo titulo = new Titulo(contaBancaria, sacado, cedente);
-         titulo.setNumeroDoDocumento("123456");
+         //TODO Criar um sequencial 
+         titulo.setNumeroDoDocumento("4208");
          titulo.setNossoNumero(boleto.getContrato().getContaCorrente().getNossoNumero());
          titulo.setDigitoDoNossoNumero(boleto.getContrato().getContaCorrente().getDigitoNossoNumero());
          titulo.setValor(boleto.getValor());

@@ -16,9 +16,6 @@
  */
 package br.com.trixti.itm.infra.security.annotations;
 
-import static org.picketlink.idm.model.basic.BasicModel.getRole;
-import static org.picketlink.idm.model.basic.BasicModel.hasRole;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -29,59 +26,15 @@ import org.picketlink.idm.RelationshipManager;
 
 import br.com.trixti.itm.enums.PerfilEnum;
 
-/**
- * Defines the authorization logic for the @Employee and @Admin security binding types
- * 
- * @author Shane Bryzak
- * 
- */
 @ApplicationScoped
 public class CustomAuthorizer {
 
 	private @Inject CustomIdentity customIdentity;
-    /**
-     * This method is used to check if classes and methods annotated with {@link Admin} can perform
-     * the operation or not
-     * 
-     * @param identity The Identity bean, representing the currently authenticated user
-     * @param identityManager The IdentityManager provides methods for checking a user's roles
-     * @return true if the user can execute the method or class
-     * @throws Exception
-     */
-//    @Secures
-//    @Admin
-//    public boolean doAdminCheck(Identity identity, IdentityManager identityManager, RelationshipManager relationshipManager) throws Exception {
-//        try{
-//        	if(getRole(identityManager, PerfilEnum.ADMIN.name()) != null){
-//        		return hasRole(relationshipManager, identity.getAccount(), getRole(identityManager, PerfilEnum.ADMIN.name()));
-//        	}else{
-//        		return false;
-//        	}	
-//        }catch(Exception e){
-//        	return false;
-//        }	
-//    }
-	
+    
 	@Secures
     @Admin
     public boolean doAdminCheck(Identity identity, IdentityManager identityManager, RelationshipManager relationshipManager) throws Exception {
         return customIdentity.getPerfil().equals(PerfilEnum.ADMIN);
-    }
-
-    /**
-     * This method is used to check if classes and methods annotated with {@link Employee} can perform
-     * the operation or not
-     * 
-     * @param identity The Identity bean, representing the currently authenticated user
-     * @param identityManager The IdentityManager provides methods for checking a user's roles
-     * @return true if the user can execute the method or class
-     * @throws Exception
-     */
-    @Secures
-    @Employee
-    public boolean doEmployeeCheck(Identity identity, IdentityManager identityManager, RelationshipManager relationshipManager) throws Exception {
-        return hasRole(relationshipManager, identity.getAccount(), getRole(identityManager, "employee")) ||
-                hasRole(relationshipManager, identity.getAccount(), getRole(identityManager, "admin"));
     }
 
 }

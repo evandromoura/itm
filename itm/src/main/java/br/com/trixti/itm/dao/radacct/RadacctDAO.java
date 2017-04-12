@@ -1,6 +1,5 @@
 package br.com.trixti.itm.dao.radacct;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaQuery;
@@ -19,10 +18,11 @@ public class RadacctDAO extends AbstractDAO<Radacct> {
 		Root<Radacct> root = criteria.from(Radacct.class);
 		return getManager().createQuery(criteria.select(root)
 				.where(
-						getCriteriaBuilder().equal(root.get("username"), username),
-						getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("acctstarttime"), 
-								utilData.subtrairHoras(new Date(), 3))
-						)).getResultList();
+						getCriteriaBuilder().equal(root.get("username"), username)
+						)
+//				.orderBy(getCriteriaBuilder().desc(root.get("radacctid")))
+				
+				).setMaxResults(10).getResultList();
 	}
 	
 }

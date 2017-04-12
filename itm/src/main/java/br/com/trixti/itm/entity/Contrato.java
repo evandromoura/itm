@@ -75,6 +75,9 @@ public class Contrato implements java.io.Serializable {
 	private Date dataParaBloqueio;
 	
 	@Transient
+	private List<Radacct> listaUtilizacao;
+	
+	@Transient
 	private List<ContratoLancamento> lancamentos;
 	
 	@Enumerated(EnumType.STRING)
@@ -206,6 +209,14 @@ public class Contrato implements java.io.Serializable {
 
 	public void setDataParaBloqueio(Date dataParaBloqueio) {
 		this.dataParaBloqueio = dataParaBloqueio;
+	}
+
+	public List<Radacct> getListaUtilizacao() {
+		return listaUtilizacao;
+	}
+
+	public void setListaUtilizacao(List<Radacct> listaUtilizacao) {
+		this.listaUtilizacao = listaUtilizacao;
 	}
 	
 }

@@ -59,4 +59,16 @@ public class AbstractController<T> {
         	e.printStackTrace();
         }    
     }
+	
+	 public String getStackTrace() {
+	        Throwable throwable = (Throwable)  FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("javax.servlet.error.exception");
+	        StringBuilder builder = new StringBuilder();
+	        if(throwable!= null && throwable.getMessage() != null){
+		        builder.append(throwable.getMessage()).append("\n");
+		        for (StackTraceElement element : throwable.getStackTrace()) {
+		            builder.append(element).append("\n");
+		        }
+	        }   
+	        return builder.toString();
+	    }
 }

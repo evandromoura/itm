@@ -3,8 +3,8 @@ package br.com.trixti.itm.controller.cliente;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
@@ -19,7 +19,7 @@ import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.to.ClienteTO;
 
 
-@Model
+@ManagedBean
 @ViewScoped
 @Admin
 public class ClienteController extends AbstractController<Cliente> {
@@ -80,7 +80,7 @@ public class ClienteController extends AbstractController<Cliente> {
 	}
 	
 	public void excluirContrato(Contrato contrato){
-		contratoService.excluir(contrato);
+		contratoService.excluir(contratoService.recuperarCompleto(contrato.getId()));
 		getClienteTO().getCliente().getContratos().remove(contrato);
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi excluido na base"));
 	}
@@ -95,8 +95,6 @@ public class ClienteController extends AbstractController<Cliente> {
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi excluido na base"));
 		pesquisar();
 	}
-	
-	
 	
 	public String adicionarContrato(){
 		if(getClienteTO().getCliente().getId() == null){

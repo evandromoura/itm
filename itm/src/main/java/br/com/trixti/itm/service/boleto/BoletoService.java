@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import br.com.trixti.itm.dao.AbstractDAO;
@@ -17,6 +19,7 @@ import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.service.AbstractService;
+import br.com.trixti.itm.service.boletolancamento.BoletoLancamentoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 
@@ -26,6 +29,7 @@ public class BoletoService extends AbstractService<Boleto>{
 	private @Inject BoletoDAO boletoDAO;
 	private @Inject ContratoService contratoService;
 	private @Inject ContratoLancamentoService contratoLancamentoService;
+	private @Inject BoletoLancamentoService boletoLancamentoService;
 	
 	public void criarBoleto()throws Exception{
 		Date dataAtual = new Date();
@@ -72,5 +76,17 @@ public class BoletoService extends AbstractService<Boleto>{
 
 	public List<Boleto> pesquisarBoletoEmAbertoContrato(Contrato contrato) {
 		return boletoDAO.pesquisarBoletoEmAbertoContrato(contrato);
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void excluirPorContrato(Contrato contrato){
+		boletoLancamentoService.excluirPorContrato(contrato);
+		boletoDAO.excluirPorContrato(contrato);
+	}
+	
+	
+	public List<Boleto> pesquisarUltimosBoletosCliente(Cliente cliente){
+		return boletoDAO.pesquisarUltimosBoletosCliente(cliente);
+		
 	}
 }

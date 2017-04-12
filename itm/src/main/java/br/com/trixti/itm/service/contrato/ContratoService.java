@@ -19,6 +19,7 @@ import br.com.trixti.itm.entity.ContratoGrupo;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.service.AbstractService;
+import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
 import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
 import br.com.trixti.itm.service.contratogrupo.ContratoGrupoService;
@@ -37,6 +38,7 @@ public class ContratoService extends AbstractService<Contrato> {
 	private @Inject ContratoLancamentoService contratoLancamentoService;
 	private @Inject ContratoAutenticacaoService contratoAutenticacaoService;
 	private @Inject FreeRadiusService freeRadiusService;
+	private @Inject BoletoService boletoService;
 	
 	
 	@Override
@@ -44,6 +46,7 @@ public class ContratoService extends AbstractService<Contrato> {
 		return contratoDAO;
 	}
 	
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public Contrato recuperarCompleto(Integer id){
 		Contrato contrato =  contratoDAO.recuperarCompleto(id);
 		contrato.setLancamentos(contratoLancamentoService.pesquisarLancamentoAberto(contrato));
@@ -125,7 +128,11 @@ public class ContratoService extends AbstractService<Contrato> {
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	@Override
 	public void excluir(Contrato entidade) {
+		boletoService.excluirPorContrato(entidade);
 		contratoLancamentoService.excluirPorContrato(entidade);
+		if(entidade.getAutenticacoes() != null && !entidade.getAutenticacoes().isEmpty()){
+			freeRadiusService.excluirPorUsername(entidade.getAutenticacoes().get(0).getUsername());
+		}	
 		super.excluir(entidade);
 	}
 	

@@ -139,7 +139,9 @@ public class FinanceiroThread {
 						boleto.setStatus(StatusBoletoEnum.PAGO);
 						boleto.setValor(BigDecimal.ZERO);
 						boleto.setDataVencimento(dataVencimento);
-						boletoService.incluir(boleto);
+						if(boleto.getLancamentos() != null && !boleto.getLancamentos().isEmpty()){
+							boletoService.incluir(boleto);
+						}	
 						//TODO: getResources
 						if(valor.abs().intValue() > 0){
 							contratoLancamentoService.incluir(

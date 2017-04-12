@@ -12,6 +12,7 @@ import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.Cliente;
+import br.com.trixti.itm.entity.Contrato;
 
 
 @Stateless
@@ -46,9 +47,15 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 	}
 	
 	private Cliente inicializarCliente(Cliente cliente){
-		if(cliente.getContratos() != null){
-			cliente.getContratos().size();
-		}
+		if(cliente != null){
+			if(cliente.getContratos() != null){
+				for(Contrato contrato:cliente.getContratos()){
+					if(contrato.getAutenticacoes() != null){
+						contrato.getAutenticacoes().size();
+					}	
+				}
+			}
+		}	
 		return cliente;
 	}
 
@@ -67,10 +74,10 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		CriteriaQuery<Cliente> criteria = getCriteriaBuilder().createQuery(Cliente.class);
 		Root<Cliente> root = criteria.from(Cliente.class);
 		
-		return getManager().createQuery(criteria.select(root)
+		return inicializarCliente(getManager().createQuery(criteria.select(root)
 				.where(getCriteriaBuilder().equal(root.join("contratos",JoinType.LEFT).join("autenticacoes",JoinType.LEFT).get("username"), username),
 						getCriteriaBuilder().equal(root.join("contratos",JoinType.LEFT).join("autenticacoes",JoinType.LEFT).get("senha"), senha))
-				).setMaxResults(1).getSingleResult();
+				).setMaxResults(1).getSingleResult());
 	}
 	
 

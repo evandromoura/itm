@@ -15,6 +15,7 @@ import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.contrato.ContratoService;
+import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 
 /**
  * Classe que aplica a regra de negocio do caso de uso (Cliente)
@@ -28,6 +29,7 @@ public class ClienteService extends AbstractService<Cliente> {
 	
 	private @Inject ClienteDAO clienteDAO;
 	private @Inject ContratoService contratoService;
+	private @Inject FreeRadiusService freeRadiusService;
 	
 	
 	@Override
@@ -64,7 +66,11 @@ public class ClienteService extends AbstractService<Cliente> {
 	public void excluir(Cliente entidade) {
 		if(entidade.getContratos() != null){
 			for(Contrato contrato:entidade.getContratos()){
-				contratoService.excluir(contrato);
+				Contrato contratoCompleto = contratoService.recuperarCompleto(contrato.getId());
+				contratoService.excluir(contratoCompleto);
+				if(contratoCompleto.getAutenticacoes() != null){
+					freeRadiusService.excluirPorUsername(contratoCompleto.getAutenticacoes().get(0).getUsername());
+				}	
 			}
 		}	
 		super.excluir(entidade);

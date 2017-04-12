@@ -1,6 +1,7 @@
 package br.com.trixti.itm.controller.contacorrente;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -41,12 +42,12 @@ public class ContaCorrenteController extends AbstractController<ContaCorrente> {
 	
 	
 	public void gravar(){
-		
 		if(getContaCorrenteTO().getConta().getId() == null){
-			//incluir
+			contaCorrenteService.incluir(getContaCorrenteTO().getConta());
 		}else{
-			//alterar
+			contaCorrenteService.alterar(getContaCorrenteTO().getConta());
 		}
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));
 	}
 	
 	private void inicializarAlterar(Integer id){

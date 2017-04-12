@@ -35,13 +35,6 @@ public class Controller {
     @Inject
     private FacesContext facesContext;
 
-    /**
-     * Only users with the employee application role can invoke this method
-     */
-    @Employee
-    public void employeeMethod() {
-        facesContext.addMessage(null, new FacesMessage("You executed an @Employee method"));
-    }
 
     /**
      * Only users with the admin application role can invoke this method
@@ -51,15 +44,4 @@ public class Controller {
         facesContext.addMessage(null, new FacesMessage("You executed an @Admin method"));
     }
 
-    public String getStackTrace() {
-        Throwable throwable = (Throwable)  FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("javax.servlet.error.exception");
-        StringBuilder builder = new StringBuilder();
-        if(throwable!= null && throwable.getMessage() != null){
-	        builder.append(throwable.getMessage()).append("\n");
-	        for (StackTraceElement element : throwable.getStackTrace()) {
-	            builder.append(element).append("\n");
-	        }
-        }   
-        return builder.toString();
-    }
 }
