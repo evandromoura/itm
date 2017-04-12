@@ -83,6 +83,13 @@ public class ClienteService extends AbstractService<Cliente> {
 			return null;
 		}	
 	}
+	public Cliente recuperarPorEmail(String email){
+		try{
+			return clienteDAO.recuperarPorEmail(email);
+		}catch(Exception e){
+			return null;
+		}	
+	}
 	
 	
 	

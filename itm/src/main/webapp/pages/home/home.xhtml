@@ -146,12 +146,14 @@
 	                                        <div class="col-sm-12">
 	                                            <h4 class="card-title">#{resources['label.global.utilizacao']}</h4>
 	                                            <br />
-	                                            <ui:repeat var="contrato" value="#{homeController.homeTO.cliente.contratos}">
-		                                            <hf:chart type="line" title="#{contrato.identificador}" xaxisLabel="#{resources['label.global.data']}" yaxisLabel="#{resources['label.global.megas']}">
-													    <hf:chartSerie name="Download" value="#{contrato.listaUtilizacao}" var="download" point="#{download.acctoutputoctets}"  tickLabel="#{download.acctstarttime.time}"/>
-													    <hf:chartSerie name="Upload" value="#{contrato.listaUtilizacao}"   var="upload" point="#{upload.acctinputoctets}"  tickLabel="#{upload.acctstarttime.time}"/>
-													</hf:chart>
-												</ui:repeat> 
+	                                            <ui:fragment rendered="#{homeController.homeTO.cliente ne null and homeController.homeTO.cliente.contratos ne null}">
+		                                            <ui:repeat var="contrato" value="#{homeController.homeTO.cliente.contratos}" >
+<!-- 			                                            <hf:chart type="line" title="#{contrato.identificador}" xaxisLabel="#{resources['label.global.data']}" yaxisLabel="#{resources['label.global.megas']}"> -->
+<!-- 														    <hf:chartSerie name="Download" value="#{contrato.listaUtilizacao}" var="download" point="#{download.acctoutputoctets}"  tickLabel="#{download.acctstarttime.time}"/> -->
+<!-- 														    <hf:chartSerie name="Upload" value="#{contrato.listaUtilizacao}"   var="upload" point="#{upload.acctinputoctets}"  tickLabel="#{upload.acctstarttime.time}"/> -->
+<!-- 														</hf:chart> -->
+													</ui:repeat> 
+												</ui:fragment>	
 	                                        </div>
 	                                    </div>
 	                                </div>

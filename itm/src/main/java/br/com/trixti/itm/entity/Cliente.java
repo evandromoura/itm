@@ -75,6 +75,7 @@ public class Cliente implements java.io.Serializable {
 	@OneToMany(mappedBy="cliente")
 	private List<Contrato> contratos;
 	
+	private String senha;
 	
 	public Cliente() {
 	}
@@ -211,6 +212,14 @@ public class Cliente implements java.io.Serializable {
 
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 	
 

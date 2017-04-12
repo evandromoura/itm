@@ -33,7 +33,9 @@ public class HomeController extends AbstractController<Object>{
 			getHomeTO().setCliente(customIdentity.getCliente());
 			getHomeTO().setListaUltimosBoletos(boletoService.pesquisarUltimosBoletosCliente(getHomeTO().getCliente()));
 			for(Contrato contrato:getHomeTO().getCliente().getContratos()){
-				 contrato.setListaUtilizacao(radacctService.pesquisarUltimosPorUsername(contrato.getAutenticacoes().get(0).getUsername()));
+				if(contrato.getAutenticacoes() != null && !contrato.getAutenticacoes().isEmpty()){
+					contrato.setListaUtilizacao(radacctService.pesquisarUltimosPorUsername(contrato.getAutenticacoes().get(0).getUsername()));
+				}	
 			}
 		}	
 	}

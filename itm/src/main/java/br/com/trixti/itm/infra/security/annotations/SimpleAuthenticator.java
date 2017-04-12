@@ -42,7 +42,7 @@ public class SimpleAuthenticator extends BaseAuthenticator {
 			customIdentity.setPerfil(PerfilEnum.ADMIN);
 		}else{
 			setStatus(AuthenticationStatus.FAILURE);
-			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("Authentication Failure - The username or password you provided were invalid."));
+//			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage("Authentication Failure - The username or password you provided were invalid."));
 		}
 	}
 
