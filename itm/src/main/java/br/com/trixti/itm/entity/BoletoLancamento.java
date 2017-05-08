@@ -34,7 +34,7 @@ public class BoletoLancamento implements java.io.Serializable {
 	@JoinColumn(name = "id_boleto")
 	private Boleto boleto;
 
-	@ManyToOne(fetch = FetchType.LAZY,cascade=CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_lancamento")
 	private ContratoLancamento contratoLancamento;
 

@@ -43,7 +43,8 @@
 												rendered="#{clienteViewController.clienteTO.cliente.tipoPessoa.name eq 'FISICA'}">
 												<div class="col-sm-6">
 													<div class="form-group">
-														<label>#{resources['label.global.cpf']}:</label>#{clienteViewController.clienteTO.cliente.cpfCnpj}
+														<label>#{resources['label.global.cpf']}:</label><br /> 
+														#{clienteViewController.clienteTO.cliente.cpfCnpj}
 													</div>
 												</div>
 											</ui:fragment>
@@ -57,11 +58,17 @@
 												</div>
 											</ui:fragment>
 											<div class="col-sm-4">
-											<div class="form-group">
-												<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}:</label><br />
-												#{clienteViewController.clienteTO.cliente.telefoneCelular}
+												<div class="form-group">
+													<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}:</label><br />
+													#{clienteViewController.clienteTO.cliente.telefoneCelular}
+												</div>
 											</div>
-										</div>
+											<div class="col-sm-2">
+												<div class="form-group">
+													<label>#{resources['label.global.email']}:</label><br />
+													#{clienteViewController.clienteTO.cliente.email}
+												</div>
+											</div>
 										</h:panelGroup>
 									</div>
 									<div class="row">

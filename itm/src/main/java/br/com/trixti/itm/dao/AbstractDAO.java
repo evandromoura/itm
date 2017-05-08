@@ -119,5 +119,10 @@ public class AbstractDAO<T> {
 			this.incluir(objeto);
 		}
 	}
+	public void alterarLista(List<T> listaEntidade){
+		for(T objeto:listaEntidade){
+			this.alterar(objeto);
+		}
+	}
 	
 }

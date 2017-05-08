@@ -11,12 +11,16 @@ import javax.inject.Inject;
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.SMS.SMSBuilder;
 import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
+import br.com.trixti.itm.infra.sms.EnvioSMSZenviaService;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.radacct.RadacctService;
+import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.to.HomeTO;
 import br.com.trixti.itm.util.UtilArquivo;
+import br.com.zenvia.client.exception.RestClientException;
 
 @Model
 public class HomeController extends AbstractController<Object>{
@@ -26,6 +30,8 @@ public class HomeController extends AbstractController<Object>{
 	private @Inject BoletoService boletoService;
 	private @Inject RadacctService radacctService;
 	private @Inject GeradorBoletoService geradorBoletoService;
+	
+	private @Inject SMSService smsService;
 	
 	@PostConstruct
 	private void init(){
@@ -55,6 +61,10 @@ public class HomeController extends AbstractController<Object>{
 			getFacesContext().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage()));
 		}	
+	}
+	
+	public void enviarSMS(){
+		smsService.enviarSMS(new SMSBuilder().dddTelefone("61").numeroTelefone("992988839").mensagem("Seu boleto foi gerado").build());
 	}
 
 	public HomeTO getHomeTO() {

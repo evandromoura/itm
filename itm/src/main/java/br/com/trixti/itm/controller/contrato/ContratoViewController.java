@@ -18,11 +18,11 @@ import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoLancamento;
-import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
+import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceira;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
@@ -42,6 +42,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject ContratoLancamentoService contratoLancamentoService;
 	private @Inject BoletoService boletoService;
 	private @Inject ParametroService parametroService;
+	private @Inject IntegracaoFinanceira integracaoFinanceira;
 
 	@PostConstruct
 	public void init() {
@@ -70,6 +71,15 @@ public class ContratoViewController extends AbstractController<Contrato> {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage()));
 		}	
 	}
+	
+	
+	public void enviarBoleto(Boleto boleto) throws Exception {
+		File arquivo = integracaoFinanceira.gerarRemessa(boleto);
+		UtilArquivo utilArquivo = new UtilArquivo();
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		utilArquivo.convertFileToByteArrayOutputStream(arquivo, byteArrayOutputStream);
+		download(byteArrayOutputStream, arquivo.getName());
+	}
 
 	public void criarContratoLancamento() {
 		getContratoTO().getContratoLancamento().setContrato(getContratoTO().getContrato());
@@ -84,11 +94,14 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			List<BoletoLancamento> listaBoletoLancamento = new ArrayList<BoletoLancamento>();
 			BoletoLancamento boletoLancamento = new BoletoLancamento();
 			boletoLancamento.setBoleto(boleto);
+			contratoLancamentoService.incluir(getContratoTO().getContratoLancamento());
 			boletoLancamento.setContratoLancamento(getContratoTO().getContratoLancamento());
 			listaBoletoLancamento.add(boletoLancamento);
 			boleto.setLancamentos(listaBoletoLancamento);
 			boleto.setStatus(StatusBoletoEnum.ABERTO);
 			boletoService.incluir(boleto);
+		}else{
+			contratoLancamentoService.incluir(getContratoTO().getContratoLancamento());
 		}
 		getContratoTO().setContratoLancamento(null);
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Incluido com Sucesso",

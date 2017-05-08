@@ -51,6 +51,9 @@ public class ContaCorrente implements java.io.Serializable {
 
 	@Column(name="digito_conta_corrente")
 	private String digitoContaCorrente;
+	
+	@Column(name="codigo_banco")
+	private String codigoBanco;
 
 	public Integer getId() {
 		return id;
@@ -122,6 +125,14 @@ public class ContaCorrente implements java.io.Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public String getCodigoBanco() {
+		return codigoBanco;
+	}
+
+	public void setCodigoBanco(String codigoBanco) {
+		this.codigoBanco = codigoBanco;
 	}
 	
 }

@@ -175,6 +175,23 @@
 		    <artifactId>hibernate-envers</artifactId>
 		    <scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>br.com.zenvia</groupId>
+			<artifactId>java-rest-api</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpclient</artifactId>
+		    <version>4.5.3</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.5</version>
+		</dependency>
 
         
 <!-- FIM DAS DEPENDENCIAS DO PROJETO -->
@@ -258,4 +275,24 @@
         </profile>
 
     </profiles>
+    
+    <repositories>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2</url>
+		</repository>
+		<repository>
+			<id>trix-repo</id>
+			<name>Trix Repository</name>
+			<url>http://177.190.160.15:81/repository</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>jboss-public-repository</id>
+			<name>JBoss Repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
 </project>

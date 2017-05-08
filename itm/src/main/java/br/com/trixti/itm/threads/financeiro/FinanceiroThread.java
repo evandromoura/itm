@@ -92,14 +92,11 @@ public class FinanceiroThread {
 
 	private void gerarBoleto(BigDecimal valor, List<BoletoLancamento> lancamentosBoleto, Contrato contrato) {
 		if (contrato.isGeraBoleto()){
-				List<ContratoLancamento> lancamentosEmAberto = contratoLancamentoService
-						.pesquisarLancamentoAberto(contrato);
+				List<ContratoLancamento> lancamentosEmAberto = contratoLancamentoService.pesquisarLancamentoAberto(contrato);
 				List<ContratoProduto> produtos = contratoProdutoService.pesquisarVigentePorContrato(contrato);
 				Boleto boleto = new Boleto();
 				UtilData utilData = new UtilData();
-				Date dataVencimento = utilData.ajustaData(utilData.adicionarMeses(new Date(), 1),
-						contrato.getDiaMesVencimento(), 23, 59, 59);
-				
+				Date dataVencimento = utilData.ajustaData(utilData.adicionarMeses(new Date(), 1),contrato.getDiaMesVencimento(), 23, 59, 59);
 				Boleto boletoJaCriado = boletoService.recuperarBoletoContrato(contrato, dataVencimento);
 				if (boletoJaCriado == null) {
 					for (ContratoLancamento lancamentoAberto : lancamentosEmAberto) {
@@ -116,6 +113,7 @@ public class FinanceiroThread {
 						contratoLancamento.setStatus(StatusLancamentoEnum.PENDENTE);
 						contratoLancamento.setTipoLancamento(TipoLancamentoEnum.DEBITO);
 						contratoLancamento.setValor(produto.getValor());
+						contratoLancamentoService.incluir(contratoLancamento);
 						
 						BoletoLancamento boletoLancamento = new BoletoLancamento();
 						boletoLancamento.setBoleto(boleto);

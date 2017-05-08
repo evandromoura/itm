@@ -446,6 +446,10 @@
 																<h:commandLink 
 																	action="#{contratoViewController.downloadBoleto(boleto)}"
 																	value="Download" />
+																|
+																<h:commandLink 
+																	action="#{contratoViewController.enviarBoleto(boleto)}"
+																	value="Enviar para o ITAU" />
 																| 	
 																<h:commandLink value="#{resources['label.global.excluir']}">
 																	<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />

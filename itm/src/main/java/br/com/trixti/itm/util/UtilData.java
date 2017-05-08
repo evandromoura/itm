@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -1433,5 +1435,12 @@ public class UtilData {
 			e.printStackTrace();
 			return false;
 		}  
-	}	 
+	}
+	
+	public static Date converterLocalDateTimeParaDate(LocalDateTime localDate) {
+		if (localDate != null) {
+			return Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
+		}
+		return null;
+	}
 }
