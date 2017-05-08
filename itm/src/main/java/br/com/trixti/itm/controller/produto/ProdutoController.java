@@ -22,22 +22,6 @@ public class ProdutoController extends AbstractController<Produto> {
 	private ProdutoTO produtoTO;
 	
 	
-/*	@PostConstruct
-	private void init(){
-		String acao = getRequest().getParameter("acao");
-		String parametro = getRequest().getParameter("parametro");
-		if((acao != null && acao.equals("editar"))&&(parametro != null)){
-			inicializarAlterar(Integer.valueOf(parametro));
-		}else if(acao != null && acao.equals("novo")){
-			inicializarIncluir();
-		}else{
-			getProdutoTO().setProdutos(produtoService.listar());
-		}
-		
-	}
-	*/
-
-	
 	
 	
 	@PostConstruct

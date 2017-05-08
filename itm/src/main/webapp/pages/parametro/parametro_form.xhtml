@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formParametro">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.cadastroparametro']}</strong> 
+					</div>
+					
+					
+					
+					<div class="card-block">
+						
+				
+						
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="formParametro:nome_empresa">#{resources['label.global.nomedaempresa']}</label> 
+									<h:inputText value="#{parametroController.parametroTO.parametro.nomeEmpresa}" id="nome_empresa" styleClass="form-control" />
+								</div>
+							</div>
+				
+				
+				
+				
+						
+			
+						
+							<div class="col-sm-6">		
+								<div class="form-group">
+									<label for="formParametro:cnpj">#{resources['label.global.cnpj']}</label> 
+									<h:inputText value="#{parametroController.parametroTO.parametro.cnpj}" id="cnpj" styleClass="form-control" />
+
+								</div>
+							</div>
+							
+
+							
+							
+							
+							
+							
+							</div>
+			
+						
+					</div>
+				</div>
+			 
+				
+		
+		
+		
+				<div class="card-header">
+						<strong>#{resources['label.global.prazos']}</strong> 
+					</div>	
+		
+		 		<div class="card">
+					<div class="card-block">
+							<div class="row">
+								<div class="col-sm-12">
+									
+
+						
+
+			
+										
+						
+							<div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formParametro:qtd_dias_temp">#{resources['label.global.qtd_desbloqueio_temporario']}</label> 
+									<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasDesbloqueioTemporario}" id="qtd_dias_temp" styleClass="form-control" />
+
+								</div>
+							</div>
+							
+							
+														
+						    <div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formParametro:qtd_dias_aviso">#{resources['label.global.qtd_dias_aviso']}</label> 
+									<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasAviso}" id="qtd_dias_aviso" styleClass="form-control" />
+								</div>
+							</div>
+							
+							
+							
+													
+							<div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formParametro:qtd_dias_bloqueio">#{resources['label.global.qtd_dias_bloqueio']}</label> 
+									<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasBloqueio}" id="qtd_dias_bloqueio" styleClass="form-control" />
+
+								</div>
+							</div>
+							
+							
+							
+
+							
+							
+														
+						    <div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formParametro:qtd_dias_inativacao">#{resources['label.global.qtd_dias_inativacao']}</label> 
+									<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasInativacao}" id="qtd_dias_inativacao" styleClass="form-control" />
+								</div>
+							</div>
+
+
+
+
+								</div>
+							</div>
+					</div>	
+				</div>	
+		
+		
+
+		
+		
+		
+				
+		
+		
+		
+						<div class="card-header">
+						<strong>#{resources['label.global.servicodealerta']}</strong> 
+						</div>
+							
+		
+				 		<div class="card">
+					<div class="card-block">
+							<div class="row">
+								<div class="col-sm-12">
+									
+
+
+			
+										
+						
+							<div class="col-sm-6">		
+								<div class="form-group">
+									<label for="formParametro:email_conta">#{resources['label.global.email']}</label> 
+									<h:inputText value="#{email}" id="email_conta" styleClass="form-control" />
+
+								</div>
+							</div>
+							
+		
+							
+							
+							
+						    <div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formParametro:email_senha">#{resources['label.global.senha']}</label> 
+									<h:inputText value="#{email2}" id="email_senha" styleClass="form-control" />
+								</div>
+							</div>
+							
+							
+							
+														
+						    <div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formParametro:email_smtp">#{resources['label.global.servidorsmtp']}</label> 
+									<h:inputText value="#{email3}" id="email_smtp" styleClass="form-control" />
+								</div>
+							</div>
+
+
+
+
+								</div>
+							</div>
+					</div>	
+				</div>	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+				
+				
+				
+ 				<div class="card">
+					<div class="card-block">
+							<div class="row">
+								<div class="col-sm-12">
+									
+
+								<div class="form-group">
+									<h:commandLink action="#{parametroController.gravar()}" styleClass="btn btn-lg btn-success">
+										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
+									</h:commandLink>	
+	
+								</div>
+
+
+
+
+
+
+								</div>
+							</div>
+					</div>	
+				</div>	
+
+			</h:form>
+
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+	</ui:define>
+
+
+</ui:composition>
