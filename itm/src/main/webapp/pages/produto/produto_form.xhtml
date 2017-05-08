@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formProduto">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.cadastroproduto']}</strong> 
+					</div>
+					<div class="card-block">
+						
+				
+						
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formProduto:nome_produto">#{resources['label.global.nome']}</label> 
+									<h:inputText value="#{produtoController.produtoTO.produto.nome}" id="nome_produto" styleClass="form-control" />
+								</div>
+							</div>
+				
+				
+				
+				
+						
+			
+						
+							<div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formProduto:valor_produto">#{resources['label.global.valor']}</label> 
+									<h:inputText value="#{produtoController.produtoTO.produto.valor}" id="valor_produto" styleClass="form-control" />
+									
+								</div>
+							</div>
+							
+							
+						    <div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formProduto:tipo_produto">#{resources['label.global.tipo']}</label> 
+									<h:inputText value="#{produtoController.produtoTO.produto.tipo}" id="tipo_produto" styleClass="form-control" />
+								</div>
+							</div>
+							
+							
+							
+										</div>
+			
+						
+					</div>
+				</div>
+			 
+				
+ 				<div class="card">
+					<div class="card-block">
+							<div class="row">
+								<div class="col-sm-12">
+									
+
+								<div class="form-group">
+									<h:commandLink action="#{produtoController.gravar()}" styleClass="btn btn-lg btn-success">
+										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
+									</h:commandLink>	
+	
+								</div>
+
+
+
+
+
+
+								</div>
+							</div>
+					</div>	
+				</div>	
+
+			</h:form>
+
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+	</ui:define>
+
+
+</ui:composition>
