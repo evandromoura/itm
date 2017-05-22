@@ -97,33 +97,12 @@
 					<Field name="Brancos4" length="1" type="CHARACTER"  /><!--Enviar 1 Branco -->													
 					<Field name="NumeroSequencialRegistro" type="INTEGER" length="6" padding="ZERO_LEFT" />
 				</GroupOfFields>
-<!--				    De forma aninhada mesmo 
-				<GroupOfInnerRecords>
-					<Record name="DadosBoleto">
-						<GroupOfFields>
-							<IdType name="IDReg" value="2" length="1" position="1" />
-							<Field name="Mensagem1" length="80" />
-							<Field name="Mensagem2" length="80" />
-							<Field name="Mensagem3" length="80" />
-							<Field name="Mensagem4" length="80" />
-							<Field name="Filler" length="45" />
-							<Field name="Carteira" length="3" type="INTEGER" padding="ZERO_LEFT" />
-							<Field name="Agencia" length="5" type="INTEGER" padding="ZERO_LEFT" />
-							<Field name="ContaCorrente" length="7" type="INTEGER" padding="ZERO_LEFT" />
-							<Field name="DigitoCC" length="1" type="CHARACTER" />
-							<Field name="NossoNumero" length="11" padding="ZERO_LEFT" />
-							<Field name="DigitoNN" length="1" type="CHARACTER" />
-							<SequencialNumber name="sequencia" type="INTEGER" length="6" position="13" padding="ZERO_LEFT" />
-						</GroupOfFields>
-					</Record>
-				</GroupOfInnerRecords>
-				-->	
 			</Record>		
 			<Record name="Trailler">
 				<GroupOfFields>
 					<IdType name="IDReg" value="9" length="1" position="1" />
 					<Field name="Filler" length="393" />
-					<SequencialNumber name="sequencia" type="INTEGER" length="6" position="3" padding="ZERO_LEFT" />
+					<SequencialNumber name="NumeroSequencialRegistro" type="INTEGER" length="6" position="3" padding="ZERO_LEFT" />
 				</GroupOfFields>
 			</Record>	
 		</GroupOfRecords>

@@ -55,6 +55,20 @@ public class ContaCorrente implements java.io.Serializable {
 	@Column(name="codigo_banco")
 	private String codigoBanco;
 
+	@Column(name="codigo_compensacao")
+	private String codigoCompensacao;
+	
+	@Column(name="nome_banco")
+	private String nomeBanco;
+
+	@Column(name="codigo_carteira")
+	private String codigoCarteira;
+	
+	
+	@Column(name="codigo_ocorrencia")
+	private String codigoOcorrencia;
+	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -133,6 +147,38 @@ public class ContaCorrente implements java.io.Serializable {
 
 	public void setCodigoBanco(String codigoBanco) {
 		this.codigoBanco = codigoBanco;
+	}
+
+	public String getCodigoCompensacao() {
+		return codigoCompensacao;
+	}
+
+	public void setCodigoCompensacao(String codigoCompensacao) {
+		this.codigoCompensacao = codigoCompensacao;
+	}
+
+	public String getNomeBanco() {
+		return nomeBanco;
+	}
+
+	public void setNomeBanco(String nomeBanco) {
+		this.nomeBanco = nomeBanco;
+	}
+
+	public String getCodigoCarteira() {
+		return codigoCarteira;
+	}
+
+	public void setCodigoCarteira(String codigoCarteira) {
+		this.codigoCarteira = codigoCarteira;
+	}
+
+	public String getCodigoOcorrencia() {
+		return codigoOcorrencia;
+	}
+
+	public void setCodigoOcorrencia(String codigoOcorrencia) {
+		this.codigoOcorrencia = codigoOcorrencia;
 	}
 	
 }

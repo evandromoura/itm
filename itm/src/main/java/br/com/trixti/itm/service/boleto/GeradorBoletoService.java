@@ -40,8 +40,7 @@ public class GeradorBoletoService {
          /*
           * INFORMANDO DADOS SOBRE O SACADO.
           */
-         Sacado sacado = new Sacado(boleto.getContrato().getCliente().getNome(), 
-        		 boleto.getContrato().getCliente().getCpfCnpj());
+         Sacado sacado = new Sacado(boleto.getContrato().getCliente().getNome(),  boleto.getContrato().getCliente().getCpfCnpj());
 
          // Informando o endereço do sacado. / Contrato
          Endereco enderecoSac = new Endereco();
@@ -86,20 +85,25 @@ public class GeradorBoletoService {
 //          */
          Boleto boletoGerado = new Boleto(titulo);
          
-         boletoGerado.setLocalPagamento("Pagável preferencialmente na Rede X ou em " +
-                         "qualquer Banco até o Vencimento.");
-         boletoGerado.setInstrucaoAoSacado("Senhor sacado, sabemos sim que o valor " +
-                         "cobrado não é o esperado, aproveite o DESCONTÃO!");
-         boletoGerado.setInstrucao1("PARA PAGAMENTO 1 até Hoje não cobrar nada!");
-         boletoGerado.setInstrucao2("PARA PAGAMENTO 2 até Amanhã Não cobre!");
-         boletoGerado.setInstrucao3("PARA PAGAMENTO 3 até Depois de amanhã, OK, não cobre.");
-         boletoGerado.setInstrucao4("PARA PAGAMENTO 4 até 04/xx/xxxx de 4 dias atrás COBRAR O VALOR DE: R$ 01,00");
-         boletoGerado.setInstrucao5("PARA PAGAMENTO 5 até 05/xx/xxxx COBRAR O VALOR DE: R$ 02,00");
-         boletoGerado.setInstrucao6("PARA PAGAMENTO 6 até 06/xx/xxxx COBRAR O VALOR DE: R$ 03,00");
-         boletoGerado.setInstrucao7("PARA PAGAMENTO 7 até xx/xx/xxxx COBRAR O VALOR QUE VOCÊ QUISER!");
-         boletoGerado.setInstrucao8("APÓS o Vencimento, Pagável Somente na Rede X.");
-//
-//
+         String nossoNumeroParaExibicao = String.format("%d/%s-%s", 
+        		    titulo.getContaBancaria().getCarteira().getCodigo(),
+        		    titulo.getNossoNumero(),
+        		    titulo.getDigitoDoNossoNumero());  
+         boletoGerado.addTextosExtras("txtFcNossoNumero", nossoNumeroParaExibicao); 
+         boletoGerado.addTextosExtras("txtRsNossoNumero", nossoNumeroParaExibicao); 
+         
+         boletoGerado.setLocalPagamento("");
+         boletoGerado.setInstrucaoAoSacado("");
+         boletoGerado.setInstrucao1("Após o VENCIMENTO cobrar MULTA de 2%");
+         boletoGerado.setInstrucao2("Após o VENCIMENTO cobrar JUROS de 1% ao mês");
+         boletoGerado.setInstrucao3("");
+         boletoGerado.setInstrucao4("");
+         boletoGerado.setInstrucao5("");
+         boletoGerado.setInstrucao6("");
+         boletoGerado.setInstrucao7("");
+         boletoGerado.setInstrucao8("");
+         
+         
          BoletoViewer boletoViewer = new BoletoViewer(boletoGerado);
          StringBuilder sb = new StringBuilder();
          for(int i=0;i<boletoViewer.getBoleto().getCodigoDeBarras().getFieldsLength();i++){

@@ -61,6 +61,9 @@ public class Boleto implements java.io.Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_contrato")
 	private Contrato contrato;
+	
+	@Column(name="numero_documento")
+	private String numeroDocumento;
 
 	public Boleto() {
 	}
@@ -137,6 +140,14 @@ public class Boleto implements java.io.Serializable {
 
 	public void setContrato(Contrato contrato) {
 		this.contrato = contrato;
+	}
+
+	public String getNumeroDocumento() {
+		return numeroDocumento;
+	}
+
+	public void setNumeroDocumento(String numeroDocumento) {
+		this.numeroDocumento = numeroDocumento;
 	}
 
 }
