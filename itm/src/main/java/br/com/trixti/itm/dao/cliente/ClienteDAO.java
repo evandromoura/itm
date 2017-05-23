@@ -21,7 +21,7 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		CriteriaQuery<Cliente> criteria = getCriteriaBuilder().createQuery(Cliente.class);
 		Root<Cliente> root = criteria.from(Cliente.class);
 		Predicate[] predicates = comporFiltroPesquisa(root, clientePesquisa);
-		return getManager().createQuery(criteria.select(root).where(predicates)).getResultList();
+		return getManager().createQuery(criteria.select(root).where(predicates).orderBy(getCriteriaBuilder().desc(root.get("dataCriacao")))).getResultList();
 	}
 	
 	private Predicate[] comporFiltroPesquisa(Root<Cliente> root,Cliente clientePesquisa){

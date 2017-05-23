@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">Home</a></li>
+		<li class="breadcrumb-item"><a href="#{request.contextPath}/remessa">#{resources['label.global.remessa']}</a></li>
+		<li class="breadcrumb-item active">#{remessaViewController.remessaTO.remessa.codigo}</li>
+	</ui:define>
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formRemessa">
+
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.detalhes']}</strong> <small>#{resources['label.global.remessa']}</small>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<h6 class="mb-1"><b>#{resources['label.global.data']}</b></h6>
+									<div>
+										<h:outputText
+											value="#{remessaViewController.remessaTO.remessa.dataCriacao}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>	
+										</h:outputText>	
+									</div>
+									
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<h6 class="mb-1"><b>#{resources['label.global.identificador']}</b></h6>
+									<div>
+										<h:outputText
+											value="#{remessaViewController.remessaTO.remessa.codigo}" />
+									</div>
+									
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<h6 class="mb-1"><b>#{resources['label.global.status']}</b></h6>
+									<div>
+										<h:outputText
+											value="#{remessaViewController.remessaTO.remessa.status}" />
+									</div>
+									
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<h6 class="mb-1"><b>#{resources['label.global.banco']}</b></h6>
+									<div>
+										<h:outputText
+											value="#{remessaViewController.remessaTO.remessa.banco}" />
+									</div>
+									
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.boletos']}</strong> <small>#{resources['label.global.remessa']}</small>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<h:dataTable var="boleto" value="#{remessaViewController.remessaTO.remessa.boletos}" styleClass="table">
+								<h:column>
+									<f:facet name="header">
+										#
+									</f:facet>
+									#{boleto.id}
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										#{resources['label.global.datavencimento']}
+									</f:facet>
+									<h:outputText value="#{boleto.dataVencimento}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText>
+								</h:column>
+								
+								<h:column>
+									<f:facet name="header">
+										#{resources['label.global.cliente']}
+									</f:facet>
+									<h:outputText value="#{boleto.contrato.cliente.nome}">
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										#{resources['label.global.valor']} R$
+									</f:facet>
+									<h:outputText value="#{boleto.valor}">
+										<f:convertNumber pattern="#,##0.00" /> 
+									</h:outputText>
+								</h:column>
+
+								<h:column>
+									<f:facet name="header">
+										#{resources['label.global.status']}
+									</f:facet>
+									<b><h:outputText value="#{boleto.status}"  styleClass="#{boleto.status.name eq 'PAGO' ? 'text-success':'text-danger'}"/></b>
+								</h:column>
+								
+							</h:dataTable>
+						</div>
+
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+
+
+</ui:composition>

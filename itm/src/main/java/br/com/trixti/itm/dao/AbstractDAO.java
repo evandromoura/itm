@@ -124,5 +124,6 @@ public class AbstractDAO<T> {
 			this.alterar(objeto);
 		}
 	}
+
 	
 }

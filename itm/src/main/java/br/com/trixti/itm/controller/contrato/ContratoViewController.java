@@ -22,7 +22,7 @@ import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
-import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceira;
+import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
@@ -42,7 +42,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject ContratoLancamentoService contratoLancamentoService;
 	private @Inject BoletoService boletoService;
 	private @Inject ParametroService parametroService;
-	private @Inject IntegracaoFinanceira integracaoFinanceira;
+	private @Inject IntegracaoFinanceiraItau integracaoFinanceiraItau;
 
 	@PostConstruct
 	public void init() {
@@ -74,11 +74,11 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	
 	
 	public void enviarBoleto(Boleto boleto) throws Exception {
-		File arquivo = integracaoFinanceira.gerarRemessa(boleto);
-		UtilArquivo utilArquivo = new UtilArquivo();
-		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		utilArquivo.convertFileToByteArrayOutputStream(arquivo, byteArrayOutputStream);
-		download(byteArrayOutputStream, arquivo.getName());
+//		File arquivo = integracaoFinanceiraItau.gerarRemessa(boleto);
+//		UtilArquivo utilArquivo = new UtilArquivo();
+//		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//		utilArquivo.convertFileToByteArrayOutputStream(arquivo, byteArrayOutputStream);
+//		download(byteArrayOutputStream, arquivo.getName());
 	}
 
 	public void criarContratoLancamento() {

@@ -1,8 +1,8 @@
 package br.com.trixti.itm.infra.financeiro;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -14,37 +14,62 @@ import org.jrimum.texgit.Record;
 import org.jrimum.texgit.Texgit;
 
 import br.com.trixti.itm.entity.Boleto;
-import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Parametro;
+import br.com.trixti.itm.entity.Remessa;
+import br.com.trixti.itm.enums.StatusRemessaEnum;
+import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.parametro.ParametroService;
+import br.com.trixti.itm.service.remessa.RemessaService;
+import br.com.trixti.itm.util.Base64Utils;
+import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilString;
 
 @Named
-public class IntegracaoFinanceira {
+public class IntegracaoFinanceiraItau {
 	
 	private Parametro parametro;
 	private @Inject ParametroService parametroService;
+	private @Inject RemessaService remessaService;
+	private @Inject BoletoService boletoService;
 	
 	@PostConstruct
 	private void init(){
 		parametro = parametroService.recuperarParametro();
 	}
 	
-	public File gerarRemessa(Boleto boleto) throws IOException {
+	
+	
+	public void gerarRemessa(List<Boleto> boletos) {
 
-		File arquivoFinal = new File("arquivo-final.txt");
-		File layout = new File(this.getClass().getResource("layout-cnab400-itau-envio.xml").getFile());
-		FlatFile<Record> ff = Texgit.createFlatFile(layout);  
-
-		ff.addRecord(createHeader(ff, boleto));
-		int index = 2;
-		for(BoletoLancamento lancamento:boleto.getLancamentos()){
-			ff.addRecord(createTransacaoTitulos(ff, lancamento,index++));
-		}
-		ff.addRecord(createTrailer(ff, boleto,index));
-		FileUtils.writeLines(arquivoFinal, ff.write(), "\r\n");
+		Remessa remessa = new Remessa();
+		remessa.setCodigo("abc123");
+		UtilArquivo utilArquivo = new UtilArquivo();
+		try{
+			if(boletos != null && !boletos.isEmpty()){
+				File arquivoFinal = new File("arquivo-final.txt");
+				File layout = new File(this.getClass().getResource("layout-cnab400-itau-envio.xml").getFile());
+				FlatFile<Record> ff = Texgit.createFlatFile(layout);
+				Boleto boletoHeader = boletos.get(0);
+				ff.addRecord(createHeader(ff, boletoHeader));
+				int index = 2;
+				for(Boleto boleto:boletos){
+					ff.addRecord(createTransacaoTitulos(ff, boleto,index++));
+					boleto.setRemessa(remessa);
+				}
+				ff.addRecord(createTrailer(ff,index));
+				FileUtils.writeLines(arquivoFinal, ff.write(), "\r\n");
+				remessa.setDataCriacao(new Date());
+				remessa.setArquivo(Base64Utils.base64Encode(utilArquivo.getBytesFromFile(arquivoFinal)));
+				remessa.setBanco(boletoHeader.getContrato().getContaCorrente().getBanco());
+				remessa.setStatus(StatusRemessaEnum.GERADO);
+				remessaService.incluir(remessa);
+				boletoService.alterarLista(boletos);
+			}	
+		}catch(Exception e){
+			System.out.println("ERRO AO GERAR O ARQUIVO");
+			e.printStackTrace();
+		}	
 		
-		return arquivoFinal;
 	}
 
 	private Record createHeader(FlatFile<Record> ff, Boleto boleto) {
@@ -66,34 +91,34 @@ public class IntegracaoFinanceira {
 		return header;
 	}
 
-	private Record createTransacaoTitulos(FlatFile<Record> ff, BoletoLancamento lancamento,Integer index) {
+	private Record createTransacaoTitulos(FlatFile<Record> ff, Boleto boleto,Integer index) {
 		Record transacaoTitulos = ff.createRecord("TransacaoTitulo");
 		UtilString utilString = new UtilString();
 		transacaoTitulos.setValue("NumeroInscricao", formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(parametro.getCnpj()), 14));
-		transacaoTitulos.setValue("Agencia", formatarValorPorTamanho(lancamento.getBoleto().getContrato().getContaCorrente().getNumeroAgencia(), 4));  
-		transacaoTitulos.setValue("Conta", formatarValorPorTamanho(lancamento.getBoleto().getContrato().getContaCorrente().getNumeroContaCorrente(), 5));
-		transacaoTitulos.setValue("DacConta", formatarValorPorTamanho(lancamento.getBoleto().getContrato().getContaCorrente().getDigitoContaCorrente(), 1));
+		transacaoTitulos.setValue("Agencia", formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getNumeroAgencia(), 4));  
+		transacaoTitulos.setValue("Conta", formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getNumeroContaCorrente(), 5));
+		transacaoTitulos.setValue("DacConta", formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getDigitoContaCorrente(), 1));
 		transacaoTitulos.setValue("Brancos1", "    ");
 		transacaoTitulos.setValue("InstrucaoAlegacao", "0000");
 		transacaoTitulos.setValue("UsoDaEmpresa", formatarValorPorTamanho("N/A", 25));
-		transacaoTitulos.setValue("NossoNumeroComDigito", formatarValorPorTamanho(lancamento.getBoleto().getContrato().getContaCorrente().getNossoNumero()+lancamento.getBoleto().getContrato().getContaCorrente().getDigitoNossoNumero(), 8));
+		transacaoTitulos.setValue("NossoNumeroComDigito", formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getNossoNumero()+boleto.getContrato().getContaCorrente().getDigitoNossoNumero(), 8));
 		transacaoTitulos.setValue("QtdMoeda", formatarValorPorTamanho("0", 13));
-		transacaoTitulos.setValue("NrCarteira", formatarValorPorTamanho(lancamento.getBoleto().getContrato().getContaCorrente().getNumeroCarteira(), 3));
+		transacaoTitulos.setValue("NrCarteira", formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getNumeroCarteira(), 3));
 		transacaoTitulos.setValue("UsoDoBanco", formatarValorPorTamanho("", 21));
-		transacaoTitulos.setValue("CodigoCarteira", formatarValorPorTamanho(lancamento.getBoleto().getContrato().getContaCorrente().getCodigoCarteira(), 1));
-		transacaoTitulos.setValue("CodigoDeOcorrencia", formatarValorPorTamanho(lancamento.getBoleto().getContrato().getContaCorrente().getCodigoOcorrencia(), 2));
+		transacaoTitulos.setValue("CodigoCarteira", formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getCodigoCarteira(), 1));
+		transacaoTitulos.setValue("CodigoDeOcorrencia", formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getCodigoOcorrencia(), 2));
 		transacaoTitulos.setValue("NumeroDoDocumento", formatarValorPorTamanho("J5H1048147", 10));
-		transacaoTitulos.setValue("Vencimento", lancamento.getBoleto().getDataVencimento());
-		transacaoTitulos.setValue("Valor", lancamento.getBoleto().getValor());
-		transacaoTitulos.setValue("CodigoCompensacaoBancoRecebedor", lancamento.getBoleto().getContrato().getContaCorrente().getCodigoCompensacao());
-		transacaoTitulos.setValue("AgenciaCobradora", lancamento.getBoleto().getContrato().getContaCorrente().getNumeroAgencia());
+		transacaoTitulos.setValue("Vencimento", boleto.getDataVencimento());
+		transacaoTitulos.setValue("Valor", boleto.getValor());
+		transacaoTitulos.setValue("CodigoCompensacaoBancoRecebedor", boleto.getContrato().getContaCorrente().getCodigoCompensacao());
+		transacaoTitulos.setValue("AgenciaCobradora", boleto.getContrato().getContaCorrente().getNumeroAgencia());
 		transacaoTitulos.setValue("EspecieDeTitulo", "08");
 		transacaoTitulos.setValue("Aceite", "N");
-		transacaoTitulos.setValue("Emissao", lancamento.getBoleto().getDataCriacao());
+		transacaoTitulos.setValue("Emissao", boleto.getDataCriacao());
 		transacaoTitulos.setValue("Instrucao1", "05");
 		transacaoTitulos.setValue("Instrucao2", "39");
 		transacaoTitulos.setValue("JurosDeMora", "0");
-		transacaoTitulos.setValue("DataDesconto", lancamento.getBoleto().getDataVencimento());
+		transacaoTitulos.setValue("DataDesconto", boleto.getDataVencimento());
 		transacaoTitulos.setValue("DescontoConcedido", "0");
 		transacaoTitulos.setValue("IOF_Devido", "0");
 		transacaoTitulos.setValue("AbatimentoConcedido", "0");
@@ -116,7 +141,7 @@ public class IntegracaoFinanceira {
 		return transacaoTitulos;
 	}
 
-	private Record createTrailer(FlatFile<Record> ff, Boleto boleto,Integer index) {
+	private Record createTrailer(FlatFile<Record> ff,Integer index) {
 		Record trailer = ff.createRecord("Trailler");
 		trailer.setValue("NumeroSequencialRegistro", index);
 		return trailer;

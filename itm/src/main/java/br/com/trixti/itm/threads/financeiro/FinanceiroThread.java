@@ -1,9 +1,12 @@
 package br.com.trixti.itm.threads.financeiro;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
@@ -11,6 +14,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.jrimum.bopepo.BancosSuportados;
 
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.BoletoLancamento;
@@ -23,6 +28,7 @@ import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
+import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
@@ -44,6 +50,7 @@ public class FinanceiroThread {
 	private @Inject BoletoService boletoService;
 	private @Inject FreeRadiusService freeRadiusService;
 	private @Inject ParametroService parametroService;
+	private @Inject IntegracaoFinanceiraItau integracaoFinanceiraItau;
 	private Parametro parametro;
 
 	@Schedule(minute = "*", hour = "*", persistent = false)
@@ -58,7 +65,11 @@ public class FinanceiroThread {
 				verificarContrato(contrato);
 			}
 		}
+		gerarRemessa();
 	}
+	
+	
+	
 	
 	
 	private void verificarContrato(Contrato contrato){
@@ -88,6 +99,24 @@ public class FinanceiroThread {
 			freeRadiusService.desbloquearContrato(contrato);
 		}
 		
+	}
+	
+	private void gerarRemessa(){
+		
+		List<Boleto> listaBoleto = boletoService.pesquisarBoletoSemRemessa();
+		Map<String,List<Boleto>> mapaBoletoBanco = new HashMap<String,List<Boleto>>();
+		for(Boleto boleto:listaBoleto){
+			if(mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()) == null){
+				mapaBoletoBanco.put(boleto.getContrato().getContaCorrente().getBanco(), new ArrayList<Boleto>());
+			}
+			mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()).add(boleto);
+		}
+		for(String banco:mapaBoletoBanco.keySet()){
+			if(banco.equals(BancosSuportados.BANCO_ITAU.name())){
+				integracaoFinanceiraItau.gerarRemessa(mapaBoletoBanco.get(banco));
+			}
+		}
+		System.out.println(mapaBoletoBanco);
 	}
 
 	private void gerarBoleto(BigDecimal valor, List<BoletoLancamento> lancamentosBoleto, Contrato contrato) {

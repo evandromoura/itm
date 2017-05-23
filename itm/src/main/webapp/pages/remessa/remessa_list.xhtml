@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
+		<li class="breadcrumb-item">#{resources['label.global.remessa']}</li>
+	</ui:define>
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formRemessa">
+
+			<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.pesquisar']}</strong> <small>#{resources['label.global.remessas']}</small>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarRemessa:nome_remessa">#{resources['label.global.nome']}</label> 
+									<h:inputText  value="#{remessaController.remessaTO.remessaPesquisa.banco}" id="nome_remessa" styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<h:commandLink action="#{remessaController.pesquisar()}" styleClass="btn btn-lg btn-primary" id="idBotaoPesquisar">
+											<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
+								</h:commandLink>
+							</div>
+						</div>	
+					</div>
+				</div>
+
+
+
+
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.resultadopesquisa']}</strong>
+					</div>
+					<div class="card-block">
+					
+						<h:dataTable value="#{remessaController.remessaTO.remessas}" var="remessa" styleClass="table table-bordered table-striped">
+						
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.data']}
+								</f:facet>
+								<h:outputText value="#{remessa.dataCriacao}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.identificador']}
+								</f:facet>
+								<h:outputText value="#{remessa.codigo}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.banco']}
+								</f:facet>
+								#{remessa.banco}
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.status']}
+								</f:facet>
+								#{remessa.status}
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.acoes']}
+								</f:facet>
+								<div class="row">
+								
+								<div class="col-sm-3">
+									<a href="#{request.contextPath}/remessa/view/#{remessa.id}" class="btn btn-info">#{resources['label.global.visualizar']}</a>    
+								</div>
+								<div class="col-sm-3">
+									<h:commandLink action="#{remessaController.download(remessa)}" value="#{resources['label.global.download']}"  styleClass="btn btn-success"/> 
+								</div>
+								
+								</div>
+							</h:column>
+						</h:dataTable>
+					</div>
+				</div>
+
+
+
+			</h:form>
+
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</ui:define>
+
+
+</ui:composition>

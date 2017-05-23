@@ -89,4 +89,14 @@ public class BoletoService extends AbstractService<Boleto>{
 		return boletoDAO.pesquisarUltimosBoletosCliente(cliente);
 		
 	}
+
+	public List<Boleto> pesquisarBoletoSemRemessa() {
+		return boletoDAO.pesquisarBoletoSemRemessa();
+	}
+	
+	public void alterarLista(List<Boleto> boletos){
+		for(Boleto boleto:boletos){
+			alterar(boleto);
+		}
+	}
 }

@@ -58,8 +58,22 @@
 						</div>
 						<div class="card-block">
 							<h:dataTable var="cliente"
-								value="#{clienteController.clienteTO.clientes}"
-								styleClass="table table-bordered table-striped">
+								value="#{clienteController.clienteTO.clientes}" style="width:100%"
+								styleClass="table table-bordered table-striped" binding="#{tabela}">
+								<h:column>
+									<f:attribute name="style" value="visible-md visible-lg" />
+									<f:facet name="header">#</f:facet>
+									<h:outputText value="#{tabela.rowIndex + 1}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">#{resources['label.global.datacadastro']}</f:facet>
+									<f:attribute name="style" value="visible-md visible-lg" />
+									<a href="#{request.contextPath}/cliente/view/#{cliente.id}">
+										<h:outputText value="#{cliente.dataCriacao}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+										</h:outputText>
+									</a>
+								</h:column>
 								<h:column>
 									<f:facet name="header">#{resources['label.global.cpfCnpj']}</f:facet>
 									<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.cpfCnpj}</a>
