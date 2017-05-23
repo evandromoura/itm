@@ -53,7 +53,9 @@
 								<f:facet name="header">
 									#{resources['label.global.data']}
 								</f:facet>
-								<h:outputText value="#{remessa.dataCriacao}" />
+								<h:outputText value="#{remessa.dataCriacao}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+								</h:outputText>
 							</h:column>
 							<h:column>
 								<f:facet name="header">
@@ -72,6 +74,17 @@
 									#{resources['label.global.status']}
 								</f:facet>
 								#{remessa.status}
+							</h:column>
+							
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.dataenvio']}
+								</f:facet>
+								<h:outputText value="#{remessa.dataCriacao}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+								</h:outputText>
+								
 							</h:column>
 							
 							<h:column>

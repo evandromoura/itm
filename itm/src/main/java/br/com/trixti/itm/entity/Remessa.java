@@ -40,6 +40,11 @@ public class Remessa implements java.io.Serializable {
 	@Column(name = "data_criacao")
 	private Date dataCriacao;
 	
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_envio")
+	private Date dataEnvio;
+	
 	private String codigo;
 	
 	private String arquivo;
@@ -119,6 +124,14 @@ public class Remessa implements java.io.Serializable {
 
 	public void setBoletos(List<Boleto> boletos) {
 		this.boletos = boletos;
+	}
+
+	public Date getDataEnvio() {
+		return dataEnvio;
+	}
+
+	public void setDataEnvio(Date dataEnvio) {
+		this.dataEnvio = dataEnvio;
 	}
 	
 	
