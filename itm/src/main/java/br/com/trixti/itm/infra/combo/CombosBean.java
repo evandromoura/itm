@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jrimum.bopepo.BancosSuportados;
+
 import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
@@ -46,6 +48,10 @@ public class CombosBean {
    
    public TipoLancamentoEnum[] getListaTipoLancamento(){
 	   return TipoLancamentoEnum.values();
+   }
+   
+   public BancosSuportados[] getListaBancosSuportados(){
+	   return BancosSuportados.values();
    }
 	
 }

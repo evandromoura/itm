@@ -65,6 +65,15 @@ public class Boleto implements java.io.Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_remessa")
 	private Remessa remessa;
+	
+	@Column(name="valor_pago")
+	private BigDecimal valorPago;
+	
+	@Column(name="nosso_numero")
+	private String nossoNumero;
+	
+	@Column(name="digito_nosso_numero")
+	private String digitoNossoNumero;
 
 	public Boleto() {
 	}
@@ -157,6 +166,30 @@ public class Boleto implements java.io.Serializable {
 
 	public void setRemessa(Remessa remessa) {
 		this.remessa = remessa;
+	}
+
+	public BigDecimal getValorPago() {
+		return valorPago;
+	}
+
+	public void setValorPago(BigDecimal valorPago) {
+		this.valorPago = valorPago;
+	}
+
+	public String getNossoNumero() {
+		return nossoNumero;
+	}
+
+	public void setNossoNumero(String nossoNumero) {
+		this.nossoNumero = nossoNumero;
+	}
+
+	public String getDigitoNossoNumero() {
+		return digitoNossoNumero;
+	}
+
+	public void setDigitoNossoNumero(String digitoNossoNumero) {
+		this.digitoNossoNumero = digitoNossoNumero;
 	}
 
 }

@@ -43,7 +43,7 @@
 	                            <div class="input-group mb-1">
 	                                <span class="input-group-addon"><i class="icon-user"></i>
 	                                </span>
-									<h:inputText id="j_username"  styleClass="form-control" required="true" label="#{resources['label.global.username']}">
+									<h:inputText id="j_username"  styleClass="form-control" required="true" label="#{resources['label.global.username']}" value="admin">
 										<f:passThroughAttribute name="placeholder" value="#{resources['label.global.username']}"  />
 										<f:passThroughAttribute name="required" value="required"  />
 									</h:inputText>
@@ -53,7 +53,7 @@
 	                                <span class="input-group-addon"><i class="icon-lock"></i>
 	                                </span>
 	                                
-	                                <h:inputSecret id="j_password"  styleClass="form-control" required="true" label="#{resources['label.global.senha']}">
+	                                <h:inputSecret id="j_password"  styleClass="form-control" required="true" label="#{resources['label.global.senha']}" value="itrixti@!" redisplay="true">
 										<f:passThroughAttribute name="placeholder" value="#{resources['label.global.senha']}" />
 										<f:passThroughAttribute name="required" value="required"  />
 									</h:inputSecret>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
+		<li class="breadcrumb-item">#{resources['label.global.retorno']}</li>
+	</ui:define>
+
+	<ui:define name="corpo">
+		<h:form id="formRetorno" enctype="multipart/form-data">
+			<div class="col-sm-6">
+
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.pesquisar']}</strong> <small>#{resources['label.global.retornos']}</small>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarRetorno:nome_retorno">#{resources['label.global.nome']}</label>
+									<h:inputText
+										value="#{retornoController.retornoTO.retornoPesquisa.banco}"
+										id="nome_retorno" styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<h:commandLink action="#{retornoController.pesquisar()}" immediate="true"
+									styleClass="btn btn-lg btn-primary" id="idBotaoPesquisar">
+									<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
+								</h:commandLink>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.upload']}</strong> <small>#{resources['label.global.enviararquivo']}</small>
+					</div>
+					<div class="card-block">
+						
+						<h:inputFile id="idInputFile" class="file" type="file"
+								value="#{retornoController.retornoTO.upload}" required="true" 
+								label="Arquivo" requiredMessage="Obrigatorio">
+						</h:inputFile>
+						<br />
+						<h:selectOneMenu value="#{retornoController.retornoTO.retorno.banco}" >
+							<f:selectItems var="banco" value="#{combosBean.listaBancosSuportados}" itemValue="#{banco}" itemLabel="#{banco.instituicao}" />
+						</h:selectOneMenu>
+						<br /> <br /> 
+						<h:commandLink action="#{retornoController.enviarArquivo()}"
+							styleClass="btn btn-lg btn-success" id="idBotaoEnviarArquico">
+							<i class="fa fa-search-plus" /> #{resources['label.global.enviararquivo']}
+						</h:commandLink>
+						
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.resultadopesquisa']}</strong>
+					</div>
+					<div class="card-block">
+
+						<h:dataTable value="#{retornoController.retornoTO.retornos}"
+							var="retorno" styleClass="table table-bordered table-striped">
+
+							<h:column>
+								<f:facet name="header">
+										#{resources['label.global.data']}
+									</f:facet>
+								<h:outputText value="#{retorno.dataCriacao}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+								</h:outputText>
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">
+										#{resources['label.global.banco']}
+									</f:facet>
+									#{retorno.banco}
+								</h:column>
+
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.nomearquivo']}
+								</f:facet>
+								#{retorno.nomeArquivo}
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">
+										#{resources['label.global.dataprocessamento']}
+									</f:facet>
+								<h:outputText value="#{retorno.dataProcessamento}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+								</h:outputText>
+
+							</h:column>
+							
+						</h:dataTable>
+					</div>
+				</div>
+			</div>
+		</h:form>
+
+	</ui:define>
+
+
+</ui:composition>

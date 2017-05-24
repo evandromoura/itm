@@ -1,5 +1,6 @@
 package br.com.trixti.itm.util;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -132,6 +133,17 @@ public class UtilArquivo {
         while ((read = inputStream.read(buffer, 0, buffer.length)) != -1) {   
             byteArrayOutputStream.write(buffer, 0, read);
         }
+    }
+	
+	
+	public static byte[] converteInputStreamEmBytes(InputStream inputStream) throws Exception {
+		BufferedInputStream bis = new BufferedInputStream(inputStream);
+		byte[] bytes = new byte[bis.available()];
+		while(bis.available()>0) {
+			bis.read(bytes);
+		}
+		bis.close();
+		return bytes;
     }
 	
 }

@@ -27,6 +27,5 @@ public class RemessaService extends AbstractService<Remessa>{
 	public Remessa recuperarCompleto(Integer id) {
 		return remessaDAO.recuperarCompleto(id);
 	} 
-
 	
 }

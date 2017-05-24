@@ -86,5 +86,10 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 		Root<Boleto> root = criteria.from(Boleto.class);
 		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().isNull(root.get("remessa")))).getResultList();
 	}
+	
+	public Long recuperarNossoNumero(){
+		Query q = getManager().createNativeQuery("select nextval('public.itm_nosso_numero_seq')");
+		return (Long)q.getSingleResult();
+	}
 
 }

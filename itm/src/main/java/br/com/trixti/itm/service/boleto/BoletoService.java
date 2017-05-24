@@ -10,6 +10,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import org.jrimum.bopepo.exemplo.banco.banrisul.NossoNumero;
+
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.boleto.BoletoDAO;
 import br.com.trixti.itm.entity.Boleto;
@@ -18,6 +20,7 @@ import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
+import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boletolancamento.BoletoLancamentoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
@@ -42,7 +45,6 @@ public class BoletoService extends AbstractService<Boleto>{
 			boleto.setContrato(contrato);
 			boleto.setDataVencimento(dataAtual);
 			BigDecimal totalBoleto = new BigDecimal(0);
-			
 			for(ContratoLancamento contratoLancamento:listaLancamentoAberto){
 				BoletoLancamento lancamento = new BoletoLancamento();
 				lancamento.setBoleto(boleto);
@@ -52,8 +54,11 @@ public class BoletoService extends AbstractService<Boleto>{
 			}
 			boleto.setValor(totalBoleto);
 			boleto.setLancamentos(listaBoletoLancamento);
+			Long nossoNumero = recuperarNossoNumero();
+			boleto.setNumeroDocumento(nossoNumero.toString());
+			boleto.setNossoNumero(nossoNumero.toString());
+			boleto.setDigitoNossoNumero(String.valueOf(new CalculaBase10().getMod10(nossoNumero.toString())));
 			super.incluir(boleto);
-			
 		}
 	}
 	
@@ -98,5 +103,9 @@ public class BoletoService extends AbstractService<Boleto>{
 		for(Boleto boleto:boletos){
 			alterar(boleto);
 		}
+	}
+	
+	public Long recuperarNossoNumero(){
+		return boletoDAO.recuperarNossoNumero();
 	}
 }
