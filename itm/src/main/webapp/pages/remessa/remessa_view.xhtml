@@ -92,6 +92,13 @@
 								
 								<h:column>
 									<f:facet name="header">
+										#{resources['label.global.numerodocumento']}
+									</f:facet>
+									<h:outputText value="#{boleto.numeroDocumento}">
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
 										#{resources['label.global.cliente']}
 									</f:facet>
 									<h:outputText value="#{boleto.contrato.cliente.nome}">

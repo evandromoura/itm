@@ -1,6 +1,7 @@
 package br.com.trixti.itm.service.boleto;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,8 +10,6 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
-
-import org.jrimum.bopepo.exemplo.banco.banrisul.NossoNumero;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.boleto.BoletoDAO;
@@ -54,7 +53,7 @@ public class BoletoService extends AbstractService<Boleto>{
 			}
 			boleto.setValor(totalBoleto);
 			boleto.setLancamentos(listaBoletoLancamento);
-			Long nossoNumero = recuperarNossoNumero();
+			BigInteger nossoNumero = recuperarNossoNumero();
 			boleto.setNumeroDocumento(nossoNumero.toString());
 			boleto.setNossoNumero(nossoNumero.toString());
 			boleto.setDigitoNossoNumero(String.valueOf(new CalculaBase10().getMod10(nossoNumero.toString())));
@@ -105,7 +104,8 @@ public class BoletoService extends AbstractService<Boleto>{
 		}
 	}
 	
-	public Long recuperarNossoNumero(){
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+	public BigInteger recuperarNossoNumero(){
 		return boletoDAO.recuperarNossoNumero();
 	}
 }

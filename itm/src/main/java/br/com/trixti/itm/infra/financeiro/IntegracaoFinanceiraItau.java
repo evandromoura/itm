@@ -1,6 +1,7 @@
 package br.com.trixti.itm.infra.financeiro;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -11,7 +12,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.commons.io.FileUtils;
-import org.jrimum.bopepo.exemplo.banco.bradesco.NossoNumero;
 import org.jrimum.texgit.FlatFile;
 import org.jrimum.texgit.Record;
 import org.jrimum.texgit.Texgit;
@@ -50,7 +50,9 @@ public class IntegracaoFinanceiraItau {
 		try {
 			if (boletos != null && !boletos.isEmpty()) {
 				File arquivoFinal = new File("arquivo-final.txt");
-				File layout = new File(this.getClass().getResource("layout-cnab400-itau-envio.xml").getFile());
+				BigDecimal valorTotal = BigDecimal.ZERO;
+				
+				File layout = utilArquivo.getFileFromBytes(UtilArquivo.converteInputStreamEmBytes(IntegracaoFinanceiraItau.class.getClassLoader().getResourceAsStream("layout-cnab400-itau-envio.xml")), "layout-cnab400-itau-envio.xml");
 				FlatFile<Record> ff = Texgit.createFlatFile(layout);
 				Boleto boletoHeader = boletos.get(0);
 				ff.addRecord(createHeader(ff, boletoHeader));
@@ -58,6 +60,7 @@ public class IntegracaoFinanceiraItau {
 				for (Boleto boleto : boletos) {
 					ff.addRecord(createTransacaoTitulos(ff, boleto, index++));
 					boleto.setRemessa(remessa);
+					valorTotal = valorTotal.add(boleto.getValor());
 				}
 				ff.addRecord(createTrailer(ff, index));
 				FileUtils.writeLines(arquivoFinal, ff.write(), "\r\n");
@@ -65,6 +68,7 @@ public class IntegracaoFinanceiraItau {
 				remessa.setArquivo(Base64Utils.base64Encode(utilArquivo.getBytesFromFile(arquivoFinal)));
 				remessa.setBanco(boletoHeader.getContrato().getContaCorrente().getBanco());
 				remessa.setStatus(StatusRemessaEnum.GERADO);
+				remessa.setValor(valorTotal);
 				remessaService.incluir(remessa);
 				boletoService.alterarLista(boletos);
 			}
@@ -82,7 +86,7 @@ public class IntegracaoFinanceiraItau {
 
 				byte[] bytes = Base64Utils.base64Decode(retorno.getArquivo());
 				File arquivoRetorno = utilArquivo.getFileFromBytes(bytes, retorno.getNomeArquivo());
-				FlatFile<Record> ff = Texgit.createFlatFile(new File(this.getClass().getResource("layout-cnab400-itau-retorno.xml").getFile()));
+				FlatFile<Record> ff = Texgit.createFlatFile(new File(IntegracaoFinanceiraItau.class.getResource("layout-cnab400-itau-envio.xml").getFile()));
 				ff.read(FileUtil.read(arquivoRetorno.getAbsolutePath()));
 				Record header = ff.getRecord("Header");
 //				System.out.println("Identificacao retorno: " + header.getValue("IdentificacaoRetorno"));
@@ -147,7 +151,7 @@ public class IntegracaoFinanceiraItau {
 		transacaoTitulos.setValue("UsoDoBanco",formatarValorPorTamanho("", 21));
 		transacaoTitulos.setValue("CodigoCarteira",formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getCodigoCarteira(), 1));
 		transacaoTitulos.setValue("CodigoDeOcorrencia",	formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getCodigoOcorrencia(), 2));
-		transacaoTitulos.setValue("NumeroDoDocumento", formatarValorPorTamanho("J5H1048147", 10));
+		transacaoTitulos.setValue("NumeroDoDocumento", formatarValorPorTamanho(boleto.getNumeroDocumento(), 10));
 		transacaoTitulos.setValue("Vencimento", boleto.getDataVencimento());
 		transacaoTitulos.setValue("Valor", boleto.getValor());
 		transacaoTitulos.setValue("CodigoCompensacaoBancoRecebedor",boleto.getContrato().getContaCorrente().getCodigoCompensacao());

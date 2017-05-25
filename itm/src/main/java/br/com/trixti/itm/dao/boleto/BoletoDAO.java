@@ -1,5 +1,6 @@
 package br.com.trixti.itm.dao.boleto;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
@@ -87,9 +88,9 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().isNull(root.get("remessa")))).getResultList();
 	}
 	
-	public Long recuperarNossoNumero(){
+	public BigInteger recuperarNossoNumero(){
 		Query q = getManager().createNativeQuery("select nextval('public.itm_nosso_numero_seq')");
-		return (Long)q.getSingleResult();
+		return (BigInteger)q.getSingleResult();
 	}
 
 }

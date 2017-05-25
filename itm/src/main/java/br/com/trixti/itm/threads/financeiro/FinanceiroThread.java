@@ -1,6 +1,7 @@
 package br.com.trixti.itm.threads.financeiro;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
+import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
@@ -55,8 +57,10 @@ public class FinanceiroThread {
 	private @Inject RetornoService retornoService;
 	private Parametro parametro;
 
+	
+	
 	@Schedule(minute = "*", hour = "*", persistent = false)
-	public void executar() throws Exception {
+	public void processarBoleto() {
 		parametro = parametroService.recuperarParametro();
 		List<Cliente> clientes = clienteService.listarAtivo();
 		for (Cliente cliente : clientes) {
@@ -67,8 +71,44 @@ public class FinanceiroThread {
 				verificarContrato(contrato);
 			}
 		}
-		gerarRemessa();
-		processarRetorno();
+	}
+	
+	@Schedule(minute = "*", hour = "*", persistent = false)
+	public void processarRemessa(){
+		List<Boleto> listaBoleto = boletoService.pesquisarBoletoSemRemessa();
+		Map<String,List<Boleto>> mapaBoletoBanco = new HashMap<String,List<Boleto>>();
+		for(Boleto boleto:listaBoleto){
+			if(mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()) == null){
+				mapaBoletoBanco.put(boleto.getContrato().getContaCorrente().getBanco(), new ArrayList<Boleto>());
+			}
+			mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()).add(boleto);
+		}
+		for(String banco:mapaBoletoBanco.keySet()){
+			if(banco.equals(BancosSuportados.BANCO_ITAU.name())){
+				integracaoFinanceiraItau.gerarRemessa(mapaBoletoBanco.get(banco));
+			}
+		}
+		System.out.println(mapaBoletoBanco);
+	}
+	
+	@Schedule(minute = "*", hour = "*", persistent = false)
+	public void processarRetorno(){
+		List<Retorno> listaRetorno = retornoService.listarPendentes();
+		Map<String,List<Retorno>> mapaRetorno = new HashMap<String,List<Retorno>>();
+		for(Retorno retorno:listaRetorno){
+			if(retorno.getBanco().equals(BancosSuportados.BANCO_ITAU.name())){
+				if(mapaRetorno.get(retorno.getBanco()) == null){
+					mapaRetorno.put(retorno.getBanco(), new ArrayList<Retorno>());
+				}
+				mapaRetorno.get(retorno.getBanco()).add(retorno);
+			}
+		}
+		for(String banco:mapaRetorno.keySet()){
+			
+			if(BancosSuportados.BANCO_ITAU.name().equals(banco)){
+				integracaoFinanceiraItau.processarRetorno(mapaRetorno.get(banco));
+			}
+		}
 	}
 	
 	private void verificarContrato(Contrato contrato){
@@ -99,42 +139,7 @@ public class FinanceiroThread {
 		
 	}
 	
-	private void gerarRemessa(){
-		
-		List<Boleto> listaBoleto = boletoService.pesquisarBoletoSemRemessa();
-		Map<String,List<Boleto>> mapaBoletoBanco = new HashMap<String,List<Boleto>>();
-		for(Boleto boleto:listaBoleto){
-			if(mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()) == null){
-				mapaBoletoBanco.put(boleto.getContrato().getContaCorrente().getBanco(), new ArrayList<Boleto>());
-			}
-			mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()).add(boleto);
-		}
-		for(String banco:mapaBoletoBanco.keySet()){
-			if(banco.equals(BancosSuportados.BANCO_ITAU.name())){
-				integracaoFinanceiraItau.gerarRemessa(mapaBoletoBanco.get(banco));
-			}
-		}
-		System.out.println(mapaBoletoBanco);
-	}
 	
-	private void processarRetorno(){
-		List<Retorno> listaRetorno = retornoService.listarPendentes();
-		Map<String,List<Retorno>> mapaRetorno = new HashMap<String,List<Retorno>>();
-		for(Retorno retorno:listaRetorno){
-			if(retorno.getBanco().equals(BancosSuportados.BANCO_ITAU.name())){
-				if(mapaRetorno.get(retorno.getBanco()) == null){
-					mapaRetorno.put(retorno.getBanco(), new ArrayList<Retorno>());
-				}
-				mapaRetorno.get(retorno.getBanco()).add(retorno);
-			}
-		}
-		for(String banco:mapaRetorno.keySet()){
-			
-			if(BancosSuportados.BANCO_ITAU.name().equals(banco)){
-				integracaoFinanceiraItau.processarRetorno(mapaRetorno.get(banco));
-			}
-		}
-	}
 
 	private void gerarBoleto(BigDecimal valor, List<BoletoLancamento> lancamentosBoleto, Contrato contrato) {
 		if (contrato.isGeraBoleto()){
@@ -175,6 +180,7 @@ public class FinanceiroThread {
 						boleto.setStatus(StatusBoletoEnum.ABERTO);
 						boleto.setValor(valor);
 						boleto.setDataVencimento(dataVencimento);
+						comporNossoNumero(boleto);
 						boletoService.incluir(boleto);
 					}else{
 						boleto.setContrato(contrato);
@@ -183,6 +189,7 @@ public class FinanceiroThread {
 						boleto.setStatus(StatusBoletoEnum.PAGO);
 						boleto.setValor(BigDecimal.ZERO);
 						boleto.setDataVencimento(dataVencimento);
+						comporNossoNumero(boleto);
 						if(boleto.getLancamentos() != null && !boleto.getLancamentos().isEmpty()){
 							boletoService.incluir(boleto);
 						}	
@@ -196,6 +203,13 @@ public class FinanceiroThread {
 				}	
 			}
 		}
+	}
+	
+	private void comporNossoNumero(Boleto boleto){
+		BigInteger nossoNumero = boletoService.recuperarNossoNumero();
+		boleto.setNumeroDocumento(nossoNumero.toString());
+		boleto.setNossoNumero(nossoNumero.toString());
+		boleto.setDigitoNossoNumero(String.valueOf(new CalculaBase10().getMod10(nossoNumero.toString())));
 	}
 	
 	public static void main(String[] args) {

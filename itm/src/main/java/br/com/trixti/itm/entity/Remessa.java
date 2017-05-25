@@ -2,6 +2,7 @@ package br.com.trixti.itm.entity;
 // default package
 // Generated 22/02/2017 14:34:07 by Hibernate Tools 4.3.4.Final
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -57,16 +58,19 @@ public class Remessa implements java.io.Serializable {
 	@OneToMany(mappedBy="remessa")
 	private List<Boleto> boletos;
 	
+	private BigDecimal valor;
+	
 	public Remessa(){
 		
 	}
 	
-	public Remessa(Integer id,Date dataCriacao,String codigo,String banco,StatusRemessaEnum status){
+	public Remessa(Integer id,Date dataCriacao,String codigo,String banco,StatusRemessaEnum status, BigDecimal valor){
 		setId(id);
 		setDataCriacao(dataCriacao);
 		setCodigo(codigo);
 		setBanco(banco);
 		setStatus(status);
+		setValor(valor);
 	}
 	
 	
@@ -132,6 +136,14 @@ public class Remessa implements java.io.Serializable {
 
 	public void setDataEnvio(Date dataEnvio) {
 		this.dataEnvio = dataEnvio;
+	}
+
+	public BigDecimal getValor() {
+		return valor;
+	}
+
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
 	}
 	
 	

@@ -381,9 +381,12 @@
 														<div class="col-sm-12">
 															<label ></label>
 															<h:outputText value="#{resources['label.global.datavencimento']}" />
-															<itm:data id="idInputDataVencimento" value="#{contratoViewController.contratoTO.dataVencimentoBoleto}" disabled="#{not contratoViewController.exibeBotaoGerarBoleto}">
-																<f:ajax event="atualizar" />
-															</itm:data>
+															
+															<h:inputText value="#{contratoViewController.contratoTO.dataVencimentoBoleto}" 
+																onkeypress="mascara(this,data);" styleClass="#{cc.attrs.styleClass}" maxlength="10" disabled="#{not contratoViewController.exibeBotaoGerarBoleto}">
+																<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"/>
+																<f:ajax event="blur" />
+															</h:inputText> 
 															
 															<br />
 															<br />
@@ -447,10 +450,6 @@
 																	action="#{contratoViewController.downloadBoleto(boleto)}"
 																	value="Download" />
 																|
-																<h:commandLink 
-																	action="#{contratoViewController.enviarBoleto(boleto)}"
-																	value="Enviar para o ITAU" />
-																| 	
 																<h:commandLink value="#{resources['label.global.excluir']}">
 																	<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
 																</h:commandLink>

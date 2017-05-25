@@ -3,6 +3,7 @@ package br.com.trixti.itm.controller.contrato;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
+import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
@@ -72,14 +74,6 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		}	
 	}
 	
-	
-	public void enviarBoleto(Boleto boleto) throws Exception {
-//		File arquivo = integracaoFinanceiraItau.gerarRemessa(boleto);
-//		UtilArquivo utilArquivo = new UtilArquivo();
-//		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//		utilArquivo.convertFileToByteArrayOutputStream(arquivo, byteArrayOutputStream);
-//		download(byteArrayOutputStream, arquivo.getName());
-	}
 
 	public void criarContratoLancamento() {
 		getContratoTO().getContratoLancamento().setContrato(getContratoTO().getContrato());
@@ -99,6 +93,10 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			listaBoletoLancamento.add(boletoLancamento);
 			boleto.setLancamentos(listaBoletoLancamento);
 			boleto.setStatus(StatusBoletoEnum.ABERTO);
+			BigInteger nossoNumero = boletoService.recuperarNossoNumero();
+			boleto.setNumeroDocumento(nossoNumero.toString());
+			boleto.setNossoNumero(nossoNumero.toString());
+			boleto.setDigitoNossoNumero(String.valueOf(new CalculaBase10().getMod10(nossoNumero.toString())));
 			boletoService.incluir(boleto);
 		}else{
 			contratoLancamentoService.incluir(getContratoTO().getContratoLancamento());
@@ -110,13 +108,17 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	}
 
 	public void gerarBoletoListaContratoLancamento() {
-		
 			Boleto boleto = new Boleto();
 			boleto.setContrato(getContratoTO().getContrato());
 			Date dataAtual = new Date();
 			boleto.setDataCriacao(dataAtual);
 			boleto.setDataVencimento(getContratoTO().getDataVencimentoBoleto());
 			boleto.setLancamentos(new ArrayList<BoletoLancamento>());
+			BigInteger nossoNumero = boletoService.recuperarNossoNumero();
+			boleto.setNumeroDocumento(nossoNumero.toString());
+			boleto.setNossoNumero(nossoNumero.toString());
+			boleto.setDigitoNossoNumero(String.valueOf(new CalculaBase10().getMod10(nossoNumero.toString())));
+			
 			BigDecimal totalBoleto = new BigDecimal(0);
 			for (ContratoLancamento contratoLancamento : getContratoTO().getContrato().getLancamentos()) {
 				if (contratoLancamento.isSelecionado()) {

@@ -60,7 +60,7 @@
 					<Field name="Brancos1" length="4" type="CHARACTER" /><!--Enviar 4 Brancos -->										
 					<Field name="InstrucaoAlegacao" length="4" type="INTEGER" /> 
 					<Field name="UsoDaEmpresa" length="25" type="CHARACTER" /> 
-					<Field name="NossoNumeroComDigito" length="8" type="INTEGER" />
+					<Field name="NossoNumeroComDigito" length="8" type="INTEGER" padding="ZERO_LEFT" />
 					<Field name="QtdMoeda" length="13" type="BIGDECIMAL" value="0" format="DECIMAL_DD" padding="ZERO_LEFT" />					
 					<Field name="NrCarteira" length="3" type="INTEGER" />
 					<Field name="UsoDoBanco" length="21" type="CHARACTER" />

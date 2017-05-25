@@ -52,23 +52,20 @@ public class GeradorBoletoService {
          enderecoSac.setNumero(boleto.getContrato().getCliente().getNumeroEndereco());
          sacado.addEndereco(enderecoSac);
          
-         ContaBancaria contaBancaria = new ContaBancaria(
-        		 getBanco(boleto.getContrato().getContaCorrente().getBanco()).create());
+         ContaBancaria contaBancaria = new ContaBancaria(getBanco(boleto.getContrato().getContaCorrente().getBanco()).create());
          
          
-         contaBancaria.setNumeroDaConta(new NumeroDaConta(
-        		 Integer.valueOf(boleto.getContrato().getContaCorrente().getNumeroContaCorrente()),
+         contaBancaria.setNumeroDaConta(new NumeroDaConta(Integer.valueOf(boleto.getContrato().getContaCorrente().getNumeroContaCorrente()),
         		 boleto.getContrato().getContaCorrente().getDigitoContaCorrente()));
          
          contaBancaria.setCarteira(new Carteira(Integer.valueOf(boleto.getContrato().getContaCorrente().getNumeroCarteira())));
-         
          contaBancaria.setAgencia(new Agencia(Integer.valueOf(boleto.getContrato().getContaCorrente().getNumeroAgencia())));
 //         
          Titulo titulo = new Titulo(contaBancaria, sacado, cedente);
          //TODO Criar um sequencial 
-         titulo.setNumeroDoDocumento("4208");
-         titulo.setNossoNumero(boleto.getContrato().getContaCorrente().getNossoNumero());
-         titulo.setDigitoDoNossoNumero(boleto.getContrato().getContaCorrente().getDigitoNossoNumero());
+         titulo.setNumeroDoDocumento(boleto.getNossoNumero());
+         titulo.setNossoNumero(boleto.getNossoNumero());
+         titulo.setDigitoDoNossoNumero(boleto.getDigitoNossoNumero());
          titulo.setValor(boleto.getValor());
          titulo.setDataDoDocumento(boleto.getDataCriacao());
          titulo.setDataDoVencimento(boleto.getDataVencimento());
@@ -85,10 +82,8 @@ public class GeradorBoletoService {
 //          */
          Boleto boletoGerado = new Boleto(titulo);
          
-         String nossoNumeroParaExibicao = String.format("%d/%s-%s", 
-        		    titulo.getContaBancaria().getCarteira().getCodigo(),
-        		    titulo.getNossoNumero(),
-        		    titulo.getDigitoDoNossoNumero());  
+         String nossoNumeroParaExibicao = String.format("%d/%s-%s", titulo.getContaBancaria().getCarteira().getCodigo(),
+        		    titulo.getNossoNumero(), titulo.getDigitoDoNossoNumero());  
          boletoGerado.addTextosExtras("txtFcNossoNumero", nossoNumeroParaExibicao); 
          boletoGerado.addTextosExtras("txtRsNossoNumero", nossoNumeroParaExibicao); 
          
@@ -103,16 +98,7 @@ public class GeradorBoletoService {
          boletoGerado.setInstrucao7("");
          boletoGerado.setInstrucao8("");
          
-         
          BoletoViewer boletoViewer = new BoletoViewer(boletoGerado);
-         StringBuilder sb = new StringBuilder();
-         for(int i=0;i<boletoViewer.getBoleto().getCodigoDeBarras().getFieldsLength();i++){
-        	 System.out.println(i+" = "+ boletoViewer.getBoleto().getCodigoDeBarras().get(i).getValue());
-        	 sb.append(boletoViewer.getBoleto().getCodigoDeBarras().get(i).getValue());
-        	 System.out.println(sb.toString());
-         }
-         
-         System.out.println(sb.toString());
          String nomeArquivo = boleto.getContrato().getCliente().getNome() + boleto.getDataVencimento().toString()+".pdf";
          File arquivoPdf = boletoViewer.getPdfAsFile(nomeArquivo);
          return arquivoPdf;

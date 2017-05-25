@@ -26,7 +26,7 @@ public class ContratoProdutoDAO extends AbstractDAO<ContratoProduto> {
 						getCriteriaBuilder().and(
 						getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
 						getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0)))
-						)).getResultList();
+						).distinct(true)).getResultList();
 	}
 
 }

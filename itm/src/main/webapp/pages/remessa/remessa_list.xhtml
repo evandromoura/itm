@@ -54,7 +54,7 @@
 									#{resources['label.global.data']}
 								</f:facet>
 								<h:outputText value="#{remessa.dataCriacao}">
-									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo"/>
 								</h:outputText>
 							</h:column>
 							<h:column>
@@ -76,16 +76,15 @@
 								#{remessa.status}
 							</h:column>
 							
-							
 							<h:column>
 								<f:facet name="header">
-									#{resources['label.global.dataenvio']}
+									#{resources['label.global.valortotal']}
 								</f:facet>
-								<h:outputText value="#{remessa.dataCriacao}">
-									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+								<h:outputText value="#{remessa.valor}">
+									<f:convertNumber pattern="#,##0.00" /> 
 								</h:outputText>
-								
 							</h:column>
+							
 							
 							<h:column>
 								<f:facet name="header">

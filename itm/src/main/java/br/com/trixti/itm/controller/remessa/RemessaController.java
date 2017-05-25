@@ -14,6 +14,7 @@ import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.to.RemessaTO;
 import br.com.trixti.itm.util.Base64Utils;
 import br.com.trixti.itm.util.UtilArquivo;
+import br.com.trixti.itm.util.UtilString;
 
 
 
@@ -64,10 +65,11 @@ public class RemessaController extends AbstractController<Remessa> {
 	
 	public void download(Remessa remessa){
 		try{
+			UtilString utilString = new UtilString();
 			Remessa remessaCompleta = remessaService.recuperarCompleto(remessa.getId());
 			UtilArquivo utilArquivo = new UtilArquivo();
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-			String nomeArquivo = remessaCompleta.getCodigo()+".rem";
+			String nomeArquivo = "CB"+utilString.completaComZerosAEsquerda(remessaCompleta.getId().toString(), 6)+".rem";
 			utilArquivo.convertFileToByteArrayOutputStream(utilArquivo.getFileFromBytes(Base64Utils.base64Decode(remessaCompleta.getArquivo()), nomeArquivo),
 					byteArrayOutputStream);
 			download(byteArrayOutputStream, nomeArquivo);
