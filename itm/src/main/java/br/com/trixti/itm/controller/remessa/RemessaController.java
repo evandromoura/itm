@@ -1,6 +1,7 @@
 package br.com.trixti.itm.controller.remessa;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -70,9 +71,11 @@ public class RemessaController extends AbstractController<Remessa> {
 			UtilArquivo utilArquivo = new UtilArquivo();
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			String nomeArquivo = "CB"+utilString.completaComZerosAEsquerda(remessaCompleta.getId().toString(), 6)+".rem";
-			utilArquivo.convertFileToByteArrayOutputStream(utilArquivo.getFileFromBytes(Base64Utils.base64Decode(remessaCompleta.getArquivo()), nomeArquivo),
-					byteArrayOutputStream);
-			download(byteArrayOutputStream, nomeArquivo);
+			if(remessaCompleta.getArquivo() != null){
+				utilArquivo.convertFileToByteArrayOutputStream(utilArquivo.getFileFromBytes(Base64Utils.base64Decode(remessaCompleta.getArquivo()), nomeArquivo),
+						byteArrayOutputStream);
+				download(byteArrayOutputStream, nomeArquivo);
+			}	
 		}catch(Exception e){
 			e.printStackTrace();
 		}	
@@ -87,6 +90,12 @@ public class RemessaController extends AbstractController<Remessa> {
 
 	public void setRemessaTO(RemessaTO remessaTO) {
 		this.remessaTO = remessaTO;
+	}
+	
+	public void marcarComoEnviada(Remessa remessa){
+		remessaService.enviarRemessa(remessa);
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviado com sucesso!", "O Registro foi incluido na base"));
+		pesquisar();
 	}
 	
 	public void excluir(Remessa remessa){

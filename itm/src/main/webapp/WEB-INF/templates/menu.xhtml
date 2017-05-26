@@ -62,47 +62,47 @@
 			</ui:fragment>
 			<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
 				<ul class="nav">
-					<li class="nav-title text-center"><span>Cadastro</span></li>
+					<li class="nav-title text-center"><span>#{resources['label.global.cadastro']}</span></li>
 					<li class="nav-item">
-						<a class="nav-link" href="#{request.contextPath}/cliente">
-							<i class="icon-people"></i> Cliente 
+						<a class="nav-link #{menu eq 'cliente'?'active':''}" href="#{request.contextPath}/cliente">
+							<i class="icon-people"></i> #{resources['label.global.cliente']}
 						</a>
 					</li>
+					
 					<li class="nav-item">
-						<a class="nav-link" href="#{request.contextPath}/contacorrente">
-							<i class="icon-envelope-open"></i> #{resources['label.global.contacorrente']} 
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#{request.contextPath}/grupo">
+						<a class="nav-link #{menu eq 'grupo'?'active':''}" href="#{request.contextPath}/grupo">
 							<i class="icon-speedometer"></i> #{resources['label.global.grupo']} 
 						</a>
 					</li>
 					
 										
 					<li class="nav-item">
-						<a class="nav-link" href="#{request.contextPath}/produto">
+						<a class="nav-link #{menu eq 'produto'?'active':''}" href="#{request.contextPath}/produto">
 							<i class="icon-briefcase"></i> #{resources['label.global.produto']} 
-						</a>
-					</li>
-					
-					<li class="nav-item">
-						<a class="nav-link" href="#{request.contextPath}/parametro/editar/1">
-							<i class="icon-list"></i> #{resources['label.global.parametros']} 
 						</a>
 					</li>
 					<li class="nav-title text-center"><span>#{resources['label.global.financeiro']}</span></li>
 					<li class="nav-item">
-						<a class="nav-link" href="#{request.contextPath}/remessa">
-							<i class="icon-wallet"></i> #{resources['label.global.remessa']} 
+						<a class="nav-link #{menu eq 'contacorrente'?'active':''}" href="#{request.contextPath}/contacorrente">
+							<i class="icon-envelope-open"></i> #{resources['label.global.contacorrente']} 
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#{request.contextPath}/retorno">
-							<i class="icon-wallet"></i> #{resources['label.global.retorno']} 
+						<a class="nav-link #{menu eq 'remessa'?'active':''}" href="#{request.contextPath}/remessa">
+							<i class="icon-action-redo"></i> #{resources['label.global.remessa']} 
 						</a>
 					</li>
-					
+					<li class="nav-item">
+						<a class="nav-link #{menu eq 'retorno'?'active':''}" href="#{request.contextPath}/retorno">
+							<i class="icon-action-undo"></i> #{resources['label.global.retorno']} 
+						</a>
+					</li>
+					<li class="nav-title text-center"><span>#{resources['label.global.configuracoes']}</span></li>
+					<li class="nav-item">
+						<a class="nav-link #{menu eq 'parametro'?'active':''}" href="#{request.contextPath}/parametro/editar/1">
+							<i class="icon-list"></i> #{resources['label.global.parametros']} 
+						</a>
+					</li>
 					<li>
 						<hr />
 					</li>

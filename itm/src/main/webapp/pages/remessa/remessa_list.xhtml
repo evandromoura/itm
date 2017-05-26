@@ -10,6 +10,7 @@
 		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
 		<li class="breadcrumb-item">#{resources['label.global.remessa']}</li>
 	</ui:define>
+	<ui:param name="menu" value="remessa" />
 
 	<ui:define name="corpo">
 		<div class="col-sm-12">
@@ -85,6 +86,14 @@
 								</h:outputText>
 							</h:column>
 							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.dataenvio']}
+								</f:facet>
+								<h:outputText value="#{remessa.dataEnvio}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo"/>
+								</h:outputText>
+							</h:column>
 							
 							<h:column>
 								<f:facet name="header">
@@ -92,12 +101,17 @@
 								</f:facet>
 								<div class="row">
 								
-								<div class="col-sm-3">
-									<a href="#{request.contextPath}/remessa/view/#{remessa.id}" class="btn btn-info">#{resources['label.global.visualizar']}</a>    
-								</div>
-								<div class="col-sm-3">
-									<h:commandLink action="#{remessaController.download(remessa)}" value="#{resources['label.global.download']}"  styleClass="btn btn-success"/> 
-								</div>
+									<div class="col-sm-2">
+										<a href="#{request.contextPath}/remessa/view/#{remessa.id}" class="btn btn-primary" title="#{resources['label.global.visualizar']}"><i class="fa fa-search"></i></a>	
+									</div>
+									<div class="col-sm-2">
+										<h:commandLink action="#{remessaController.download(remessa)}" title="#{resources['label.global.download']}"  styleClass="btn btn-success"><i class="fa fa-cloud-download"></i></h:commandLink> 
+									</div>
+										<div class="col-sm-2">
+											<ui:fragment rendered="#{remessa.dataEnvio eq null}">
+												<h:commandLink action="#{remessaController.marcarComoEnviada(remessa)}"  title="#{resources['label.global.marcarcomoenviada']}" styleClass="btn btn-warning"><i class="fa fa-check-square-o"></i></h:commandLink>
+											</ui:fragment>
+										</div>
 								
 								</div>
 							</h:column>

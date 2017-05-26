@@ -210,6 +210,7 @@ public class FinanceiroThread {
 		boleto.setNumeroDocumento(nossoNumero.toString());
 		boleto.setNossoNumero(nossoNumero.toString());
 		boleto.setDigitoNossoNumero(String.valueOf(new CalculaBase10().getMod10(nossoNumero.toString())));
+		boleto.setNossoNumeroCompleto(boleto.getNossoNumero()+boleto.getDigitoNossoNumero());
 	}
 	
 	public static void main(String[] args) {

@@ -74,6 +74,9 @@ public class Boleto implements java.io.Serializable {
 	
 	@Column(name="digito_nosso_numero")
 	private String digitoNossoNumero;
+	
+	@Column(name="nosso_numero_completo")
+	private String nossoNumeroCompleto;
 
 	public Boleto() {
 	}
@@ -190,6 +193,14 @@ public class Boleto implements java.io.Serializable {
 
 	public void setDigitoNossoNumero(String digitoNossoNumero) {
 		this.digitoNossoNumero = digitoNossoNumero;
+	}
+
+	public String getNossoNumeroCompleto() {
+		return nossoNumeroCompleto;
+	}
+
+	public void setNossoNumeroCompleto(String nossoNumeroCompleto) {
+		this.nossoNumeroCompleto = nossoNumeroCompleto;
 	}
 
 }

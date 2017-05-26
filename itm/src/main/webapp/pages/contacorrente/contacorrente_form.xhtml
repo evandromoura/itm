@@ -5,6 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/default.xhtml">
 
+	<ui:param name="menu" value="contacorrente" />
 
 	<ui:define name="corpo">
 		<div class="col-sm-12">
@@ -14,9 +15,6 @@
 						<strong>#{resources['label.global.cadastrocontabanco']}</strong> 
 					</div>
 					<div class="card-block">
-						
-				
-						
 						<div class="row">
 							<div class="col-sm-3">
 								<div class="form-group">
@@ -24,21 +22,14 @@
 									<h:inputText value="#{contaCorrenteController.contaCorrenteTO.conta.nome}" id="nome_conta" styleClass="form-control" />
 								</div>
 							</div>
-				
-						
 							<div class="col-sm-3">		
 								<div class="form-group">
 									<label for="formContaCorrente:nome_banco">#{resources['label.global.banco']}</label> 
 									<h:inputText value="#{contaCorrenteController.contaCorrenteTO.conta.banco}" id="nome_banco" styleClass="form-control" />
 								</div>
 							</div>
-							
-							
-										</div>
+						</div>
 						<div class="row">
-						
-						
-						
 							<div class="col-sm-4">
 								<div class="form-group">
 								<label for="formContaCorrente:numero_agencia">#{resources['label.global.numeroagencia']}</label>  
@@ -46,18 +37,12 @@
 									
 								</div>
 							</div>
-							
-						
-						
 							<div class="col-sm-4">
 								<div class="form-group">
 								<label for="formContaCorrente:numero_conta">#{resources['label.global.numeroconta']}</label>  
 									<h:inputText value="#{contaCorrenteController.contaCorrenteTO.conta.numeroContaCorrente}" id="numero_conta" styleClass="form-control"/> 
 								</div>
 							</div>
-							
-							
-														
 							<div class="col-sm-1">
 								<div class="form-group">
 								<label for="formContaCorrente:digito_conta">#{resources['label.global.digito']}</label>  
@@ -65,16 +50,6 @@
 									
 								</div>
 							</div>
-							
-						
-
-							
-							
-							
-							
-							
-							
-							
 							<div class="col-sm-4">
 								<div class="form-group">
 								

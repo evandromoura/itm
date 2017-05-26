@@ -64,9 +64,10 @@ public class Remessa implements java.io.Serializable {
 		
 	}
 	
-	public Remessa(Integer id,Date dataCriacao,String codigo,String banco,StatusRemessaEnum status, BigDecimal valor){
+	public Remessa(Integer id,Date dataCriacao,Date dataEnvio,String codigo,String banco,StatusRemessaEnum status, BigDecimal valor){
 		setId(id);
 		setDataCriacao(dataCriacao);
+		setDataEnvio(dataEnvio);
 		setCodigo(codigo);
 		setBanco(banco);
 		setStatus(status);

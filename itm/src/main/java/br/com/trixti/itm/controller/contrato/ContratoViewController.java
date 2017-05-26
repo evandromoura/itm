@@ -97,6 +97,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			boleto.setNumeroDocumento(nossoNumero.toString());
 			boleto.setNossoNumero(nossoNumero.toString());
 			boleto.setDigitoNossoNumero(String.valueOf(new CalculaBase10().getMod10(nossoNumero.toString())));
+			boleto.setNossoNumeroCompleto(boleto.getNossoNumero()+boleto.getDigitoNossoNumero());
 			boletoService.incluir(boleto);
 		}else{
 			contratoLancamentoService.incluir(getContratoTO().getContratoLancamento());
@@ -118,6 +119,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			boleto.setNumeroDocumento(nossoNumero.toString());
 			boleto.setNossoNumero(nossoNumero.toString());
 			boleto.setDigitoNossoNumero(String.valueOf(new CalculaBase10().getMod10(nossoNumero.toString())));
+			boleto.setNossoNumeroCompleto(boleto.getNossoNumero()+boleto.getDigitoNossoNumero());
 			
 			BigDecimal totalBoleto = new BigDecimal(0);
 			for (ContratoLancamento contratoLancamento : getContratoTO().getContrato().getLancamentos()) {

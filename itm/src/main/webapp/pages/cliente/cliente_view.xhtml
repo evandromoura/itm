@@ -12,6 +12,8 @@
 		<li class="breadcrumb-item"><a href="#{request.contextPath}/cliente">#{resources['label.global.cliente']}</a></li>
 		<li class="breadcrumb-item active">#{clienteViewController.clienteTO.cliente.nome}</li>
 	</ui:define>
+	
+	<ui:param name="menu" value="cliente" />
 
 	<ui:define name="corpo">
 		<h:form id="idFormClienteView">

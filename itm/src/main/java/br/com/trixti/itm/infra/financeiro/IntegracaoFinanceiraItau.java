@@ -43,16 +43,15 @@ public class IntegracaoFinanceiraItau {
 	}
 
 	public void gerarRemessa(List<Boleto> boletos) {
-
 		Remessa remessa = new Remessa();
 		remessa.setCodigo("abc123");
+		File layout = null;
 		UtilArquivo utilArquivo = new UtilArquivo();
 		try {
 			if (boletos != null && !boletos.isEmpty()) {
 				File arquivoFinal = new File("arquivo-final.txt");
 				BigDecimal valorTotal = BigDecimal.ZERO;
-				
-				File layout = utilArquivo.getFileFromBytes(UtilArquivo.converteInputStreamEmBytes(IntegracaoFinanceiraItau.class.getClassLoader().getResourceAsStream("layout-cnab400-itau-envio.xml")), "layout-cnab400-itau-envio.xml");
+				layout = utilArquivo.getFileFromBytes(UtilArquivo.converteInputStreamEmBytes(IntegracaoFinanceiraItau.class.getClassLoader().getResourceAsStream("layout-cnab400-itau-envio.xml")), "layout-cnab400-itau-envio.xml");
 				FlatFile<Record> ff = Texgit.createFlatFile(layout);
 				Boleto boletoHeader = boletos.get(0);
 				ff.addRecord(createHeader(ff, boletoHeader));
@@ -75,38 +74,48 @@ public class IntegracaoFinanceiraItau {
 		} catch (Exception e) {
 			System.out.println("ERRO AO GERAR O ARQUIVO");
 			e.printStackTrace();
+		}finally {
+			if(layout != null && layout.exists()){
+				layout.delete();
+			}
 		}
 
 	}
 
 	public void processarRetorno(List<Retorno> listaRetorno) {
+		File layout = null;
 		try {
 			UtilArquivo utilArquivo = new UtilArquivo();
 			for (Retorno retorno : listaRetorno) {
 
 				byte[] bytes = Base64Utils.base64Decode(retorno.getArquivo());
 				File arquivoRetorno = utilArquivo.getFileFromBytes(bytes, retorno.getNomeArquivo());
-				FlatFile<Record> ff = Texgit.createFlatFile(new File(IntegracaoFinanceiraItau.class.getResource("layout-cnab400-itau-envio.xml").getFile()));
+				layout = utilArquivo.getFileFromBytes(UtilArquivo.converteInputStreamEmBytes(IntegracaoFinanceiraItau.class.getClassLoader().getResourceAsStream("layout-cnab400-itau-retorno.xml")), "layout-cnab400-itau-retorno.xml");
+				FlatFile<Record> ff = Texgit.createFlatFile(layout);
 				ff.read(FileUtil.read(arquivoRetorno.getAbsolutePath()));
 				Record header = ff.getRecord("Header");
-//				System.out.println("Identificacao retorno: " + header.getValue("IdentificacaoRetorno"));
-//				System.out.println("Codigo Empresa: " + header.getValue("CodigoDaEmpresa"));
-//				System.out.println("Razão Social: " + header.getValue("NomeDaEmpresa"));
-//				System.out.println("Servico: " + header.getValue("LiteralServico").toString().trim() + "/"+ header.getValue("NomeBanco"));
+				System.out.println("Identificacao retorno: " + header.getValue("IdentificacaoRetorno"));
+				System.out.println("Codigo Empresa: " + header.getValue("CodigoDaEmpresa"));
+				System.out.println("Razão Social: " + header.getValue("NomeDaEmpresa"));
+				System.out.println("Servico: " + header.getValue("LiteralServico").toString().trim() + "/"+ header.getValue("NomeBanco"));
 				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//				System.out.println("Data De Gravação Do Arquivo: " + sdf.format(header.getValue("DataGravacaoArquivo")));
-//				System.out.println("===========================================================================================");
+				System.out.println("Data De Gravação Do Arquivo: " + sdf.format(header.getValue("DataGravacaoArquivo")));
+				System.out.println("===========================================================================================");
 				Collection<Record> titulosEmCobranca = ff.getRecords("TransacaoTitulo");
 				for (Record titulo : titulosEmCobranca) {
-//					System.out.println("Nosso Numero: "+titulo.getValue("NossoNumero"));
-//					System.out.println("Nosso Numero Com Digito: "+titulo.getValue("NossoNumeroComDigito"));
-//					System.out.println("Valor: "+titulo.getValue("Valor"));
-//					System.out.println("ValorPago: "+titulo.getValue("ValorPago"));
-//					System.out.println("Data Do Credito: "+titulo.getValue("DataDoCredito"));
+					System.out.println("Nosso Numero: "+titulo.getValue("NossoNumero"));
+					System.out.println("Nosso Numero Com Digito: "+titulo.getValue("NossoNumeroComDigito"));
+					System.out.println("Valor: "+titulo.getValue("Valor"));
+					System.out.println("ValorPago: "+titulo.getValue("ValorPago"));
+					System.out.println("Data Do Credito: "+titulo.getValue("DataDoCredito"));
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally {
+			if(layout != null && layout.exists()){
+				layout.delete();
+			}
 		}
 
 	}

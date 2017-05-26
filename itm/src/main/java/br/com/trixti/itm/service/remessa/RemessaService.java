@@ -1,8 +1,11 @@
 package br.com.trixti.itm.service.remessa;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import br.com.trixti.itm.dao.AbstractDAO;
@@ -26,6 +29,14 @@ public class RemessaService extends AbstractService<Remessa>{
 
 	public Remessa recuperarCompleto(Integer id) {
 		return remessaDAO.recuperarCompleto(id);
-	} 
+	}
+	
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void enviarRemessa(Remessa remessa){
+		remessa = remessaDAO.recuperarCompleto(remessa.getId());
+		remessa.setDataEnvio(new Date());
+		remessaDAO.alterar(remessa);
+	}
 	
 }
