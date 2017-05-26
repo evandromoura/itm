@@ -81,6 +81,12 @@
 							<i class="icon-briefcase"></i> #{resources['label.global.produto']} 
 						</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link #{menu eq 'parametro'?'active':''}" href="#{request.contextPath}/parametro/editar/1">
+							<i class="icon-list"></i> #{resources['label.global.parametros']} 
+						</a>
+					</li>
+					
 					<li class="nav-title text-center"><span>#{resources['label.global.financeiro']}</span></li>
 					<li class="nav-item">
 						<a class="nav-link #{menu eq 'contacorrente'?'active':''}" href="#{request.contextPath}/contacorrente">
@@ -97,12 +103,8 @@
 							<i class="icon-action-undo"></i> #{resources['label.global.retorno']} 
 						</a>
 					</li>
-					<li class="nav-title text-center"><span>#{resources['label.global.configuracoes']}</span></li>
-					<li class="nav-item">
-						<a class="nav-link #{menu eq 'parametro'?'active':''}" href="#{request.contextPath}/parametro/editar/1">
-							<i class="icon-list"></i> #{resources['label.global.parametros']} 
-						</a>
-					</li>
+					
+					
 					<li>
 						<hr />
 					</li>
