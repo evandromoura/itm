@@ -78,10 +78,12 @@ public class FinanceiroThread {
 		List<Boleto> listaBoleto = boletoService.pesquisarBoletoSemRemessa();
 		Map<String,List<Boleto>> mapaBoletoBanco = new HashMap<String,List<Boleto>>();
 		for(Boleto boleto:listaBoleto){
-			if(mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()) == null){
-				mapaBoletoBanco.put(boleto.getContrato().getContaCorrente().getBanco(), new ArrayList<Boleto>());
-			}
-			mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()).add(boleto);
+			if(boleto.getStatus().equals(StatusBoletoEnum.ABERTO)){
+				if(mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()) == null){
+					mapaBoletoBanco.put(boleto.getContrato().getContaCorrente().getBanco(), new ArrayList<Boleto>());
+				}
+				mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()).add(boleto);
+			}	
 		}
 		for(String banco:mapaBoletoBanco.keySet()){
 			if(banco.equals(BancosSuportados.BANCO_ITAU.name())){
@@ -104,7 +106,6 @@ public class FinanceiroThread {
 			}
 		}
 		for(String banco:mapaRetorno.keySet()){
-			
 			if(BancosSuportados.BANCO_ITAU.name().equals(banco)){
 				integracaoFinanceiraItau.processarRetorno(mapaRetorno.get(banco));
 			}

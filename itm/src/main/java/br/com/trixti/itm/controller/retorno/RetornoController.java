@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.jrimum.bopepo.BancosSuportados;
+
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Retorno;
 import br.com.trixti.itm.service.retorno.RetornoService;
@@ -27,18 +29,8 @@ public class RetornoController extends AbstractController<Retorno> {
 	
 	@PostConstruct
 	private void init(){
-		String acao = getRequest().getParameter("acao");
-		String parametro = getRequest().getParameter("parametro");
-		
-		if(acao != null && parametro != null){
-			if(acao.equals("editar")){
-				inicializarAlterar(Integer.valueOf(parametro));
-			}
-		}else if(acao != null && parametro == null){
-				inicializarIncluir();
-		}else{
-			pesquisar();
-		}
+		pesquisar();
+		getRetornoTO().getRetorno().setBanco(BancosSuportados.BANCO_ITAU.name());
 	}
 	
 	public void pesquisar(){
@@ -53,14 +45,6 @@ public class RetornoController extends AbstractController<Retorno> {
 			retornoService.alterar(getRetornoTO().getRetorno());
 		}
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));
-	}
-	
-	private void inicializarAlterar(Integer id){
-		getRetornoTO().setRetorno(retornoService.recuperar(id));
-	}
-	
-	private void inicializarIncluir(){
-		getRetornoTO().setRetorno(new Retorno());
 	}
 	
 	public void download(Retorno retorno){

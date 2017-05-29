@@ -20,6 +20,7 @@ import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.Remessa;
 import br.com.trixti.itm.entity.Retorno;
+import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.parametro.ParametroService;
@@ -68,6 +69,8 @@ public class IntegracaoFinanceiraItau {
 				remessa.setBanco(boletoHeader.getContrato().getContaCorrente().getBanco());
 				remessa.setStatus(StatusRemessaEnum.GERADO);
 				remessa.setValor(valorTotal);
+				remessa.setQtdBoletoAberto(boletos.size());
+				remessa.setQtdBoletoFechado(0);
 				remessaService.incluir(remessa);
 				boletoService.alterarLista(boletos);
 			}
@@ -93,6 +96,8 @@ public class IntegracaoFinanceiraItau {
 				layout = utilArquivo.getFileFromBytes(UtilArquivo.converteInputStreamEmBytes(IntegracaoFinanceiraItau.class.getClassLoader().getResourceAsStream("layout-cnab400-itau-retorno.xml")), "layout-cnab400-itau-retorno.xml");
 				FlatFile<Record> ff = Texgit.createFlatFile(layout);
 				ff.read(FileUtil.read(arquivoRetorno.getAbsolutePath()));
+				
+				
 				Record header = ff.getRecord("Header");
 				System.out.println("Identificacao retorno: " + header.getValue("IdentificacaoRetorno"));
 				System.out.println("Codigo Empresa: " + header.getValue("CodigoDaEmpresa"));
@@ -103,11 +108,18 @@ public class IntegracaoFinanceiraItau {
 				System.out.println("===========================================================================================");
 				Collection<Record> titulosEmCobranca = ff.getRecords("TransacaoTitulo");
 				for (Record titulo : titulosEmCobranca) {
-					System.out.println("Nosso Numero: "+titulo.getValue("NossoNumero"));
-					System.out.println("Nosso Numero Com Digito: "+titulo.getValue("NossoNumeroComDigito"));
-					System.out.println("Valor: "+titulo.getValue("Valor"));
-					System.out.println("ValorPago: "+titulo.getValue("ValorPago"));
-					System.out.println("Data Do Credito: "+titulo.getValue("DataDoCredito"));
+					Boleto boleto = boletoService.recuperarPorNossoNumero((String)titulo.getValue("NossoNumero"));
+					boleto.setDataPagamento(new Date());
+					boleto.setStatus(StatusBoletoEnum.PAGO);
+					boleto.getRemessa().setQtdBoletoAberto(boleto.getRemessa().getQtdBoletoAberto() - 1);
+					boleto.getRemessa().setQtdBoletoFechado(boleto.getRemessa().getQtdBoletoFechado() + 1);
+					boletoService.alterar(boleto);
+					remessaService.alterar(boleto.getRemessa());
+//					System.out.println("Nosso Numero: "+titulo.getValue("NossoNumero"));
+//					System.out.println("Nosso Numero Com Digito: "+titulo.getValue("NossoNumeroComDigito"));
+//					System.out.println("Valor: "+titulo.getValue("Valor"));
+//					System.out.println("ValorPago: "+titulo.getValue("ValorPago"));
+//					System.out.println("Data Do Credito: "+titulo.getValue("DataDoCredito"));
 				}
 			}
 		} catch (Exception e) {

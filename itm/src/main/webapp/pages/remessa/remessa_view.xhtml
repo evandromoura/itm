@@ -112,6 +112,14 @@
 										<f:convertNumber pattern="#,##0.00" /> 
 									</h:outputText>
 								</h:column>
+								<h:column>
+									<f:facet name="header">
+										#{resources['label.global.datapagamento']}
+									</f:facet>
+									<h:outputText value="#{boleto.dataPagamento}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText>
+								</h:column>
 
 								<h:column>
 									<f:facet name="header">

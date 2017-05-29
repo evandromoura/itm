@@ -77,6 +77,10 @@ public class Boleto implements java.io.Serializable {
 	
 	@Column(name="nosso_numero_completo")
 	private String nossoNumeroCompleto;
+	
+	@Column(name="data_pagamento")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataPagamento;
 
 	public Boleto() {
 	}
@@ -201,6 +205,14 @@ public class Boleto implements java.io.Serializable {
 
 	public void setNossoNumeroCompleto(String nossoNumeroCompleto) {
 		this.nossoNumeroCompleto = nossoNumeroCompleto;
+	}
+
+	public Date getDataPagamento() {
+		return dataPagamento;
+	}
+
+	public void setDataPagamento(Date dataPagamento) {
+		this.dataPagamento = dataPagamento;
 	}
 
 }

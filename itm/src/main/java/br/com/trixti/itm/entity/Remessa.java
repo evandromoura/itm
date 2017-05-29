@@ -60,11 +60,18 @@ public class Remessa implements java.io.Serializable {
 	
 	private BigDecimal valor;
 	
+	@Column(name="qtd_boleto_aberto")
+	private Integer qtdBoletoAberto;
+
+	@Column(name="qtd_boleto_fechado")
+	private Integer qtdBoletoFechado;
+	
+	
 	public Remessa(){
 		
 	}
 	
-	public Remessa(Integer id,Date dataCriacao,Date dataEnvio,String codigo,String banco,StatusRemessaEnum status, BigDecimal valor){
+	public Remessa(Integer id,Date dataCriacao,Date dataEnvio,String codigo,String banco,StatusRemessaEnum status, BigDecimal valor,Integer qtdBoletoAberto, Integer qtdBoletoFechado){
 		setId(id);
 		setDataCriacao(dataCriacao);
 		setDataEnvio(dataEnvio);
@@ -72,6 +79,8 @@ public class Remessa implements java.io.Serializable {
 		setBanco(banco);
 		setStatus(status);
 		setValor(valor);
+		setQtdBoletoAberto(qtdBoletoAberto);
+		setQtdBoletoFechado(qtdBoletoFechado);
 	}
 	
 	
@@ -145,6 +154,22 @@ public class Remessa implements java.io.Serializable {
 
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
+	}
+
+	public Integer getQtdBoletoAberto() {
+		return qtdBoletoAberto;
+	}
+
+	public void setQtdBoletoAberto(Integer qtdBoletoAberto) {
+		this.qtdBoletoAberto = qtdBoletoAberto;
+	}
+
+	public Integer getQtdBoletoFechado() {
+		return qtdBoletoFechado;
+	}
+
+	public void setQtdBoletoFechado(Integer qtdBoletoFechado) {
+		this.qtdBoletoFechado = qtdBoletoFechado;
 	}
 	
 	

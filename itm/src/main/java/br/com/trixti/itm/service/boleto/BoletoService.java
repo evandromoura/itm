@@ -109,4 +109,9 @@ public class BoletoService extends AbstractService<Boleto>{
 	public BigInteger recuperarNossoNumero(){
 		return boletoDAO.recuperarNossoNumero();
 	}
+
+	public Boleto recuperarPorNossoNumero(String nossoNumero) {
+		return boletoDAO.recuperarPorNossoNumero(nossoNumero);
+		
+	}
 }
