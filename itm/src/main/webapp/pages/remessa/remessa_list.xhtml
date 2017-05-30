@@ -88,6 +88,15 @@
 							
 							<h:column>
 								<f:facet name="header">
+									#{resources['label.global.valorrecebido']}
+								</f:facet>
+								<h:outputText value="#{remessa.valorRecebido}">
+									<f:convertNumber pattern="#,##0.00" /> 
+								</h:outputText>
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
 									#{resources['label.global.dataenvio']}
 								</f:facet>
 								<h:outputText value="#{remessa.dataEnvio}">

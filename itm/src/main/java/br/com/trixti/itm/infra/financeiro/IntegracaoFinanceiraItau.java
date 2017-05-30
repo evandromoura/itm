@@ -25,6 +25,7 @@ import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.remessa.RemessaService;
+import br.com.trixti.itm.service.retorno.RetornoService;
 import br.com.trixti.itm.util.Base64Utils;
 import br.com.trixti.itm.util.FileUtil;
 import br.com.trixti.itm.util.UtilArquivo;
@@ -36,6 +37,7 @@ public class IntegracaoFinanceiraItau {
 	private Parametro parametro;
 	private @Inject ParametroService parametroService;
 	private @Inject RemessaService remessaService;
+	private @Inject RetornoService retornoService;
 	private @Inject BoletoService boletoService;
 
 	@PostConstruct
@@ -71,6 +73,7 @@ public class IntegracaoFinanceiraItau {
 				remessa.setValor(valorTotal);
 				remessa.setQtdBoletoAberto(boletos.size());
 				remessa.setQtdBoletoFechado(0);
+				remessa.setValorRecebido(BigDecimal.ZERO);
 				remessaService.incluir(remessa);
 				boletoService.alterarLista(boletos);
 			}
@@ -96,31 +99,35 @@ public class IntegracaoFinanceiraItau {
 				layout = utilArquivo.getFileFromBytes(UtilArquivo.converteInputStreamEmBytes(IntegracaoFinanceiraItau.class.getClassLoader().getResourceAsStream("layout-cnab400-itau-retorno.xml")), "layout-cnab400-itau-retorno.xml");
 				FlatFile<Record> ff = Texgit.createFlatFile(layout);
 				ff.read(FileUtil.read(arquivoRetorno.getAbsolutePath()));
-				
-				
 				Record header = ff.getRecord("Header");
-				System.out.println("Identificacao retorno: " + header.getValue("IdentificacaoRetorno"));
-				System.out.println("Codigo Empresa: " + header.getValue("CodigoDaEmpresa"));
-				System.out.println("Razão Social: " + header.getValue("NomeDaEmpresa"));
-				System.out.println("Servico: " + header.getValue("LiteralServico").toString().trim() + "/"+ header.getValue("NomeBanco"));
-				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-				System.out.println("Data De Gravação Do Arquivo: " + sdf.format(header.getValue("DataGravacaoArquivo")));
-				System.out.println("===========================================================================================");
+//				System.out.println("Identificacao retorno: " + header.getValue("IdentificacaoRetorno"));
+//				System.out.println("Codigo Empresa: " + header.getValue("CodigoDaEmpresa"));
+//				System.out.println("Razão Social: " + header.getValue("NomeDaEmpresa"));
+//				System.out.println("Servico: " + header.getValue("LiteralServico").toString().trim() + "/"+ header.getValue("NomeBanco"));
+//				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//				System.out.println("Data De Gravação Do Arquivo: " + sdf.format(header.getValue("DataGravacaoArquivo")));
+//				System.out.println("===========================================================================================");
 				Collection<Record> titulosEmCobranca = ff.getRecords("TransacaoTitulo");
 				for (Record titulo : titulosEmCobranca) {
-					Boleto boleto = boletoService.recuperarPorNossoNumero((String)titulo.getValue("NossoNumero"));
-					boleto.setDataPagamento(new Date());
-					boleto.setStatus(StatusBoletoEnum.PAGO);
-					boleto.getRemessa().setQtdBoletoAberto(boleto.getRemessa().getQtdBoletoAberto() - 1);
-					boleto.getRemessa().setQtdBoletoFechado(boleto.getRemessa().getQtdBoletoFechado() + 1);
-					boletoService.alterar(boleto);
-					remessaService.alterar(boleto.getRemessa());
-//					System.out.println("Nosso Numero: "+titulo.getValue("NossoNumero"));
-//					System.out.println("Nosso Numero Com Digito: "+titulo.getValue("NossoNumeroComDigito"));
-//					System.out.println("Valor: "+titulo.getValue("Valor"));
-//					System.out.println("ValorPago: "+titulo.getValue("ValorPago"));
-//					System.out.println("Data Do Credito: "+titulo.getValue("DataDoCredito"));
+					Boleto boleto = boletoService.recuperarPorNossoNumero(((Integer)titulo.getValue("NossoNumero")).toString());
+					BigDecimal valorPago = (BigDecimal)titulo.getValue("ValorPago");
+					if(valorPago != null && valorPago.compareTo(BigDecimal.ZERO) == 1){
+						boleto.setDataPagamento(new Date());
+						boleto.setStatus(StatusBoletoEnum.PAGO);
+						boleto.getRemessa().setQtdBoletoAberto(boleto.getRemessa().getQtdBoletoAberto() - 1);
+						boleto.getRemessa().setQtdBoletoFechado(boleto.getRemessa().getQtdBoletoFechado() + 1);
+						boleto.getRemessa().setValorRecebido(boleto.getRemessa().getValorRecebido().add(valorPago));
+						boletoService.alterar(boleto);
+						remessaService.alterar(boleto.getRemessa());
+	//					System.out.println("Nosso Numero: "+titulo.getValue("NossoNumero"));
+	//					System.out.println("Nosso Numero Com Digito: "+titulo.getValue("NossoNumeroComDigito"));
+	//					System.out.println("Valor: "+titulo.getValue("Valor"));
+	//					System.out.println("ValorPago: "+titulo.getValue("ValorPago"));
+	//					System.out.println("Data Do Credito: "+titulo.getValue("DataDoCredito"));
+					}
 				}
+				retorno.setDataProcessamento(new Date());
+				retornoService.alterar(retorno);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
