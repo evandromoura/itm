@@ -2,7 +2,6 @@ package br.com.trixti.itm.service.sms;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Asynchronous;
@@ -14,7 +13,6 @@ import br.com.trixti.itm.dao.sms.SMSDAO;
 import br.com.trixti.itm.entity.SMS;
 import br.com.trixti.itm.infra.sms.EnvioSMSZenviaService;
 import br.com.trixti.itm.service.AbstractService;
-import br.com.trixti.itm.util.UtilData;
 import br.com.zenvia.client.exception.RestClientException;
 
 

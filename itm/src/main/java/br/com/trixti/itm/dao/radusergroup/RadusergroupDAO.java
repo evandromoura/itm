@@ -3,8 +3,6 @@ package br.com.trixti.itm.dao.radusergroup;
 import javax.persistence.Query;
 
 import br.com.trixti.itm.dao.AbstractDAO;
-import br.com.trixti.itm.entity.Cliente;
-import br.com.trixti.itm.entity.Radcheck;
 import br.com.trixti.itm.entity.Radusergroup;
 
 public class RadusergroupDAO extends AbstractDAO<Radusergroup> {

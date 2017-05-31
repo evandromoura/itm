@@ -22,9 +22,8 @@ public class RemessaDAO extends AbstractDAO<Remessa> {
 		Root<Remessa> root = criteria.from(Remessa.class);
 		return getManager().createQuery(criteria.multiselect(root.get("id"),root.get("dataCriacao"),root.get("dataEnvio"),root.get("codigo"),
 				root.get("banco"),root.get("status"),root.get("valor"),root.get("qtdBoletoAberto"),root.get("qtdBoletoFechado"),root.get("valorRecebido"))
-				.where(comporFiltro(remessa, root))).getResultList();
+				.where(comporFiltro(remessa, root)).orderBy(getCriteriaBuilder().desc(root.get("dataCriacao")))).getResultList();
 	}
-	
 	
 	
 	@Override

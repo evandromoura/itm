@@ -2,7 +2,6 @@ package br.com.trixti.itm.infra.financeiro;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -117,6 +116,7 @@ public class IntegracaoFinanceiraItau {
 						boleto.getRemessa().setQtdBoletoAberto(boleto.getRemessa().getQtdBoletoAberto() - 1);
 						boleto.getRemessa().setQtdBoletoFechado(boleto.getRemessa().getQtdBoletoFechado() + 1);
 						boleto.getRemessa().setValorRecebido(boleto.getRemessa().getValorRecebido().add(valorPago));
+						boleto.setRetorno(retorno);
 						boletoService.alterar(boleto);
 						remessaService.alterar(boleto.getRemessa());
 	//					System.out.println("Nosso Numero: "+titulo.getValue("NossoNumero"));
@@ -173,7 +173,7 @@ public class IntegracaoFinanceiraItau {
 		transacaoTitulos.setValue("Brancos1", "    ");
 		transacaoTitulos.setValue("InstrucaoAlegacao", "0000");
 		transacaoTitulos.setValue("UsoDaEmpresa", formatarValorPorTamanho("N/A", 25));
-		transacaoTitulos.setValue("NossoNumeroComDigito",formatarValorPorTamanho(boleto.getNossoNumero()+boleto.getDigitoNossoNumero(), 8));
+		transacaoTitulos.setValue("NossoNumeroComDigito",formatarValorPorTamanho(boleto.getNossoNumero(), 8));
 		transacaoTitulos.setValue("QtdMoeda", formatarValorPorTamanho("0", 13));
 		transacaoTitulos.setValue("NrCarteira",formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getNumeroCarteira(), 3));
 		transacaoTitulos.setValue("UsoDoBanco",formatarValorPorTamanho("", 21));
@@ -195,14 +195,14 @@ public class IntegracaoFinanceiraItau {
 		transacaoTitulos.setValue("IOF_Devido", "0");
 		transacaoTitulos.setValue("AbatimentoConcedido", "0");
 		transacaoTitulos.setValue("TipoInscricaoSacado", "02");
-		transacaoTitulos.setValue("NumeroInscricaoSacado", utilString.retiraCaracteresEspeciais(parametro.getCnpj()));
-		transacaoTitulos.setValue("NomeSacado", formatarValorPorTamanho(parametro.getNomeEmpresa(), 30));
+		transacaoTitulos.setValue("NumeroInscricaoSacado", utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getCpfCnpj()));
+		transacaoTitulos.setValue("NomeSacado", formatarValorPorTamanho(boleto.getContrato().getCliente().getNome(), 30));
 		transacaoTitulos.setValue("Brancos2", "          ");
-		transacaoTitulos.setValue("LogradouroSacado", formatarValorPorTamanho(parametro.getLogradouro(), 40));
-		transacaoTitulos.setValue("BairroSacado", formatarValorPorTamanho(parametro.getBairro(), 12));
-		transacaoTitulos.setValue("CepSacado", utilString.retiraCaracteresEspeciais(parametro.getCep()));
-		transacaoTitulos.setValue("Cidade", formatarValorPorTamanho(parametro.getCidade(), 15));
-		transacaoTitulos.setValue("Estado", formatarValorPorTamanho(parametro.getUf(), 2));
+		transacaoTitulos.setValue("LogradouroSacado", formatarValorPorTamanho(boleto.getContrato().getCliente().getEndereco(), 40));
+		transacaoTitulos.setValue("BairroSacado", formatarValorPorTamanho(boleto.getContrato().getCliente().getBairro(), 12));
+		transacaoTitulos.setValue("CepSacado", utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getCep()));
+		transacaoTitulos.setValue("Cidade", formatarValorPorTamanho(boleto.getContrato().getCliente().getCidade(), 15));
+		transacaoTitulos.setValue("Estado", formatarValorPorTamanho(boleto.getContrato().getCliente().getUf(), 2));
 		transacaoTitulos.setValue("SacadorAvalista", "");
 		transacaoTitulos.setValue("Brancos3", "    ");
 		transacaoTitulos.setValue("DataDeMora", "");

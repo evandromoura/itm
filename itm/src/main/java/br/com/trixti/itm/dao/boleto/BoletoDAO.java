@@ -96,7 +96,7 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 	public Boleto recuperarPorNossoNumero(String nossoNumero) {
 		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
 		Root<Boleto> root = criteria.from(Boleto.class);
-		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("nossoNumeroCompleto"),nossoNumero))).getSingleResult();
+		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("nossoNumero"),nossoNumero))).getSingleResult();
 	}
 
 }

@@ -4,7 +4,6 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.radcheck.RadcheckDAO;
-import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Radcheck;
 import br.com.trixti.itm.service.AbstractService;
 

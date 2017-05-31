@@ -54,7 +54,7 @@
 								<f:facet name="header">
 									#{resources['label.global.data']}
 								</f:facet>
-								<h:outputText value="#{remessa.dataCriacao}">
+								<h:outputText value="#{remessa.dataCriacao}" style="white-space: nowrap;font-size:10px;">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo"/>
 								</h:outputText>
 							</h:column>
@@ -99,7 +99,7 @@
 								<f:facet name="header">
 									#{resources['label.global.dataenvio']}
 								</f:facet>
-								<h:outputText value="#{remessa.dataEnvio}">
+								<h:outputText value="#{remessa.dataEnvio}" style="white-space: nowrap;font-size:10px;">
 									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo"/>
 								</h:outputText>
 							</h:column>

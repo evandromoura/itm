@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.remessa.RemessaDAO;
 import br.com.trixti.itm.entity.Remessa;
+import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.service.AbstractService;
 
 @Stateless
@@ -36,6 +37,7 @@ public class RemessaService extends AbstractService<Remessa>{
 	public void enviarRemessa(Remessa remessa){
 		remessa = remessaDAO.recuperarCompleto(remessa.getId());
 		remessa.setDataEnvio(new Date());
+		remessa.setStatus(StatusRemessaEnum.ENVIADO);
 		remessaDAO.alterar(remessa);
 	}
 	

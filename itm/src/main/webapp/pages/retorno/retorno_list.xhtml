@@ -58,7 +58,7 @@
 						<h:selectOneMenu value="#{retornoController.retornoTO.retorno.banco}" >
 							<f:selectItems var="banco" value="#{combosBean.listaBancosSuportados}" itemValue="#{banco}" itemLabel="#{banco.instituicao}" />
 						</h:selectOneMenu>
-						<br /> <br /> 
+						<br /> <br />
 						<h:commandLink action="#{retornoController.enviarArquivo()}"
 							styleClass="btn btn-lg btn-success" id="idBotaoEnviarArquico">
 							<i class="fa fa-search-plus" /> #{resources['label.global.enviararquivo']}
@@ -84,7 +84,7 @@
 										#{resources['label.global.data']}
 									</f:facet>
 								<h:outputText value="#{retorno.dataCriacao}">
-									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo" />
 								</h:outputText>
 							</h:column>
 
@@ -107,7 +107,7 @@
 										#{resources['label.global.dataprocessamento']}
 									</f:facet>
 								<h:outputText value="#{retorno.dataProcessamento}">
-									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo" />
 								</h:outputText>
 
 							</h:column>

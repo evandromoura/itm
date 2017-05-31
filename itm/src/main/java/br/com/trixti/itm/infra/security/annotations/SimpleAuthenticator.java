@@ -1,7 +1,5 @@
 package br.com.trixti.itm.infra.security.annotations;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 

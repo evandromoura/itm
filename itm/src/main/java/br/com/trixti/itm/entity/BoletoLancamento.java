@@ -2,7 +2,6 @@ package br.com.trixti.itm.entity;
 // default package
 // Generated 22/02/2017 14:34:07 by Hibernate Tools 4.3.4.Final
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

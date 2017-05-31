@@ -1,7 +1,6 @@
 package br.com.trixti.itm.controller.remessa;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
