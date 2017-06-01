@@ -114,6 +114,14 @@
 								</h:column>
 								<h:column>
 									<f:facet name="header">
+										#{resources['label.global.valorrecebido']} R$
+									</f:facet>
+									<h:outputText value="#{boleto.valorPago}">
+										<f:convertNumber pattern="#,##0.00" /> 
+									</h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
 										#{resources['label.global.datapagamento']}
 									</f:facet>
 									<h:outputText value="#{boleto.dataPagamento}">

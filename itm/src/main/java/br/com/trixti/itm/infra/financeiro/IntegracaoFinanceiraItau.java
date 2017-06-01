@@ -117,6 +117,7 @@ public class IntegracaoFinanceiraItau {
 						boleto.getRemessa().setQtdBoletoFechado(boleto.getRemessa().getQtdBoletoFechado() + 1);
 						boleto.getRemessa().setValorRecebido(boleto.getRemessa().getValorRecebido().add(valorPago));
 						boleto.setRetorno(retorno);
+						boleto.setValorPago(valorPago);
 						boletoService.alterar(boleto);
 						remessaService.alterar(boleto.getRemessa());
 	//					System.out.println("Nosso Numero: "+titulo.getValue("NossoNumero"));
