@@ -3,13 +3,18 @@ package br.com.trixti.itm.threads.financeiro;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
+import javax.ejb.Timer;
+import javax.ejb.TimerService;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
@@ -56,10 +61,11 @@ public class FinanceiroThread {
 	private @Inject IntegracaoFinanceiraItau integracaoFinanceiraItau;
 	private @Inject RetornoService retornoService;
 	private Parametro parametro;
+	private @Resource TimerService sessionContext;
 
 	
 	
-	@Schedule(minute = "*", hour = "*", persistent = false)
+	@Schedule(info="Thread-BOLETO",minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
 		parametro = parametroService.recuperarParametro();
 		List<Cliente> clientes = clienteService.listarAtivo();
@@ -73,7 +79,7 @@ public class FinanceiroThread {
 		}
 	}
 	
-	@Schedule(minute = "*", hour = "*", persistent = false)
+	@Schedule(info="Thread-REMESSA",minute = "*/5", hour = "*", persistent = false)
 	public void processarRemessa(){
 		List<Boleto> listaBoleto = boletoService.pesquisarBoletoSemRemessa();
 		Map<String,List<Boleto>> mapaBoletoBanco = new HashMap<String,List<Boleto>>();
@@ -93,7 +99,7 @@ public class FinanceiroThread {
 		System.out.println(mapaBoletoBanco);
 	}
 	
-	@Schedule(minute = "*", hour = "*", persistent = false)
+	@Schedule(info="Thread-RETORNO",minute = "*", hour = "*", persistent = false)
 	public void processarRetorno(){
 		List<Retorno> listaRetorno = retornoService.listarPendentes();
 		Map<String,List<Retorno>> mapaRetorno = new HashMap<String,List<Retorno>>();
@@ -218,6 +224,10 @@ public class FinanceiroThread {
 		BigDecimal total = new BigDecimal(-10.3);
 		System.out.println(total);
 	}
+	
+	public List<Timer> listarThreads(){
+        return new ArrayList<Timer>(sessionContext.getTimers());
+	}
 
 
 	public Parametro getParametro() {
@@ -227,5 +237,19 @@ public class FinanceiroThread {
 
 	public void setParametro(Parametro parametro) {
 		this.parametro = parametro;
+	}
+
+	public void parar(String info) throws Throwable {
+		try{
+			List<Timer> timers = new ArrayList<Timer>(sessionContext.getTimers());
+			for(Timer timer:timers){
+				if(timer.getInfo().equals(info)){
+					timer.cancel();
+				}
+			}
+		}catch(RuntimeException e){
+			
+			System.out.println("PAROU A THREAD");
+		}	
 	}
 }

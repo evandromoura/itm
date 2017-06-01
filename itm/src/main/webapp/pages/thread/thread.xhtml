@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
+		<li class="breadcrumb-item">#{resources['label.global.threads']}</li>
+	</ui:define>
+	<ui:param name="menu" value="thread" />
+
+	<ui:define name="corpo">
+
+		<h:form>
+			<div class="row">
+	
+				<ui:repeat var="timer" value="#{threadController.threadTO.timers}">
+	
+					<div class="col-sm-4">
+						<div class="card">
+							<div class="card-header card-header-inverse card-header-info">
+								<div class="font-weight-bold">
+									<span style="color:#000">#{timer.info}</span> <span class="float-right">
+									
+										<span id="clock_#{timer.info}" />
+									
+									</span>
+								</div>
+								<div>
+									<span> 
+									<small>
+										
+									</small>
+									</span> 
+									<span class="float-right"> 
+									<small style="color:#000">
+										<h:outputText value="#{timer.nextTimeout}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo"/>
+										</h:outputText>
+									</small>
+									</span>
+								</div>
+							</div>
+							<div class="card-block py-1 px-2">
+							
+							<div class="row">
+                                <div class="col-2 b-r-1 py-1">
+                                    <div class="font-weight-bold">#{timer.schedule.second}</div>
+                                    <div class="text-muted">
+                                        <small>Seg</small>
+                                    </div>
+                                </div>
+                                <div class="col-2 b-r-1 py-1">
+                                    <div class="font-weight-bold">#{timer.schedule.minute}</div>
+                                    <div class="text-muted">
+                                        <small>Min</small>
+                                    </div>
+                                </div>
+                                <div class="col-2 b-r-1 py-1">
+                                    <div class="font-weight-bold">#{timer.schedule.hour}</div>
+                                    <div class="text-muted">
+                                        <small>Hora</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-2 b-r-1 py-1">
+                                    <div class="font-weight-bold">#{timer.schedule.dayOfMonth}</div>
+                                    <div class="text-muted">
+                                        <small>Dia</small>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-2 b-r-1 py-1">
+                                    <div class="font-weight-bold">#{timer.schedule.dayOfMonth}</div>
+                                    <div class="text-muted">
+                                        <small>Mes</small>
+                                    </div>
+                                </div>
+                                <div class="col-2 b-r-1 py-1">
+                                    <div class="font-weight-bold">#{timer.schedule.year}</div>
+                                    <div class="text-muted">
+                                        <small>Ano</small>
+                                    </div>
+                                </div>
+                            </div>
+								
+							</div>
+							<div class="card-block py-0 px-2 b-t-1">
+								<div class="row">
+									<div class="col-12 py-1">
+										<h:commandLink styleClass="btn btn-info" action="#{threadController.parar(timer.info)}">
+											#{resources['label.global.parar']}
+										</h:commandLink>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					
+					<script>
+							$('#clock_#{timer.info}').countdown('#{threadController.formatDate(timer.nextTimeout)}', {elapse: true})
+								.on('update.countdown', function(event) {
+								  var $this = $(this);
+								  if (event.elapsed) {
+								    $this.html(event.strftime('<span style="color:#b00">Executado</span>'));
+								  } else {
+								    $this.html(event.strftime('<span >%D dias %H:%M:%S</span>'));
+								  }
+							});
+			     		    </script>
+	
+				</ui:repeat>
+	
+			</div>
+		</h:form>	
+	</ui:define>
+
+
+</ui:composition>
