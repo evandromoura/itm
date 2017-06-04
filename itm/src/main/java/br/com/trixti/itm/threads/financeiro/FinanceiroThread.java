@@ -1,10 +1,7 @@
 package br.com.trixti.itm.threads.financeiro;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,8 +20,6 @@ import javax.inject.Named;
 
 import org.jrimum.bopepo.BancosSuportados;
 
-import com.sun.javafx.binding.StringFormatter;
-
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
@@ -40,7 +35,6 @@ import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.service.boleto.BoletoService;
-import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
@@ -49,8 +43,6 @@ import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.retorno.RetornoService;
-import br.com.trixti.itm.util.Base64Utils;
-import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilData;
 
 @Named
@@ -70,7 +62,6 @@ public class FinanceiroThread {
 	private Parametro parametro;
 	private @Resource TimerService sessionContext;
 	private @Inject MailService mailService;
-	private @Inject GeradorBoletoService geradorBoletoService;
 
 	
 	
@@ -83,10 +74,35 @@ public class FinanceiroThread {
 			List<BoletoLancamento> lancamentosBoleto = new ArrayList<BoletoLancamento>();
 			for (Contrato contrato : cliente.getContratos()) {
 				gerarBoleto(valor, lancamentosBoleto, contrato);
-				verificarContrato(contrato);
 			}
 		}
 	}
+	
+	
+	@Schedule(info="Thread-BLOQUEIO-CONTRATO",minute = "*", hour = "*", persistent = false)
+	public void bloquearContrato() {
+		parametro = parametroService.recuperarParametro();
+		List<Cliente> clientes = clienteService.listarAtivo();
+		for (Cliente cliente : clientes) {
+			for (Contrato contrato : cliente.getContratos()) {
+				verificarBloqueioContrato(contrato);
+			}
+		}
+	}
+	
+	
+	@Schedule(info="Thread-DESBLOQUEIO-CONTRATO",minute = "*", hour = "*", persistent = false)
+	public void desbloquearContrato() {
+		parametro = parametroService.recuperarParametro();
+		List<Cliente> clientes = clienteService.listarAtivo();
+		for (Cliente cliente : clientes) {
+			for (Contrato contrato : cliente.getContratos()) {
+				verificarDesbloquearContrato(contrato);
+			}
+		}
+	}
+	
+	
 	
 	@Schedule(info="Thread-REMESSA",minute = "*/5", hour = "*", persistent = false)
 	public void processarRemessa(){
@@ -136,13 +152,9 @@ public class FinanceiroThread {
 		}
 	}
 	
-	private void verificarContrato(Contrato contrato){
-		/*
-		 * Bloqueio
-		 */
+	private void verificarBloqueioContrato(Contrato contrato){
 		UtilData utilData = new UtilData();
 		List<Boleto> boletos = boletoService.pesquisarBoletoEmAbertoContrato(contrato);
-		boolean desbloquear = true;
 		for(Boleto boleto:boletos){
 			if(utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasBloqueio()  && 
 					(contrato.getDataParaBloqueio() == null || 
@@ -152,6 +164,19 @@ public class FinanceiroThread {
 					contratoService.alterar(contrato);
 					freeRadiusService.bloquearContrato(contrato);
 				}	
+			}
+		}
+	}
+	
+	
+	private void verificarDesbloquearContrato(Contrato contrato){
+		UtilData utilData = new UtilData();
+		List<Boleto> boletos = boletoService.pesquisarBoletoEmAbertoContrato(contrato);
+		boolean desbloquear = true;
+		for(Boleto boleto:boletos){
+			if(utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasBloqueio()  && 
+					(contrato.getDataParaBloqueio() == null || 
+						utilData.data1MaiorIgualData2(new Date(),contrato.getDataParaBloqueio()))){
 				desbloquear = false;
 			}
 		}
