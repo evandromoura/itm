@@ -60,8 +60,9 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	}
 
 	public void downloadBoleto(Boleto boleto) throws Exception {
+		File arquivoBoleto = null;
 		try {
-			File arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
+			arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
 			if (arquivoBoleto != null) {
 				UtilArquivo utilArquivo = new UtilArquivo();
 				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -71,6 +72,10 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		} catch (Exception e) {
 			getFacesContext().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage()));
+		}finally {
+			if(arquivoBoleto != null){
+				arquivoBoleto.delete();
+			}		
 		}	
 	}
 	

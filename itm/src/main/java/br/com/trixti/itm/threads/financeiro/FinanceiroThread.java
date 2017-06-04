@@ -1,12 +1,13 @@
 package br.com.trixti.itm.threads.financeiro;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jrimum.bopepo.BancosSuportados;
+
+import com.sun.javafx.binding.StringFormatter;
 
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.BoletoLancamento;
@@ -37,13 +40,17 @@ import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.service.boleto.BoletoService;
+import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
+import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.retorno.RetornoService;
+import br.com.trixti.itm.util.Base64Utils;
+import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilData;
 
 @Named
@@ -62,6 +69,8 @@ public class FinanceiroThread {
 	private @Inject RetornoService retornoService;
 	private Parametro parametro;
 	private @Resource TimerService sessionContext;
+	private @Inject MailService mailService;
+	private @Inject GeradorBoletoService geradorBoletoService;
 
 	
 	
@@ -115,6 +124,15 @@ public class FinanceiroThread {
 			if(BancosSuportados.BANCO_ITAU.name().equals(banco)){
 				integracaoFinanceiraItau.processarRetorno(mapaRetorno.get(banco));
 			}
+		}
+	}
+	
+	
+	@Schedule(info="Thread-NOTIFICACAO",minute = "*/1", hour = "*", persistent = false)
+	public void processarNotificacao(){
+		List<Boleto> listaBoleto = boletoService.pesquisarBoletoNaoNotificado();
+		for(Boleto boleto:listaBoleto){
+			mailService.enviarEmail(boleto);
 		}
 	}
 	
@@ -220,11 +238,6 @@ public class FinanceiroThread {
 		boleto.setNossoNumeroCompleto(boleto.getNossoNumero()+boleto.getDigitoNossoNumero());
 	}
 	
-	public static void main(String[] args) {
-		BigDecimal total = new BigDecimal(-10.3);
-		System.out.println(total);
-	}
-	
 	public List<Timer> listarThreads(){
         return new ArrayList<Timer>(sessionContext.getTimers());
 	}
@@ -251,5 +264,13 @@ public class FinanceiroThread {
 			
 			System.out.println("PAROU A THREAD");
 		}	
+	}
+	
+	
+	
+	
+	public static void main(String[] args) {
+		String valor = "10213699339000170065400194703    0000N/A                      000007180000000000000109                     I01718       05071700000000019903410065408N010617053900000000000000507170000000000000000000000000000000000000000200098328204134Naldo Gomes                             Scia QD 15                              Setor Indust71250050Brasilia       DF                                  00000000 000002";
+		System.out.println(valor.substring(1, 2));
 	}
 }

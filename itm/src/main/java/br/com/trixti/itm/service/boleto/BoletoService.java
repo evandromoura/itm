@@ -114,4 +114,8 @@ public class BoletoService extends AbstractService<Boleto>{
 		return boletoDAO.recuperarPorNossoNumero(nossoNumero);
 		
 	}
+
+	public List<Boleto> pesquisarBoletoNaoNotificado() {
+		return boletoDAO.pesquisarBoletoNaoNotificado();
+	}
 }

@@ -1,6 +1,7 @@
 package br.com.trixti.itm.controller.remessa;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -64,6 +65,7 @@ public class RemessaController extends AbstractController<Remessa> {
 	}
 	
 	public void download(Remessa remessa){
+		File arquivo = null;
 		try{
 			UtilString utilString = new UtilString();
 			Remessa remessaCompleta = remessaService.recuperarCompleto(remessa.getId());
@@ -71,12 +73,17 @@ public class RemessaController extends AbstractController<Remessa> {
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			String nomeArquivo = "CB"+utilString.completaComZerosAEsquerda(remessaCompleta.getId().toString(), 6)+".rem";
 			if(remessaCompleta.getArquivo() != null){
-				utilArquivo.convertFileToByteArrayOutputStream(utilArquivo.getFileFromBytes(Base64Utils.base64Decode(remessaCompleta.getArquivo()), nomeArquivo),
+				arquivo = utilArquivo.getFileFromBytes(Base64Utils.base64Decode(remessaCompleta.getArquivo()), nomeArquivo);
+				utilArquivo.convertFileToByteArrayOutputStream(arquivo,
 						byteArrayOutputStream);
 				download(byteArrayOutputStream, nomeArquivo);
 			}	
 		}catch(Exception e){
 			e.printStackTrace();
+		}finally {
+			if(arquivo != null){
+				arquivo.delete();
+			}	
 		}	
 	}
 

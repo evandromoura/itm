@@ -61,8 +61,16 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="uf")
 	private String uf;
 	
+	private String smtp;
 	
+	@Column(name="porta_smtp")
+	private Integer portaSmtp;
 	
+	@Column(name="login_email")
+	private String loginEmail;
+	
+	@Column(name="senha_email")
+	private String senhaEmail;
 
 	public Integer getId() {
 		return id;
@@ -158,6 +166,38 @@ public class Parametro implements java.io.Serializable {
 
 	public void setUf(String uf) {
 		this.uf = uf;
+	}
+
+	public String getSmtp() {
+		return smtp;
+	}
+
+	public void setSmtp(String smtp) {
+		this.smtp = smtp;
+	}
+
+	public String getLoginEmail() {
+		return loginEmail;
+	}
+
+	public void setLoginEmail(String loginEmail) {
+		this.loginEmail = loginEmail;
+	}
+
+	public String getSenhaEmail() {
+		return senhaEmail;
+	}
+
+	public void setSenhaEmail(String senhaEmail) {
+		this.senhaEmail = senhaEmail;
+	}
+
+	public Integer getPortaSmtp() {
+		return portaSmtp;
+	}
+
+	public void setPortaSmtp(Integer portaSmtp) {
+		this.portaSmtp = portaSmtp;
 	}
 	
 

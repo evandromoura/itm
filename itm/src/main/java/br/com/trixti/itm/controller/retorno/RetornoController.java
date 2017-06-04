@@ -1,6 +1,7 @@
 package br.com.trixti.itm.controller.retorno;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
@@ -48,16 +49,22 @@ public class RetornoController extends AbstractController<Retorno> {
 	}
 	
 	public void download(Retorno retorno){
+		File arquivo =null;
 		try{
 			Retorno retornoCompleta = retornoService.recuperarCompleto(retorno.getId());
 			UtilArquivo utilArquivo = new UtilArquivo();
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 			String nomeArquivo = retornoCompleta.getNomeArquivo();
-			utilArquivo.convertFileToByteArrayOutputStream(utilArquivo.getFileFromBytes(Base64Utils.base64Decode(retornoCompleta.getArquivo()), nomeArquivo),
+			arquivo = utilArquivo.getFileFromBytes(Base64Utils.base64Decode(retornoCompleta.getArquivo()), nomeArquivo);
+			utilArquivo.convertFileToByteArrayOutputStream(arquivo,
 					byteArrayOutputStream);
 			download(byteArrayOutputStream, nomeArquivo);
 		}catch(Exception e){
 			e.printStackTrace();
+		}finally {
+			if(arquivo != null){
+				arquivo.delete();
+			}	
 		}	
 	}
 	

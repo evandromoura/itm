@@ -92,20 +92,12 @@ public class IntegracaoFinanceiraItau {
 		try {
 			UtilArquivo utilArquivo = new UtilArquivo();
 			for (Retorno retorno : listaRetorno) {
-
 				byte[] bytes = Base64Utils.base64Decode(retorno.getArquivo());
 				File arquivoRetorno = utilArquivo.getFileFromBytes(bytes, retorno.getNomeArquivo());
 				layout = utilArquivo.getFileFromBytes(UtilArquivo.converteInputStreamEmBytes(IntegracaoFinanceiraItau.class.getClassLoader().getResourceAsStream("layout-cnab400-itau-retorno.xml")), "layout-cnab400-itau-retorno.xml");
 				FlatFile<Record> ff = Texgit.createFlatFile(layout);
 				ff.read(FileUtil.read(arquivoRetorno.getAbsolutePath()));
 				Record header = ff.getRecord("Header");
-//				System.out.println("Identificacao retorno: " + header.getValue("IdentificacaoRetorno"));
-//				System.out.println("Codigo Empresa: " + header.getValue("CodigoDaEmpresa"));
-//				System.out.println("Razão Social: " + header.getValue("NomeDaEmpresa"));
-//				System.out.println("Servico: " + header.getValue("LiteralServico").toString().trim() + "/"+ header.getValue("NomeBanco"));
-//				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//				System.out.println("Data De Gravação Do Arquivo: " + sdf.format(header.getValue("DataGravacaoArquivo")));
-//				System.out.println("===========================================================================================");
 				Collection<Record> titulosEmCobranca = ff.getRecords("TransacaoTitulo");
 				for (Record titulo : titulosEmCobranca) {
 					Boleto boleto = boletoService.recuperarPorNossoNumero(((Integer)titulo.getValue("NossoNumero")).toString());
@@ -120,11 +112,6 @@ public class IntegracaoFinanceiraItau {
 						boleto.setValorPago(valorPago);
 						boletoService.alterar(boleto);
 						remessaService.alterar(boleto.getRemessa());
-	//					System.out.println("Nosso Numero: "+titulo.getValue("NossoNumero"));
-	//					System.out.println("Nosso Numero Com Digito: "+titulo.getValue("NossoNumeroComDigito"));
-	//					System.out.println("Valor: "+titulo.getValue("Valor"));
-	//					System.out.println("ValorPago: "+titulo.getValue("ValorPago"));
-	//					System.out.println("Data Do Credito: "+titulo.getValue("DataDoCredito"));
 					}
 				}
 				retorno.setDataProcessamento(new Date());
@@ -210,7 +197,6 @@ public class IntegracaoFinanceiraItau {
 		transacaoTitulos.setValue("Prazo", "00");
 		transacaoTitulos.setValue("Brancos4", " ");
 		transacaoTitulos.setValue("NumeroSequencialRegistro", index);
-
 		return transacaoTitulos;
 	}
 

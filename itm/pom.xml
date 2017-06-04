@@ -205,7 +205,14 @@
 		  <artifactId>jrimum-utilix</artifactId>
 		  <version>0.2.3-SNAPSHOT</version>
 		</dependency>
-
+		
+		
+		
+		<dependency>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>javax.mail</artifactId>
+		</dependency>
+				
         
 <!-- FIM DAS DEPENDENCIAS DO PROJETO -->
     </dependencies>

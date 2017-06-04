@@ -99,4 +99,13 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("nossoNumero"),nossoNumero))).getSingleResult();
 	}
 
+	public List<Boleto> pesquisarBoletoNaoNotificado() {
+		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
+		Root<Boleto> root = criteria.from(Boleto.class);
+		return getManager().createQuery(criteria.select(root).where(
+				getCriteriaBuilder().isNull(root.get("dataNotificacao")),
+				getCriteriaBuilder().isNotNull(root.join("remessa",JoinType.LEFT).get("dataEnvio"))
+				)).getResultList();
+	}
+
 }
