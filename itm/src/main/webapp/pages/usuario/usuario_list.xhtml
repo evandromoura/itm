@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:param name="menu" value="usuario" />
+	
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formUsuario">
+
+			
+
+			<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.pesquisar']}</strong> <small>#{resources['label.global.usuarios']}</small>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group"> 
+									<label for="idFormPesquisarUsuario:nome_usuario">#{resources['label.global.nome']}</label> 
+									<h:inputText  value="#{usuarioController.usuarioTO.usuarioPesquisa.nome}" id="nome_usuario" styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+							
+							<h:commandLink action="#{usuarioController.pesquisar()}" styleClass="btn btn-lg btn-primary" id="idBotaoPesquisar">
+										<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
+							</h:commandLink>
+									<a href="#{request.contextPath}/usuario/novo" class="btn btn-lg btn-success">
+										<i class="fa fa-user-plus" /> #{resources['label.global.novousuario']}
+									</a>
+							</div>
+						</div>	
+					</div>
+				</div>
+
+
+
+
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.resultadopesquisa']}</strong>
+					</div>
+					<div class="card-block">
+						<h:dataTable value="#{usuarioController.usuarioTO.usuarios}" var="usuario" styleClass="table table-bordered table-striped">
+						
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.nome']}
+								</f:facet>
+								#{usuario.nome}
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.login']}
+								</f:facet>
+								#{usuario.login}
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.perfil']}
+								</f:facet>
+								#{usuario.perfil.name}
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.acoes']}
+								</f:facet>
+								<a href="#{request.contextPath}/usuario/editar/#{usuario.id}" class="btn btn-info">#{resources['label.global.editar']}</a>
+								<h:outputText value=" " />
+								<h:commandLink action="#{usuarioController.excluir(usuario)}"  styleClass="btn btn-info"
+									value="#{resources['label.global.excluir']}" immediate="true" />
+							</h:column>
+						</h:dataTable>
+					</div>
+				</div>
+
+
+
+			</h:form>
+
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</ui:define>
+
+
+</ui:composition>

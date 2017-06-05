@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:param name="menu" value="usuario" />
+	
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formUsuario">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.cadastrousuario']}</strong> 
+					</div> 
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<label for="formUsuario:nome_usuario">#{resources['label.global.nome']}</label> 
+									<h:inputText value="#{usuarioController.usuarioTO.usuario.nome}" id="nome_usuario" styleClass="form-control" />
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="formUsuario:perfil_usuario">#{resources['label.global.perfil']}</label> 
+									<h:selectOneMenu value="#{usuarioController.usuarioTO.usuario.perfil}" id="perfil_usuario" styleClass="form-control">
+										<f:selectItems value="#{combosBean.perfis}" var="perfil" itemValue="#{perfil}" itemLabel="#{perfil.name}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="formUsuario:email_usuario">#{resources['label.global.email']}</label> 
+									<h:inputText value="#{usuarioController.usuarioTO.usuario.email}" id="email_usuario" styleClass="form-control" />
+								</div>
+							</div>
+							
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="formUsuario:login_usuario">#{resources['label.global.login']}</label> 
+									<h:inputText value="#{usuarioController.usuarioTO.usuario.login}" id="login_usuario" styleClass="form-control" />
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="formUsuario:login_usuario">#{resources['label.global.senha']}</label> 
+									<h:inputSecret value="#{usuarioController.usuarioTO.usuario.senha}" id="senha_usuario" styleClass="form-control" redisplay="true" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			 
+				
+ 				<div class="card">
+					<div class="card-block">
+							<div class="row">
+								<div class="col-sm-12">
+									
+
+								<div class="form-group">
+									<h:commandLink action="#{usuarioController.gravar()}" styleClass="btn btn-lg btn-success">
+										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
+									</h:commandLink>	
+	
+								</div>
+
+
+
+
+
+
+								</div>
+							</div>
+					</div>	
+				</div>	
+
+			</h:form>
+
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+	</ui:define>
+
+
+</ui:composition>
