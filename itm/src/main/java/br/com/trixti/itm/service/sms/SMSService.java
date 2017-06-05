@@ -69,7 +69,7 @@ public class SMSService extends AbstractService<SMS> {
 		UtilString utilString = new UtilString();
 		StringBuilder sb = new StringBuilder();
 		sb.append("Fatura de "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utilData.getMes(new Date())), 2)));
-		sb.append("\n");
+		sb.append("\n"); 
 		sb.append("Valor: R$"+boleto.getValor());
 		sb.append("\n");
 		sb.append("Tel: 6134035393");
