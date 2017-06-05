@@ -7,6 +7,7 @@ import javax.inject.Named;
 
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.Usuario;
 import br.com.trixti.itm.enums.PerfilEnum;
 
 @Named
@@ -18,6 +19,7 @@ public class CustomIdentity implements Serializable {
 	private Cliente cliente;
 	private PerfilEnum perfil;
 	private Contrato contratoSelecionado;
+	private Usuario usuario;
 
 	public Cliente getCliente() {
 		return cliente;
@@ -41,6 +43,14 @@ public class CustomIdentity implements Serializable {
 
 	public void setContratoSelecionado(Contrato contratoSelecionado) {
 		this.contratoSelecionado = contratoSelecionado;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	

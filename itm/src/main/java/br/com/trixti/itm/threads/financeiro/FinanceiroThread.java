@@ -28,6 +28,7 @@ import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.Retorno;
+import br.com.trixti.itm.entity.SMS.SMSBuilder;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
@@ -35,6 +36,7 @@ import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.service.boleto.BoletoService;
+import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
@@ -43,7 +45,9 @@ import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.retorno.RetornoService;
+import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.util.UtilData;
+import br.com.trixti.itm.util.UtilString;
 
 @Named
 @Singleton
@@ -62,10 +66,12 @@ public class FinanceiroThread {
 	private Parametro parametro;
 	private @Resource TimerService sessionContext;
 	private @Inject MailService mailService;
+	private @Inject SMSService smsService;
+	private @Inject GeradorBoletoService geradorBoletoService;
 
 	
 	
-	@Schedule(info="Thread-BOLETO",minute = "*", hour = "*", persistent = false)
+	@Schedule(info="Gerar-Boleto",minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
 		parametro = parametroService.recuperarParametro();
 		List<Cliente> clientes = clienteService.listarAtivo();
@@ -79,7 +85,7 @@ public class FinanceiroThread {
 	}
 	
 	
-	@Schedule(info="Thread-BLOQUEIO-CONTRATO",minute = "*", hour = "*", persistent = false)
+	@Schedule(info="Bloquear-Contrato", hour = "12", persistent = false)
 	public void bloquearContrato() {
 		parametro = parametroService.recuperarParametro();
 		List<Cliente> clientes = clienteService.listarAtivo();
@@ -91,7 +97,7 @@ public class FinanceiroThread {
 	}
 	
 	
-	@Schedule(info="Thread-DESBLOQUEIO-CONTRATO",minute = "*", hour = "*", persistent = false)
+	@Schedule(info="Desbloquear-Contrato",minute = "*", hour = "*", persistent = false)
 	public void desbloquearContrato() {
 		parametro = parametroService.recuperarParametro();
 		List<Cliente> clientes = clienteService.listarAtivo();
@@ -104,7 +110,7 @@ public class FinanceiroThread {
 	
 	
 	
-	@Schedule(info="Thread-REMESSA",minute = "*/5", hour = "*", persistent = false)
+	@Schedule(info="Processar-Remessa",minute = "*/1", hour = "*", persistent = false)
 	public void processarRemessa(){
 		List<Boleto> listaBoleto = boletoService.pesquisarBoletoSemRemessa();
 		Map<String,List<Boleto>> mapaBoletoBanco = new HashMap<String,List<Boleto>>();
@@ -124,7 +130,7 @@ public class FinanceiroThread {
 		System.out.println(mapaBoletoBanco);
 	}
 	
-	@Schedule(info="Thread-RETORNO",minute = "*", hour = "*", persistent = false)
+	@Schedule(info="Processar-Retorno",minute = "*", hour = "*", persistent = false)
 	public void processarRetorno(){
 		List<Retorno> listaRetorno = retornoService.listarPendentes();
 		Map<String,List<Retorno>> mapaRetorno = new HashMap<String,List<Retorno>>();
@@ -144,13 +150,18 @@ public class FinanceiroThread {
 	}
 	
 	
-	@Schedule(info="Thread-NOTIFICACAO",minute = "*/1", hour = "*", persistent = false)
+	@Schedule(info="Enviar-Notificacoes",minute = "*/1", hour = "*", persistent = false)
 	public void processarNotificacao(){
 		List<Boleto> listaBoleto = boletoService.pesquisarBoletoNaoNotificado();
+		
 		for(Boleto boleto:listaBoleto){
 			mailService.enviarEmail(boleto);
+			smsService.enviarSMS(boleto);
 		}
+		
 	}
+	
+	
 	
 	private void verificarBloqueioContrato(Contrato contrato){
 		UtilData utilData = new UtilData();

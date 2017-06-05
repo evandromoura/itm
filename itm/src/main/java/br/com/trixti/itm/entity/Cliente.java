@@ -9,6 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -74,6 +76,14 @@ public class Cliente implements java.io.Serializable {
 	@NotAudited
 	@OneToMany(mappedBy="cliente")
 	private List<Contrato> contratos;
+	
+	@NotAudited
+	@ManyToOne
+	@JoinColumn(name="id_usuario_ultima_atualizacao")
+	private Usuario usuarioUltimaAtualizacao;
+	
+	@Column(name="id_usuario_ultima_atualizacao",insertable=false,updatable=false)
+	private Integer idUsuarioUltimaAtualizacao;
 	
 	private String senha;
 	
@@ -220,6 +230,22 @@ public class Cliente implements java.io.Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public Usuario getUsuarioUltimaAtualizacao() {
+		return usuarioUltimaAtualizacao;
+	}
+
+	public void setUsuarioUltimaAtualizacao(Usuario usuarioUltimaAtualizacao) {
+		this.usuarioUltimaAtualizacao = usuarioUltimaAtualizacao;
+	}
+
+	public Integer getIdUsuarioUltimaAtualizacao() {
+		return idUsuarioUltimaAtualizacao;
+	}
+
+	public void setIdUsuarioUltimaAtualizacao(Integer idUsuarioUltimaAtualizacao) {
+		this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
 	}
 	
 

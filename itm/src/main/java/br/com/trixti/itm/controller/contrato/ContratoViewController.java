@@ -29,7 +29,9 @@ import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
+import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
+import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilData;
@@ -45,6 +47,8 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject BoletoService boletoService;
 	private @Inject ParametroService parametroService;
 	private @Inject IntegracaoFinanceiraItau integracaoFinanceiraItau;
+	private @Inject MailService mailService;
+	private @Inject SMSService smsService;
 
 	@PostConstruct
 	public void init() {
@@ -77,6 +81,14 @@ public class ContratoViewController extends AbstractController<Contrato> {
 				arquivoBoleto.delete();
 			}		
 		}	
+	}
+	
+	public void enviarEmail(Boleto boleto){
+		mailService.enviarEmail(boleto);
+	}
+
+	public void enviarSMS(Boleto boleto){
+		smsService.enviarSMS(boleto);
 	}
 	
 
@@ -193,5 +205,6 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	public void setContratoTO(ContratoTO contratoTO) {
 		this.contratoTO = contratoTO;
 	}
+	
 
 }

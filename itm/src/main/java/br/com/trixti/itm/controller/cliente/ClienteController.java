@@ -14,6 +14,7 @@ import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.infra.security.annotations.Admin;
+import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.to.ClienteTO;
@@ -28,6 +29,7 @@ public class ClienteController extends AbstractController<Cliente> {
 	
 	private @Inject ClienteService clienteService;
 	private @Inject ContratoService contratoService;
+	private @Inject CustomIdentity customIdentity;
 	
 	@PostConstruct
 	private void init(){
@@ -67,6 +69,7 @@ public class ClienteController extends AbstractController<Cliente> {
 	}
 	
 	public String gravar(){
+		getClienteTO().getCliente().setUsuarioUltimaAtualizacao(customIdentity.getUsuario());
 		if(getClienteTO().getCliente().getId() == null){
 			clienteService.incluir(getClienteTO().getCliente());
 			 getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));

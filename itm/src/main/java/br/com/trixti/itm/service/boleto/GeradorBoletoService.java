@@ -33,6 +33,33 @@ public class GeradorBoletoService {
 	
 	public File gerarBoleto(br.com.trixti.itm.entity.Boleto boleto){
 		
+		Boleto boletoGerado = gerarBoletoBopepo(boleto);
+         
+         BoletoViewer boletoViewer = new BoletoViewer(boletoGerado);
+         String nomeArquivo = boleto.getContrato().getCliente().getNome() + boleto.getDataVencimento().toString()+".pdf";
+         File arquivoPdf = boletoViewer.getPdfAsFile(nomeArquivo);
+         
+         System.out.println(boletoGerado.getLinhaDigitavel().write());
+         return arquivoPdf;
+		
+		
+	}
+	
+	public String recuperarLinhaDigitavel(br.com.trixti.itm.entity.Boleto boleto){
+		return gerarBoletoBopepo(boleto).getLinhaDigitavel().write();
+	}
+	
+	private BancosSuportados getBanco(String banco){
+		for(BancosSuportados bancoSuportado:BancosSuportados.values()){
+			if(bancoSuportado.name().equals(banco)){
+				return bancoSuportado;
+			}
+			
+		}
+		return BancosSuportados.BANCO_DO_BRASIL;
+	}
+	
+	private Boleto gerarBoletoBopepo(br.com.trixti.itm.entity.Boleto boleto) {
 		Parametro parametro = parametroService.recuperarParametro();
 		
 		Cedente cedente = new Cedente(parametro.getNomeEmpresa(), parametro.getCnpj());
@@ -97,23 +124,7 @@ public class GeradorBoletoService {
          boletoGerado.setInstrucao6("");
          boletoGerado.setInstrucao7("");
          boletoGerado.setInstrucao8("");
-         
-         BoletoViewer boletoViewer = new BoletoViewer(boletoGerado);
-         String nomeArquivo = boleto.getContrato().getCliente().getNome() + boleto.getDataVencimento().toString()+".pdf";
-         File arquivoPdf = boletoViewer.getPdfAsFile(nomeArquivo);
-         return arquivoPdf;
-		
-		
-	}
-	
-	private BancosSuportados getBanco(String banco){
-		for(BancosSuportados bancoSuportado:BancosSuportados.values()){
-			if(bancoSuportado.name().equals(banco)){
-				return bancoSuportado;
-			}
-			
-		}
-		return BancosSuportados.BANCO_DO_BRASIL;
+		return boletoGerado;
 	}
 	
 	

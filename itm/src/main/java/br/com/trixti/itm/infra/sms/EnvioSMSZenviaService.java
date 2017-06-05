@@ -19,10 +19,10 @@ import br.com.zenvia.client.response.SendSmsResponse;
 @Singleton
 public class EnvioSMSZenviaService {
 
-	private static final String SENHA = "rg0QQbnY9N";
-	private static final String CONTA = "itrix.rest";
+	private static final String SENHA = "FFntkDxKW5";
+	private static final String CONTA = "trix.int";
 	private static final String DDI = "55";
-	private static final String ITM = "ITM";
+	private static final String ITM = "ITRIX";
 
 	private RestClient restClient;
 

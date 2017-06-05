@@ -368,14 +368,14 @@ public class UtilData {
 		return retorno;
 	}
 
-	private  String obterMesPorMesNumerico(String mes) {
+	public static String obterMesPorMesNumerico(String mes) {
 		String retorno = "";
 		if (mes.equals("01")) {
 			retorno = "Janeiro";
 		} else if (mes.equals("02")) {
 			retorno = "Fevereiro";
 		} else if (mes.equals("03")) {
-			retorno = "Mar�o";
+			retorno = "Março";
 		} else if (mes.equals("04")) {
 			retorno = "Abril";
 		} else if (mes.equals("05")) {

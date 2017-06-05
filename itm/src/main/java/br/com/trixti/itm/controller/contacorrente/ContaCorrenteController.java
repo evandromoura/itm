@@ -8,13 +8,14 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.ContaCorrente;
+import br.com.trixti.itm.infra.security.annotations.Financeiro;
 import br.com.trixti.itm.service.contacorrente.ContaCorrenteService;
 import br.com.trixti.itm.to.ContaCorrenteTO;
 
 
-
 @ViewScoped
 @ManagedBean
+@Financeiro
 public class ContaCorrenteController extends AbstractController<ContaCorrente> {
 	
 	private @Inject ContaCorrenteService contaCorrenteService;

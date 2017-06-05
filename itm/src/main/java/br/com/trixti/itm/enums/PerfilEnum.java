@@ -4,5 +4,11 @@ public enum PerfilEnum {
 	ADMIN,
 	SUPORTE_NIVEL1,
 	SUPORTE_NIVEL2,
-	CLIENTE;
+	CLIENTE,
+	FINANCEIRO;
+	
+	
+	public String getName(){
+		return name();
+	}
 }

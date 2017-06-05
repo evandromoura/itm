@@ -452,6 +452,14 @@
 																	value="Download" /> | 
 																	<h:commandLink value="#{resources['label.global.excluir']}">
 																	<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
+																	
+																	|<h:commandLink 
+																	action="#{contratoViewController.enviarEmail(boleto)}"
+																	value="Enviar Email" />
+																	
+																	|<h:commandLink 
+																	action="#{contratoViewController.enviarSMS(boleto)}"
+																	value="Enviar SMS" />
 																</h:commandLink>
 																
 															</h:column>
