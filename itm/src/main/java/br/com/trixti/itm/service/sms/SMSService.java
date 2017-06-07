@@ -72,7 +72,7 @@ public class SMSService extends AbstractService<SMS> {
 		sb.append("\n"); 
 		sb.append("Valor: R$"+boleto.getValor());
 		sb.append("\n");
-		sb.append("Tel: 6134035393");
+		sb.append("Tel: 06134035393");
 		sb.append("\n");
 		sb.append("Cod Barra: "+geradorBoletoService.recuperarLinhaDigitavel(boleto));
 		return sb.toString();

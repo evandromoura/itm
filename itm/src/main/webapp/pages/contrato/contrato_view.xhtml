@@ -17,6 +17,11 @@
 	<ui:param name="menu" value="cliente" />
 
 	<ui:define name="corpo">
+		<ui:fragment rendered="#{not empty contratoViewController.contratoTO.contrato.autenticacoes}">
+			<script src="https://code.highcharts.com/highcharts.js"></script>
+			<script src="https://code.highcharts.com/modules/exporting.js"></script>
+		</ui:fragment>	
+		
 		<h:form id="idFormContratoView">
 		<div class="row">
 			<br />
@@ -267,7 +272,68 @@
 									</h:panelGroup>
 
 								</div>
+								
 							</div>
+							<div class="card card-accent-success">
+						<div class="card-header">
+							<strong>#{resources['label.global.autenticacao']}</strong>
+						</div>
+
+						<div class="card-block">
+								<div class="row">
+									<div class="col-sm-12">
+										<h:dataTable id="idDataTableContratoAutenticacao"
+											rendered="#{contratoViewController.contratoTO.contrato.autenticacoes ne null and  not empty contratoViewController.contratoTO.contrato.autenticacoes}"
+											value="#{contratoViewController.contratoTO.contrato.autenticacoes}"
+											var="autenticacao" styleClass="table">
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.data']}</f:facet>
+												<h:outputText value="#{autenticacao.dataCriacao}">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:outputText>
+											</h:column>
+
+											<h:column>
+												<f:facet name="header">#{resources['label.global.username']}</f:facet>
+												<h:outputText value="#{autenticacao.username}" />
+											</h:column>
+											
+											<h:column>
+												<f:facet name="header">#{resources['label.global.senha']}</f:facet>
+												<h:outputText value="#{autenticacao.senha}" />
+											</h:column>
+											
+											<h:column>
+												<f:facet name="header">#{resources['label.global.ip']}</f:facet>
+												<h:outputText value="#{autenticacao.ip}" />
+											</h:column>
+											
+										</h:dataTable>
+									</div>
+								</div>
+						</div>
+					</div>
+
+
+					<ui:fragment rendered="#{not empty contratoViewController.contratoTO.contrato.autenticacoes}">
+							<div class="card card-accent-success">
+								<div class="card-header">
+									<strong>#{resources['label.global.utilizacao']}</strong>
+								</div>
+		
+								<div class="card-block">
+										<div class="row">
+											<div class="col-sm-12">
+												<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+											</div>
+										</div>
+								</div>
+							</div>
+					</ui:fragment>		
+
+
+
 
 
 
@@ -450,9 +516,9 @@
 																<h:commandLink 
 																	action="#{contratoViewController.downloadBoleto(boleto)}"
 																	value="Download" /> | 
-																	<h:commandLink value="#{resources['label.global.excluir']}">
-																	<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
-																	
+																	<h:commandLink value="#{resources['label.global.excluir']}" rendered="#{boleto.remessa eq null or boleto.remessa.id eq null}">
+																		<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
+																	</h:commandLink>
 																	|<h:commandLink 
 																	action="#{contratoViewController.enviarEmail(boleto)}"
 																	value="Enviar Email" />
@@ -460,7 +526,7 @@
 																	|<h:commandLink 
 																	action="#{contratoViewController.enviarSMS(boleto)}"
 																	value="Enviar SMS" />
-																</h:commandLink>
+																
 																
 															</h:column>
 														</h:dataTable>
@@ -469,7 +535,18 @@
 											</div>
 										</div>
 									</div>
+									
+									
+									
+									
 								</ui:fragment>	
+						</div>
+						<div class="#{contratoViewController.contratoTO.abaAtiva eq 'logs'?'active':''} tab-pane" id="logs">
+						
+							<ui:fragment id="idTabLogs">
+									
+							</ui:fragment>
+						
 						</div>
 					</div>
 				</div>
@@ -484,6 +561,139 @@
 				
 				
 	</h:form>
+	
+	<ui:fragment rendered="#{not empty contratoViewController.contratoTO.contrato.autenticacoes}">
+		<script>
+		//<![CDATA[
+		$(document).ready(function () {
+		    Highcharts.setOptions({
+		        global: {
+		            useUTC: false
+		        }
+		    });
+	
+		    Highcharts.chart('container', {
+		        chart: {
+		            type: 'spline',
+		            animation: Highcharts.svg, // don't animate in old IE
+		            marginRight: 10,
+		            events: {
+		                load: function () {
+	
+		                    // set up the updating of the chart each second
+		                    
+		                    var downloadAnterior=0;
+		                    var uploadAnterior=0;
+		                    
+		                    var serieDownload = this.series[0];
+		                    var serieUpload   = this.series[1];
+		                    setInterval(function () {
+	
+		                    	var result;
+		                		$.ajax({
+		                		    url: '#{request.contextPath}/rest/services/snmp/#{contratoViewController.contratoTO.contrato.autenticacoes.get(0).username}',
+		                		    dataType: 'json',
+		                		    async: false,
+		                		    success: function(data) {
+		                		        result = data;
+		                		    }
+		                		});
+	
+		                		x = (new Date()).getTime();
+		                		if(downloadAnterior > 0){ 
+									yDownload = ((result.download - downloadAnterior)/1024)/5;
+			                	}else{
+									yDownload =0;
+					            }
+	
+		                		if(uploadAnterior > 0){ 
+									yUpload = ((result.upload - uploadAnterior)/1024)/5;
+			                	}else{
+									yUpload =0;
+					            }
+								
+								downloadAnterior = result.download;
+								uploadAnterior = result.upload;
+	                            
+								serieDownload.addPoint([x, yDownload], true, true);
+								serieUpload.addPoint([x, yUpload], true, true);
+	
+		                        
+		                    }, 5000);
+		                }
+		            }
+		        },
+		        title: {
+		            text: 'Gráfico de Utilização'
+		        },
+		        xAxis: {
+		            type: 'datetime',
+		            tickPixelInterval: 150
+		        },
+		        yAxis: {
+		            title: {
+		                text: 'MB/S'
+		            },
+		            plotLines: [{
+		                value: 0,
+		                width: 1,
+		                color: '#808080'
+		            }]
+		        },
+		        tooltip: {
+		            formatter: function () {
+		                return '<b>' + this.series.name + '</b><br/>' +
+		                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+		                    Highcharts.numberFormat(this.y, 2);
+		            }
+		        },
+		        legend: {
+		            enabled: false
+		        },
+		        exporting: {
+		            enabled: false
+		        },
+		        series: [{
+		            name: 'Download',
+		            data: (function () {
+		                // generate an array of random data
+		                var data = [],
+		                    time = (new Date()).getTime(),
+		                    i;
+	
+		                for (i = -5; i <= 0; i += 1) {
+		                    data.push({
+		                        x: time + i * 1000,
+		                        y: 0
+		                    });
+		                }
+	
+		                return data;
+		            }())
+		        },
+		        {
+		            name: 'Upload',
+		            data: (function () {
+		                // generate an array of random data
+		                var data = [],
+		                    time = (new Date()).getTime(),
+		                    i;
+	
+		                for (i = -5; i <= 0; i += 1) {
+		                    data.push({
+		                        x: time + i * 1000,
+		                        y: 0
+		                    });
+		                }
+	
+		                return data;
+		            }())
+		        }]
+		    });
+		});
+		//]]>
+		</script>
+	</ui:fragment>	
 	</ui:define>
 
 </ui:composition>

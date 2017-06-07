@@ -4,27 +4,26 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Boleto;
-import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.SMS.SMSBuilder;
 import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
-import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.radacct.RadacctService;
 import br.com.trixti.itm.service.sms.SMSService;
+import br.com.trixti.itm.service.snmp.SnmpService;
 import br.com.trixti.itm.to.HomeTO;
 import br.com.trixti.itm.util.UtilArquivo;
-import br.com.trixti.itm.util.UtilData;
-import br.com.trixti.itm.util.UtilString;
 
-@Model
+@ManagedBean
+@ViewScoped
 public class HomeController extends AbstractController<Object>{
 
 	private HomeTO homeTO;
@@ -32,9 +31,8 @@ public class HomeController extends AbstractController<Object>{
 	private @Inject BoletoService boletoService;
 	private @Inject RadacctService radacctService;
 	private @Inject GeradorBoletoService geradorBoletoService;
-	private @Inject MailService mailService;
-	
 	private @Inject SMSService smsService;
+	private @Inject SnmpService snmpService;
 	
 	@PostConstruct
 	private void init(){
@@ -46,6 +44,9 @@ public class HomeController extends AbstractController<Object>{
 					contrato.setListaUtilizacao(radacctService.pesquisarUltimosPorUsername(contrato.getAutenticacoes().get(0).getUsername()));
 				}	
 			}
+		}else{
+			getHomeTO().setOid("1.3.6.1.2.1.2.2.1.2");
+			recarregarLog();
 		}	
 	}
 	
@@ -79,6 +80,13 @@ public class HomeController extends AbstractController<Object>{
 
 	public void setHomeTO(HomeTO homeTO) {
 		this.homeTO = homeTO;
+	}
+	
+	public void recarregarLog(){
+		System.out.println("Aguardando "+getHomeTO().getOid());
+		getHomeTO().setListaSnmp(null);
+//		getHomeTO().setListaSnmp(snmpService.snmpWalk(new Contrato(),getHomeTO().getOid()));
+		System.out.println("Executado "+getHomeTO().getOid());
 	}
 	
 }

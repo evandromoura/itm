@@ -72,6 +72,12 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="senha_email")
 	private String senhaEmail;
 
+	@Column(name="snmp_host")
+	private String snmpHost;
+	
+	@Column(name="snmp_porta")
+	private Integer snmpPorta;
+
 	public Integer getId() {
 		return id;
 	}
@@ -198,6 +204,22 @@ public class Parametro implements java.io.Serializable {
 
 	public void setPortaSmtp(Integer portaSmtp) {
 		this.portaSmtp = portaSmtp;
+	}
+
+	public String getSnmpHost() {
+		return snmpHost;
+	}
+
+	public void setSnmpHost(String snmpHost) {
+		this.snmpHost = snmpHost;
+	}
+
+	public Integer getSnmpPorta() {
+		return snmpPorta;
+	}
+
+	public void setSnmpPorta(Integer snmpPorta) {
+		this.snmpPorta = snmpPorta;
 	}
 	
 

@@ -1,5 +1,6 @@
 package br.com.trixti.itm.service.usuario;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -33,7 +34,12 @@ public class UsuarioService extends AbstractService<Usuario> {
 			return null;
 		}	
 	}
-	
+
+	@Override
+	public void incluir(Usuario entidade) {
+		entidade.setDataCriacao(new Date());
+		super.incluir(entidade);
+	}
 
 }
 

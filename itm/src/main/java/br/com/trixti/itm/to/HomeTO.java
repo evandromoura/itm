@@ -1,7 +1,9 @@
 package br.com.trixti.itm.to;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
@@ -14,6 +16,10 @@ public class HomeTO {
 	private List<Radacct> listaUtilizacaoCliente;
 	
 	private List<Boleto> listaUltimosBoletos;
+	
+	private String oid;
+	
+	private Map<String,String> listaSnmp;
 	
 	public List<Radacct> getListaUtilizacaoCliente() {
 		return listaUtilizacaoCliente;
@@ -43,6 +49,28 @@ public class HomeTO {
 
 	public void setListaUltimosBoletos(List<Boleto> listaUltimosBoletos) {
 		this.listaUltimosBoletos = listaUltimosBoletos;
+	}
+
+	public String getOid() {
+		return oid;
+	}
+
+	public void setOid(String oid) {
+		this.oid = oid;
+	}
+	
+	public Map<String,String> getListaSnmp() {
+		if (listaSnmp == null) {
+			listaSnmp = new HashMap<String,String>();
+		}
+		return listaSnmp;
+	}
+
+	public void setListaSnmp(Map<String,String> listaSnmp) {
+		this.listaSnmp = listaSnmp;
+	}
+	public List<String> getListaKeySnmp(){
+		return new ArrayList<String>(getListaSnmp().keySet());
 	}
 
 }

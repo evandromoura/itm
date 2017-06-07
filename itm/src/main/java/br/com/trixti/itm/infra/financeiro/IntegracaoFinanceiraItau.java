@@ -101,18 +101,20 @@ public class IntegracaoFinanceiraItau {
 				Collection<Record> titulosEmCobranca = ff.getRecords("TransacaoTitulo");
 				for (Record titulo : titulosEmCobranca) {
 					Boleto boleto = boletoService.recuperarPorNossoNumero(((Integer)titulo.getValue("NossoNumero")).toString());
-					BigDecimal valorPago = (BigDecimal)titulo.getValue("ValorPago");
-					if(valorPago != null && valorPago.compareTo(BigDecimal.ZERO) == 1){
-						boleto.setDataPagamento(new Date());
-						boleto.setStatus(StatusBoletoEnum.PAGO);
-						boleto.getRemessa().setQtdBoletoAberto(boleto.getRemessa().getQtdBoletoAberto() - 1);
-						boleto.getRemessa().setQtdBoletoFechado(boleto.getRemessa().getQtdBoletoFechado() + 1);
-						boleto.getRemessa().setValorRecebido(boleto.getRemessa().getValorRecebido().add(valorPago));
-						boleto.setRetorno(retorno);
-						boleto.setValorPago(valorPago);
-						boletoService.alterar(boleto);
-						remessaService.alterar(boleto.getRemessa());
-					}
+					if(boleto != null){
+						BigDecimal valorPago = (BigDecimal)titulo.getValue("ValorPago");
+						if(valorPago != null && valorPago.compareTo(BigDecimal.ZERO) == 1){
+							boleto.setDataPagamento(new Date());
+							boleto.setStatus(StatusBoletoEnum.PAGO);
+							boleto.getRemessa().setQtdBoletoAberto(boleto.getRemessa().getQtdBoletoAberto() - 1);
+							boleto.getRemessa().setQtdBoletoFechado(boleto.getRemessa().getQtdBoletoFechado() + 1);
+							boleto.getRemessa().setValorRecebido(boleto.getRemessa().getValorRecebido().add(valorPago));
+							boleto.setRetorno(retorno);
+							boleto.setValorPago(valorPago);
+							boletoService.alterar(boleto);
+							remessaService.alterar(boleto.getRemessa());
+						}
+					}	
 				}
 				retorno.setDataProcessamento(new Date());
 				retornoService.alterar(retorno);

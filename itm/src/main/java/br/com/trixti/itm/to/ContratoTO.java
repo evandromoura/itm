@@ -1,6 +1,9 @@
 package br.com.trixti.itm.to;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
@@ -46,6 +49,10 @@ public class ContratoTO {
 	private ContratoAutenticacao contratoAutenticacao;
 
 	private Parametro parametro;
+	
+	private List<String> listaSnmp;
+	
+	private String oid;
 
 	public Contrato getContrato() {
 		if (contrato == null) {
@@ -138,6 +145,26 @@ public class ContratoTO {
 	public void setParametro(Parametro parametro) {
 		this.parametro = parametro;
 	}
+
+	public List<String> getListaSnmp() {
+		if (listaSnmp == null) {
+			listaSnmp = new ArrayList<String>();
+		}
+		return listaSnmp;
+	}
+
+	public void setListaSnmp(List<String> listaSnmp) {
+		this.listaSnmp = listaSnmp;
+	}
+
+	public String getOid() {
+		return oid;
+	}
+
+	public void setOid(String oid) {
+		this.oid = oid;
+	}
+
 
 	
 

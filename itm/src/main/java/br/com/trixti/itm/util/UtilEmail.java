@@ -392,7 +392,7 @@ public class UtilEmail {
 			"																	<td valign=\"top\" bgcolor=\"#E1E1E1\">\n" + 
 			"\n" + 
 			"																		<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;\">\n" + 
-			"																			<div>J4Call - Copyright &#169; 2016 <a href=\"http://www.trixti.com.br\" target=\"_blank\" style=\"text-decoration:none;color:#828282;\"><span style=\"color:#828282;\">Trix Tecnologia Inteligente</span></a>. All&nbsp;rights&nbsp;reserved.</div>\n" + 
+			"																			<div>iTrix - Copyright &#169; 2016 <a href=\"http://www.itrixti.com.br\" target=\"_blank\" style=\"text-decoration:none;color:#828282;\"><span style=\"color:#828282;\">Trix Tecnologia Inteligente</span></a>. All&nbsp;rights&nbsp;reserved.</div>\n" + 
 			"																		</div>\n" + 
 			"\n" + 
 			"																	</td>\n" + 

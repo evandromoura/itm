@@ -15,6 +15,7 @@
 				<h:form>
 				<h:commandLink action="#{homeController.enviarSMS()}"
 					value="Enviar SMS" />
+	
 			</h:form>
 		</ui:fragment>
 		<ui:fragment rendered="#{securityBean.isPermissao('CLIENTE')}">

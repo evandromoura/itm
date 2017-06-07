@@ -24,7 +24,6 @@ import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
-import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
@@ -32,6 +31,7 @@ import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.sms.SMSService;
+import br.com.trixti.itm.service.snmp.SnmpService;
 import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilData;
@@ -46,9 +46,10 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject ContratoLancamentoService contratoLancamentoService;
 	private @Inject BoletoService boletoService;
 	private @Inject ParametroService parametroService;
-	private @Inject IntegracaoFinanceiraItau integracaoFinanceiraItau;
 	private @Inject MailService mailService;
 	private @Inject SMSService smsService;
+	private @Inject SnmpService snmpService;
+	
 
 	@PostConstruct
 	public void init() {
@@ -205,6 +206,5 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	public void setContratoTO(ContratoTO contratoTO) {
 		this.contratoTO = contratoTO;
 	}
-	
 
 }
