@@ -67,6 +67,11 @@ public class HomeController extends AbstractController<Object>{
 		}	
 	}
 	
+	
+	public void atribuirContratoSelecionado(Contrato contrato){
+		customIdentity.setContratoSelecionado(contrato);
+	}
+	
 	public void enviarSMS(){
 		smsService.enviarSMS(new SMSBuilder().dddTelefone("61").numeroTelefone("982251415").mensagem("Seu boleto foi gerado").build());
 	}

@@ -102,12 +102,6 @@
 								</div>
 							</div>
 							
-							
-							
-
-							
-							
-														
 						    <div class="col-sm-3">		
 								<div class="form-group">
 									<label for="formParametro:qtd_dias_inativacao">#{resources['label.global.qtd_dias_inativacao']}</label> 
@@ -145,64 +139,80 @@
 
 
 			
-										
-						
-							<div class="col-sm-6">		
+							<div class="col-sm-3">		
 								<div class="form-group">
-									<label for="formParametro:email_conta">#{resources['label.global.email']}</label> 
-									<h:inputText value="#{email}" id="email_conta" styleClass="form-control" />
+									<label for="formParametro:email_smtp">#{resources['label.global.servidorsmtp']}</label> 
+									<h:inputText value="#{parametroController.parametroTO.parametro.smtp}" id="email_smtp" styleClass="form-control" />
+								</div>
+							</div>			
+						
+							<div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formParametro:porta_smtp">#{resources['label.global.porta']}</label> 
+									<h:inputText value="#{parametroController.parametroTO.parametro.portaSmtp}" id="porta_smtp" styleClass="form-control" />
 
 								</div>
 							</div>
-							
-		
-							
-							
+							<div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formParametro:email_conta">#{resources['label.global.email']}</label> 
+									<h:inputText value="#{parametroController.parametroTO.parametro.loginEmail}" id="email_conta" styleClass="form-control" />
+
+								</div>
+							</div>
 							
 						    <div class="col-sm-3">		
 								<div class="form-group">
 									<label for="formParametro:email_senha">#{resources['label.global.senha']}</label> 
-									<h:inputText value="#{email2}" id="email_senha" styleClass="form-control" />
+									<h:inputSecret value="#{parametroController.parametroTO.parametro.senhaEmail}" id="email_senha" styleClass="form-control"  redisplay="true"/>
 								</div>
 							</div>
-							
-							
-							
-														
-						    <div class="col-sm-3">		
-								<div class="form-group">
-									<label for="formParametro:email_smtp">#{resources['label.global.servidorsmtp']}</label> 
-									<h:inputText value="#{email3}" id="email_smtp" styleClass="form-control" />
-								</div>
-							</div>
-
 
 
 
 								</div>
 							</div>
 					</div>	
-				</div>	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-				
-				
-				
- 				<div class="card">
+				</div>
+
+
+
+
+
+
+
+
+				<div class="card-header">
+					<strong>#{resources['label.global.snmp']}</strong>
+				</div>
+
+
+				<div class="card">
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
+
+
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="formParametro:host_snmp">#{resources['label.global.host']}</label>
+										<h:inputText value="#{parametroController.parametroTO.parametro.snmpHost}" id="host_snmp" styleClass="form-control" />
+
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="formParametro:porta_senha">#{resources['label.global.porta']}</label>
+										<h:inputText value="#{parametroController.parametroTO.parametro.snmpPorta}" id="porta_snmp" styleClass="form-control" />
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
 					<div class="card-block">
 							<div class="row">
 								<div class="col-sm-12">

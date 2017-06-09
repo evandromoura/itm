@@ -20,8 +20,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+
+@Audited
 @Entity
 @Table(name = "itm_contrato", schema = "public")
+@AuditTable(value="itm_contrato_historico") 
 public class Contrato implements java.io.Serializable {
 
 	private static final long serialVersionUID = -3714699261681620589L;
@@ -35,6 +41,7 @@ public class Contrato implements java.io.Serializable {
 	@JoinColumn(name="id_cliente")
 	private Cliente cliente;
 	
+	@NotAudited
 	@ManyToOne
 	@JoinColumn(name="id_conta_corrente")
  	private ContaCorrente contaCorrente;
@@ -55,18 +62,23 @@ public class Contrato implements java.io.Serializable {
 	@Column(name="data_exclusao")
 	private Date dataExclusao;
 	
+	@NotAudited
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<ContratoEquipamento> contratoEquipamentos;
 	
+	@NotAudited
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<ContratoProduto> contratoProdutos;
 	
+	@NotAudited
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<ContratoGrupo> contratoGrupos;
 	
+	@NotAudited
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<Boleto> boletos;
 	
+	@NotAudited
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<ContratoAutenticacao> autenticacoes;
 	
@@ -82,6 +94,10 @@ public class Contrato implements java.io.Serializable {
 	
 	@Enumerated(EnumType.STRING)
 	private StatusContrato status;
+	
+	@ManyToOne
+	@JoinColumn(name="id_usuario_alteracao")
+	private Usuario usuarioAlteracao;
 
 	public Integer getId() {
 		return id;
@@ -217,6 +233,14 @@ public class Contrato implements java.io.Serializable {
 
 	public void setListaUtilizacao(List<Radacct> listaUtilizacao) {
 		this.listaUtilizacao = listaUtilizacao;
+	}
+
+	public Usuario getUsuarioAlteracao() {
+		return usuarioAlteracao;
+	}
+
+	public void setUsuarioAlteracao(Usuario usuarioAlteracao) {
+		this.usuarioAlteracao = usuarioAlteracao;
 	}
 	
 }

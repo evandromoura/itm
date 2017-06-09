@@ -77,13 +77,9 @@ public class Cliente implements java.io.Serializable {
 	@OneToMany(mappedBy="cliente")
 	private List<Contrato> contratos;
 	
-	@NotAudited
 	@ManyToOne
 	@JoinColumn(name="id_usuario_ultima_atualizacao")
 	private Usuario usuarioUltimaAtualizacao;
-	
-	@Column(name="id_usuario_ultima_atualizacao",insertable=false,updatable=false)
-	private Integer idUsuarioUltimaAtualizacao;
 	
 	private String senha;
 	
@@ -239,14 +235,5 @@ public class Cliente implements java.io.Serializable {
 	public void setUsuarioUltimaAtualizacao(Usuario usuarioUltimaAtualizacao) {
 		this.usuarioUltimaAtualizacao = usuarioUltimaAtualizacao;
 	}
-
-	public Integer getIdUsuarioUltimaAtualizacao() {
-		return idUsuarioUltimaAtualizacao;
-	}
-
-	public void setIdUsuarioUltimaAtualizacao(Integer idUsuarioUltimaAtualizacao) {
-		this.idUsuarioUltimaAtualizacao = idUsuarioUltimaAtualizacao;
-	}
-	
 
 }

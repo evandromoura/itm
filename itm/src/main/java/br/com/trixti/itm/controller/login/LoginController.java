@@ -6,6 +6,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.picketlink.Identity;
+import org.picketlink.credential.DefaultLoginCredentials;
+
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.service.cliente.ClienteService;
@@ -18,6 +21,8 @@ public class LoginController extends AbstractController<Object>{
 	private LoginTO loginTO;
 	
 	private @Inject ClienteService clienteService;
+	private @Inject DefaultLoginCredentials credentials;
+	private @Inject Identity identity;
 	
 	
 	@PostConstruct
@@ -37,6 +42,9 @@ public class LoginController extends AbstractController<Object>{
 	public void gravarCliente(){
 		clienteService.alterar(getLoginTO().getCliente());
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Primeiro acesso cadastrado com sucesso!", "O Registro foi excluido na base"));
+		credentials.setUserId(getLoginTO().getCliente().getEmail());
+		credentials.setPassword(getLoginTO().getCliente().getSenha());
+		identity.login();
 		getLoginTO().setCliente(null);
 		getLoginTO().setPrimeiroAcesso(false);
 	}

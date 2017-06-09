@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Usuario;
 import br.com.trixti.itm.infra.security.annotations.Admin;
+import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
 import br.com.trixti.itm.service.usuario.UsuarioService;
 import br.com.trixti.itm.to.UsuarioTO;
 
@@ -22,6 +23,7 @@ public class UsuarioController extends AbstractController<Usuario> {
 	
 	private @Inject UsuarioService usuarioService;
 	private UsuarioTO usuarioTO;
+	private @Inject CustomIdentity customIdentity;
 	
 	
 	
@@ -50,6 +52,7 @@ public class UsuarioController extends AbstractController<Usuario> {
 		
 	
 	public String gravar(){
+		getUsuarioTO().getUsuario().setUsuarioUltimaAtualizacao(customIdentity.getUsuario());
 		if(getUsuarioTO().getUsuario().getId() == null){
 			usuarioService.incluir(getUsuarioTO().getUsuario());
 		}else{

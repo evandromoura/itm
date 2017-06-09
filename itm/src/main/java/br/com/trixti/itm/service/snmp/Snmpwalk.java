@@ -2,6 +2,10 @@ package br.com.trixti.itm.service.snmp;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.snmp4j.CommunityTarget;
 import org.snmp4j.PDU;
 import org.snmp4j.Snmp;
@@ -17,7 +21,9 @@ import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 import br.com.trixti.itm.entity.Parametro;
+import br.com.trixti.itm.service.parametro.ParametroService;
 
+@Named
 public class Snmpwalk {
 	
 	private int maxRepetitions = 10;
@@ -30,18 +36,21 @@ public class Snmpwalk {
 	
 	private Snmp snmp;
 	
-	public Snmpwalk build(String host,Integer porta){
+	private @Inject ParametroService parametroService;
+	
+	
+	@PostConstruct
+	public void build(){
 		try{
-			targetAddress = GenericAddress.parse("udp:"+host+"/" + porta);
+			System.out.println("Build");
+			Parametro parametro = parametroService.recuperarParametro();
+			targetAddress = GenericAddress.parse("udp:"+parametro.getSnmpHost()+"/" + parametro.getPortaSmtp());
 	        TransportMapping<? extends Address> transport = new DefaultUdpTransportMapping();
 	        snmp = new Snmp(transport);
 	        transport.listen();
 		}catch(Exception e){
 			e.printStackTrace();
 		} 
-		return this;
-		
-		
 	}
 
 	public HashMap<String, String> snmpWalk (String startOid) throws IOException{
@@ -114,5 +123,6 @@ public class Snmpwalk {
 	    target.setMaxSizeRequestPDU(maxSizeResponsePDU); // This makes GETBULK work as expected
 	    return target;
 	}
+
 	
 }

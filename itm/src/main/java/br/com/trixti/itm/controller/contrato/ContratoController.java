@@ -17,6 +17,7 @@ import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
+import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
@@ -36,6 +37,7 @@ public class ContratoController extends AbstractController<Contrato> {
 	private @Inject EquipamentoService equipamentoService;
 	private @Inject GrupoService grupoService;
 	private @Inject ContratoAutenticacaoService contratoAutenticacaoService;
+	private @Inject CustomIdentity customIdentity;
 	
 	private ContratoTO contratoTO;
 	
@@ -127,6 +129,7 @@ public class ContratoController extends AbstractController<Contrato> {
 	}
 	
 	public String gravar(){
+		getContratoTO().getContrato().setUsuarioAlteracao(customIdentity.getUsuario());
 		if(getContratoTO().getContrato().getId() == null){
 			contratoService.incluir(getContratoTO().getContrato());
 			 getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));
