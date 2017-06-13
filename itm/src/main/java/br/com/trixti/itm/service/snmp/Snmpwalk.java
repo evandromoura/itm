@@ -39,10 +39,8 @@ public class Snmpwalk {
 	private @Inject ParametroService parametroService;
 	
 	
-	@PostConstruct
 	public void build(){
 		try{
-			System.out.println("Build");
 			Parametro parametro = parametroService.recuperarParametro();
 			targetAddress = GenericAddress.parse("udp:"+parametro.getSnmpHost()+"/" + parametro.getPortaSmtp());
 	        TransportMapping<? extends Address> transport = new DefaultUdpTransportMapping();
@@ -51,6 +49,18 @@ public class Snmpwalk {
 		}catch(Exception e){
 			e.printStackTrace();
 		} 
+	}
+	
+	public Snmpwalk build(String host,Integer porta){
+		try{
+			targetAddress = GenericAddress.parse("udp:"+host+"/" + porta);
+	        TransportMapping<? extends Address> transport = new DefaultUdpTransportMapping();
+	        snmp = new Snmp(transport);
+	        transport.listen();
+		}catch(Exception e){
+			e.printStackTrace();
+		} 
+		return this;
 	}
 
 	public HashMap<String, String> snmpWalk (String startOid) throws IOException{

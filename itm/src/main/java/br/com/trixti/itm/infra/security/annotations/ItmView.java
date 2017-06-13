@@ -7,6 +7,8 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 		
 		  @URLMapping(id = "login", pattern = "/login", viewId = "/login.jsf"),
 		  @URLMapping(id = "home", pattern = "/home", viewId = "/pages/home/home.jsf"),
+
+		  @URLMapping(id = "snmp", pattern = "/snmp", viewId = "/pages/snmp/snmp.jsf"),
 		
 		  @URLMapping(id = "cliente_list", pattern = "/cliente", viewId = "/pages/cliente/cliente_list.jsf"),
 		  @URLMapping(id = "cliente_view", pattern = "/cliente/view/#{parametro}", viewId = "/pages/cliente/cliente_view.jsf"),

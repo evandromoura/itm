@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+
+	<ui:param name="menu" value="snmp" />
+
+	<ui:define name="corpo">
+		
+		<h:form id="idFormSnmp">
+			
+			<div>
+				<h2><h:outputText value="#{resources['label.global.snmptools']}" /></h2>
+				<br />
+				<input type="text" id="idInputPesquisa" value=""  class="form-control" placeholder="Termo de pesquisa"/>
+			</div>
+			<div id="tabelaSnmp" class="row">
+				<i>Carregando...</i>
+			</div>
+		</h:form>
+	
+	<div id="rate">
+	
+	
+	</div>
+	
+			<script>
+		//<![CDATA[
+		
+		  $(document).ready(function () {
+			    		 
+					  function connect() {         
+/* 						wsocket = new WebSocket("ws://177.190.160.251:8080/itm/snmpserver");        */
+						wsocket = new WebSocket("ws://${request.requestURL.substring(6,request.requestURL.indexOf('/pages') )}/snmpserver");       
+						wsocket.onmessage = onMessage;  
+						wsocket.onopen = onOpen;  
+					  }
+
+					  function comporJson(){
+						return arrayJson;
+					  }
+					
+				      function onMessage(evt) {
+					        
+				    	 tableCreate(evt.data);
+				    	  
+				      }
+
+				      function onOpen(evt) {             
+					  }
+
+				      function identificar(){
+					      
+					  }
+					  connect();
+
+
+					  function tableCreate(arrayJson) {
+						  	var divPesquisa = document.createElement("div");
+					        var table     = document.createElement("table");
+					        table.className ="table table-bordered table-striped";
+					        var thead = document.createElement("thead");
+					        var tr_thead = document.createElement("tr");
+					        var td1_thead = document.createElement("th");
+					        td1_thead.appendChild(document.createTextNode("id"));
+					        var td2_thead = document.createElement("th");
+					        td2_thead.appendChild(document.createTextNode("name"));
+					        var td3_thead = document.createElement("th");
+					        td3_thead.appendChild(document.createTextNode("download"));
+					        var td4_thead = document.createElement("th");
+					        td4_thead.appendChild(document.createTextNode("upload"));
+					       
+					        tr_thead.appendChild(td1_thead);
+					        tr_thead.appendChild(td2_thead);
+					        tr_thead.appendChild(td3_thead);
+					        tr_thead.appendChild(td4_thead);
+					        thead.appendChild(tr_thead);
+					        table.appendChild(thead);
+					        var tabela = document.getElementById('tabelaSnmp');
+					        while (tabela.firstChild){
+					        	tabela.removeChild(tabela.firstChild);
+					        }
+
+					        var obj = JSON.parse(arrayJson);
+					        
+					        for (i = 0; i < obj.length; i++) { 
+					        	var valorInputPesquisa = document.getElementById('idInputPesquisa') != null?document.getElementById('idInputPesquisa').value:''; 
+						        if(valorInputPesquisa == '' || obj[i].name.toLowerCase().includes(valorInputPesquisa.toLowerCase())){
+						        	obj_tr = document.createElement("tr");
+	
+						        	obj_td = document.createElement("td");
+						        	obj_td.appendChild(document.createTextNode(obj[i].id));
+						        	obj_tr.appendChild(obj_td);
+	
+	
+						        	obj_td = document.createElement("td");
+						        	obj_td.appendChild(document.createTextNode(obj[i].name));
+						        	obj_tr.appendChild(obj_td);
+	
+	
+						        	/* obj_td = document.createElement("td");
+						        	obj_td.appendChild(document.createTextNode(obj[i].download));
+						        	obj_tr.appendChild(obj_td);
+	
+						        	obj_td = document.createElement("td");
+						        	obj_td.appendChild(document.createTextNode(obj[i].upload));
+						        	obj_tr.appendChild(obj_td); */
+	
+	
+						        	obj_td = document.createElement("td");
+						        	obj_td.appendChild(document.createTextNode(parseFloat(obj[i].taxaDownload).toFixed(2)));
+						        	obj_tr.appendChild(obj_td);
+	
+	
+						        	obj_td = document.createElement("td");
+						        	obj_td.appendChild(document.createTextNode(parseFloat(obj[i].taxaUpload).toFixed(2)));
+						        	obj_tr.appendChild(obj_td);
+						        	
+						        	table.appendChild(obj_tr);
+						        }	
+					        }    
+					        tabela.appendChild(table);
+					    }
+				    
+				});
+		      
+		      
+		//]]>
+		</script>
+	</ui:define>
+
+</ui:composition>

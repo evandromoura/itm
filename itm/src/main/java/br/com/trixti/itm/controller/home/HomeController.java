@@ -46,7 +46,7 @@ public class HomeController extends AbstractController<Object>{
 			}
 		}else{
 			getHomeTO().setOid("1.3.6.1.2.1.2.2.1.2");
-			recarregarLog();
+//			recarregarLog();
 		}	
 	}
 	
@@ -90,7 +90,7 @@ public class HomeController extends AbstractController<Object>{
 	public void recarregarLog(){
 		System.out.println("Aguardando "+getHomeTO().getOid());
 		getHomeTO().setListaSnmp(null);
-//		getHomeTO().setListaSnmp(snmpService.snmpWalk(new Contrato(),getHomeTO().getOid()));
+		getHomeTO().setListaSnmp(snmpService.snmpWalk("",getHomeTO().getOid()));
 		System.out.println("Executado "+getHomeTO().getOid());
 	}
 	

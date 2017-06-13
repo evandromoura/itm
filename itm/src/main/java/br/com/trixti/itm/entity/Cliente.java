@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -83,13 +84,21 @@ public class Cliente implements java.io.Serializable {
 	
 	private String senha;
 	
+	@Transient
+	private String login;
+	
+	@Transient
+	private Grupo grupo;
+
+	@Transient
+	private Produto produto;
+	
 	public Cliente() {
 	}
 
 	public Cliente(int id) {
 		this.id = id;
 	}
-
 	
 	public Integer getId() {
 		return this.id;
@@ -234,6 +243,30 @@ public class Cliente implements java.io.Serializable {
 
 	public void setUsuarioUltimaAtualizacao(Usuario usuarioUltimaAtualizacao) {
 		this.usuarioUltimaAtualizacao = usuarioUltimaAtualizacao;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public Grupo getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
 
 }

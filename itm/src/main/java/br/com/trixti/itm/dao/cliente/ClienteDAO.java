@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -27,8 +28,24 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 	private Predicate[] comporFiltroPesquisa(Root<Cliente> root,Cliente clientePesquisa){
 		List<Predicate> predicateList = new ArrayList<Predicate>();
 		
+		if(clientePesquisa.getGrupo() != null && clientePesquisa.getGrupo().getId() != null){
+			predicateList.add(getCriteriaBuilder().equal(root.join("contratos", JoinType.LEFT).join("contratoGrupos",JoinType.LEFT).get("grupo"),clientePesquisa.getGrupo()));
+		}
+		
+		if(clientePesquisa.getProduto() != null && clientePesquisa.getProduto().getId() != null){
+			predicateList.add(getCriteriaBuilder().equal(root.join("contratos", JoinType.LEFT).join("contratoProdutos",JoinType.LEFT).get("produto"),clientePesquisa.getProduto()));
+		}
+		
 		if(clientePesquisa.getNome() != null && !clientePesquisa.getNome().equals("")){
 			predicateList.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("nome")), "%"+ clientePesquisa.getNome().toLowerCase()+"%"));
+		}
+		
+		if(clientePesquisa.getTelefoneCelular() != null && !clientePesquisa.getTelefoneCelular().equals("")){
+			predicateList.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("telefoneCelular")), "%"+ clientePesquisa.getTelefoneCelular().toLowerCase()+"%"));
+		}
+		
+		if(clientePesquisa.getLogin() != null && !clientePesquisa.getLogin().equals("")){
+			predicateList.add(getCriteriaBuilder().equal(root.join("contratos", JoinType.LEFT).join("autenticacoes",JoinType.LEFT).get("username"),clientePesquisa.getLogin()));
 		}
 		
 		if(clientePesquisa.getCpfCnpj() != null && !clientePesquisa.getCpfCnpj().equals("")){

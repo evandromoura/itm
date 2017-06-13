@@ -12,6 +12,8 @@ import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.Grupo;
+import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
@@ -43,6 +45,8 @@ public class ClienteController extends AbstractController<Cliente> {
 			inicializarAlterar(Integer.valueOf(parametro));
 		}
 		else{
+			getClienteTO().getClientePesquisa().setGrupo(new Grupo());
+			getClienteTO().getClientePesquisa().setProduto(new Produto());
 			getClienteTO().setClientes(clienteService.pesquisar(getClienteTO().getClientePesquisa()));
 		}	
 	}
