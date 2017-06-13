@@ -93,6 +93,9 @@ public class Cliente implements java.io.Serializable {
 	@Transient
 	private Produto produto;
 	
+	@Transient
+	private StatusContrato statusContrato;
+	
 	public Cliente() {
 	}
 
@@ -267,6 +270,14 @@ public class Cliente implements java.io.Serializable {
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+	}
+
+	public StatusContrato getStatusContrato() {
+		return statusContrato;
+	}
+
+	public void setStatusContrato(StatusContrato statusContrato) {
+		this.statusContrato = statusContrato;
 	}
 
 }

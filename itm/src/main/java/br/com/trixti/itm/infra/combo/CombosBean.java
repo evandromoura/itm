@@ -11,6 +11,7 @@ import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
+import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.enums.PerfilEnum;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
@@ -58,6 +59,10 @@ public class CombosBean {
    public BancosSuportados[] getListaBancosSuportados(){
 	   return BancosSuportados.values();
    }
+   
+   public StatusContrato[] getStatusContrato(){
+		return StatusContrato.values();
+	}
 	
 }
  

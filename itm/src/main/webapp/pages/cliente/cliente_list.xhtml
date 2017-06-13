@@ -54,7 +54,7 @@
 							
 							
 							
-							<div class="col-sm-6">
+							<div class="col-sm-4">
 								<div class="form-group">
 									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.produto']}</label>
 									<h:selectOneMenu id="idProduto"
@@ -67,7 +67,7 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-6">
+							<div class="col-sm-4">
 								<div class="form-group">
 									<label for="idFormPesquisarCliente:cliente_grupo">#{resources['label.global.velocidade']}</label> 
 									<h:selectOneMenu id="idGrupo"
@@ -76,6 +76,19 @@
 										<f:selectItem itemLabel="#{resources['label.global.selecionar']}"/>
 										<f:selectItems value="#{combosBean.listaGrupo}" var="grupo"
 											itemLabel="#{grupo.nome}" itemValue="#{grupo.id}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.statuscontrato']}</label>
+									<h:selectOneMenu id="idStatusContrato"
+										value="#{clienteController.clienteTO.clientePesquisa.statusContrato}"
+										styleClass="form-control">
+										<f:selectItem itemLabel="#{resources['label.global.selecionar']}"/>
+										<f:selectItems value="#{combosBean.statusContrato}" var="statusContrato"
+											itemLabel="#{statusContrato.name}" itemValue="#{statusContrato}" />
 									</h:selectOneMenu>
 								</div>
 							</div>

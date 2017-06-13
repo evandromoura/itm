@@ -22,7 +22,7 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		CriteriaQuery<Cliente> criteria = getCriteriaBuilder().createQuery(Cliente.class);
 		Root<Cliente> root = criteria.from(Cliente.class);
 		Predicate[] predicates = comporFiltroPesquisa(root, clientePesquisa);
-		return getManager().createQuery(criteria.select(root).where(predicates).orderBy(getCriteriaBuilder().desc(root.get("dataCriacao")))).getResultList();
+		return getManager().createQuery(criteria.select(root).distinct(true).where(predicates).orderBy(getCriteriaBuilder().desc(root.get("dataCriacao")))).getResultList();
 	}
 	
 	private Predicate[] comporFiltroPesquisa(Root<Cliente> root,Cliente clientePesquisa){
@@ -50,6 +50,10 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		
 		if(clientePesquisa.getCpfCnpj() != null && !clientePesquisa.getCpfCnpj().equals("")){
 			predicateList.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("cpfCnpj")), "%"+ clientePesquisa.getCpfCnpj().toLowerCase()+"%"));
+		}
+		
+		if(clientePesquisa.getStatusContrato() != null){
+			predicateList.add(getCriteriaBuilder().equal(root.join("contratos", JoinType.LEFT).get("status"),clientePesquisa.getStatusContrato()));
 		}
 		
 		return (Predicate[]) predicateList.toArray(new Predicate[predicateList.size()]);
