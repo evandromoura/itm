@@ -13,15 +13,36 @@
 	<ui:define name="corpo">
 		
 		<h:form id="idFormSnmp">
+		
+				<div class="col-sm-12">
+					<div class="card">
+						<div class="card-header">
+							<strong><h:outputText value="#{resources['label.global.snmptools']}" /></strong>
+						</div>
+						<div class="card-block">
+							<input type="text" id="idInputPesquisa" value=""  class="form-control" placeholder="Termo de pesquisa"/>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<strong><h:outputText value="#{resources['label.global.resultadopesquisa']}" /></strong>
+						</div>
+						
+						<div class="card-block">
+							<div id="tabelaSnmp" class="col-sm-12">
+								<p><i>Carregando...</i></p>		
+							</div>
+						</div>
+					</div>	
+				</div>		
+						
 			
 			<div>
-				<h2><h:outputText value="#{resources['label.global.snmptools']}" /></h2>
+				<h2></h2>
 				<br />
-				<input type="text" id="idInputPesquisa" value=""  class="form-control" placeholder="Termo de pesquisa"/>
+				
 			</div>
-			<div id="tabelaSnmp" class="row">
-				<i>Carregando...</i>
-			</div>
+			
 		</h:form>
 	
 	<div id="rate">
