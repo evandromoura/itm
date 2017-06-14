@@ -24,5 +24,10 @@
         <error-code>500</error-code>
         <location>/error.jsf</location>
     </error-page>
+    
+    <context-param>
+	   <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
+	   <param-value>true</param-value>
+	</context-param>
 
 </web-app>

@@ -1,4 +1,4 @@
-package br.com.trixti.itm.controller.produto;
+package br.com.trixti.itm.controller.log;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -7,19 +7,19 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import br.com.trixti.itm.controller.AbstractController;
-import br.com.trixti.itm.entity.Produto;
-import br.com.trixti.itm.service.produto.ProdutoService;
-import br.com.trixti.itm.to.ProdutoTO;
+import br.com.trixti.itm.entity.Log;
+import br.com.trixti.itm.service.log.LogService;
+import br.com.trixti.itm.to.LogTO;
 
 
 
 @ViewScoped
 @ManagedBean
-public class ProdutoController extends AbstractController<Produto> {
+public class LogController extends AbstractController<Log> {
 	
 	
-	private @Inject ProdutoService produtoService;
-	private ProdutoTO produtoTO;
+	private @Inject LogService logService;
+	private LogTO logTO;
 	
 	
 	@PostConstruct
@@ -39,47 +39,47 @@ public class ProdutoController extends AbstractController<Produto> {
 	}
 	
 	public void pesquisar(){
-		getProdutoTO().setProdutos(
-				produtoService.pesquisar(getProdutoTO().getProdutoPesquisa()));
+		getLogTO().setLogs(
+				logService.pesquisar(getLogTO().getLogPesquisa()));
 	}
 	
 		
 	
 	public void gravar(){
-		if(getProdutoTO().getProduto().getId() == null){
-			produtoService.incluir(getProdutoTO().getProduto());
+		if(getLogTO().getLog().getId() == null){
+			logService.incluir(getLogTO().getLog());
 		}else{
-			produtoService.alterar(getProdutoTO().getProduto());
+			logService.alterar(getLogTO().getLog());
 		}
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));
 	}
 	
 	private void inicializarAlterar(Integer id){
-		getProdutoTO().setProduto(produtoService.recuperar(id));
+		getLogTO().setLog(logService.recuperar(id));
 	}
 	
 	private void inicializarIncluir(){
-		getProdutoTO().setProduto(new Produto());
+		getLogTO().setLog(new Log());
 	}
 	
 	
 	
 
-	public ProdutoTO getProdutoTO() {
-		if (produtoTO == null) {
-			produtoTO = new ProdutoTO();
+	public LogTO getLogTO() {
+		if (logTO == null) {
+			logTO = new LogTO();
 		}
-		return produtoTO;
+		return logTO;
 	}
 
-	public void setProdutoTO(ProdutoTO produtoTO) {
-		this.produtoTO = produtoTO;
+	public void setLogTO(LogTO logTO) {
+		this.logTO = logTO;
 	}
 	
 	
 	
-	public void excluir(Produto produto){
-		produtoService.excluir(produto);
+	public void excluir(Log log){
+		logService.excluir(log);
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi incluido na base"));
 		pesquisar();
 	}

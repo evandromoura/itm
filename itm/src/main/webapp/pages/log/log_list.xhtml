@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:param name="menu" value="log" />
+	
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formLog">
+
+			
+
+			<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.pesquisar']}</strong> <small>#{resources['label.global.logs']}</small>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarLog:nome_log">#{resources['label.global.nome']}</label> 
+									<h:inputText  value="#{logController.logTO.logPesquisa.login}" id="nome_log" styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+							
+							<h:commandLink action="#{logController.pesquisar()}" styleClass="btn btn-lg btn-primary" id="idBotaoPesquisar">
+										<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
+							</h:commandLink>
+									
+							</div>
+						</div>	
+					</div>
+				</div>
+
+
+
+
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.resultadopesquisa']}</strong>
+					</div>
+					<div class="card-block">
+						<h:dataTable value="#{logController.logTO.logs}" var="log" styleClass="table table-bordered table-striped">
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.data']}
+								</f:facet>
+								<h:outputText value="#{log.dataLog}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo" />
+								</h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.login']}
+								</f:facet>
+								#{log.login}
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.tipo']}
+								</f:facet>
+								#{log.tipo}
+							</h:column>
+						</h:dataTable>
+					</div>
+				</div>
+			</h:form>
+		</div>
+
+
+
+	</ui:define>
+
+
+</ui:composition>

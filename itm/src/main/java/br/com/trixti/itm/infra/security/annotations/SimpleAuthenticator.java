@@ -10,9 +10,11 @@ import org.picketlink.credential.DefaultLoginCredentials;
 import org.picketlink.idm.model.basic.User;
 
 import br.com.trixti.itm.entity.Cliente;
+import br.com.trixti.itm.entity.TipoLog;
 import br.com.trixti.itm.entity.Usuario;
 import br.com.trixti.itm.enums.PerfilEnum;
 import br.com.trixti.itm.service.cliente.ClienteService;
+import br.com.trixti.itm.service.log.LogService;
 import br.com.trixti.itm.service.usuario.UsuarioService;
 
 @Named
@@ -23,6 +25,7 @@ public class SimpleAuthenticator extends BaseAuthenticator {
 	private @Inject ClienteService clienteService;
 	private @Inject UsuarioService usuarioService;
 	private @Inject CustomIdentity customIdentity;
+	private @Inject LogService logService;
 
 
 	@Override
@@ -34,6 +37,7 @@ public class SimpleAuthenticator extends BaseAuthenticator {
 			setStatus(AuthenticationStatus.SUCCESS);
 			customIdentity.setUsuario(usuarioLogin);
 			customIdentity.setPerfil(usuarioLogin.getPerfil());
+			logService.log(usuarioLogin.getLogin(), TipoLog.LOGIN_USUARIO);
 		}else{
 			Cliente cliente = clienteService.recuperarPorAutenticacao(credentials.getUserId(), credentials.getPassword());
 			if(!identity.isLoggedIn() &&  cliente != null && credentials.getUserId() != null){
@@ -42,6 +46,7 @@ public class SimpleAuthenticator extends BaseAuthenticator {
 				setStatus(AuthenticationStatus.SUCCESS);
 				customIdentity.setCliente(cliente);
 				customIdentity.setPerfil(PerfilEnum.CLIENTE);
+				logService.log(cliente.getEmail(), TipoLog.LOGIN_CLIENTE);
 			}else{
 				setStatus(AuthenticationStatus.FAILURE);
 			}
@@ -49,6 +54,13 @@ public class SimpleAuthenticator extends BaseAuthenticator {
 	}
 
 	public String logout() {
+		if(customIdentity.getCliente() != null){
+			logService.log(customIdentity.getCliente().getEmail(), TipoLog.LOGOUT_CLIENTE);
+		}
+		
+		if(customIdentity.getUsuario() != null){
+			logService.log(customIdentity.getUsuario().getLogin(), TipoLog.LOGOUT_USUARIO);
+		}
 		customIdentity.setCliente(null);
 		customIdentity.setPerfil(null);
 		identity.logout();
