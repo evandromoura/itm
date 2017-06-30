@@ -20,6 +20,7 @@ import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
+import br.com.trixti.itm.service.contratogrupo.ContratoGrupoService;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
 import br.com.trixti.itm.service.grupo.GrupoService;
 import br.com.trixti.itm.service.produto.ProdutoService;
@@ -38,6 +39,7 @@ public class ContratoController extends AbstractController<Contrato> {
 	private @Inject GrupoService grupoService;
 	private @Inject ContratoAutenticacaoService contratoAutenticacaoService;
 	private @Inject CustomIdentity customIdentity;
+	private @Inject ContratoGrupoService contratoGrupoService;
 	
 	private ContratoTO contratoTO;
 	
@@ -109,15 +111,12 @@ public class ContratoController extends AbstractController<Contrato> {
 	
 	public void removerGrupo(ContratoGrupo contratoGrupo){
 		getContratoTO().getContrato().getContratoGrupos().remove(contratoGrupo);
+//		contratoGrupoService.excluir(contratoGrupo);
 	}
 	
 	public void removerAutenticacao(ContratoAutenticacao contratoAutenticacao){
 		contratoAutenticacaoService.excluir(contratoAutenticacao);
 		init();
-	}
-	
-	public void teste(){
-		System.out.println("teste");
 	}
 	
 	public void ativarDesativarContratoProduto(ContratoProduto contratoProduto){

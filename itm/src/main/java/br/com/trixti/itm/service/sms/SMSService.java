@@ -58,7 +58,6 @@ public class SMSService extends AbstractService<SMS> {
 			sms.setDataCriacao(LocalDateTime.now());
 			smsDAO.incluir(sms);
 			envioSMSZenviaService.enviar(sms);
-			sms.setDataEnvio(LocalDateTime.now());
 		} catch (RestClientException e) {
 			e.printStackTrace();
 		}

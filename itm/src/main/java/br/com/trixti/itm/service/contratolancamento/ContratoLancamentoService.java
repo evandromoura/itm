@@ -52,7 +52,6 @@ public class ContratoLancamentoService extends AbstractService<ContratoLancament
 						super.incluir(lancamento);
 					}
 				}
-				System.out.println("Valor do ContratoLancamento = "+totalContratoLancamento);
 				if(totalContratoLancamento.intValue() > 0){
 				}	
 			}

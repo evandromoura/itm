@@ -3,6 +3,7 @@ package br.com.trixti.itm.infra.sms;
 import java.time.LocalDateTime;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.Asynchronous;
 import javax.ejb.Singleton;
 
 import br.com.trixti.itm.entity.SMS;
@@ -20,6 +21,7 @@ import br.com.zenvia.client.response.SendSmsResponse;
 public class EnvioSMSZenviaService {
 
 	private static final String SENHA = "FFntkDxKW5";
+//	private static final String SENHA = "ugWb4Gyr";
 	private static final String CONTA = "trix.int";
 	private static final String DDI = "55";
 	private static final String ITM = "ITRIX";
@@ -33,6 +35,7 @@ public class EnvioSMSZenviaService {
 		restClient.setPassword(SENHA);
 	}
 
+	@Asynchronous
 	public void enviar(SMS... listaSMS) throws RestClientException {
 		if (listaSMS.length > 1) {
 			enviarMensagens(listaSMS);
@@ -91,6 +94,7 @@ public class EnvioSMSZenviaService {
 		} else {
 			sms.setSituacao(SituacaoSMSEnum.ERRO_DESCONHECIDO);
 		}
+		sms.setDataEnvio(LocalDateTime.now());
 	}
 
 	private SingleMessageSms converterSMS(SMS sms) {

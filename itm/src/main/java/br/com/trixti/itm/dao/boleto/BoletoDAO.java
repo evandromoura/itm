@@ -1,12 +1,14 @@
 package br.com.trixti.itm.dao.boleto;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
@@ -93,10 +95,17 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 		return (BigInteger)q.getSingleResult();
 	}
 
-	public Boleto recuperarPorNossoNumero(String nossoNumero) {
+	public Boleto recuperarPorNossoNumero(String nossoNumero,StatusBoletoEnum... status) {
 		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
 		Root<Boleto> root = criteria.from(Boleto.class);
-		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("nossoNumero"),nossoNumero))).getSingleResult();
+		List<Predicate> predicates = new ArrayList<Predicate>();
+		predicates.add(getCriteriaBuilder().equal(root.get("nossoNumero"),nossoNumero));
+		if(status != null && status.length > 0){
+			predicates.add(root.get("status").in(status));
+		}
+		return getManager().createQuery(criteria.select(root).where(
+				(Predicate[]) predicates.toArray(new Predicate[predicates.size()])
+				)).getSingleResult();
 	}
 
 	public List<Boleto> pesquisarBoletoNaoNotificado() {

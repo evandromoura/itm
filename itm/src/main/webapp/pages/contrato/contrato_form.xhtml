@@ -291,8 +291,7 @@
 												<h:outputText value="#{contratoGrupo.grupo.nome}" />
 											</h:column>
 
-											<h:column
-												rendered="#{contratoController.contratoTO.contrato.id eq null}">
+											<h:column>
 												<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
 												<h:commandLink value="#{resources['label.global.excluir']}">
 													<f:ajax event="click"

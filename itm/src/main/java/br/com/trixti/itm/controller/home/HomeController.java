@@ -73,7 +73,7 @@ public class HomeController extends AbstractController<Object>{
 	}
 	
 	public void enviarSMS(){
-		smsService.enviarSMS(new SMSBuilder().dddTelefone("61").numeroTelefone("982251415").mensagem("Seu boleto foi gerado").build());
+		smsService.enviarSMS(new SMSBuilder().dddTelefone("61").numeroTelefone("992988839").mensagem("Seu boleto foi gerado").build());
 	}
 
 	public HomeTO getHomeTO() {
@@ -88,10 +88,8 @@ public class HomeController extends AbstractController<Object>{
 	}
 	
 	public void recarregarLog(){
-		System.out.println("Aguardando "+getHomeTO().getOid());
 		getHomeTO().setListaSnmp(null);
 		getHomeTO().setListaSnmp(snmpService.snmpWalk("",getHomeTO().getOid()));
-		System.out.println("Executado "+getHomeTO().getOid());
 	}
 	
 }

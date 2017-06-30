@@ -81,13 +81,14 @@ public class ContratoService extends AbstractService<Contrato> {
 				
 			}	
 		}
-		for(ContratoGrupo contratoGrupo:entidade.getContratoGrupos()){
-			if(contratoGrupo.getId() == null){
-				contratoGrupoService.incluir(contratoGrupo);
-			}else{
-				contratoGrupoService.alterar(contratoGrupo);
-			}	
-		}
+//		for(ContratoGrupo contratoGrupo:entidade.getContratoGrupos()){
+//			if(contratoGrupo.getId() == null){
+//				contratoGrupoService.incluir(contratoGrupo);
+//			}
+//			else{
+//				contratoGrupoService.alterar(contratoGrupo);
+//			}	
+//		}
 		
 		for(ContratoEquipamento contratoEquipamento:entidade.getContratoEquipamentos()){
 			if(contratoEquipamento.getId() == null){

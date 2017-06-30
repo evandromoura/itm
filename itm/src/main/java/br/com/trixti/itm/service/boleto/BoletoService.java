@@ -18,6 +18,7 @@ import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoLancamento;
+import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.service.AbstractService;
@@ -110,9 +111,9 @@ public class BoletoService extends AbstractService<Boleto>{
 		return boletoDAO.recuperarNossoNumero();
 	}
 
-	public Boleto recuperarPorNossoNumero(String nossoNumero) {
+	public Boleto recuperarPorNossoNumero(String nossoNumero,StatusBoletoEnum... status) {
 		try{
-			return boletoDAO.recuperarPorNossoNumero(nossoNumero);
+			return boletoDAO.recuperarPorNossoNumero(nossoNumero,status);
 		}catch(Exception e){
 			return null;
 		}	

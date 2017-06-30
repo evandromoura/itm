@@ -100,7 +100,7 @@ public class IntegracaoFinanceiraItau {
 				Record header = ff.getRecord("Header");
 				Collection<Record> titulosEmCobranca = ff.getRecords("TransacaoTitulo");
 				for (Record titulo : titulosEmCobranca) {
-					Boleto boleto = boletoService.recuperarPorNossoNumero(((Integer)titulo.getValue("NossoNumero")).toString());
+					Boleto boleto = boletoService.recuperarPorNossoNumero(((Integer)titulo.getValue("NossoNumero")).toString(),StatusBoletoEnum.ABERTO);
 					if(boleto != null){
 						BigDecimal valorPago = (BigDecimal)titulo.getValue("ValorPago");
 						if(valorPago != null && valorPago.compareTo(BigDecimal.ZERO) == 1){

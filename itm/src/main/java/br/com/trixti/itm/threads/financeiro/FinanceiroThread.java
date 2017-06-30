@@ -127,7 +127,6 @@ public class FinanceiroThread {
 				integracaoFinanceiraItau.gerarRemessa(mapaBoletoBanco.get(banco));
 			}
 		}
-		System.out.println(mapaBoletoBanco);
 	}
 	
 	@Schedule(info="Processar-Retorno",minute = "*", hour = "*", persistent = false)

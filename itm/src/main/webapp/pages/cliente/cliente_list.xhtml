@@ -34,7 +34,7 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="idFormPesquisarCliente:cliente_cpfcnpj">#{resources['label.global.cpfCnpj']}</label>
-									<h:inputText value="#{clienteController.clienteTO.clientePesquisa.cpfCnpj}"  id="cliente_cpfcnpj" styleClass="form-control"/>
+									<h:inputText value="#{clienteController.clienteTO.clientePesquisa.cpfCnpj}"  id="cliente_cpfcnpj" styleClass="form-control" required="#{customIdentity.perfil.name eq 'SUPORTE_NIVEL1'}"/>
 								</div>
 							</div>
 							
@@ -143,6 +143,12 @@
 								
 								<h:column><f:facet name="header">#{resources['label.global.nome']}</f:facet>
 								<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.nome}</a></h:column>
+								
+								<h:column><f:facet name="header">#{resources['label.global.email']}</f:facet>
+								<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.email}</a></h:column>
+								
+								<h:column><f:facet name="header">#{resources['label.global.celular']}</f:facet>
+								<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.telefoneCelular}</a></h:column>
 								
 								<h:column><f:facet name="header">#{resources['label.global.acoes']}</f:facet>
 								<div>

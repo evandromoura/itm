@@ -71,7 +71,7 @@ public class Contrato implements java.io.Serializable {
 	private List<ContratoProduto> contratoProdutos;
 	
 	@NotAudited
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade={CascadeType.ALL},orphanRemoval=true)
 	private List<ContratoGrupo> contratoGrupos;
 	
 	@NotAudited
