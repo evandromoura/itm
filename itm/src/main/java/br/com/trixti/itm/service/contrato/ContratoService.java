@@ -1,6 +1,7 @@
 package br.com.trixti.itm.service.contrato;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -15,17 +16,19 @@ import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoEquipamento;
-import br.com.trixti.itm.entity.ContratoGrupo;
+import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.StatusContrato;
+import br.com.trixti.itm.entity.StatusLancamentoEnum;
+import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
 import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
-import br.com.trixti.itm.service.contratogrupo.ContratoGrupoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
+import br.com.trixti.itm.util.UtilData;
 
 @Stateless
 public class ContratoService extends AbstractService<Contrato> {
@@ -33,7 +36,6 @@ public class ContratoService extends AbstractService<Contrato> {
 	private @Inject ContratoDAO contratoDAO;
 	
 	private @Inject ContratoProdutoService contratoProdutoService;
-	private @Inject ContratoGrupoService contratoGrupoService;
 	private @Inject ContratoEquipamentoService contratoEquipamentoService;
 	private @Inject ContratoLancamentoService contratoLancamentoService;
 	private @Inject ContratoAutenticacaoService contratoAutenticacaoService;
@@ -65,8 +67,27 @@ public class ContratoService extends AbstractService<Contrato> {
 //		contratoEquipamentoService.incluirLista(entidade.getContratoEquipamentos());
 		
 		freeRadiusService.sincronizarContrato(entidade);
-		
-		
+	}
+	
+	private void criarLancamentoCredito(Contrato contrato){
+		if(contrato.getDataCreditoInicial() == null){
+			UtilData utilData = new UtilData();
+			ContratoLancamento contratoLancamento = new ContratoLancamento();
+			contratoLancamento.setContrato(contrato);
+			contratoLancamento.setDataLancamento(new Date());
+			contratoLancamento.setStatus(StatusLancamentoEnum.PENDENTE);
+			contratoLancamento.setDescricao("Desconto por utilização parcial do serviço");
+			contratoLancamento.setTipoLancamento(TipoLancamentoEnum.CREDITO);
+			Integer dia = new Long(utilData.getDia(contrato.getDataCriacao())).intValue();
+			BigDecimal totalContrato = BigDecimal.ZERO;
+			for(ContratoProduto produto:contrato.getContratoProdutos()){
+				totalContrato = totalContrato.add(produto.getValor());
+			}
+			BigDecimal totalCredito = new BigDecimal(totalContrato.doubleValue() - (BigDecimal.valueOf(totalContrato.doubleValue()).doubleValue()*(30-dia))/30).setScale(2,BigDecimal.ROUND_HALF_UP);
+			contratoLancamento.setValor(totalCredito);
+			contratoLancamentoService.incluir(contratoLancamento);
+			contrato.setDataCreditoInicial(new Date());
+		}
 	}
 	
 	
@@ -106,6 +127,8 @@ public class ContratoService extends AbstractService<Contrato> {
 			}	
 		}
 		freeRadiusService.sincronizarContrato(entidade);
+		criarLancamentoCredito(entidade);
+		super.alterar(entidade);
 	}
 	
 	public List<Contrato> listarAtivo() {

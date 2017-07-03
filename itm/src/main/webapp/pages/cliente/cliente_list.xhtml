@@ -132,7 +132,7 @@
 									<f:attribute name="style" value="visible-md visible-lg" />
 									<a href="#{request.contextPath}/cliente/view/#{cliente.id}">
 										<h:outputText value="#{cliente.dataCriacao}">
-											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo"/>
 										</h:outputText>
 									</a>
 								</h:column>

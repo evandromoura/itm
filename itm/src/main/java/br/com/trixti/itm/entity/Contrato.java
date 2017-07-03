@@ -61,6 +61,11 @@ public class Contrato implements java.io.Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_exclusao")
 	private Date dataExclusao;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="data_credito_inicial")
+	private Date dataCreditoInicial;
+	
 	
 	@NotAudited
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
@@ -241,6 +246,14 @@ public class Contrato implements java.io.Serializable {
 
 	public void setUsuarioAlteracao(Usuario usuarioAlteracao) {
 		this.usuarioAlteracao = usuarioAlteracao;
+	}
+
+	public Date getDataCreditoInicial() {
+		return dataCreditoInicial;
+	}
+
+	public void setDataCreditoInicial(Date dataCreditoInicial) {
+		this.dataCreditoInicial = dataCreditoInicial;
 	}
 	
 }

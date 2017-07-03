@@ -28,7 +28,6 @@ import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.Retorno;
-import br.com.trixti.itm.entity.SMS.SMSBuilder;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
@@ -47,7 +46,6 @@ import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.retorno.RetornoService;
 import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.util.UtilData;
-import br.com.trixti.itm.util.UtilString;
 
 @Named
 @Singleton

@@ -130,7 +130,7 @@ public class ContratoController extends AbstractController<Contrato> {
 	public String gravar(){
 		getContratoTO().getContrato().setUsuarioAlteracao(customIdentity.getUsuario());
 		if(getContratoTO().getContrato().getId() == null){
-			contratoService.incluir(getContratoTO().getContrato());
+			 contratoService.incluir(getContratoTO().getContrato());
 			 getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));
 			 getFacesContext().getExternalContext().getFlash().setKeepMessages(true);
 			 return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";

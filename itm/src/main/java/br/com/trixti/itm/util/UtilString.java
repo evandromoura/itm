@@ -210,9 +210,13 @@ public class UtilString {
 	 * @return Valor sem os caracteres
 	 */
 	public String retiraCaracteresEspeciais(String valor) {
-		return valor.replaceAll("[^0-9a-zA-Z]", "");
+		return valor.replaceAll("[^0-9a-zA-Z ]", "");
 	}
 	
+	public static void main(String[] args) {
+		UtilString us = new UtilString();
+		System.out.println(us.retiraCaracteresEspeciais("Av Jacarandá"));
+	}
 	public String removeAcentos(String str) {
 		  str = Normalizer.normalize(str, Normalizer.Form.NFD);
 		  str = str.replaceAll("[^\\p{ASCII}]", "");
