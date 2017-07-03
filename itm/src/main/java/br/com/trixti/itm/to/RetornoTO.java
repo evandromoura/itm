@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.Part;
 
+import org.jrimum.texgit.Record;
+
 import br.com.trixti.itm.entity.Retorno;
 
 public class RetornoTO {
@@ -13,6 +15,7 @@ public class RetornoTO {
 	private List<Retorno> retornos;
 	private Retorno retornoPesquisa;
 	private Part upload;
+	private List<Record> records;
 	
 	
 	public Retorno getRetorno() {
@@ -55,6 +58,17 @@ public class RetornoTO {
 
 	public void setUpload(Part upload) {
 		this.upload = upload;
+	}
+
+	public List<Record> getRecords() {
+		if (records == null) {
+			records = new ArrayList<Record>();
+		}
+		return records;
+	}
+
+	public void setRecords(List<Record> records) {
+		this.records = records;
 	}
 
 	

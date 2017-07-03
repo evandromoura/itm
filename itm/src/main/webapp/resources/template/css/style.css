@@ -2932,6 +2932,15 @@ header.navbar {
   .card-success .card-header,
   .card-success .card-footer {
     background-color: transparent; }
+    
+    
+    
+ .card-success-clean {
+  background-color: #92ec56;
+  border-color: #79c447; }
+  .card-success-clean .card-header,
+  .card-success-clean .card-footer {
+    background-color: transparent; }   
 
 .card-info {
   background-color: #67c2ef;

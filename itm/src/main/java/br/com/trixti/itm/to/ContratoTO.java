@@ -164,6 +164,10 @@ public class ContratoTO {
 	public void setOid(String oid) {
 		this.oid = oid;
 	}
+	
+	public Date getDataAtual(){
+		return new Date();
+	}
 
 
 	

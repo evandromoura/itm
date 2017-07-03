@@ -31,7 +31,6 @@ import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.sms.SMSService;
-import br.com.trixti.itm.service.snmp.SnmpService;
 import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilData;
@@ -48,7 +47,6 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject ParametroService parametroService;
 	private @Inject MailService mailService;
 	private @Inject SMSService smsService;
-	private @Inject SnmpService snmpService;
 	
 
 	@PostConstruct
@@ -195,6 +193,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		getContratoTO().getContrato().setDataParaBloqueio(utilData.adicionaDias(new Date(), getContratoTO().getParametro().getQtdDiasDesbloqueioTemporario()));
 		contratoService.alterar(getContratoTO().getContrato());
 	}
+	
 
 	public ContratoTO getContratoTO() {
 		if (contratoTO == null) {

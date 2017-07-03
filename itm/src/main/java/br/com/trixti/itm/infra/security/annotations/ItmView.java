@@ -36,6 +36,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 		  @URLMapping(id = "remessa_view", pattern = "/remessa/view/#{parametro}", viewId = "/pages/remessa/remessa_view.jsf"),
 
 		  @URLMapping(id = "retorno_list", pattern = "/retorno", viewId = "/pages/retorno/retorno_list.jsf"),
+		  @URLMapping(id = "retorno_view", pattern = "/retorno/view/#{parametro}", viewId = "/pages/retorno/retorno_view.jsf"),
 		  
 		  @URLMapping(id = "contacorrente_list", pattern = "/contacorrente", viewId = "/pages/contacorrente/contacorrente_list.jsf"),
 		  @URLMapping(id = "contacorrente_form", pattern = "/contacorrente/#{acao}/#{parametro}", viewId = "/pages/contacorrente/contacorrente_form.jsf"),

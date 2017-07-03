@@ -30,7 +30,7 @@ public class RetornoDAO extends AbstractDAO<Retorno> {
 	public Retorno recuperar(Serializable id) {
 		CriteriaQuery<Retorno> criteria = getCriteriaBuilder().createQuery(Retorno.class);
 		Root<Retorno> root = criteria.from(Retorno.class);
-		root.fetch("boletos",JoinType.LEFT);
+//		root.fetch("boletos",JoinType.LEFT);
 		Retorno retorno = getManager().createQuery(criteria.select(root).distinct(true)
 				.where(getCriteriaBuilder().equal(root.get("id"), id))).getSingleResult();
 		return retorno;

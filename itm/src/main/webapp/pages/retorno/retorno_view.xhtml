@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+
+	<ui:define name="breadcrumb"> 
+		<li class="breadcrumb-item"><a href="#">Home</a></li>
+		<li class="breadcrumb-item"><a href="#{request.contextPath}/retorno">#{resources['label.global.retorno']}</a></li>
+		<li class="breadcrumb-item active">#{retornoViewController.retornoTO.retorno.nomeArquivo}</li>
+	</ui:define>
+	
+	<ui:param name="menu" value="retorno" />
+
+	<ui:define name="corpo">
+		<h:form id="idFormRetornoView">
+		<div class="row">
+			<br />
+		</div>
+		<div class="row">
+
+			<div class="col-md-12">
+				<h1 class="profile-username text-center">#{retornoViewController.retornoTO.retorno.nomeArquivo}</h1>
+			</div>
+			<div class="col-md-12">
+							<div class="card card-accent-info">
+								<div class="card-header">
+									<i class="fa fa-newspaper-o" /><strong>#{resources['label.global.informacoes']}</strong>
+								</div>
+								<div class="card-block">
+									<div class="row">
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label>#{resources['label.global.nomearquivo']}:</label><br />
+												#{retornoViewController.retornoTO.retorno.nomeArquivo}
+											</div>
+										</div>
+										
+										<div class="col-sm-4">
+												<div class="form-group">
+													<label for="formRetorno:retorno_telefone_celular">#{resources['label.global.dataenvio']}:</label><br />
+													<h:outputText value="#{retornoViewController.retornoTO.retorno.dataCriacao}">
+														<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+													</h:outputText>
+												</div>
+											</div>
+										<div class="col-sm-4">
+												<div class="form-group">
+													<label for="formRetorno:retorno_telefone_celular">#{resources['label.global.dataprocessamento']}:</label><br />
+													<h:outputText value="#{retornoViewController.retornoTO.retorno.dataProcessamento}">
+														<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+													</h:outputText>
+												</div>
+											</div>
+											<div class="col-sm-2">
+												<div class="form-group">
+													<label>#{resources['label.global.banco']}:</label><br />
+													#{retornoViewController.retornoTO.retorno.banco}
+												</div>
+											</div>
+										
+									</div>
+									</div>
+									</div>
+									<div class="card card-accent-info">
+										<div class="card-header">
+											<i class="fa fa-newspaper-o" /><strong>#{resources['label.global.detalhamento']}</strong>
+										</div>
+										<div class="card-block">
+									
+											<h:dataTable value="#{retornoViewController.retornoTO.records}" var="record" styleClass="table table-bordered table-striped">
+												<h:column>
+													<f:facet name="header">
+														#{resources['label.global.nossonumero']}
+													</f:facet>
+													#{record.getValue('NossoNumero')}
+												</h:column>
+												
+												<h:column>
+													<f:facet name="header">
+														#{resources['label.global.vencimento']} 
+													</f:facet>
+													<h:outputText value="#{record.getValue('Vencimento')}">
+														<f:convertDateTime pattern="dd/MM/yyyy"/>
+													</h:outputText>
+													
+												</h:column>
+												<h:column>
+													<f:facet name="header">
+														#{resources['label.global.datacredito']} 
+													</f:facet>
+													<h:outputText value="#{record.getValue('DataDoCredito')}">
+														<f:convertDateTime pattern="dd/MM/yyyy"/>
+													</h:outputText>
+													
+												</h:column>
+												
+												<h:column>
+													<f:facet name="header">
+														#{resources['label.global.valor']}
+													</f:facet>
+													#{record.getValue('Valor')}
+												</h:column>
+												
+												<h:column>
+													<f:facet name="header">
+														#{resources['label.global.valorpago']}
+													</f:facet>
+													#{record.getValue('ValorPago')}
+												</h:column>
+												
+											
+											</h:dataTable>
+										</div>
+									</div>		
+									
+									
+								
+							
+						</div>
+						
+					</div>
+	</h:form>
+	</ui:define>
+
+</ui:composition>

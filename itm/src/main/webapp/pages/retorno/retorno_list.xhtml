@@ -99,7 +99,9 @@
 								<f:facet name="header">
 									#{resources['label.global.nomearquivo']}
 								</f:facet>
-								#{retorno.nomeArquivo}
+								<a href="#{request.contextPath}/retorno/view/#{retorno.id}">
+									#{retorno.nomeArquivo}
+								</a>
 							</h:column>
 
 							<h:column>

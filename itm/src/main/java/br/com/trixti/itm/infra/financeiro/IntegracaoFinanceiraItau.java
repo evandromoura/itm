@@ -2,6 +2,7 @@ package br.com.trixti.itm.infra.financeiro;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -134,6 +135,28 @@ public class IntegracaoFinanceiraItau {
 				layout.delete();
 			}
 		}
+
+	}
+	
+	public List<Record> comporRetorno(Retorno retorno) {
+		File layout = null;
+		Collection<Record> titulosEmCobranca=null;
+		try {
+			UtilArquivo utilArquivo = new UtilArquivo();
+				byte[] bytes = Base64Utils.base64Decode(retorno.getArquivo());
+				File arquivoRetorno = utilArquivo.getFileFromBytes(bytes, retorno.getNomeArquivo());
+				layout = utilArquivo.getFileFromBytes(UtilArquivo.converteInputStreamEmBytes(IntegracaoFinanceiraItau.class.getClassLoader().getResourceAsStream("layout-cnab400-itau-retorno.xml")), "layout-cnab400-itau-retorno.xml");
+				FlatFile<Record> ff = Texgit.createFlatFile(layout);
+				ff.read(FileUtil.read(arquivoRetorno.getAbsolutePath()));
+				titulosEmCobranca = ff.getRecords("TransacaoTitulo");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(layout != null && layout.exists()){
+				layout.delete();
+			}
+		}	
+		return new ArrayList<Record>(titulosEmCobranca);
 
 	}
 

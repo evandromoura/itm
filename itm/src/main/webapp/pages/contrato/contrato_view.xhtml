@@ -140,54 +140,62 @@
 
 										<div class="row">
 											<div class="col-sm-12">
-												<h:dataTable id="idDataTableContratoProduto"
-													rendered="#{contratoViewController.contratoTO.contrato.contratoProdutos ne null and  not empty contratoViewController.contratoTO.contrato.contratoProdutos}"
-													value="#{contratoViewController.contratoTO.contrato.contratoProdutos}"
-													var="contratoProduto" styleClass="table table-bordered table-striped" >
-
-													<h:column>
-														<f:facet name="header">#{resources['label.global.data']}</f:facet>
+											
+											
+											<table id="idDataTableContratoProduto" class="table table-bordered">
+											
+												<thead>
+													<tr>
+													<th scope="col">#{resources['label.global.data']}</th>
+													<th scope="col">#{resources['label.global.nome']}</th>
+													<th scope="col">#{resources['label.global.valorbase']}</th>
+													<th scope="col">#{resources['label.global.valortotal']}</th>
+													<th scope="col">#{resources['label.global.datainicio']}</th>
+													<th scope="col">#{resources['label.global.datafim']}</th>
+													</tr>
+												</thead>
+											<ui:repeat var="contratoProduto" value="#{contratoViewController.contratoTO.contrato.contratoProdutos}">
+												<tr class="#{contratoProduto.vigente?'card-success-clean':''}">
+													<td>
 														<h:outputText value="#{contratoProduto.dataCriacao}">
 															<f:convertDateTime pattern="dd/MM/yyyy" />
 														</h:outputText>
-													</h:column>
-
-
-													<h:column>
-														<f:facet name="header">#{resources['label.global.nome']}</f:facet>
+													</td>
+													<td>
 														<h:outputText value="#{contratoProduto.produto.nome}" />
-													</h:column>
-
-
-													<h:column>
-														<f:facet name="header">#{resources['label.global.valorbase']}</f:facet>
+													</td>
+													<td>
 														<h:outputText value="#{contratoProduto.produto.valor}">
 															<f:convertNumber pattern="#,##0.00" /> 
 														</h:outputText>
-													</h:column>
-
-													<h:column>
-														<f:facet name="header">#{resources['label.global.valortotal']}</f:facet>
+													</td>
+													<td>
 														<h:outputText value="#{contratoProduto.valor}">
 															<f:convertNumber pattern="#,##0.00" /> 
 														</h:outputText>
-													</h:column>
-
-													<h:column>
-														<f:facet name="header">#{resources['label.global.datainicio']}</f:facet>
+													
+													</td>
+													<td>
 														<h:outputText value="#{contratoProduto.dataInicio}">
 															<f:convertDateTime pattern="dd/MM/yyyy" />
 														</h:outputText>
-													</h:column>
-
-													<h:column>
-														<f:facet name="header">#{resources['label.global.datafim']}</f:facet>
+													
+													</td>
+													<td>
 														<h:outputText value="#{contratoProduto.dataFim}">
 															<f:convertDateTime pattern="dd/MM/yyyy" />
 														</h:outputText>
-													</h:column>
-
-												</h:dataTable>
+													
+													</td>
+												</tr>
+											
+											
+											
+											</ui:repeat>
+											
+											
+											</table>
+												
 											</div>
 										</div>
 									</h:panelGroup>
@@ -782,7 +790,7 @@
 					
 				      function onMessage(evt) {  
 					     obj = JSON.parse(evt.data);
-					     console.log(obj);
+					     
 						 x = (new Date()).getTime();
 						 if(downloadAnterior > 0){ 
 								yDownload = (((obj.download - downloadAnterior)* 8/1024)/1024);

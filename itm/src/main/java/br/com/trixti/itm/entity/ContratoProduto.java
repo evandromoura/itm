@@ -154,5 +154,9 @@ public class ContratoProduto implements java.io.Serializable {
 	public void setAtivo(boolean valor){
 		
 	}
+	
+	public boolean isVigente(){
+		return (getDataInicio() != null && getDataInicio().compareTo(new Date()) <= 0) && (getDataFim() != null && getDataFim().compareTo(new Date()) >= 0);
+	}
 
 }
