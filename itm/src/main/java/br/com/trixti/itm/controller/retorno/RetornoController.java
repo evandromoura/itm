@@ -5,9 +5,8 @@ import java.io.File;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.inject.Model;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import org.jrimum.bopepo.BancosSuportados;
@@ -21,8 +20,7 @@ import br.com.trixti.itm.util.UtilArquivo;
 
 
 
-@ViewScoped
-@ManagedBean
+@Model
 public class RetornoController extends AbstractController<Retorno> {
 	
 	private @Inject RetornoService retornoService;
@@ -45,6 +43,7 @@ public class RetornoController extends AbstractController<Retorno> {
 		}else{
 			retornoService.alterar(getRetornoTO().getRetorno());
 		}
+		setRetornoTO(null);
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));
 	}
 	
@@ -75,6 +74,7 @@ public class RetornoController extends AbstractController<Retorno> {
 			getRetornoTO().getRetorno().setNomeArquivo(getRetornoTO().getUpload().getSubmittedFileName());
 			retornoService.incluir(getRetornoTO().getRetorno());
 			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Remessa enviado com sucesso!!", "O Registro foi incluido na base"));
+			setRetornoTO(null);
 			init();
 		}catch(Exception e){
 			e.printStackTrace();

@@ -117,11 +117,19 @@
 						        	obj_td = document.createElement("td");
 						        	obj_td.appendChild(document.createTextNode(obj[i].id));
 						        	obj_tr.appendChild(obj_td);
-	
-	
-						        	obj_td = document.createElement("td");
-						        	obj_td.appendChild(document.createTextNode(obj[i].name));
-						        	obj_tr.appendChild(obj_td);
+
+
+						        	nome = obj[i].name.replace('<pppoe-', '').replace('>', '');
+						        	
+
+						        	 obj_link = document.createElement('a');
+						             obj_link_text = document.createTextNode(nome);
+						             obj_link.setAttribute('href', "#{request.contextPath}/snmp/view/"+nome);
+						             obj_link.appendChild(obj_link_text);
+						        	
+						        	 obj_td = document.createElement("td");
+						        	 obj_td.appendChild(obj_link);
+						        	 obj_tr.appendChild(obj_td);
 	
 	
 						        	/* obj_td = document.createElement("td");
