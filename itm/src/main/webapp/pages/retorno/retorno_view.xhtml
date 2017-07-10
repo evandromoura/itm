@@ -54,13 +54,28 @@
 														<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
 													</h:outputText>
 												</div>
-											</div>
-											<div class="col-sm-2">
+										</div>
+										<div class="col-sm-2">
 												<div class="form-group">
 													<label>#{resources['label.global.banco']}:</label><br />
 													#{retornoViewController.retornoTO.retorno.banco}
 												</div>
+										</div>
+										<div class="col-sm-2">
+												<div class="form-group">
+													<label>#{resources['label.global.status']}:</label><br />
+													#{retornoViewController.retornoTO.retorno.status.name}
+												</div>
+										</div>
+										<ui:fragment rendered="#{retornoViewController.retornoTO.retorno.status.name eq 'ERRO_PROCESSAMENTO'}">
+											<div class="col-sm-4">
+													<div class="form-group">
+														<label>#{resources['label.global.mensagem']}:</label><br />
+														#{retornoViewController.retornoTO.retorno.mensagem}
+													</div>
 											</div>
+										</ui:fragment>	
+										
 										
 									</div>
 									</div>

@@ -113,6 +113,12 @@
 								</h:outputText>
 
 							</h:column>
+							<h:column>
+								<f:facet name="header">
+										#{resources['label.global.status']}
+									</f:facet>
+								<h:outputText value="#{retorno.status.name}" />
+							</h:column>
 							
 						</h:dataTable>
 					</div>

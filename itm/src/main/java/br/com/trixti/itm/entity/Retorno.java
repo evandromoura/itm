@@ -6,6 +6,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,18 +47,26 @@ public class Retorno implements java.io.Serializable {
 	
 	@Column(name="nome_arquivo")
 	private String nomeArquivo;
+	
+	
+	@Enumerated(EnumType.STRING)
+	private StatusRetorno status;
+	
+	private String mensagem;
 	 
 	public Retorno(){
 	}
 	
 	//return getManager().createQuery(criteria.multiselect(root.get("id"),root.get("dataCriacao"),root.get("banco"),root.get("dataProcessamento"),root.get("nomeArquivo"))
 	
-	public Retorno(Integer id,Date dataCriacao,String banco,Date dataProcessamento,String nomeArquivo){
+	public Retorno(Integer id,Date dataCriacao,String banco,Date dataProcessamento,String nomeArquivo,StatusRetorno status,String mensagem){
 		setId(id);
 		setDataCriacao(dataCriacao);
 		setBanco(banco);
 		setDataProcessamento(dataProcessamento);
 		setNomeArquivo(nomeArquivo);
+		setStatus(status);
+		setMensagem(mensagem);
 	}
 
 	public Integer getId() {
@@ -105,6 +115,22 @@ public class Retorno implements java.io.Serializable {
 
 	public void setNomeArquivo(String nomeArquivo) {
 		this.nomeArquivo = nomeArquivo;
+	}
+
+	public StatusRetorno getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusRetorno status) {
+		this.status = status;
+	}
+
+	public String getMensagem() {
+		return mensagem;
+	}
+
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
 	}
 	
 	

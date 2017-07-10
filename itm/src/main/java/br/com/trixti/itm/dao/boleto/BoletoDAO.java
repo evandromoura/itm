@@ -67,7 +67,11 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
 		Root<Boleto> root = criteria.from(Boleto.class);
 		return inicializarBoletos(getManager().createQuery(criteria.select(root).
-				where(getCriteriaBuilder().equal(root.join("contrato",JoinType.LEFT).get("cliente"),cliente))
+				where(
+						getCriteriaBuilder().equal(root.join("contrato",JoinType.LEFT).get("cliente"),cliente),
+						getCriteriaBuilder().isNotNull(root.get("dataNotificacao"))
+						
+						)
 				.orderBy(getCriteriaBuilder().desc(root.get("id")))).setMaxResults(12).getResultList());
 	}
 	

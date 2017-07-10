@@ -21,6 +21,7 @@ import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.Remessa;
 import br.com.trixti.itm.entity.Retorno;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
+import br.com.trixti.itm.entity.StatusRetorno;
 import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.parametro.ParametroService;
@@ -97,44 +98,50 @@ public class IntegracaoFinanceiraItau {
 
 	public void processarRetorno(List<Retorno> listaRetorno) {
 		File layout = null;
-		try {
+		
 			UtilArquivo utilArquivo = new UtilArquivo();
 			for (Retorno retorno : listaRetorno) {
-				byte[] bytes = Base64Utils.base64Decode(retorno.getArquivo());
-				File arquivoRetorno = utilArquivo.getFileFromBytes(bytes, retorno.getNomeArquivo());
-				layout = utilArquivo.getFileFromBytes(UtilArquivo.converteInputStreamEmBytes(IntegracaoFinanceiraItau.class.getClassLoader().getResourceAsStream("layout-cnab400-itau-retorno.xml")), "layout-cnab400-itau-retorno.xml");
-				FlatFile<Record> ff = Texgit.createFlatFile(layout);
-				ff.read(FileUtil.read(arquivoRetorno.getAbsolutePath()));
-				Record header = ff.getRecord("Header");
-				Collection<Record> titulosEmCobranca = ff.getRecords("TransacaoTitulo");
-				for (Record titulo : titulosEmCobranca) {
-					System.out.println(((Integer)titulo.getValue("NossoNumero")).toString()+" = "+(BigDecimal)titulo.getValue("ValorPago"));
-					Boleto boleto = boletoService.recuperarPorNossoNumero(((Integer)titulo.getValue("NossoNumero")).toString(),StatusBoletoEnum.ABERTO);
-					if(boleto != null){
-						BigDecimal valorPago = (BigDecimal)titulo.getValue("ValorPago");
-						if(valorPago != null && valorPago.compareTo(BigDecimal.ZERO) == 1){
-							boleto.setDataPagamento(new Date());
-							boleto.setStatus(StatusBoletoEnum.PAGO);
-							boleto.getRemessa().setQtdBoletoAberto(boleto.getRemessa().getQtdBoletoAberto() - 1);
-							boleto.getRemessa().setQtdBoletoFechado(boleto.getRemessa().getQtdBoletoFechado() + 1);
-							boleto.getRemessa().setValorRecebido(boleto.getRemessa().getValorRecebido().add(valorPago));
-							boleto.setRetorno(retorno);
-							boleto.setValorPago(valorPago);
-							boletoService.alterar(boleto);
-							remessaService.alterar(boleto.getRemessa());
-						}
-					}	
+				try {
+					byte[] bytes = Base64Utils.base64Decode(retorno.getArquivo());
+					File arquivoRetorno = utilArquivo.getFileFromBytes(bytes, retorno.getNomeArquivo());
+					layout = utilArquivo.getFileFromBytes(UtilArquivo.converteInputStreamEmBytes(IntegracaoFinanceiraItau.class.getClassLoader().getResourceAsStream("layout-cnab400-itau-retorno.xml")), "layout-cnab400-itau-retorno.xml");
+					FlatFile<Record> ff = Texgit.createFlatFile(layout);
+					ff.read(FileUtil.read(arquivoRetorno.getAbsolutePath()));
+					Record header = ff.getRecord("Header");
+					Collection<Record> titulosEmCobranca = ff.getRecords("TransacaoTitulo");
+					for (Record titulo : titulosEmCobranca) {
+						System.out.println(((Integer)titulo.getValue("NossoNumero")).toString()+" = "+(BigDecimal)titulo.getValue("ValorPago"));
+						Boleto boleto = boletoService.recuperarPorNossoNumero(((Integer)titulo.getValue("NossoNumero")).toString(),StatusBoletoEnum.ABERTO);
+						if(boleto != null){
+							BigDecimal valorPago = (BigDecimal)titulo.getValue("ValorPago");
+							if(valorPago != null && valorPago.compareTo(BigDecimal.ZERO) == 1){
+								boleto.setDataPagamento(new Date());
+								boleto.setStatus(StatusBoletoEnum.PAGO);
+								boleto.getRemessa().setQtdBoletoAberto(boleto.getRemessa().getQtdBoletoAberto() - 1);
+								boleto.getRemessa().setQtdBoletoFechado(boleto.getRemessa().getQtdBoletoFechado() + 1);
+								boleto.getRemessa().setValorRecebido(boleto.getRemessa().getValorRecebido().add(valorPago));
+								boleto.setRetorno(retorno);
+								boleto.setValorPago(valorPago);
+								boletoService.alterar(boleto);
+								remessaService.alterar(boleto.getRemessa());
+							}
+						}	
+					}
+					retorno.setDataProcessamento(new Date());
+					retorno.setStatus(StatusRetorno.PROCESSADO);
+					retornoService.alterar(retorno);
+					
+				} catch (Exception e) {
+					retorno.setDataProcessamento(new Date());
+					retorno.setStatus(StatusRetorno.ERRO_PROCESSAMENTO);
+					retorno.setMensagem(e.getMessage());
+					retornoService.alterar(retorno);
+				}finally {
+					if(layout != null && layout.exists()){
+						layout.delete();
+					}
 				}
-				retorno.setDataProcessamento(new Date());
-				retornoService.alterar(retorno);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			if(layout != null && layout.exists()){
-				layout.delete();
-			}
-		}
 
 	}
 	
@@ -156,7 +163,7 @@ public class IntegracaoFinanceiraItau {
 				layout.delete();
 			}
 		}	
-		return new ArrayList<Record>(titulosEmCobranca);
+		return titulosEmCobranca != null ? new ArrayList<Record>(titulosEmCobranca):new ArrayList<Record>();
 
 	}
 

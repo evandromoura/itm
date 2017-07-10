@@ -94,15 +94,15 @@
 									<f:facet name="header">
 										#{resources['label.global.numerodocumento']}
 									</f:facet>
-									<h:outputText value="#{boleto.numeroDocumento}">
-									</h:outputText>
+									<h:outputText value="#{boleto.numeroDocumento}" />
 								</h:column>
 								<h:column>
 									<f:facet name="header">
 										#{resources['label.global.cliente']}
 									</f:facet>
-									<h:outputText value="#{boleto.contrato.cliente.nome}">
-									</h:outputText>
+									<a href="#{request.contextPath}/contrato/view/#{boleto.contrato.id}#financeiro">
+										   <h:outputText value="#{boleto.contrato.cliente.nome}" />
+									</a>	
 								</h:column>
 								<h:column>
 									<f:facet name="header">

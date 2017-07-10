@@ -13,6 +13,7 @@ import org.jrimum.bopepo.BancosSuportados;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Retorno;
+import br.com.trixti.itm.entity.StatusRetorno;
 import br.com.trixti.itm.service.retorno.RetornoService;
 import br.com.trixti.itm.to.RetornoTO;
 import br.com.trixti.itm.util.Base64Utils;
@@ -72,6 +73,7 @@ public class RetornoController extends AbstractController<Retorno> {
 			getRetornoTO().getRetorno().setDataCriacao(new Date());
 			getRetornoTO().getRetorno().setArquivo(Base64Utils.base64Encode(UtilArquivo.converteInputStreamEmBytes(getRetornoTO().getUpload().getInputStream())));
 			getRetornoTO().getRetorno().setNomeArquivo(getRetornoTO().getUpload().getSubmittedFileName());
+			getRetornoTO().getRetorno().setStatus(StatusRetorno.PENDENTE);
 			retornoService.incluir(getRetornoTO().getRetorno());
 			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Remessa enviado com sucesso!!", "O Registro foi incluido na base"));
 			setRetornoTO(null);

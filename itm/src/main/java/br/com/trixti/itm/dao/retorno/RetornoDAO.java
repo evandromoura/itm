@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -20,11 +19,9 @@ public class RetornoDAO extends AbstractDAO<Retorno> {
 	public List<Retorno> pesquisar(Retorno retorno) {
 		CriteriaQuery<Retorno> criteria = getCriteriaBuilder().createQuery(Retorno.class);
 		Root<Retorno> root = criteria.from(Retorno.class);
-		return getManager().createQuery(criteria.multiselect(root.get("id"),root.get("dataCriacao"),root.get("banco"),root.get("dataProcessamento"),root.get("nomeArquivo"))
-				.where(comporFiltro(retorno, root))).getResultList();
+		return getManager().createQuery(criteria.multiselect(root.get("id"),root.get("dataCriacao"),root.get("banco"),root.get("dataProcessamento"),root.get("nomeArquivo"),root.get("status"),root.get("mensagem"))
+				.where(comporFiltro(retorno, root)).orderBy(getCriteriaBuilder().desc(root.get("dataCriacao")))).getResultList();
 	}
-	
-	
 	
 	@Override
 	public Retorno recuperar(Serializable id) {

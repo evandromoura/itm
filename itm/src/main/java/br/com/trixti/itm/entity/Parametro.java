@@ -46,6 +46,9 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="qtd_dias_inativacao")
 	private Integer qtdDiasInativacao;
 	
+	@Column(name="qtd_dias_negativacao")
+	private Integer qtdDiasNegativacao;
+	
 	@Column(name="logradouro")
 	private String logradouro;
 
@@ -221,8 +224,13 @@ public class Parametro implements java.io.Serializable {
 	public void setSnmpPorta(Integer snmpPorta) {
 		this.snmpPorta = snmpPorta;
 	}
-	
 
-	
-	
+	public Integer getQtdDiasNegativacao() {
+		return qtdDiasNegativacao;
+	}
+
+	public void setQtdDiasNegativacao(Integer qtdDiasNegativacao) {
+		this.qtdDiasNegativacao = qtdDiasNegativacao;
+	}
+
 }

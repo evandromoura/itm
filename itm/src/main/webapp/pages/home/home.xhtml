@@ -129,99 +129,54 @@
 						</div>
 					</div>
 				</div>
+				
+				
+				
+				
 
-				<div class="col-lg-12">
-				
-						<div class="card">
-						<div class="card-block">
-							<div class="row">
 
-								<div class="col-sm-12">
-									<h4 class="card-title">#{resources['label.global.selecionecontrato']}</h4>
-									<ui:repeat var="contrato" value="#{customIdentity.cliente.contratos}">
-										<div class="col-sm-3 card-block p-1 clearfix">
-											<ui:fragment rendered="#{customIdentity.contratoSelecionado ne null and customIdentity.contratoSelecionado.id eq contrato.id}">
-		                                    	<i class="fa fa-cogs bg-success p-1 font-2xl mr-1 float-left"></i>
-		                                    </ui:fragment>	
-		                                    <ui:fragment rendered="#{customIdentity.contratoSelecionado eq null or customIdentity.contratoSelecionado.id ne contrato.id}">
-		                                    	<h:commandLink action="#{homeController.atribuirContratoSelecionado(contrato)}"><i class="fa fa-cogs bg-primary p-1 font-2xl mr-1 float-left"></i></h:commandLink>
-		                                    </ui:fragment>
-		                                    <div class="h5 text-primary mt-h mb-0">#{contrato.identificador}</div>
-		                                    <div class="text-muted text-uppercase font-weight-bold font-xs">#{contrato.status}</div>
-		                                </div>
-		                             </ui:repeat>   
-								</div>
-							</div>
-						</div>
-					</div>			
-					
-				</div>
-				
-				<ui:fragment rendered="#{customIdentity.contratoSelecionado ne null and customIdentity.contratoSelecionado.id ne null}">
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="card-block">
-								<div class="row">
-	
-									<div class="col-sm-12">
-										<h4 class="card-title">#{customIdentity.contratoSelecionado.identificador}</h4>
-									</div>
-									
-										<div class="col-sm-6 col-lg-3">
-				                            <div class="card">
-				                                <div class="card-block p-1 clearfix">
-				                                    <i class="fa fa-calendar bg-warning p-1 font-2xl mr-1 float-left"></i>
-				                                    <div class="h5 text-primary mt-h mb-0">Alterar dia do vencimento</div>
-				                                    <div class="text-muted text-uppercase font-weight-bold font-xs">Dia: #{customIdentity.contratoSelecionado.diaMesVencimento}</div>
-				                                </div>
-				                                <div class="card-footer px-1 py-h">
-				                                    <a class="font-weight-bold font-xs btn-block text-muted" href="#">View More <i class="fa fa-angle-right float-right font-lg"></i></a>
-				                                </div>
-				                            </div>
-				                        </div>
-				                        
-				                        <div class="col-sm-6 col-lg-3">
-				                            <div class="card">
-				                                <div class="card-block p-1 clearfix">
-				                                    <i class="fa fa-pencil-square-o bg-warning p-1 font-2xl mr-1 float-left"></i>
-				                                    <div class="h5 text-primary mt-h mb-0">Alterar Endereço</div>
-				                                    <div class="text-muted text-uppercase font-weight-bold font-xs">#{customIdentity.cliente.endereco} #{customIdentity.cliente.cidade}</div>
-				                                </div>
-				                                <div class="card-footer px-1 py-h">
-				                                    <a class="font-weight-bold font-xs btn-block text-muted" href="#">View More <i class="fa fa-angle-right float-right font-lg"></i></a>
-				                                </div>
-				                            </div>
-				                        </div>
-				                        <div class="col-sm-6 col-lg-3">
-				                            <div class="card">
-				                                <div class="card-block p-1 clearfix">
-				                                    <i class="fa fa-money bg-warning p-1 font-2xl mr-1 float-left"></i>
-				                                    <div class="h5 text-primary mt-h mb-0">Segunda via Boleto</div>
-				                                    <div class="text-muted text-uppercase font-weight-bold font-xs">#{customIdentity.cliente.endereco} #{customIdentity.cliente.cidade}</div>
-				                                </div>
-				                                <div class="card-footer px-1 py-h">
-				                                    <a class="font-weight-bold font-xs btn-block text-muted" href="#">View More <i class="fa fa-angle-right float-right font-lg"></i></a>
-				                                </div>
-				                            </div>
-				                        </div>
-								</div>
-							</div>
-						</div>
-					</div>					
-				</ui:fragment>	
-				
-				
-				
-				
-				
-				<div class="col-lg-12">
-					<div class="card">
-						<div class="card-block">
-							<div class="row">
-
-								<div class="col-sm-12">
-									<h4 class="card-title">#{resources['label.global.ultimosboletos']}</h4>
-									<h:dataTable
+								<div class="col-md-12 mb-2">
+									<ul class="nav nav-tabs" role="tablist">
+										<ui:repeat var="contrato" value="#{customIdentity.cliente.contratos}" varStatus="status">
+											<li class="nav-item">
+												<a class="nav-link #{status.index eq 0 ?'active':''}" data-toggle="tab" href="##{contrato.identificador}" role="tab" aria-controls="home" aria-expanded="true">
+													<i class="icon-calculator"></i> #{contrato.identificador} 
+													<span class="badge badge-success">#{contrato.status.name}</span>
+												</a>
+											</li>
+										</ui:repeat>
+									</ul>
+									<div class="tab-content">
+										<ui:repeat var="contrato" value="#{customIdentity.cliente.contratos}" varStatus="status">
+											<div class="tab-pane  #{status.index eq 0 ?'active':''}" id="#{contrato.identificador}" role="tabpanel" aria-expanded="true">
+											<table class="table">
+												<thead>
+													<tr>
+														<th>
+															#{resources['label.global.datacadastro']}
+														</th>
+														
+														<th>
+															#{resources['label.global.diamesvencimento']}
+														</th>
+													</tr>	
+												</thead>
+												<tr>
+													<td>
+														<h:outputText value="#{contrato.dataCriacao}">
+															<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+														</h:outputText>
+													</td>
+													<td>
+														#{contrato.diaMesVencimento}
+													</td>
+												</tr>
+											
+											</table>
+											<br />
+											<h4>#{resources['label.global.ultimosboletos']}</h4>
+											
+											<h:dataTable
 										value="#{homeController.homeTO.listaUltimosBoletos}"
 										var="boleto" styleClass="table table-bordered table-striped">
 
@@ -271,12 +226,13 @@
 										</h:column>
 
 									</h:dataTable>
+											
+											</div>
+												
+										</ui:repeat>		
+									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-					<!--/.card-->
-				</div>
+				
 			</h:form>
 		</ui:fragment>
 	</ui:define>

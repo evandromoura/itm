@@ -14,13 +14,7 @@
 					<div class="card-header">
 						<strong>#{resources['label.global.cadastroparametro']}</strong> 
 					</div>
-					
-					
-					
 					<div class="card-block">
-						
-				
-						
 						<div class="row">
 							<div class="col-sm-6">
 								<div class="form-group">
@@ -28,36 +22,15 @@
 									<h:inputText value="#{parametroController.parametroTO.parametro.nomeEmpresa}" id="nome_empresa" styleClass="form-control" />
 								</div>
 							</div>
-				
-				
-				
-				
-						
-			
-						
 							<div class="col-sm-6">		
 								<div class="form-group">
 									<label for="formParametro:cnpj">#{resources['label.global.cnpj']}</label> 
 									<h:inputText value="#{parametroController.parametroTO.parametro.cnpj}" id="cnpj" styleClass="form-control" />
-
 								</div>
 							</div>
-							
-
-							
-							
-							
-							
-							
-							</div>
-			
-						
+						</div>
 					</div>
 				</div>
-			 
-				
-		
-		
 		
 				<div class="card-header">
 						<strong>#{resources['label.global.prazos']}</strong> 
@@ -65,196 +38,114 @@
 		
 		 		<div class="card">
 					<div class="card-block">
-							<div class="row">
-								<div class="col-sm-12">
-									
-
-						
-
-			
-										
-						
-							<div class="col-sm-3">		
-								<div class="form-group">
-									<label for="formParametro:qtd_dias_temp">#{resources['label.global.qtd_desbloqueio_temporario']}</label> 
-									<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasDesbloqueioTemporario}" id="qtd_dias_temp" styleClass="form-control" />
-
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="col-sm-2">		
+									<div class="form-group">
+										<label for="formParametro:qtd_dias_temp">#{resources['label.global.qtd_desbloqueio_temporario']}</label> 
+										<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasDesbloqueioTemporario}" id="qtd_dias_temp" styleClass="form-control" />
+									</div>
+								</div>
+							    <div class="col-sm-2">		
+									<div class="form-group">
+										<label for="formParametro:qtd_dias_aviso">#{resources['label.global.qtd_dias_aviso']}</label> 
+										<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasAviso}" id="qtd_dias_aviso" styleClass="form-control" />
+									</div>
+								</div>
+								<div class="col-sm-2">		
+									<div class="form-group">
+										<label for="formParametro:qtd_dias_bloqueio">#{resources['label.global.qtd_dias_bloqueio']}</label> 
+										<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasBloqueio}" id="qtd_dias_bloqueio" styleClass="form-control" />
+									</div>
+								</div>
+							    <div class="col-sm-2">		
+									<div class="form-group">
+										<label for="formParametro:qtd_dias_inativacao">#{resources['label.global.qtd_dias_inativacao']}</label> 
+										<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasInativacao}" id="qtd_dias_inativacao" styleClass="form-control" />
+									</div>
+								</div>
+							    <div class="col-sm-2">		
+									<div class="form-group">
+										<label for="formParametro:qtd_dias_negativacao">#{resources['label.global.qtd_dias_negativacao']}</label> 
+										<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasNegativacao}" id="qtd_dias_negativacao" styleClass="form-control" />
+									</div>
 								</div>
 							</div>
-							
-							
-														
-						    <div class="col-sm-3">		
-								<div class="form-group">
-									<label for="formParametro:qtd_dias_aviso">#{resources['label.global.qtd_dias_aviso']}</label> 
-									<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasAviso}" id="qtd_dias_aviso" styleClass="form-control" />
-								</div>
-							</div>
-							
-							
-							
-													
-							<div class="col-sm-3">		
-								<div class="form-group">
-									<label for="formParametro:qtd_dias_bloqueio">#{resources['label.global.qtd_dias_bloqueio']}</label> 
-									<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasBloqueio}" id="qtd_dias_bloqueio" styleClass="form-control" />
-
-								</div>
-							</div>
-							
-						    <div class="col-sm-3">		
-								<div class="form-group">
-									<label for="formParametro:qtd_dias_inativacao">#{resources['label.global.qtd_dias_inativacao']}</label> 
-									<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasInativacao}" id="qtd_dias_inativacao" styleClass="form-control" />
-								</div>
-							</div>
-
-
-
-
-								</div>
-							</div>
+						</div>
 					</div>	
 				</div>	
-		
-		
-
-		
-		
-		
-				
-		
-		
-		
-						<div class="card-header">
-						<strong>#{resources['label.global.servicodealerta']}</strong> 
-						</div>
-							
-		
-				 		<div class="card">
-					<div class="card-block">
-							<div class="row">
-								<div class="col-sm-12">
-									
-
-
-			
-							<div class="col-sm-3">		
-								<div class="form-group">
-									<label for="formParametro:email_smtp">#{resources['label.global.servidorsmtp']}</label> 
-									<h:inputText value="#{parametroController.parametroTO.parametro.smtp}" id="email_smtp" styleClass="form-control" />
-								</div>
-							</div>			
-						
-							<div class="col-sm-3">		
-								<div class="form-group">
-									<label for="formParametro:porta_smtp">#{resources['label.global.porta']}</label> 
-									<h:inputText value="#{parametroController.parametroTO.parametro.portaSmtp}" id="porta_smtp" styleClass="form-control" />
-
-								</div>
-							</div>
-							<div class="col-sm-3">		
-								<div class="form-group">
-									<label for="formParametro:email_conta">#{resources['label.global.email']}</label> 
-									<h:inputText value="#{parametroController.parametroTO.parametro.loginEmail}" id="email_conta" styleClass="form-control" />
-
-								</div>
-							</div>
-							
-						    <div class="col-sm-3">		
-								<div class="form-group">
-									<label for="formParametro:email_senha">#{resources['label.global.senha']}</label> 
-									<h:inputSecret value="#{parametroController.parametroTO.parametro.senhaEmail}" id="email_senha" styleClass="form-control"  redisplay="true"/>
-								</div>
-							</div>
-
-
-
-								</div>
-							</div>
-					</div>	
-				</div>
-
-
-
-
-
-
-
-
 				<div class="card-header">
-					<strong>#{resources['label.global.snmp']}</strong>
+					<strong>#{resources['label.global.servicodealerta']}</strong> 
 				</div>
-
-
 				<div class="card">
 					<div class="card-block">
 						<div class="row">
 							<div class="col-sm-12">
-
-
+								<div class="col-sm-3">		
+									<div class="form-group">
+										<label for="formParametro:email_smtp">#{resources['label.global.servidorsmtp']}</label> 
+										<h:inputText value="#{parametroController.parametroTO.parametro.smtp}" id="email_smtp" styleClass="form-control" />
+									</div>
+								</div>			
+								<div class="col-sm-3">		
+									<div class="form-group">
+										<label for="formParametro:porta_smtp">#{resources['label.global.porta']}</label> 
+										<h:inputText value="#{parametroController.parametroTO.parametro.portaSmtp}" id="porta_smtp" styleClass="form-control" />
+									</div>
+								</div>
+								<div class="col-sm-3">		
+									<div class="form-group">
+										<label for="formParametro:email_conta">#{resources['label.global.email']}</label> 
+										<h:inputText value="#{parametroController.parametroTO.parametro.loginEmail}" id="email_conta" styleClass="form-control" />
+									</div>
+								</div>
+							    <div class="col-sm-3">		
+									<div class="form-group">
+										<label for="formParametro:email_senha">#{resources['label.global.senha']}</label> 
+										<h:inputSecret value="#{parametroController.parametroTO.parametro.senhaEmail}" id="email_senha" styleClass="form-control"  redisplay="true"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>	
+				</div>
+				<div class="card-header">
+					<strong>#{resources['label.global.snmp']}</strong>
+				</div>
+				<div class="card">
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label for="formParametro:host_snmp">#{resources['label.global.host']}</label>
 										<h:inputText value="#{parametroController.parametroTO.parametro.snmpHost}" id="host_snmp" styleClass="form-control" />
-
 									</div>
 								</div>
-
 								<div class="col-sm-6">
 									<div class="form-group">
 										<label for="formParametro:porta_senha">#{resources['label.global.porta']}</label>
 										<h:inputText value="#{parametroController.parametroTO.parametro.snmpPorta}" id="porta_snmp" styleClass="form-control" />
 									</div>
 								</div>
-
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-block">
-							<div class="row">
-								<div class="col-sm-12">
-									
-
+						<div class="row">
+							<div class="col-sm-12">
 								<div class="form-group">
 									<h:commandLink action="#{parametroController.gravar()}" styleClass="btn btn-lg btn-success">
 										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
 									</h:commandLink>	
-	
-								</div>
-
-
-
-
-
-
 								</div>
 							</div>
+						</div>
 					</div>	
 				</div>	
-
 			</h:form>
-
 		</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-
-
 	</ui:define>
-
-
 </ui:composition>

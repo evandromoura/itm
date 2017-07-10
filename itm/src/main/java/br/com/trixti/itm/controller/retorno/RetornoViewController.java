@@ -28,7 +28,7 @@ public class RetornoViewController  extends AbstractController<Retorno>{
 	}
 	
 	private void inicializar(){
-		String parametro =getRequest().getParameter("parametro");
+		String parametro = getRequest().getParameter("parametro");
 		getRetornoTO().setRetorno(retornoService.recuperar(new Integer(parametro)));
 		getRetornoTO().setRecords(integracaoFinanceiraItau.comporRetorno(getRetornoTO().getRetorno()));
 	}

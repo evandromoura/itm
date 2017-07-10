@@ -22,6 +22,8 @@ import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
+import com.google.gson.annotations.Expose;
+
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 
 @Audited
@@ -35,22 +37,30 @@ public class Cliente implements java.io.Serializable {
 	@Id
 	@SequenceGenerator(name="CLIENTE_ID_GENERATOR", sequenceName="itm_cliente_id_seq", allocationSize = 1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CLIENTE_ID_GENERATOR") 
+	@Expose
 	private Integer id;
  	
+	@Expose
 	private String nome;
+	
+	@Expose
 	private String email;
+	
+	@Expose
 	private String endereco;
 
+	@Expose
 	@Column(name = "telefone_celular")
 	private String telefoneCelular;
 	
 	@Column(name = "telefone_fixo")
 	private String telefoneFixo;
 	
+	@Expose
 	@Column(name = "cpf_cnpj")
 	private String cpfCnpj;
 	
-	
+	@Expose
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo_pessoa")
 	private TipoPessoaEnum tipoPessoa;
@@ -73,6 +83,7 @@ public class Cliente implements java.io.Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_exclusao", length = 29)
 	private Date dataExclusao;
+	
 	
 	@NotAudited
 	@OneToMany(mappedBy="cliente")
