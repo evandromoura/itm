@@ -6,7 +6,9 @@
 	xmlns:itm="http://java.sun.com/jsf/composite/components">
 
 
-
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+	
 	<h:form>
 		<div class="col-md-12">
 			<div class="card card-accent-info">
@@ -74,7 +76,7 @@
 								#{homeController.homeTO.cliente.telefoneCelular}
 							</div>
 						</div>
-						<div class="col-sm-2">
+						<div class="col-sm-4">
 							<div class="form-group">
 								<label for="formCliente:cliente_email">#{resources['label.global.email']}:</label><br />
 								#{homeController.homeTO.cliente.email}
@@ -85,23 +87,27 @@
 				</div>
 			</div>
 		</div>
-		<ui:repeat var="contrato" value="#{customIdentity.cliente.contratos}"
-			varStatus="status">
+		<ui:repeat var="contrato" value="#{customIdentity.cliente.contratos}" varStatus="status">
 			
 			<h2 class="text-center"><br /><br />##{contrato.identificador}</h2>
 			<h4 class="text-center">(#{contrato.status.name})</h4>
+			<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
+				<h5 class="text-center">#{resources['label.global.tempoparabloqueio']}:<span id="clock_#{contrato.id}" /></h5>
+				<br />
+				<h:outputText value=" " />
+			</ui:fragment>
 			<div class="col-md-12 mb-2">
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="nav-item">
 					    <a class="nav-link active"
 							data-toggle="tab" href="#home4_#{contrato.id}" role="tab"
 							aria-controls="home"><i class="icon-calculator"></i> Dados
-								Gerais <span class="badge badge-success">New</span></a>
+								Gerais </a>
 					</li>
 					
 						<li class="nav-item">
 							<a class="nav-link" data-toggle="tab" href="#profile4_#{contrato.id}" role="tab" aria-controls="profile">
-								<i class="icon-basket-loaded"></i>Boletos em aberto
+								<i class="icon-basket-loaded"></i> Boletos em aberto
 								<span class="badge badge-pill badge-danger">#{homeController.calcularQtdBoletoAberto(contrato)}</span>
 							</a>
 						</li>
@@ -111,6 +117,14 @@
 						href="#messages4_#{contrato.id}" role="tab"
 						aria-controls="messages"><i class="icon-pie-chart"></i>
 							#{resources['label.global.promessapagamento']}</a></li>
+					</ui:fragment>		 
+					<ui:fragment rendered="#{contrato.autenticacoes ne null and not empty contrato.autenticacoes}">	
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab"
+							href="#medidor4_#{contrato.id}" role="tab"
+							aria-controls="messages"><i class="fa fa-bar-chart"></i>
+								#{resources['label.global.medidordetrafego']}</a>
+						</li>
 					</ui:fragment>		 
 				</ul>
 
@@ -189,7 +203,7 @@
 					<div class="tab-pane" id="profile4_#{contrato.id}" role="tabpanel">
 						
 						<ui:fragment rendered="#{contrato.boletos eq null or empty contrato.boletos}">
-								<p>Parabéns, você não possui boletos em aberto. </p>
+								<h4>Parabéns, você não possui boletos em aberto. </h4>
 						</ui:fragment>
 					
 						<h:dataTable id="idDataTableContratoBoleto" rendered="#{contrato.boletos ne null and  not empty contrato.boletos}" 
@@ -256,9 +270,295 @@
 						</div>
 					</ui:fragment>
 					
+					<ui:fragment rendered="#{contrato.autenticacoes ne null and not empty contrato.autenticacoes}">	
+						
+						<div class="tab-pane" id="medidor4_#{contrato.id}" role="tabpanel">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="card card-accent-info">
+										<div class="card-header">
+											<strong>#{resources['label.global.download']}</strong>
+										</div>
+										<div class="card-block">
+											<div class="row">
+												<div class="col-sm-12">
+													<div id="container_download_#{contrato.id}"
+														style="min-width: 100%; height: 400px; margin: 0 auto"></div>
+												</div>
+											</div>
+										</div>
+									</div>	
+								</div>
+								<div class="col-sm-6">
+									<div class="card card-accent-info">
+										<div class="card-header">
+											<strong>#{resources['label.global.upload']}</strong>
+										</div>
+										<div class="card-block">
+											<div class="row">
+												<div class="col-sm-12">
+													<div id="container_upload_#{contrato.id}"
+														style="min-width: 100%; height: 400px; margin: 0 auto"></div>
+												</div>
+											</div>
+										</div>
+									</div>	
+								</div>
+							</div>	
+						</div>
+					</ui:fragment>
+					
 					
 				</div>
 			</div>
+			
+			
+			
+			
+			<script>
+		//<![CDATA[
+
+
+
+			  $(document).ready(function () {
+
+				    var wsocket_#{contrato.id}; 
+				    var downloadAnterior_#{contrato.id}=0;
+		            var uploadAnterior_#{contrato.id}=0;
+				  
+				    Highcharts.setOptions({
+				        global: {
+				            useUTC: false
+				        },
+				        colors: [
+				           'rgba( 0,   154, 253, 0.9 )', //bright blue
+				            'rgba( 253, 99,  0,   0.9 )', //bright orange
+				            'rgba( 40,  40,  56,  0.9 )', //dark
+				            'rgba( 253, 0,   154, 0.9 )', //bright pink
+				            'rgba( 154, 253, 0,   0.9 )', //bright green
+				            'rgba( 145, 44,  138, 0.9 )', //mid purple
+				            'rgba( 45,  47,  238, 0.9 )', //mid blue
+				            'rgba( 177, 69,  0,   0.9 )', //dark orange
+				            'rgba( 140, 140, 156, 0.9 )', //mid
+				            'rgba( 238, 46,  47,  0.9 )', //mid red
+				            'rgba( 44,  145, 51,  0.9 )', //mid green
+				            'rgba( 103, 16,  192, 0.9 )' //dark purple
+				          ],
+				          chart: {
+				              alignTicks: false,
+				              type: '',
+				              margin: [60, 25, 100, 90],
+				              
+				             // borderRadius:10,
+				             // borderWidth:1,
+				            //  borderColor:'rgba(156,156,156,.25)',
+				            //  backgroundColor:'rgba(204,204,204,.25)',
+				              plotBackgroundColor:'rgba(255,255,255,1)',
+				              
+				            }
+				    });
+
+				   var charDownload_#{contrato.id} =  Highcharts.chart('container_download_#{contrato.id}', {
+				        chart: {
+				            type: 'column',
+				            marginRight: 20,
+				            events: {
+				                load: function () {
+			
+				                    
+				                }
+				            }
+				        },
+				        title: {
+				            text: 'Download'
+				        },
+				        xAxis: {
+				            type: 'datetime',
+				            tickPixelInterval: 2
+				        },
+				        yAxis: {
+				            title: {
+				                text: 'Mb/s'
+				            },
+				            plotLines: [{
+				                value: 0,
+				                width: 1,
+				                color: '#808080' 
+				            }]
+				        },
+				        tooltip: {
+				            formatter: function () {
+				                return '<b>' + this.series.name + '</b><br/>' +
+				                    Highcharts.dateFormat('%H:%M:%S', this.x) + '<br/>' +
+				                    Highcharts.numberFormat(this.y, 3);
+				            }
+				        },
+				        legend: {
+				            enabled: true
+				        },
+				        plotOptions: {
+				        	series: {
+				                pointPadding: 0,
+				                groupPadding: 0,
+				                borderWidth: 0.5,
+				                borderColor: 'rgba(255,255,255,0.5)',
+				                color: Highcharts.getOptions().colors[1]
+				              }
+				        },
+				        exporting: {
+				            enabled: false
+				        },
+				        series: [{
+				            name: 'Download',
+				            lineWidth: 4,
+				            data: (function () {
+				                var data = [],
+				                    time = (new Date()).getTime(),
+				                    i;
+			
+				                for (i = -20; i <= 0; i += 1) {
+				                    data.push({
+				                        x: time + i * 1000,
+				                        y: 0
+				                    });
+				                }
+			
+				                return data;
+				            }())
+				        }]
+				    });
+
+
+					
+				    var charUpload_#{contrato.id} = Highcharts.chart('container_upload_#{contrato.id}', {
+				        chart: {
+				            type: 'column',
+				            marginRight: 20,
+				            events: {
+				                load: function () {
+				                    
+				                }
+				            }
+				        },
+				        title: {
+				            text: 'Upload'
+				        },
+				        xAxis: {
+				            type: 'datetime',
+				            tickPixelInterval: 2
+				        },
+				        yAxis: {
+				            title: {
+				                text: 'Mb/s'
+				            },
+				            plotLines: [{
+				                value: 0,
+				                width: 1,
+				                color: '#808080'
+				            }]
+				        },
+				        tooltip: {
+				            formatter: function () {
+				                return '<b>' + this.series.name + '</b><br/>' + Highcharts.dateFormat('%H:%M:%S', this.x) + '<br/>' +
+				                    Highcharts.numberFormat(this.y,4);
+				            }
+				        },
+				        legend: {
+				            enabled: true
+				        },
+				        plotOptions: {
+				        	series: {
+				                pointPadding: 0,
+				                groupPadding: 0,
+				                borderWidth: 0.5,
+				                borderColor: 'rgba(255,255,255,0.5)',
+				                color: Highcharts.getOptions().colors[7]
+				              }
+				        },
+				        exporting: {
+				            enabled: false
+				        },
+				        series: [{
+				            name: 'Upload',
+				            lineWidth: 4,
+				            data: (function () {
+				                // generate an array of random data
+				                var data = [],
+				                    time = (new Date()).getTime(),
+				                    i;
+			
+				                for (i = -20; i <= 0; i += 1) {
+				                    data.push({
+				                        x: time + i * 1000,
+				                        y: 0
+				                    });
+				                }
+			
+				                return data;
+				            }())
+				        }]
+				    });
+
+
+					  function connect_#{contrato.id}() {         
+/* 						wsocket_#{contrato.id} = new WebSocket("ws://177.190.160.251:8080/itm/snmpserver");        */
+						wsocket_#{contrato.id} = new WebSocket("ws://${request.requestURL.substring(6,request.requestURL.indexOf('/pages') )}/snmpclienteserver");       
+						wsocket_#{contrato.id}.onmessage = onMessage_#{contrato.id};  
+						wsocket_#{contrato.id}.onopen = onOpen_#{contrato.id};  
+					  }
+					
+				      function onMessage_#{contrato.id}(evt) {  
+					     obj = JSON.parse(evt.data);
+					     
+						 x = (new Date()).getTime();
+						 if(downloadAnterior_#{contrato.id} > 0){ 
+								yDownload = (((obj.download - downloadAnterior_#{contrato.id})* 8/1024)/1024);
+								yDownload = yDownload < 0 ? yDownload * (-1):yDownload;
+			             }else{
+								yDownload =0;
+				         }
+				         downloadAnterior_#{contrato.id} = obj.download;
+
+						 if(uploadAnterior_#{contrato.id} > 0){ 
+								yUpload = (((obj.upload - uploadAnterior_#{contrato.id})* 8/1024)/1024);
+								yUpload = yUpload < 0 ? yUpload * (-1):yUpload;
+			             }else{
+								yUpload =0;
+				         }
+						 uploadAnterior_#{contrato.id} = obj.upload;
+
+						 //if(yDownload > 0.1){
+							 charDownload_#{contrato.id}.series[0].addPoint([x, yDownload], true, true);
+						 //}
+						 //if(yUpload > 0.1){
+							 charUpload_#{contrato.id}.series[0].addPoint([x, yUpload], true, true);
+						 //}
+					          
+				      }
+
+				      function onOpen_#{contrato.id}(evt) {             
+				    	  wsocket_#{contrato.id}.send("#{contrato.autenticacoes.get(0).username}");          
+					  }
+					  connect_#{contrato.id}();
+				    
+				});
+		      
+		//]]>
+		</script>
+		
+		<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
+			<script>
+				$('#clock_#{contrato.id}').countdown('#{homeController.formatDate(contrato.dataParaBloqueio)}', {elapse: true})
+					.on('update.countdown', function(event) {
+					  var $this = $(this);
+					  if (event.elapsed) {
+					    $this.html(event.strftime('<span style="color:#b00">Executado</span>'));
+					  } else {
+					    $this.html(event.strftime('<span >%D dias %H:%M:%S</span>'));
+					  }
+				});
+	    	</script>
+    	</ui:fragment>
 		</ui:repeat>
 	</h:form>
 	

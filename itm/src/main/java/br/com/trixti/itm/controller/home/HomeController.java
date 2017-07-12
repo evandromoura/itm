@@ -25,6 +25,7 @@ import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.service.snmp.SnmpService;
 import br.com.trixti.itm.to.HomeTO;
 import br.com.trixti.itm.util.UtilArquivo;
+import br.com.trixti.itm.util.UtilData;
 
 @ManagedBean
 @ViewScoped
@@ -148,4 +149,8 @@ public class HomeController extends AbstractController<Object>{
 		return cont;
 	}
 	
+	public String formatDate(Date date){
+		UtilData utilData = new UtilData();
+		return utilData.formatDate(date, "yyyy/MM/dd HH:mm:ss");
+	}
 }
