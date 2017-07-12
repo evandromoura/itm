@@ -35,13 +35,15 @@ public class LoginController extends AbstractController<Object>{
 		if(cliente != null){
 			getLoginTO().setCliente(cliente);
 		}else{
-			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario nao existe", "O Registro foi excluido na base"));
+			String messageText = getMessage("label.global.usuarionaoexiste");
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, messageText, messageText));
 		}	
 	}
 	
 	public void gravarCliente(){
 		clienteService.alterar(getLoginTO().getCliente());
-		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Primeiro acesso cadastrado com sucesso!", "O Registro foi excluido na base"));
+		String messageText = getMessage("label.global.primeiroacessocadastrosucesso");
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, messageText, messageText));
 		credentials.setUserId(getLoginTO().getCliente().getEmail());
 		credentials.setPassword(getLoginTO().getCliente().getSenha());
 		identity.login();

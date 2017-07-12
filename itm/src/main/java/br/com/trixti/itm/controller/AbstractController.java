@@ -2,6 +2,7 @@ package br.com.trixti.itm.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -71,4 +72,10 @@ public class AbstractController<T> {
 	        }   
 	        return builder.toString();
 	    }
+	 
+	 
+	public String getMessage(String label){
+		ResourceBundle rb = ResourceBundle.getBundle("resources", getFacesContext().getViewRoot().getLocale());
+		return rb.getString(label);
+	}
 }

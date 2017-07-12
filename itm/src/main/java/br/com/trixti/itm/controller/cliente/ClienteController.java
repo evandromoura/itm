@@ -68,7 +68,8 @@ public class ClienteController extends AbstractController<Cliente> {
 	public void pesquisar(){
 		getClienteTO().setClientes(clienteService.pesquisar(getClienteTO().getClientePesquisa()));
 		if(getClienteTO().getClientes().isEmpty()){
-			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nenhum Registro Encontrado", "Refaça a pesquisa"));
+			String mensagem = getMessage("label.global.nenhumregistroencontrado");
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensagem, mensagem));
 		}
 	}
 	
@@ -76,11 +77,13 @@ public class ClienteController extends AbstractController<Cliente> {
 		getClienteTO().getCliente().setUsuarioUltimaAtualizacao(customIdentity.getUsuario());
 		if(getClienteTO().getCliente().getId() == null){
 			clienteService.incluir(getClienteTO().getCliente());
-			 getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));
+			 String mensagem = getMessage("label.global.cadastrosucesso");
+			 getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
 			 getFacesContext().getExternalContext().getFlash().setKeepMessages(true);
 		}else{
+			String mensagem = getMessage("label.global.alterarsucesso");
 			clienteService.alterar(getClienteTO().getCliente());
-			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Alterado com Sucesso", "O Registro foi alterado na base"));
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
 			getFacesContext().getExternalContext().getFlash().setKeepMessages(true);
 		}
 		return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
@@ -89,7 +92,8 @@ public class ClienteController extends AbstractController<Cliente> {
 	public void excluirContrato(Contrato contrato){
 		contratoService.excluir(contratoService.recuperarCompleto(contrato.getId()));
 		getClienteTO().getCliente().getContratos().remove(contrato);
-		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi excluido na base"));
+		String mensagem = getMessage("label.global.excluirsucesso");
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
 	}
 	
 	public String cancelar(){
@@ -99,7 +103,8 @@ public class ClienteController extends AbstractController<Cliente> {
 	
 	public void excluir(){
 		clienteService.excluir(clienteService.recuperar(getClienteTO().getCliente().getId()));
-		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi excluido na base"));
+		String mensagem = getMessage("label.global.excluirsucesso");
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
 		pesquisar();
 	}
 	
