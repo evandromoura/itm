@@ -1,6 +1,7 @@
 package br.com.trixti.itm.to;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,10 @@ public class HomeTO {
 	}
 	public List<String> getListaKeySnmp(){
 		return new ArrayList<String>(getListaSnmp().keySet());
+	}
+	
+	public Date getDataAtual(){
+		return new Date();
 	}
 
 }

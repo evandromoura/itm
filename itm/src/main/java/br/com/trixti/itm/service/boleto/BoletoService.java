@@ -84,6 +84,10 @@ public class BoletoService extends AbstractService<Boleto>{
 		return boletoDAO.pesquisarBoletoEmAbertoContrato(contrato);
 	}
 	
+	public List<Boleto> pesquisarBoletoEmAbertoContratoComAviso(Contrato contrato) {
+		return boletoDAO.pesquisarBoletoEmAbertoContratoComAviso(contrato);
+	}
+	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void excluirPorContrato(Contrato contrato){
 		boletoLancamentoService.excluirPorContrato(contrato);

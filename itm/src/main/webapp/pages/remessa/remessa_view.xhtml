@@ -120,6 +120,16 @@
 										<f:convertNumber pattern="#,##0.00" /> 
 									</h:outputText>
 								</h:column>
+								
+								<h:column>
+									<f:facet name="header">
+										#{resources['label.global.diferenca']} R$
+									</f:facet>
+									<h:outputText value="#{boleto.valor.subtract(boleto.valorPago)}" rendered="#{boleto.valorPago ne null}">
+										<f:convertNumber pattern="#,##0.00" /> 
+									</h:outputText>
+								</h:column>
+								
 								<h:column>
 									<f:facet name="header">
 										#{resources['label.global.datapagamento']}

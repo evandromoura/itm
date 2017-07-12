@@ -67,7 +67,7 @@ public class SMSService extends AbstractService<SMS> {
 		UtilData utilData = new UtilData();
 		UtilString utilString = new UtilString();
 		StringBuilder sb = new StringBuilder();
-		sb.append("Fatura de "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utilData.getMes(new Date())), 2)));
+		sb.append("Fatura de "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utilData.getMes(boleto.getDataVencimento())), 2)));
 		sb.append("\n"); 
 		sb.append("Valor: R$"+boleto.getValor());
 		sb.append("\n");

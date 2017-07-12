@@ -15,9 +15,9 @@
 				<h:form>
 				<h:commandLink action="#{homeController.enviarSMS()}"
 					value="Enviar SMS" />
-					
-					
-								<br />
+
+
+				<br />
 				<br />
 				<br />
 				<div class="card card-accent-info">
@@ -25,215 +25,43 @@
 						<i class="fa fa-plus-square-o" /> <strong>SNMP</strong>
 					</div>
 					<div class="row">
-							<div class="col-sm-12">
-								<div class="form-group">
-									<div>
-										<h:inputText value="#{homeController.homeTO.oid}" id="oid" styleClass="form-control" />
-										<h:commandLink action="#{homeController.recarregarLog}" value="#{resources['label.global.recarregar']}" styleClass="btn btn-success">
-										</h:commandLink>
-									</div>
+						<div class="col-sm-12">
+							<div class="form-group">
+								<div>
+									<h:inputText value="#{homeController.homeTO.oid}" id="oid"
+										styleClass="form-control" />
+									<h:commandLink action="#{homeController.recarregarLog}"
+										value="#{resources['label.global.recarregar']}"
+										styleClass="btn btn-success">
+									</h:commandLink>
 								</div>
-								<div class="form-group">
-									<h:dataTable value="#{homeController.homeTO.listaKeySnmp}" var="key" styleClass="table">
-										<h:column>
-											<f:facet name="header">
+							</div>
+							<div class="form-group">
+								<h:dataTable value="#{homeController.homeTO.listaKeySnmp}"
+									var="key" styleClass="table">
+									<h:column>
+										<f:facet name="header">
 												ID
 											</f:facet>
 											#{key}
 										</h:column>
-										<h:column>
-											<f:facet name="header">
+									<h:column>
+										<f:facet name="header">
 												Valor
 											</f:facet>
 											#{homeController.homeTO.listaSnmp.get(key)}
 										</h:column>
-									</h:dataTable>
-									</div>	
-								</div>
+								</h:dataTable>
 							</div>
-					</div>
-					
-	
-			</h:form>
-		</ui:fragment>
-		<ui:fragment rendered="#{securityBean.isPermissao('CLIENTE')}">
-			<h:form>
-				<div class="col-md-12">
-					<div class="card card-accent-info">
-						<div class="card-header">
-							<i class="fa fa-newspaper-o" /><strong>#{resources['label.global.minhasinformacoes']}</strong>
-						</div>
-						<div class="card-block">
-							<div class="row">
-								<div class="col-sm-4">
-									<div class="form-group">
-										<label for="formCliente:cliente_nome">#{resources['label.global.nome']}:</label><br />
-										#{homeController.homeTO.cliente.nome}
-									</div>
-								</div>
-								<h:panelGroup id="idTipoPessoa" styleClass="col-sm-8">
-									<ui:fragment
-										rendered="#{homeController.homeTO.cliente.tipoPessoa.name eq 'FISICA'}">
-										<div class="form-group">
-											<label>#{resources['label.global.cpf']}:</label><br />#{homeController.homeTO.cliente.cpfCnpj}
-										</div>
-									</ui:fragment>
-									<ui:fragment
-										rendered="#{homeController.homeTO.cliente.tipoPessoa.name eq 'JURIDICA'}">
-										<div class="col-sm-8">
-											<div class="form-group">
-												<label>#{resources['label.global.cnpj']}:</label>
-												#{homeController.homeTO.cliente.cpfCnpj}
-											</div>
-										</div>
-									</ui:fragment>
-								</h:panelGroup>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-4">
-									<div class="form-group">
-										<label for="formCliente:cliente_telefone_celular">#{resources['label.global.endereco']}:</label><br />
-										#{homeController.homeTO.cliente.endereco}
-									</div>
-								</div>
-								<div class="col-sm-1">
-									<div class="form-group">
-
-										<label>#{resources['label.global.numero']}:</label><br />
-										#{homeController.homeTO.cliente.numeroEndereco}
-									</div>
-								</div>
-								<div class="col-sm-4">
-									<div class="form-group">
-										<label for="formCliente:cliente_telefone_celular">#{resources['label.global.bairro']}:</label><br />
-										#{homeController.homeTO.cliente.bairro}
-									</div>
-								</div>
-								<div class="col-sm-1">
-									<div class="form-group">
-										<label for="formCliente:cliente_telefone_cidade">#{resources['label.global.cidade']}:</label><br />
-										#{homeController.homeTO.cliente.cidade}
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-sm-2">
-									<div class="form-group">
-										<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}:</label><br />
-										#{homeController.homeTO.cliente.telefoneCelular}
-									</div>
-								</div>
-							</div>
-
 						</div>
 					</div>
 				</div>
-				
-				
-				
-				
 
 
-								<div class="col-md-12 mb-2">
-									<ul class="nav nav-tabs" role="tablist">
-										<ui:repeat var="contrato" value="#{customIdentity.cliente.contratos}" varStatus="status">
-											<li class="nav-item">
-												<a class="nav-link #{status.index eq 0 ?'active':''}" data-toggle="tab" href="##{contrato.identificador}" role="tab" aria-controls="home" aria-expanded="true">
-													<i class="icon-calculator"></i> #{contrato.identificador} 
-													<span class="badge badge-success">#{contrato.status.name}</span>
-												</a>
-											</li>
-										</ui:repeat>
-									</ul>
-									<div class="tab-content">
-										<ui:repeat var="contrato" value="#{customIdentity.cliente.contratos}" varStatus="status">
-											<div class="tab-pane  #{status.index eq 0 ?'active':''}" id="#{contrato.identificador}" role="tabpanel" aria-expanded="true">
-											<table class="table">
-												<thead>
-													<tr>
-														<th>
-															#{resources['label.global.datacadastro']}
-														</th>
-														
-														<th>
-															#{resources['label.global.diamesvencimento']}
-														</th>
-													</tr>	
-												</thead>
-												<tr>
-													<td>
-														<h:outputText value="#{contrato.dataCriacao}">
-															<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
-														</h:outputText>
-													</td>
-													<td>
-														#{contrato.diaMesVencimento}
-													</td>
-												</tr>
-											
-											</table>
-											<br />
-											<h4>#{resources['label.global.ultimosboletos']}</h4>
-											
-											<h:dataTable
-										value="#{homeController.homeTO.listaUltimosBoletos}"
-										var="boleto" styleClass="table table-bordered table-striped">
-
-										<h:column>
-											<f:facet name="header">
-	                                        				#{resources['label.global.datavencimento']}
-	                                        			</f:facet>
-											<h:outputText value="#{boleto.dataVencimento}">
-												<f:convertDateTime pattern="dd/MM/yyyy" />
-											</h:outputText>
-										</h:column>
-
-
-										<h:column>
-											<f:facet name="header">
-	                                        				#{resources['label.global.valor']}
-	                                        			</f:facet>
-											<h:outputText value="#{boleto.valor}">
-												<f:convertNumber pattern="#,##0.00" />
-											</h:outputText>
-										</h:column>
-										<h:column>
-											<f:facet name="header">
-	                                        				#{resources['label.global.itens']}
-	                                        			</f:facet>
-											<ul>
-												<ui:repeat var="lancamento" value="#{boleto.lancamentos}">
-													<li>#{lancamento.contratoLancamento.descricao}</li>
-												</ui:repeat>
-											</ul>
-										</h:column>
-
-										<h:column>
-											<f:facet name="header">
-	                                        				#{resources['label.global.status']}
-	                                        			</f:facet>
-											<h:outputText value="#{boleto.status}" />
-										</h:column>
-
-										<h:column>
-											<f:facet name="header">
-                                   				#{resources['label.global.acoes']}
-                                   			</f:facet>
-											<h:commandLink
-												action="#{homeController.downloadBoleto(boleto)}"
-												value="Download" />
-										</h:column>
-
-									</h:dataTable>
-											
-											</div>
-												
-										</ui:repeat>		
-									</div>
-								</div>
-				
 			</h:form>
+		</ui:fragment>
+		<ui:fragment rendered="#{securityBean.isPermissao('CLIENTE')}">
+			<ui:include src="include_home_cliente.xhtml" />
 		</ui:fragment>
 	</ui:define>
 

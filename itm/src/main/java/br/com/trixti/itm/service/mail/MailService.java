@@ -43,7 +43,7 @@ public class MailService {
 		File arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
 		UtilData utildata = new UtilData();
 		UtilString utilString = new UtilString();
-		String titulo = "ITRIX Sua fatura do mês "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utildata.getMes(new Date())), 2))+" chegou!";
+		String titulo = "ITRIX Sua fatura do mês "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utildata.getMes(boleto.getDataVencimento())), 2))+" chegou!";
 		final Parametro parametro = parametroService.recuperarParametro();
 		Properties props = new Properties();
 		String from = "itrixcobranca@gmail.com";
@@ -51,7 +51,6 @@ public class MailService {
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", parametro.getSmtp());
 		props.put("mail.smtp.port", parametro.getPortaSmtp().toString());
-
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(parametro.getLoginEmail(), parametro.getSenhaEmail());
@@ -79,10 +78,12 @@ public class MailService {
 			boleto.setDataNotificacao(new Date());
 			boletoService.alterar(boleto);
 			
-			
-			
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
+		}finally {
+			if(arquivoBoleto != null){
+				arquivoBoleto.delete();
+			}
 		}
 		
 	}

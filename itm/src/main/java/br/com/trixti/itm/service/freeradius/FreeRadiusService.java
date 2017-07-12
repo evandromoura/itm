@@ -91,12 +91,14 @@ public class FreeRadiusService {
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void bloquearContrato(Contrato contrato) {
-		Radcheck radcheck = new Radcheck();
-		radcheck.setAttribute("Auth-Type");
-		radcheck.setOp(":=");
-		radcheck.setValue("Reject");
-		radcheck.setUsername(contrato.getAutenticacoes().get(0).getUsername());
-		radcheckService.incluir(radcheck);
+		if(contrato.getAutenticacoes() != null && !contrato.getAutenticacoes().isEmpty()){
+			Radcheck radcheck = new Radcheck();
+			radcheck.setAttribute("Auth-Type");
+			radcheck.setOp(":=");
+			radcheck.setValue("Reject");
+			radcheck.setUsername(contrato.getAutenticacoes().get(0).getUsername());
+			radcheckService.incluir(radcheck);
+		}	
 	}
 	
 	public void desbloquearContrato(Contrato contrato){

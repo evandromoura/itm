@@ -39,12 +39,21 @@ public class ClienteViewController  extends AbstractController<Cliente>{
 	
 	
 	public void downloadBoleto(Boleto boleto) throws Exception{
-		File arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
-		if(arquivoBoleto != null){
-			UtilArquivo utilArquivo = new UtilArquivo();
-			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-			utilArquivo.convertFileToByteArrayOutputStream(arquivoBoleto, byteArrayOutputStream);
-			download(byteArrayOutputStream, arquivoBoleto.getName());
+		File arquivoBoleto = null;
+		try{
+			arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
+			if(arquivoBoleto != null){
+				UtilArquivo utilArquivo = new UtilArquivo();
+				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+				utilArquivo.convertFileToByteArrayOutputStream(arquivoBoleto, byteArrayOutputStream);
+				download(byteArrayOutputStream, arquivoBoleto.getName());
+			}	
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			if(arquivoBoleto != null){
+				arquivoBoleto.delete();
+			}
 		}	
 	}
 

@@ -2,6 +2,7 @@ package br.com.trixti.itm.controller.home;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -13,9 +14,12 @@ import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.SMS.SMSBuilder;
+import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
+import br.com.trixti.itm.service.contrato.ContratoService;
+import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.radacct.RadacctService;
 import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.service.snmp.SnmpService;
@@ -33,6 +37,8 @@ public class HomeController extends AbstractController<Object>{
 	private @Inject GeradorBoletoService geradorBoletoService;
 	private @Inject SMSService smsService;
 	private @Inject SnmpService snmpService;
+	private @Inject MailService mailService;
+	private @Inject ContratoService contratoService;
 	
 	@PostConstruct
 	private void init(){
@@ -52,8 +58,9 @@ public class HomeController extends AbstractController<Object>{
 	
 	
 	public void downloadBoleto(Boleto boleto) throws Exception {
+		File arquivoBoleto = null;
 		try {
-			File arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
+			arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
 			if (arquivoBoleto != null) {
 				UtilArquivo utilArquivo = new UtilArquivo();
 				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -64,6 +71,32 @@ public class HomeController extends AbstractController<Object>{
 			e.printStackTrace();
 			getFacesContext().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage()));
+		}finally {
+			if(arquivoBoleto != null){
+				arquivoBoleto.delete();
+			}
+		}	
+	}
+	
+	public void downloadSegundaViaBoleto(Boleto boleto) throws Exception {
+		File arquivoBoleto = null;
+		try {
+			boleto.setDataVencimento(new Date());
+			arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
+			if (arquivoBoleto != null) {
+				UtilArquivo utilArquivo = new UtilArquivo();
+				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+				utilArquivo.convertFileToByteArrayOutputStream(arquivoBoleto, byteArrayOutputStream);
+				download(byteArrayOutputStream, arquivoBoleto.getName());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			getFacesContext().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage()));
+		}finally {
+			if(arquivoBoleto != null){
+				arquivoBoleto.delete();
+			}
 		}	
 	}
 	
@@ -74,6 +107,21 @@ public class HomeController extends AbstractController<Object>{
 	
 	public void enviarSMS(){
 		smsService.enviarSMS(new SMSBuilder().dddTelefone("61").numeroTelefone("992988839").mensagem("Seu boleto foi gerado").build());
+	}
+	
+	public void enviarEmail(Boleto boleto){
+		mailService.enviarEmail(boleto);
+		getFacesContext().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado com sucesso!", "Email enviado com sucesso!"));
+	}
+	
+	public void enviarSMS(Boleto boleto){
+		smsService.enviarSMS(boleto);
+		getFacesContext().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "SMS enviado com sucesso!", "SMS enviado com sucesso!"));
+	}
+	
+	public void promessaPagamento(Contrato contrato){
+		contratoService.promessaPagamento(contrato);
+		getFacesContext().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Promessa registrada com sucesso! Em breve sua internet será desbloqueada", "Promessa registrada com sucesso! Em breve sua internet será desbloqueada"));
 	}
 
 	public HomeTO getHomeTO() {
@@ -90,6 +138,14 @@ public class HomeController extends AbstractController<Object>{
 	public void recarregarLog(){
 		getHomeTO().setListaSnmp(null);
 		getHomeTO().setListaSnmp(snmpService.snmpWalk("",getHomeTO().getOid()));
+	}
+	
+	public Integer calcularQtdBoletoAberto(Contrato contrato){
+		Integer cont = 0;
+		for(Boleto boleto:contrato.getBoletos()){
+			cont = boleto.getStatus().equals(StatusBoletoEnum.ABERTO)?cont+1:cont;
+		}
+		return cont;
 	}
 	
 }

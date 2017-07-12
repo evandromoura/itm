@@ -121,7 +121,7 @@
 						<div class="card-block">
 							<h:dataTable var="cliente" id="dataTableClientes"
 								value="#{clienteController.clienteTO.clientes}" style="width:100%" 
-								styleClass="table table-striped" binding="#{tabela}">
+								styleClass="table table-striped table-responsive" binding="#{tabela}">
 								<h:column>
 									<f:attribute name="style" value="visible-md visible-lg" />
 									<f:facet name="header">#</f:facet>
@@ -151,18 +151,18 @@
 								<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.telefoneCelular}</a></h:column>
 								
 								<h:column><f:facet name="header">#{resources['label.global.acoes']}</f:facet>
-								<div>
-									<a href="#{request.contextPath}/cliente/editar/#{cliente.id}" class="btn btn-md btn-info">
-										<i class="fa fa-pencil-square-o" /> #{resources['label.global.editar']}
-									</a>  
-									<h:outputText value=" " />
-									<h:commandButton value="#{resources['label.global.excluir']}" styleClass="btn btn-danger">
-								        <f:setPropertyActionListener target="#{clienteController.clienteTO.cliente}" value="#{cliente}" />
-								        <f:ajax />
-								       	<f:passThroughAttribute name="data-toggle" value="modal" />
-										<f:passThroughAttribute name="data-target" value="#idConfirmExcluirCliente" />
-								    </h:commandButton>
-								</div>
+									<div>
+										<a href="#{request.contextPath}/cliente/editar/#{cliente.id}" class="btn btn-md btn-info">
+											<i class="fa fa-pencil-square-o" /> #{resources['label.global.editar']}
+										</a>  
+										<h:outputText value=" " />
+										<h:commandButton value="#{resources['label.global.excluir']}" styleClass="btn btn-danger">
+									        <f:setPropertyActionListener target="#{clienteController.clienteTO.cliente}" value="#{cliente}" />
+									        <f:ajax />
+									       	<f:passThroughAttribute name="data-toggle" value="modal" />
+											<f:passThroughAttribute name="data-target" value="#idConfirmExcluirCliente" />
+									    </h:commandButton>
+									</div>
 								</h:column>
 							</h:dataTable>
 						</div>

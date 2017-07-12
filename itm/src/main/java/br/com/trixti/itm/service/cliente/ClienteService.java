@@ -14,6 +14,7 @@ import br.com.trixti.itm.dao.cliente.ClienteDAO;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.service.AbstractService;
+import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 
@@ -30,7 +31,7 @@ public class ClienteService extends AbstractService<Cliente> {
 	private @Inject ClienteDAO clienteDAO;
 	private @Inject ContratoService contratoService;
 	private @Inject FreeRadiusService freeRadiusService;
-	
+	private @Inject BoletoService boletoService;
 	
 	@Override
 	public AbstractDAO<Cliente> getDAO() {
@@ -76,9 +77,14 @@ public class ClienteService extends AbstractService<Cliente> {
 		super.excluir(entidade);
 	}
 	
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public Cliente recuperarPorAutenticacao(String username,String senha){
 		try{
-			return clienteDAO.recuperarPorAutenticacao(username, senha);
+			Cliente cliente =clienteDAO.recuperarPorAutenticacao(username, senha);
+			for(Contrato contrato:cliente.getContratos()){
+				contrato.setBoletos(boletoService.pesquisarBoletoEmAbertoContratoComAviso(contrato));
+			}
+			return cliente;
 		}catch(Exception e){
 			return null;
 		}	

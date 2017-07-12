@@ -83,7 +83,8 @@ public class FinanceiroThread {
 	}
 	
 	
-	@Schedule(info="Bloquear-Contrato", hour = "12", persistent = false)
+//	@Schedule(info="Bloquear-Contrato", hour = "12", persistent = false)
+	@Schedule(info="Bloquear-Contrato", minute = "*", hour = "*", persistent = false)
 	public void bloquearContrato() {
 		parametro = parametroService.recuperarParametro();
 		List<Cliente> clientes = clienteService.listarAtivo();
@@ -190,7 +191,7 @@ public class FinanceiroThread {
 		}
 		if(desbloquear && contrato.getStatus().equals(StatusContrato.BLOQUEADO)){
 			contrato.setStatus(StatusContrato.ATIVO);
-			contrato.setDataParaBloqueio(null);
+//			contrato.setDataParaBloqueio(null);
 			contratoService.alterar(contrato);
 			freeRadiusService.desbloquearContrato(contrato);
 		}

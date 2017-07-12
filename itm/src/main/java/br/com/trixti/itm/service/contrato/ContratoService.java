@@ -93,6 +93,7 @@ public class ContratoService extends AbstractService<Contrato> {
 	
 	@Override
 	public void alterar(Contrato entidade) {
+		criarLancamentoCredito(entidade);
 		super.alterar(entidade);
 		for(ContratoProduto contratoProduto:entidade.getContratoProdutos()){
 			if(contratoProduto.getId() == null){
@@ -127,8 +128,6 @@ public class ContratoService extends AbstractService<Contrato> {
 			}	
 		}
 		freeRadiusService.sincronizarContrato(entidade);
-		criarLancamentoCredito(entidade);
-		super.alterar(entidade);
 	}
 	
 	public List<Contrato> listarAtivo() {
@@ -159,6 +158,12 @@ public class ContratoService extends AbstractService<Contrato> {
 		}	
 		super.excluir(entidade);
 	}
-	
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void promessaPagamento(Contrato contrato) {
+		UtilData utilData = new UtilData();
+		contrato.setDataParaBloqueio(utilData.adicionaDias(new Date(), 5));
+		super.alterar(contrato);
+	}
 	
 }

@@ -11,8 +11,10 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
+import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoProduto;
 
 
 @Stateless
@@ -72,9 +74,26 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 				for(Contrato contrato:cliente.getContratos()){
 					if(contrato.getAutenticacoes() != null){
 						contrato.getAutenticacoes().size();
-					}	
+					}
+					if(contrato.getContratoProdutos() != null){
+						for(ContratoProduto contratoProduto:contrato.getContratoProdutos()){
+							if(contratoProduto.getProduto() != null){
+								contratoProduto.getProduto().getId();
+							}
+						}
+					}
+//					if(contrato.getBoletos() != null){
+//						for(Boleto boleto:contrato.getBoletos()){
+//							if(boleto.getLancamentos() != null){ 
+//								boleto.getLancamentos().size();
+//							}	
+//						}
+//					}
 				}
+				
 			}
+			
+			
 		}	
 		return cliente;
 	}
