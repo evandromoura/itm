@@ -39,11 +39,9 @@ public class MailService {
 	private @Inject BoletoService boletoService;
 
 	@Asynchronous
-	public void enviarEmail(Boleto boleto) {
+	public void enviarEmail(Boleto boleto,String titulo, String texto) {
 		File arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
-		UtilData utildata = new UtilData();
-		UtilString utilString = new UtilString();
-		String titulo = "ITRIX Sua fatura do mês "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utildata.getMes(boleto.getDataVencimento())), 2))+" chegou!";
+		titulo = (titulo == null || titulo.equals(""))?comporTitulo(boleto):titulo;
 		final Parametro parametro = parametroService.recuperarParametro();
 		Properties props = new Properties();
 		String from = "itrixcobranca@gmail.com";
@@ -56,7 +54,7 @@ public class MailService {
 				return new PasswordAuthentication(parametro.getLoginEmail(), parametro.getSenhaEmail());
 			}
 		});
-
+		
 		try {
 			
 			Message message = new MimeMessage(session);
@@ -64,7 +62,7 @@ public class MailService {
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(boleto.getContrato().getCliente().getEmail()+",boletos@trixti.com.br"));
 			message.setSubject(titulo);
 			BodyPart messageBodyPart = new MimeBodyPart();
-			messageBodyPart.setContent(UtilEmail.corpo,"text/html");
+			messageBodyPart.setContent(UtilEmail.corpo.replace("@@TEXTO", texto),"text/html");
 			Multipart multipart = new MimeMultipart();
 			multipart.addBodyPart(messageBodyPart);
 			messageBodyPart = new MimeBodyPart();
@@ -75,8 +73,10 @@ public class MailService {
 			message.setContent(multipart);
 			Transport.send(message);
 			System.out.println(boleto.getContrato().getCliente().getEmail() +" - Sent message successfully....");
-			boleto.setDataNotificacao(new Date());
-			boletoService.alterar(boleto);
+			if(boleto.getDataNotificacao() == null){
+				boleto.setDataNotificacao(new Date());
+				boletoService.alterar(boleto);
+			}	
 			
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
@@ -86,6 +86,13 @@ public class MailService {
 			}
 		}
 		
+	}
+
+	private String comporTitulo(Boleto boleto) {
+		UtilData utildata = new UtilData();
+		UtilString utilString = new UtilString();
+		String titulo = "ITRIX Sua fatura do mês "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utildata.getMes(boleto.getDataVencimento())), 2))+" chegou!";
+		return titulo;
 	}
 
 }

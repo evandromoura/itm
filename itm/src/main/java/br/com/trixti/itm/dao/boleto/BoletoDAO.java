@@ -51,6 +51,14 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 						getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO)))
 				.getResultList();
 	}
+	
+	public List<Boleto> pesquisarBoletoEmAberto() {
+		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
+		Root<Boleto> root = criteria.from(Boleto.class);
+		return getManager().createQuery(criteria.select(root)
+						.where(getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO)))
+				.getResultList();
+	}
 
 	public void excluirPorContrato(Contrato contrato) {
 		StringBuilder jql = new StringBuilder("DELETE FROM ");

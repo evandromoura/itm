@@ -62,12 +62,34 @@ public class SMSService extends AbstractService<SMS> {
 			e.printStackTrace();
 		}
 	}
+	@Asynchronous
+	public void enviarSMS(Boleto boleto,String msg){
+		try {
+			SMS sms = new SMSBuilder().dddTelefone("").numeroTelefone(boleto.getContrato().getCliente().getTelefoneCelular()).mensagem(comporTextoSMS(boleto,msg)).build();
+			sms.setDataCriacao(LocalDateTime.now());
+			smsDAO.incluir(sms);
+			envioSMSZenviaService.enviar(sms);
+		} catch (RestClientException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private String comporTextoSMS(Boleto boleto){
 		UtilData utilData = new UtilData();
 		UtilString utilString = new UtilString();
 		StringBuilder sb = new StringBuilder();
 		sb.append("Fatura de "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utilData.getMes(boleto.getDataVencimento())), 2)));
+		sb.append("\n"); 
+		sb.append("Valor: R$"+boleto.getValor());
+		sb.append("\n");
+		sb.append("Tel: 06134035393");
+		sb.append("\n");
+		sb.append("Cod Barra: "+geradorBoletoService.recuperarLinhaDigitavel(boleto));
+		return sb.toString();
+	}
+	private String comporTextoSMS(Boleto boleto,String texto){
+		StringBuilder sb = new StringBuilder();
+		sb.append(texto);
 		sb.append("\n"); 
 		sb.append("Valor: R$"+boleto.getValor());
 		sb.append("\n");

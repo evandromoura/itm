@@ -112,10 +112,16 @@
 												#{contratoViewController.contratoTO.contrato.cliente.nome}
 											</div>
 										</div>
-										<div class="col-sm-6">
+										<div class="col-sm-2">
 											<div class="form-group">
 												<label for="formContrato:contrato_diamesvencimento">#{resources['label.global.diamesvencimento']}:</label><br />
 												#{contratoViewController.contratoTO.contrato.diaMesVencimento}
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label for="formContrato:contrato_email">#{resources['label.global.email']}:</label><br />
+												#{contratoViewController.contratoTO.contrato.cliente.email}
 											</div>
 										</div>
 									</div>
@@ -539,20 +545,23 @@
 															
 															<h:column>
 																<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
-																<h:commandLink 
-																	action="#{contratoViewController.downloadBoleto(boleto)}"
-																	value="Download" /> | 
-																	<h:commandLink value="#{resources['label.global.excluir']}" rendered="#{boleto.remessa eq null or boleto.remessa.id eq null}">
-																		<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
-																	</h:commandLink>
-																	|<h:commandLink 
-																	action="#{contratoViewController.enviarEmail(boleto)}"
-																	value="Enviar Email" />
-																	
-																	|<h:commandLink 
-																	action="#{contratoViewController.enviarSMS(boleto)}"
-																	value="Enviar SMS" />
 																
+																<h:commandLink  styleClass="btn btn-secondary" action="#{contratoViewController.downloadBoleto(boleto)}">
+																	<i class="fa fa-download"></i> #{resources['label.global.download']}
+																</h:commandLink>
+																
+																<h:commandLink styleClass="btn btn-secondary" rendered="#{boleto.remessa eq null or boleto.remessa.id eq null}">
+																	<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
+																	<i class="fa fa-times"></i> #{resources['label.global.excluir']}
+																</h:commandLink>
+																
+																<h:commandLink  styleClass="btn btn-secondary" action="#{contratoViewController.enviarEmail(boleto)}">
+																	<i class="fa fa-envelope-o"></i> #{resources['label.global.enviaremail']} 
+																</h:commandLink>
+																
+																<h:commandLink  styleClass="btn btn-secondary" action="#{contratoViewController.enviarSMS(boleto)}">
+																	<i class="fa fa-commenting-o"></i> #{resources['label.global.enviarsms']} 
+																</h:commandLink>
 																
 															</h:column>
 														</h:dataTable>

@@ -256,11 +256,25 @@ public class UtilData {
 	 * @param quantidadeMeses int
 	 * @return Date
 	 */
-
+	
 	public  Date subtrairMeses(Date data, int quantidadeMeses) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(data);
 		cal.add(Calendar.MONTH, quantidadeMeses * -1);
+		return cal.getTime();
+	}
+	/**
+	 * M�todo que subtrai dias
+	 * 
+	 * @param data Date
+	 * @param quantidadeDias int
+	 * @return Date
+	 */
+
+	public  Date subtrairDias(Date data, int quantidadeDias) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(data);
+		cal.add(Calendar.DAY_OF_MONTH, quantidadeDias * -1);
 		return cal.getTime();
 	}
 

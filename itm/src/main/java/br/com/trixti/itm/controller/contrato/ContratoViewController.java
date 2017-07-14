@@ -83,11 +83,13 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	}
 	
 	public void enviarEmail(Boleto boleto){
-		mailService.enviarEmail(boleto);
+		mailService.enviarEmail(boleto,null,"Sua fatura está disponível");
+		getFacesContext().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado com sucesso!", "Email enviado com sucesso!"));
 	}
 
 	public void enviarSMS(Boleto boleto){
 		smsService.enviarSMS(boleto);
+		getFacesContext().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "SMS enviado com sucesso!", "SMS enviado com sucesso!"));
 	}
 	
 

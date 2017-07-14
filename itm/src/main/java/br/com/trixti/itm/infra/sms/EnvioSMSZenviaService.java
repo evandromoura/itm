@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import javax.annotation.PostConstruct;
 import javax.ejb.Asynchronous;
 import javax.ejb.Singleton;
+import javax.inject.Inject;
 
+import br.com.trixti.itm.dao.sms.SMSDAO;
 import br.com.trixti.itm.entity.SMS;
 import br.com.trixti.itm.entity.SituacaoSMSEnum;
 import br.com.trixti.itm.util.UtilData;
@@ -25,6 +27,7 @@ public class EnvioSMSZenviaService {
 	private static final String CONTA = "trix.int";
 	private static final String DDI = "55";
 	private static final String ITM = "ITRIX";
+	private @Inject SMSDAO smsdao;
 
 	private RestClient restClient;
 
@@ -95,6 +98,7 @@ public class EnvioSMSZenviaService {
 			sms.setSituacao(SituacaoSMSEnum.ERRO_DESCONHECIDO);
 		}
 		sms.setDataEnvio(LocalDateTime.now());
+		smsdao.alterar(sms);
 	}
 
 	private SingleMessageSms converterSMS(SMS sms) {

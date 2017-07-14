@@ -83,7 +83,6 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -93,9 +92,9 @@
 			<h4 class="text-center">(#{contrato.status.name})</h4>
 			<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
 				<h5 class="text-center">#{resources['label.global.tempoparabloqueio']}:<span id="clock_#{contrato.id}" /></h5>
-				<br />
-				<h:outputText value=" " />
 			</ui:fragment>
+			<br />
+			<h:outputText value=" " />
 			<div class="col-md-12 mb-2">
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="nav-item">

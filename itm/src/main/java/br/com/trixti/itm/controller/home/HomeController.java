@@ -111,7 +111,7 @@ public class HomeController extends AbstractController<Object>{
 	}
 	
 	public void enviarEmail(Boleto boleto){
-		mailService.enviarEmail(boleto);
+		mailService.enviarEmail(boleto,null,"Sua fatura está disponível");
 		getFacesContext().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Email enviado com sucesso!", "Email enviado com sucesso!"));
 	}
 	

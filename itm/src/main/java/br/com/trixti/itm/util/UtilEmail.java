@@ -1,6 +1,8 @@
 package br.com.trixti.itm.util;
 
 public class UtilEmail {
+
+	
 	public static String corpo = "	<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n" + 
 			"	<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
 			"	<head>\n" + 
@@ -344,7 +346,7 @@ public class UtilEmail {
 			"\n" + 
 			"																		</div>\n" + 
 			"																		<h2 style=\"text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px; font-weight: 900; margin-bottom:10px;color:#205478;line-height:135%; padding: 30px 0 0 0;\">ITRIX</h2>\n" + 
-			"																		<div style=\"text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;\">Sua fatura está disponível.</div>\n" + 
+			"																		<div style=\"text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;\">@@TEXTO</div>\n" + 
 			"																	</td>\n" + 
 			"																</tr>\n" + 
 			"															</table>\n" + 
