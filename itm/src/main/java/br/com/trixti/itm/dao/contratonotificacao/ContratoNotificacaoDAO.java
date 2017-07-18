@@ -1,6 +1,7 @@
 package br.com.trixti.itm.dao.contratonotificacao;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -25,5 +26,11 @@ public class ContratoNotificacaoDAO extends AbstractDAO<ContratoNotificacao> {
 				)).setMaxResults(1).getSingleResult();
 	}
 
+	public List<ContratoNotificacao> pesquisarUltimasNotificacoes(Contrato contrato) {
+		CriteriaQuery<ContratoNotificacao> criteria = getCriteriaBuilder().createQuery(ContratoNotificacao.class);
+		Root<ContratoNotificacao> root = criteria.from(ContratoNotificacao.class);
+		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("contrato"), contrato))
+						.orderBy(getCriteriaBuilder().desc(root.get("dataEnvio")))).setMaxResults(10).getResultList();
+	}
 
 }

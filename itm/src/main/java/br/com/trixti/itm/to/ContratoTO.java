@@ -2,9 +2,9 @@ package br.com.trixti.itm.to;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
+import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoLancamento;
@@ -53,6 +53,10 @@ public class ContratoTO {
 	private List<String> listaSnmp;
 	
 	private String oid;
+	
+	private Date dataSegundaViaBoleto;
+	
+	private Boleto boletoSegundaVia;
 
 	public Contrato getContrato() {
 		if (contrato == null) {
@@ -167,6 +171,25 @@ public class ContratoTO {
 	
 	public Date getDataAtual(){
 		return new Date();
+	}
+
+	public Date getDataSegundaViaBoleto() {
+		return dataSegundaViaBoleto;
+	}
+
+	public void setDataSegundaViaBoleto(Date dataSegundaViaBoleto) {
+		this.dataSegundaViaBoleto = dataSegundaViaBoleto;
+	}
+
+	public Boleto getBoletoSegundaVia() {
+		if (boletoSegundaVia == null) {
+			boletoSegundaVia = new Boleto();
+		}
+		return boletoSegundaVia;
+	}
+
+	public void setBoletoSegundaVia(Boleto boletoSegundaVia) {
+		this.boletoSegundaVia = boletoSegundaVia;
 	}
 
 

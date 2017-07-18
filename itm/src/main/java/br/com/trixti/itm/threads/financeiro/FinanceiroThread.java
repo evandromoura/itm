@@ -151,21 +151,19 @@ public class FinanceiroThread {
 	@Schedule(info = "Enviar-Notificacoes", minute = "*/1", hour = "*", persistent = false)
 	public void processarNotificacao() {
 		List<Boleto> listaBoleto = boletoService.pesquisarBoletoNaoNotificado();
-
+		String texto = "Sua fatura está disponível"; 
 		for (Boleto boleto : listaBoleto) {
-			mailService.enviarEmail(boleto,null,"Sua fatura está disponível");
+			mailService.enviarEmail(boleto,null,texto);
 			smsService.enviarSMS(boleto);
+			contratoNotificacaoService.incluir(comporContratoNotificacao(boleto, MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.ENVIO_BOLETO, texto));
 		}
-
 	}
 
-	@Schedule(info = "Enviar-Notificacoes-Inadimplencia", minute = "*/1", hour = "*", persistent = false)
+	@Schedule(info = "Enviar-Notificacoes-Inadimplencia", hour = "12", persistent = false)
 	public void processarNotificacaoInadimplencia() {
 		UtilData utilData = new UtilData();
 		List<Boleto> listaBoletoAberto = boletoService.pesquisarBoletoEmAberto();
-		
 		for (Boleto boleto : listaBoletoAberto) {
-			
 			Integer qtdDiferenca = Long.valueOf(utilData.getDiferencaDias(new Date(), boleto.getDataVencimento())).intValue();
 			boleto.setDataVencimento(new Date());
 			if(qtdDiferenca >= 3 && qtdDiferenca < 5){
@@ -178,7 +176,6 @@ public class FinanceiroThread {
 					smsService.enviarSMS(boleto, textoSms);
 					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.AVISO_ATRASO_INICIAL, texto));
 				}
-
 			}else if(qtdDiferenca >=5 && qtdDiferenca < 10){	
 				ContratoNotificacao contratoNotificacaoRetornoAntesBloqueio = 
 					contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(),TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_PRIMEIRO, new Date());
@@ -189,7 +186,6 @@ public class FinanceiroThread {
 					smsService.enviarSMS(boleto,textoSms);
 					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_PRIMEIRO, texto));
 				}
-
 			}else if(qtdDiferenca >= 10 && qtdDiferenca < 15){
 				ContratoNotificacao contratoNotificacaoRetornoAntesDezDias = 
 						contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(),TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_SEGUNDO, new Date());
@@ -211,7 +207,6 @@ public class FinanceiroThread {
 					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,
 							TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_TERCEIRO, texto));
 				}
-				
 			}else if(qtdDiferenca > 45){
 				ContratoNotificacao contratoNotificacaoRetornoAntesDezDias = 
 					contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(),TipoContratoNotificacao.AVISO_NEGATIVACAO, new Date());
@@ -223,11 +218,8 @@ public class FinanceiroThread {
 					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,
 							TipoContratoNotificacao.AVISO_NEGATIVACAO, texto));
 				}
-
 			}
-			
 		}
-
 	}
 
 	private ContratoNotificacao comporContratoNotificacao(Boleto boleto,MeioEnvioContratoNotificacao meio,TipoContratoNotificacao tipo, String texto3) {

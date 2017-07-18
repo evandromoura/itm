@@ -60,14 +60,16 @@
 							</h:commandLink>
 						</li>
 						
-						<li class="#{contratoViewController.contratoTO.abaAtiva eq 'logs'?'active':''}">
-							<h:commandLink value="#{resources['label.global.logs']}">
-								<f:ajax event="click" />
-								<f:passThroughAttribute name="href" value="#logs" />
-								<f:passThroughAttribute name="data-toggle" value="tab" />
-								<f:setPropertyActionListener value="logs" target="#{contratoViewController.contratoTO.abaAtiva}" />
-							</h:commandLink>
-						</li>	
+						<ui:fragment rendered="#{not empty contratoViewController.contratoTO.contrato.notificacoes}">
+							<li class="#{contratoViewController.contratoTO.abaAtiva eq 'notificacoes'?'active':''}">
+								<h:commandLink value="#{resources['label.global.notificacoes']}">
+									<f:ajax event="click" />
+									<f:passThroughAttribute name="href" value="#notificacoes" />
+									<f:passThroughAttribute name="data-toggle" value="tab" />
+									<f:setPropertyActionListener value="notificacoes" target="#{contratoViewController.contratoTO.abaAtiva}" />
+								</h:commandLink>
+							</li>
+						</ui:fragment>	
 					</ul>
 					<div class="tab-content">
 						<div class="#{contratoViewController.contratoTO.abaAtiva eq 'dadosgerais'?'active':''} tab-pane" id="dadosgerais">
@@ -563,6 +565,15 @@
 																	<i class="fa fa-commenting-o"></i> #{resources['label.global.enviarsms']} 
 																</h:commandLink>
 																
+																
+																<h:commandLink styleClass="btn btn-secondary">
+																	<i class="fa fa-calendar-o"></i> #{resources['label.global.segundavia']}
+															        <f:setPropertyActionListener target="#{contratoViewController.contratoTO.boletoSegundaVia}" value="#{boleto}" />
+															        <f:ajax />
+															       	<f:passThroughAttribute name="data-toggle" value="modal" />
+																	<f:passThroughAttribute name="data-target" value="#idSegundaVia" />
+															    </h:commandLink>
+																
 															</h:column>
 														</h:dataTable>
 													</div>
@@ -576,23 +587,72 @@
 									
 								</ui:fragment>	
 						</div>
-						<div class="#{contratoViewController.contratoTO.abaAtiva eq 'logs'?'active':''} tab-pane" id="logs">
-						
-							<ui:fragment id="idTabLogs">
-									
-							</ui:fragment>
-						
-						</div>
+						<ui:fragment rendered="#{not empty contratoViewController.contratoTO.contrato.notificacoes}">
+							<div class="#{contratoViewController.contratoTO.abaAtiva eq 'notificacoes'?'active':''} tab-pane" id="notificacoes">
+								<div class="row">
+									<h:dataTable value="#{contratoViewController.contratoTO.contrato.notificacoes}" var="notificacao" styleClass="table">
+										<h:column>
+											<f:facet name="header">
+												<h:outputText value="#{resources['label.global.data']}" />
+											</f:facet>
+											<h:outputText value="#{notificacao.dataEnvio}">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+											</h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">
+												<h:outputText value="#{resources['label.global.meiodeenvio']}" />
+											</f:facet>
+											<h:outputText value="#{notificacao.meioEnvio.name}">
+											</h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">
+												<h:outputText value="#{resources['label.global.tipo']}" />
+											</f:facet>
+											<h:outputText value="#{notificacao.tipo.name}">
+											</h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">
+												<h:outputText value="#{resources['label.global.texto']}" />
+											</f:facet>
+											<h:outputText value="#{notificacao.texto}" />
+										</h:column>
+									</h:dataTable>
+								</div>	
+							</div>
+						</ui:fragment>	
 					</div>
 				</div>
 			</div>
 		</div>
 		
-		<itm:confirm id="idDesbloquearContrato" titulo="#{resources['label.global.confirmacao']}" mensagem="#{resources['label.global.desejadesbloquearcontrato']}">
+				<itm:confirm id="idDesbloquearContrato" titulo="#{resources['label.global.confirmacao']}" mensagem="#{resources['label.global.desejadesbloquearcontrato']}">
 					<h:commandLink action="#{contratoViewController.desbloquearContratoTemporariamente()}" class="btn btn-md btn-info">
 						<i class="fa fa-pencil-square-o" /> #{resources['label.global.desbloquear']} 
 					</h:commandLink>
 				</itm:confirm>
+				
+				
+				
+				<itm:modal id="idSegundaVia" titulo="#{resources['label.global.segundavia']}">
+					<div class="row">
+						<div class="col-sm-4">
+							<h:outputText value="#{resources['label.global.informeadata']}" /> 
+						</div>
+						<div class="col-sm-4">
+							<itm:data value="#{contratoViewController.contratoTO.dataSegundaViaBoleto}">
+							</itm:data>
+						</div>
+						
+						<div class="col-sm-4">
+							<h:commandLink styleClass="btn btn-secondary" action="#{contratoViewController.gerarSegundaViaBoleto}">
+								<i class="fa fa-download"></i> #{resources['label.global.download']}
+							</h:commandLink>
+						</div>
+					</div>
+				</itm:modal>
 				
 				
 	</h:form>

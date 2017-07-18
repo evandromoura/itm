@@ -1,6 +1,7 @@
 package br.com.trixti.itm.service.contratonotificacao;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -28,5 +29,9 @@ public class ContratoNotificacaoService extends AbstractService<ContratoNotifica
 		}catch(Exception e){
 			return null;
 		}	
+	}
+
+	public List<ContratoNotificacao> pesquisarUltimasNotificacoes(Contrato contrato) {
+		return contratoNotificacaoDAO.pesquisarUltimasNotificacoes(contrato);
 	}
 }

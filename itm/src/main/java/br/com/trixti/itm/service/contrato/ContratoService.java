@@ -26,6 +26,7 @@ import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
 import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
+import br.com.trixti.itm.service.contratonotificacao.ContratoNotificacaoService;
 import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 import br.com.trixti.itm.util.UtilData;
@@ -39,6 +40,7 @@ public class ContratoService extends AbstractService<Contrato> {
 	private @Inject ContratoEquipamentoService contratoEquipamentoService;
 	private @Inject ContratoLancamentoService contratoLancamentoService;
 	private @Inject ContratoAutenticacaoService contratoAutenticacaoService;
+	private @Inject ContratoNotificacaoService contratoNotificacaoService;
 	private @Inject FreeRadiusService freeRadiusService;
 	private @Inject BoletoService boletoService;
 	
@@ -52,6 +54,7 @@ public class ContratoService extends AbstractService<Contrato> {
 	public Contrato recuperarCompleto(Integer id){
 		Contrato contrato =  contratoDAO.recuperarCompleto(id);
 		contrato.setLancamentos(contratoLancamentoService.pesquisarLancamentoAberto(contrato));
+		contrato.setNotificacoes(contratoNotificacaoService.pesquisarUltimasNotificacoes(contrato));
 		return contrato;
 	}
 

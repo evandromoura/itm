@@ -196,6 +196,20 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		contratoService.alterar(getContratoTO().getContrato());
 	}
 	
+	
+	public void atribuirBoletoSegundaVia(Boleto boleto){
+		getContratoTO().setBoletoSegundaVia(boleto);
+	}
+	
+	public void gerarSegundaViaBoleto(){
+		try{
+			getContratoTO().getBoletoSegundaVia().setDataVencimento(getContratoTO().getDataSegundaViaBoleto());
+			downloadBoleto(getContratoTO().getBoletoSegundaVia());
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
+	}
+	
 
 	public ContratoTO getContratoTO() {
 		if (contratoTO == null) {

@@ -12,5 +12,10 @@ public enum TipoContratoNotificacao {
 	AVISO_BLOQUEIO,
 	AVISO_INATIVACAO,
 	AVISO_NEGATIVACAO;
+	
+	
+	public String getName(){
+		return name();
+	}
 
 }
