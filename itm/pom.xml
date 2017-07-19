@@ -165,12 +165,6 @@
 		</dependency>
 		
 		<dependency>
-		    <groupId>org.highfaces</groupId>
-		    <artifactId>highfaces</artifactId>
-		    <version>1.2</version>
-		</dependency>
-		
-		<dependency>
 		    <groupId>org.hibernate</groupId>
 		    <artifactId>hibernate-envers</artifactId>
 		    <scope>provided</scope>

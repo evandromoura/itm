@@ -3,6 +3,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
 	template="/WEB-INF/templates/default.xhtml">
 
 
@@ -13,60 +14,68 @@
 	<ui:param name="menu" value="retorno" />
 
 	<ui:define name="corpo">
-		<h:form id="formRetorno" enctype="multipart/form-data">
-			<div class="col-sm-6">
-
-				<div class="card">
-					<div class="card-header">
-						<strong>#{resources['label.global.pesquisar']}</strong> <small>#{resources['label.global.retornos']}</small>
-					</div>
-					<div class="card-block">
-						<div class="row">
-							<div class="col-sm-6">
-								<div class="form-group">
-									<label for="idFormPesquisarRetorno:nome_retorno">#{resources['label.global.nome']}</label>
-									<h:inputText
-										value="#{retornoController.retornoTO.retornoPesquisa.banco}"
-										id="nome_retorno" styleClass="form-control" />
+			<h:form>
+				<div class="col-sm-6">
+	
+					<div class="card">
+						<div class="card-header">
+							<strong>#{resources['label.global.pesquisar']}</strong> <small>#{resources['label.global.retornos']}</small>
+						</div>
+						<div class="card-block">
+							<div class="row">
+							
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="idFormPesquisarRemessa:nome_remessa">#{resources['label.global.datainicio']}</label> 
+										<itm:data value="#{retornoController.retornoTO.retornoPesquisa.periodoTO.dataInicio}"  styleClass="form-control" />
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="idFormPesquisarRemessa:nome_remessa">#{resources['label.global.datafim']}</label> 
+										<itm:data value="#{retornoController.retornoTO.retornoPesquisa.periodoTO.dataFim}"  styleClass="form-control" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<h:commandLink action="#{retornoController.pesquisar()}"
+										styleClass="btn btn-lg btn-primary" id="idBotaoPesquisar">
+										<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
+									</h:commandLink>
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-sm-6">
-								<h:commandLink action="#{retornoController.pesquisar()}" immediate="true"
-									styleClass="btn btn-lg btn-primary" id="idBotaoPesquisar">
-									<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
-								</h:commandLink>
-							</div>
+					</div>
+				</div>
+			</h:form>
+			<h:form id="formRetorno" enctype="multipart/form-data">
+				<div class="col-sm-6">
+	
+					<div class="card">
+						<div class="card-header">
+							<strong>#{resources['label.global.upload']}</strong> <small>#{resources['label.global.enviararquivo']}</small>
+						</div>
+						<div class="card-block">
+							
+							<h:inputFile id="idInputFile" class="file" type="file"
+									value="#{retornoController.retornoTO.upload}" required="true" 
+									label="Arquivo" requiredMessage="Obrigatorio">
+							</h:inputFile>
+							<br />
+							<h:selectOneMenu value="#{retornoController.retornoTO.retorno.banco}" >
+								<f:selectItems var="banco" value="#{combosBean.listaBancosSuportados}" itemValue="#{banco}" itemLabel="#{banco.instituicao}" />
+							</h:selectOneMenu>
+							<br /> <br />
+							<h:commandLink action="#{retornoController.enviarArquivo()}"
+								styleClass="btn btn-lg btn-success" id="idBotaoEnviarArquico">
+								<i class="fa fa-search-plus" /> #{resources['label.global.enviararquivo']}
+							</h:commandLink>
+							
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-sm-6">
-
-				<div class="card">
-					<div class="card-header">
-						<strong>#{resources['label.global.upload']}</strong> <small>#{resources['label.global.enviararquivo']}</small>
-					</div>
-					<div class="card-block">
-						
-						<h:inputFile id="idInputFile" class="file" type="file"
-								value="#{retornoController.retornoTO.upload}" required="true" 
-								label="Arquivo" requiredMessage="Obrigatorio">
-						</h:inputFile>
-						<br />
-						<h:selectOneMenu value="#{retornoController.retornoTO.retorno.banco}" >
-							<f:selectItems var="banco" value="#{combosBean.listaBancosSuportados}" itemValue="#{banco}" itemLabel="#{banco.instituicao}" />
-						</h:selectOneMenu>
-						<br /> <br />
-						<h:commandLink action="#{retornoController.enviarArquivo()}"
-							styleClass="btn btn-lg btn-success" id="idBotaoEnviarArquico">
-							<i class="fa fa-search-plus" /> #{resources['label.global.enviararquivo']}
-						</h:commandLink>
-						
-					</div>
-				</div>
-			</div>
+			</h:form>	
 
 			<div class="col-sm-12">
 
@@ -124,7 +133,6 @@
 					</div>
 				</div>
 			</div>
-		</h:form>
 
 	</ui:define>
 

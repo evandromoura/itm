@@ -33,7 +33,7 @@
 				<ui:fragment rendered="#{contratoViewController.contratoTO.contrato.dataParaBloqueio ne null}">
 					<h4 class="alert alert-danger text-center">#{resources['label.global.contratobloqueadonovamente']} 
 						<h:outputText value="#{contratoViewController.contratoTO.contrato.dataParaBloqueio}">
-							<f:convertDateTime pattern="dd/MM/yyyy"/>
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
 						</h:outputText>
 					</h4>
 				</ui:fragment>	
@@ -185,13 +185,13 @@
 													</td>
 													<td>
 														<h:outputText value="#{contratoProduto.dataInicio}">
-															<f:convertDateTime pattern="dd/MM/yyyy" />
+															<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
 														</h:outputText>
 													
 													</td>
 													<td>
 														<h:outputText value="#{contratoProduto.dataFim}">
-															<f:convertDateTime pattern="dd/MM/yyyy" />
+															<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
 														</h:outputText>
 													
 													</td>
@@ -232,7 +232,7 @@
 													<h:column>
 														<f:facet name="header">#{resources['label.global.data']}</f:facet>
 														<h:outputText value="#{contratoGrupo.dataCriacao}">
-															<f:convertDateTime pattern="dd/MM/yyyy" />
+															<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo"  />
 														</h:outputText>
 													</h:column>
 
@@ -269,7 +269,7 @@
 													<h:column>
 														<f:facet name="header">#{resources['label.global.data']}</f:facet>
 														<h:outputText value="#{contratoEquipamento.dataCriacao}">
-															<f:convertDateTime pattern="dd/MM/yyyy" />
+															<f:convertDateTime pattern="dd/MM/yyyy"  timeZone="America/Sao_Paulo" />
 														</h:outputText>
 													</h:column>
 													<h:column>
@@ -306,7 +306,7 @@
 											<h:column>
 												<f:facet name="header">#{resources['label.global.data']}</f:facet>
 												<h:outputText value="#{autenticacao.dataCriacao}">
-													<f:convertDateTime pattern="dd/MM/yyyy" />
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
 												</h:outputText>
 											</h:column>
 
@@ -372,7 +372,6 @@
 
 
 						</div>
-						<!-- /.tab-pane -->
 						<div class="#{contratoViewController.contratoTO.abaAtiva eq 'financeiro'?'active':''} tab-pane" id="financeiro">
 							
 							<ui:fragment id="idTabFinanceiro">
@@ -548,31 +547,36 @@
 															<h:column>
 																<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
 																
-																<h:commandLink  styleClass="btn btn-secondary" action="#{contratoViewController.downloadBoleto(boleto)}">
-																	<i class="fa fa-download"></i> #{resources['label.global.download']}
-																</h:commandLink>
+																<ui:fragment rendered="#{boleto.dataVencimento ge contratoViewController.contratoTO.dataAtual}">
 																
-																<h:commandLink styleClass="btn btn-secondary" rendered="#{boleto.remessa eq null or boleto.remessa.id eq null}">
-																	<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
-																	<i class="fa fa-times"></i> #{resources['label.global.excluir']}
-																</h:commandLink>
+																	<h:commandLink  styleClass="btn btn-secondary" action="#{contratoViewController.downloadBoleto(boleto)}">
+																		<i class="fa fa-download"></i> #{resources['label.global.download']}
+																	</h:commandLink>
+																	
+																	<h:commandLink styleClass="btn btn-secondary" rendered="#{boleto.remessa eq null or boleto.remessa.id eq null}">
+																		<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
+																		<i class="fa fa-times"></i> #{resources['label.global.excluir']}
+																	</h:commandLink>
+																	
+																	<h:commandLink  styleClass="btn btn-secondary" action="#{contratoViewController.enviarEmail(boleto)}">
+																		<i class="fa fa-envelope-o"></i> #{resources['label.global.enviaremail']} 
+																	</h:commandLink>
+																	
+																	<h:commandLink  styleClass="btn btn-secondary" action="#{contratoViewController.enviarSMS(boleto)}">
+																		<i class="fa fa-commenting-o"></i> #{resources['label.global.enviarsms']} 
+																	</h:commandLink>
+																	
+																</ui:fragment>	
+																<ui:fragment rendered="#{boleto.dataVencimento lt contratoViewController.contratoTO.dataAtual}">
+																	<h:commandLink styleClass="btn btn-secondary">
+																		<i class="fa fa-calendar-o"></i> #{resources['label.global.segundavia']}
+																        <f:setPropertyActionListener target="#{contratoViewController.contratoTO.boletoSegundaVia}" value="#{boleto}" />
+																        <f:ajax />
+																       	<f:passThroughAttribute name="data-toggle" value="modal" />
+																		<f:passThroughAttribute name="data-target" value="#idSegundaVia" />
+																    </h:commandLink>
+																</ui:fragment>	
 																
-																<h:commandLink  styleClass="btn btn-secondary" action="#{contratoViewController.enviarEmail(boleto)}">
-																	<i class="fa fa-envelope-o"></i> #{resources['label.global.enviaremail']} 
-																</h:commandLink>
-																
-																<h:commandLink  styleClass="btn btn-secondary" action="#{contratoViewController.enviarSMS(boleto)}">
-																	<i class="fa fa-commenting-o"></i> #{resources['label.global.enviarsms']} 
-																</h:commandLink>
-																
-																
-																<h:commandLink styleClass="btn btn-secondary">
-																	<i class="fa fa-calendar-o"></i> #{resources['label.global.segundavia']}
-															        <f:setPropertyActionListener target="#{contratoViewController.contratoTO.boletoSegundaVia}" value="#{boleto}" />
-															        <f:ajax />
-															       	<f:passThroughAttribute name="data-toggle" value="modal" />
-																	<f:passThroughAttribute name="data-target" value="#idSegundaVia" />
-															    </h:commandLink>
 																
 															</h:column>
 														</h:dataTable>
@@ -589,38 +593,45 @@
 						</div>
 						<ui:fragment rendered="#{not empty contratoViewController.contratoTO.contrato.notificacoes}">
 							<div class="#{contratoViewController.contratoTO.abaAtiva eq 'notificacoes'?'active':''} tab-pane" id="notificacoes">
-								<div class="row">
-									<h:dataTable value="#{contratoViewController.contratoTO.contrato.notificacoes}" var="notificacao" styleClass="table">
-										<h:column>
-											<f:facet name="header">
-												<h:outputText value="#{resources['label.global.data']}" />
-											</f:facet>
-											<h:outputText value="#{notificacao.dataEnvio}">
-												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
-											</h:outputText>
-										</h:column>
-										<h:column>
-											<f:facet name="header">
-												<h:outputText value="#{resources['label.global.meiodeenvio']}" />
-											</f:facet>
-											<h:outputText value="#{notificacao.meioEnvio.name}">
-											</h:outputText>
-										</h:column>
-										<h:column>
-											<f:facet name="header">
-												<h:outputText value="#{resources['label.global.tipo']}" />
-											</f:facet>
-											<h:outputText value="#{notificacao.tipo.name}">
-											</h:outputText>
-										</h:column>
-										<h:column>
-											<f:facet name="header">
-												<h:outputText value="#{resources['label.global.texto']}" />
-											</f:facet>
-											<h:outputText value="#{notificacao.texto}" />
-										</h:column>
-									</h:dataTable>
-								</div>	
+									<div class="card card-accent-info">
+										<div class="card-header">
+											<i class="fa fa-money" />
+											<strong>#{resources['label.global.ultimasnotificacoes']}</strong>
+										</div>
+		
+										<div class="card-block">
+												<h:dataTable value="#{contratoViewController.contratoTO.contrato.notificacoes}" var="notificacao" styleClass="table table-bordered table-striped">
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="#{resources['label.global.data']}" />
+														</f:facet>
+														<h:outputText value="#{notificacao.dataEnvio}">
+															<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo" />
+														</h:outputText>
+													</h:column>
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="#{resources['label.global.meiodeenvio']}" />
+														</f:facet>
+														<h:outputText value="#{notificacao.meioEnvio.name}">
+														</h:outputText>
+													</h:column>
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="#{resources['label.global.tipo']}" />
+														</f:facet>
+														<h:outputText value="#{notificacao.tipo.name}">
+														</h:outputText>
+													</h:column>
+													<h:column>
+														<f:facet name="header">
+															<h:outputText value="#{resources['label.global.texto']}" />
+														</f:facet>
+														<h:outputText value="#{notificacao.texto}" />
+													</h:column>
+												</h:dataTable>
+											</div>
+									</div>
 							</div>
 						</ui:fragment>	
 					</div>

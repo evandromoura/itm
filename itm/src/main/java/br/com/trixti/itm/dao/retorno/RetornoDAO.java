@@ -2,6 +2,7 @@ package br.com.trixti.itm.dao.retorno;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -45,6 +46,9 @@ public class RetornoDAO extends AbstractDAO<Retorno> {
 		List<Predicate> listaPredicado = new ArrayList<Predicate>();
 		if(!us.vazio(retorno.getBanco())){
 			listaPredicado.add(getCriteriaBuilder().equal(root.get("banco"), retorno.getBanco()));
+		}
+		if(retorno.getPeriodoTO().getDataInicio() != null && retorno.getPeriodoTO().getDataFim() != null){
+			listaPredicado.add(getCriteriaBuilder().between(root.<Date>get("dataCriacao"), retorno.getPeriodoTO().getDataInicio(), retorno.getPeriodoTO().getDataFim()));
 		}
 		return (Predicate[]) listaPredicado.toArray(new Predicate[listaPredicado.size()]);
 	}

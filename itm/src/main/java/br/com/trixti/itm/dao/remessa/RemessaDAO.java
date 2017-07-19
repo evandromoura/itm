@@ -2,6 +2,7 @@ package br.com.trixti.itm.dao.remessa;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -48,6 +49,9 @@ public class RemessaDAO extends AbstractDAO<Remessa> {
 		List<Predicate> listaPredicado = new ArrayList<Predicate>();
 		if(!us.vazio(remessa.getBanco())){
 			listaPredicado.add(getCriteriaBuilder().equal(root.get("banco"), remessa.getBanco()));
+		}
+		if(remessa.getPeriodoTO().getDataInicio() != null && remessa.getPeriodoTO().getDataFim() != null){
+			listaPredicado.add(getCriteriaBuilder().between(root.<Date>get("dataCriacao"), remessa.getPeriodoTO().getDataInicio(), remessa.getPeriodoTO().getDataFim()));
 		}
 		return (Predicate[]) listaPredicado.toArray(new Predicate[listaPredicado.size()]);
 	}
