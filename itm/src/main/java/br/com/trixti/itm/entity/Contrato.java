@@ -109,6 +109,9 @@ public class Contrato implements java.io.Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_usuario_alteracao")
 	private Usuario usuarioAlteracao;
+	
+	@Transient
+	private boolean criarLancamentoCredito;
 
 	public Integer getId() {
 		return id;
@@ -268,6 +271,14 @@ public class Contrato implements java.io.Serializable {
 
 	public void setNotificacoes(List<ContratoNotificacao> notificacoes) {
 		this.notificacoes = notificacoes;
+	}
+
+	public boolean isCriarLancamentoCredito() {
+		return criarLancamentoCredito;
+	}
+
+	public void setCriarLancamentoCredito(boolean criarLancamentoCredito) {
+		this.criarLancamentoCredito = criarLancamentoCredito;
 	}
 	
 }

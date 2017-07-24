@@ -81,31 +81,37 @@
 								</div>
 								<div class="card-block">
 									<div class="row">
-										<div class="col-sm-6">
+										<div class="col-sm-2">
 											<div class="form-group">
 												<label>#{resources['label.global.tipopessoa']}:</label><br />
 												#{contratoViewController.contratoTO.contrato.cliente.tipoPessoa}
 											</div>
 										</div>
-										<h:panelGroup id="idTipoPessoa">
+										<h:panelGroup id="idTipoPessoa" styleClass="col-sm-2"> 
 											<ui:fragment
 												rendered="#{contratoViewController.contratoTO.contrato.cliente.tipoPessoa.name eq 'FISICA'}">
-												<div class="col-sm-6">
+												<div>
 													<div class="form-group">
-														<label>#{resources['label.global.cpf']}:</label>#{contratoViewController.contratoTO.contrato.cliente.cpfCnpj}
+														<label>#{resources['label.global.cpf']}:</label><br /> #{contratoViewController.contratoTO.contrato.cliente.cpfCnpj}
 													</div>
 												</div>
 											</ui:fragment>
 											<ui:fragment
 												rendered="#{contratoViewController.contratoTO.contrato.cliente.tipoPessoa.name eq 'JURIDICA'}">
-												<div class="col-sm-6">
+												<div>
 													<div class="form-group">
-														<label>#{resources['label.global.cnpj']}:</label>
+														<label>#{resources['label.global.cnpj']}:</label><br /> 
 														#{contratoViewController.contratoTO.contrato.cliente.cpfCnpj}
 													</div>
 												</div>
 											</ui:fragment>
 										</h:panelGroup>
+										<div class="col-sm-2">
+											<div class="form-group">
+												<label for="formContrato:contrato_diamesvencimento">#{resources['label.global.diamesvencimento']}:</label><br />
+												#{contratoViewController.contratoTO.contrato.diaMesVencimento}
+											</div>
+										</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-6">
@@ -114,16 +120,28 @@
 												#{contratoViewController.contratoTO.contrato.cliente.nome}
 											</div>
 										</div>
-										<div class="col-sm-2">
-											<div class="form-group">
-												<label for="formContrato:contrato_diamesvencimento">#{resources['label.global.diamesvencimento']}:</label><br />
-												#{contratoViewController.contratoTO.contrato.diaMesVencimento}
-											</div>
-										</div>
 										<div class="col-sm-4">
 											<div class="form-group">
 												<label for="formContrato:contrato_email">#{resources['label.global.email']}:</label><br />
 												#{contratoViewController.contratoTO.contrato.cliente.email}
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label for="formContrato:contrato_email">#{resources['label.global.endereco']}:</label><br />
+												#{contratoViewController.contratoTO.contrato.cliente.endereco}
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<div class="form-group">
+												<label for="formContrato:contrato_email">#{resources['label.global.numero']}:</label><br />
+												#{contratoViewController.contratoTO.contrato.cliente.numeroEndereco}
+											</div>
+										</div>
+										<div class="col-sm-2">
+											<div class="form-group">
+												<label for="formContrato:contrato_email">#{resources['label.global.cidade']} / #{resources['label.global.uf']}:</label><br />
+												#{contratoViewController.contratoTO.contrato.cliente.cidade} / #{contratoViewController.contratoTO.contrato.cliente.uf} 
 											</div>
 										</div>
 									</div>
@@ -566,8 +584,12 @@
 																		<i class="fa fa-commenting-o"></i> #{resources['label.global.enviarsms']} 
 																	</h:commandLink>
 																	
+																	<h:commandLink  styleClass="btn btn-secondary" action="#{contratoViewController.removerBoletoRemessa(boleto)}" rendered="#{boleto.remessa ne null and boleto.remessa.id ne null}">
+																		<i class="fa fa-times"></i> #{resources['label.global.removerdaremessa']} 
+																	</h:commandLink>
+																	
 																</ui:fragment>	
-																<ui:fragment rendered="#{boleto.dataVencimento lt contratoViewController.contratoTO.dataAtual}">
+																<ui:fragment rendered="#{boleto.dataVencimento lt contratoViewController.contratoTO.dataAtual and boleto.status.name eq 'ABERTO'}">
 																	<h:commandLink styleClass="btn btn-secondary">
 																		<i class="fa fa-calendar-o"></i> #{resources['label.global.segundavia']}
 																        <f:setPropertyActionListener target="#{contratoViewController.contratoTO.boletoSegundaVia}" value="#{boleto}" />

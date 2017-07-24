@@ -30,6 +30,7 @@ import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
+import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilArquivo;
@@ -47,6 +48,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject ParametroService parametroService;
 	private @Inject MailService mailService;
 	private @Inject SMSService smsService;
+	private @Inject RemessaService remessaService;
 	
 
 	@PostConstruct
@@ -208,6 +210,12 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		}catch(Exception e){
 			e.printStackTrace();
 		}	
+	}
+	
+	public void removerBoletoRemessa(Boleto boleto){
+		remessaService.removerBoletoRemessa(boleto);
+		String mensagem = getMessage("label.global.alterarsucesso");
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
 	}
 	
 

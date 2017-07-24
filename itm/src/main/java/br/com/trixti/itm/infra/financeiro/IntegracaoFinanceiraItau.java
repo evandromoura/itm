@@ -120,6 +120,9 @@ public class IntegracaoFinanceiraItau {
 								boleto.getRemessa().setQtdBoletoAberto(boleto.getRemessa().getQtdBoletoAberto() - 1);
 								boleto.getRemessa().setQtdBoletoFechado(boleto.getRemessa().getQtdBoletoFechado() + 1);
 								boleto.getRemessa().setValorRecebido(boleto.getRemessa().getValorRecebido().add(valorPago));
+								if(boleto.getRemessa().getQtdBoletoAberto().equals(0)){
+									boleto.getRemessa().setStatus(StatusRemessaEnum.FECHADO);
+								}
 								boleto.setRetorno(retorno);
 								boleto.setValorPago(valorPago);
 								boletoService.alterar(boleto);

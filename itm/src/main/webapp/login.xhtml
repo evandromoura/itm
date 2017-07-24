@@ -84,7 +84,7 @@
 			                                		<f:passThroughAttribute name="placeholder" value="#{resources['label.global.informeemail']}"  />
 			                                	</h:inputText>
 			                                	<br />
-			                                	<h:inputSecret value="#{loginController.loginTO.cliente.senha}" rendered="#{loginController.loginTO.cliente.id ne null}" styleClass="form-control">
+			                                	<h:inputSecret value="#{loginController.loginTO.cliente.senha}" styleClass="form-control">
 			                                		<f:passThroughAttribute name="placeholder" value="#{resources['label.global.informesenha']}"  />
 			                                	</h:inputSecret>
 			                                	<h:commandLink action="#{loginController.gravarCliente}" value="#{resources['label.global.gravar']}" styleClass="btn btn-primary active mt-1"  rendered="#{loginController.loginTO.cliente.id ne null}"/>

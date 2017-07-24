@@ -318,8 +318,8 @@ public class FinanceiroThread {
 					boleto.setStatus(StatusBoletoEnum.PAGO);
 					boleto.setValor(BigDecimal.ZERO);
 					boleto.setDataVencimento(dataVencimento);
-					comporNossoNumero(boleto);
 					if (boleto.getLancamentos() != null && !boleto.getLancamentos().isEmpty()) {
+						comporNossoNumero(boleto);
 						boletoService.incluir(boleto);
 					}
 					// TODO: getResources
@@ -335,6 +335,7 @@ public class FinanceiroThread {
 
 	private void comporNossoNumero(Boleto boleto) {
 		BigInteger nossoNumero = boletoService.recuperarNossoNumero();
+		System.out.println("Gerou Nosso Numero = "+nossoNumero);
 		boleto.setNumeroDocumento(nossoNumero.toString());
 		boleto.setNossoNumero(nossoNumero.toString());
 		boleto.setDigitoNossoNumero(String.valueOf(new CalculaBase10().getMod10(nossoNumero.toString())));

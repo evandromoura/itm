@@ -87,8 +87,10 @@ public class ContratoService extends AbstractService<Contrato> {
 				totalContrato = totalContrato.add(produto.getValor());
 			}
 			BigDecimal totalCredito = new BigDecimal(totalContrato.doubleValue() - (BigDecimal.valueOf(totalContrato.doubleValue()).doubleValue()*(30-dia))/30).setScale(2,BigDecimal.ROUND_HALF_UP);
-			contratoLancamento.setValor(totalCredito);
-			contratoLancamentoService.incluir(contratoLancamento);
+			if(totalCredito.intValue() > 0){
+				contratoLancamento.setValor(totalCredito);
+				contratoLancamentoService.incluir(contratoLancamento);
+			}	
 			contrato.setDataCreditoInicial(new Date());
 		}
 	}
@@ -96,7 +98,9 @@ public class ContratoService extends AbstractService<Contrato> {
 	
 	@Override
 	public void alterar(Contrato entidade) {
-		criarLancamentoCredito(entidade);
+		if(entidade.isCriarLancamentoCredito()){
+			criarLancamentoCredito(entidade);
+		}	
 		super.alterar(entidade);
 		for(ContratoProduto contratoProduto:entidade.getContratoProdutos()){
 			if(contratoProduto.getId() == null){

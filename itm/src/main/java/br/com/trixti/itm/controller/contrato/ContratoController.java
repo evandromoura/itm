@@ -49,6 +49,7 @@ public class ContratoController extends AbstractController<Contrato> {
 		String id = getRequest().getParameter("id");
 		getContratoTO().setContrato(contratoService.recuperarCompleto(Integer.valueOf(id)));
 		getContratoTO().getContratoAutenticacao().setSenha(new UtilRandomString(6).nextString());
+		getContratoTO().getContrato().setCriarLancamentoCredito(true);
 	}
 	
 	
