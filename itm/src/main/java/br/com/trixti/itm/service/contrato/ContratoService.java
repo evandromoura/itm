@@ -173,4 +173,8 @@ public class ContratoService extends AbstractService<Contrato> {
 		super.alterar(contrato);
 	}
 	
+	public List<Contrato> listarRelatorio(){
+		return contratoDAO.listarRelatorio();
+	}
+	
 }

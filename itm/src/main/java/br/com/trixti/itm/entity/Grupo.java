@@ -82,4 +82,11 @@ public class Grupo implements java.io.Serializable {
 		this.contratoGrupos = contratoGrupos;
 	}
 
+	@Override
+	public String toString() {
+		return getNome();
+	}
+	
+	
+
 }

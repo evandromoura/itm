@@ -15,6 +15,8 @@ import br.com.trixti.itm.entity.Produto;
 
 public class ContratoTO {
 	
+	private List<Contrato> contratos;
+	
 	private Contrato contrato;
 	
 	
@@ -190,6 +192,14 @@ public class ContratoTO {
 
 	public void setBoletoSegundaVia(Boleto boletoSegundaVia) {
 		this.boletoSegundaVia = boletoSegundaVia;
+	}
+
+	public List<Contrato> getContratos() {
+		return contratos;
+	}
+
+	public void setContratos(List<Contrato> contratos) {
+		this.contratos = contratos;
 	}
 
 

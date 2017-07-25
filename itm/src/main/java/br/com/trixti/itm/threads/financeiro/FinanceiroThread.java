@@ -362,8 +362,7 @@ public class FinanceiroThread {
 					timer.cancel();
 				}
 			}
-		} catch (RuntimeException e) {
-
+		} catch (Throwable e) {
 			System.out.println("PAROU A THREAD");
 		}
 	}

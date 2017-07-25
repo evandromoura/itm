@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+	
+
+	<div id="container_status_contrato"></div>
+	
+	
+	
+	<script>
+
+	//<![CDATA[
+
+	
+
+// Build the chart
+Highcharts.chart('container_status_contrato', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Por Status'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.y:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.y} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                },
+                connectorColor: 'silver'
+            }
+        }
+    },
+    series: [{
+        name: 'Brands',
+        data: [#{relatorioContratoController.relatorioContratoTO.mapaQuantidadePorStatusContratoJson}]
+    }]
+});
+	
+
+	//]]>
+	</script>
+
+
+</ui:composition>

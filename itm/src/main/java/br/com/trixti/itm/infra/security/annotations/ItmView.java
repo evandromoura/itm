@@ -46,7 +46,10 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 		  @URLMapping(id = "grupo_form_view", pattern = "/grupo/#{acao}", viewId = "/pages/grupo/grupo_form.jsf"),
 		  @URLMapping(id = "grupo_form", pattern = "/grupo/#{acao}/#{parametro}", viewId = "/pages/grupo/grupo_form.jsf"),
 		  
-		  @URLMapping(id = "thread", pattern = "/thread", viewId = "/pages/thread/thread.jsf")
+		  @URLMapping(id = "thread", pattern = "/thread", viewId = "/pages/thread/thread.jsf"),
+		  
+		  
+		  @URLMapping(id = "relatorio_contrato", pattern = "/relatorio/contrato", viewId = "/pages/relatorio/contrato/relatorio_contrato.jsf"),
 		  
 		  
 		})

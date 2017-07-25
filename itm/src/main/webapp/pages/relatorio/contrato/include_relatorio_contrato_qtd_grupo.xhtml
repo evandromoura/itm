@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+	<h:outputScript name="highcharts/highcharts.js" />
+	<h:outputScript name="highcharts/exporting.js" />
+
+	<div id="container_grupo"></div>
+	
+	
+	
+	<script>
+
+	//<![CDATA[
+
+	
+// Radialize the colors
+Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
+    return {
+        radialGradient: {
+            cx: 0.5,
+            cy: 0.3,
+            r: 0.7
+        },
+        stops: [
+            [0, color],
+            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+        ]
+    };
+});
+
+// Build the chart
+Highcharts.chart('container_grupo', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Distribuição por Grupos'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.y:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'Porcentagem',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.y} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                },
+                connectorColor: 'silver'
+            }
+        }
+    },
+    series: [{
+        name: 'Brands',
+        data: [#{relatorioContratoController.relatorioContratoTO.mapaQuantidadePorGrupoJson}]
+    }]
+});
+	
+
+	//]]>
+	</script>
+
+
+</ui:composition>

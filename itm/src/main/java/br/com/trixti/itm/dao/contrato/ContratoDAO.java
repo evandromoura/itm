@@ -90,7 +90,18 @@ public class ContratoDAO extends AbstractDAO<Contrato> {
 		Query query = this.getManager().createQuery(jql.toString());
 		query.setParameter("cliente", cliente);
 		query.executeUpdate();
-		
+	}
+	
+	public List<Contrato> listarRelatorio() {
+		CriteriaQuery<Contrato> criteria = getCriteriaBuilder().createQuery(Contrato.class);
+		Root<Contrato> root = criteria.from(Contrato.class);
+		return inicializarListaContrato(getManager().createQuery(criteria.select(root)).getResultList());
+	}
+	private List<Contrato> inicializarListaContrato(List<Contrato> contratos){
+		for(Contrato contrato:contratos){
+			inicializarContrato(contrato);
+		}
+		return contratos;
 	}
 
 }

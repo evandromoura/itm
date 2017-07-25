@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:param name="menu" value="produto" />
+
+	<ui:define name="corpo">
+
+		<div class="card">
+			<div class="card-block">
+				<div class="row">
+					<div class="col-sm-5">
+						<h3 class="card-title clearfix mb-0">Relatorio de Contratos</h3>
+					</div>
+					<div class="col-sm-7">
+						<button type="button"
+							class="btn btn-outline-primary float-right ml-1">
+							<i class="icon-cloud-download"></i> Download
+						</button>
+						<fieldset class="form-group float-right">
+							<div class="input-group float-right" style="width: 240px;">
+								<span class="input-group-addon"><i class="fa fa-calendar"></i>
+								</span> <input name="daterange" class="form-control date-picker"
+									type="text" />
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-5">
+						<ui:include src="include_relatorio_contrato_qtd_grupo.xhtml" />
+					</div>
+					<div class="col-sm-5">	
+						<ui:include src="include_relatorio_contrato_qtd_produto.xhtml" />
+					</div>	
+					
+					<div class="col-sm-2">	
+						<ui:include src="include_relatorio_contrato_qtd_status_contrato.xhtml" />
+					</div>	
+				</div>
+			</div>
+		</div>	
+		
+		<div class="card">
+			<div class="card-block">
+				<div class="row">
+					<div class="col-sm-5">
+						<h3 class="card-title clearfix mb-0">Lista Contratos</h3>
+					</div>
+				</div>
+				<br />
+				<div class="row">
+					<h:dataTable var="contrato" value="#{relatorioContratoController.relatorioContratoTO.contratos}" styleClass="table"  >
+						<h:column>
+							<f:facet name="header">
+								#
+							</f:facet>
+							<h:outputText value="#{relatorioContratoController.relatorioContratoTO.contratos.indexOf(contrato) + 1}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								#{resources['label.global.cliente']}
+							</f:facet>
+							<h:outputText value="#{contrato.cliente.nome}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								#{resources['label.global.identificador']}
+							</f:facet>
+							<h:outputText value="#{contrato.identificador}" />
+						</h:column>
+						
+						
+						
+						<h:column>
+							<f:facet name="header">
+								#{resources['label.global.produtos']}
+							</f:facet>
+							<ul>
+								<ui:repeat var="contratoProduto" value="#{contrato.contratoProdutos}">
+									<li><h:outputText value="#{contratoProduto.produto.nome}" />: <h:outputText value="#{contratoProduto.valor}" /></li>
+								</ui:repeat>
+							</ul>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								#{resources['label.global.status']}
+							</f:facet>
+							<h:outputText value="#{contrato.status.name}" />
+						</h:column>
+					</h:dataTable>
+				</div>
+			</div>
+		</div>			
+					
+	</ui:define>
+
+
+</ui:composition>
