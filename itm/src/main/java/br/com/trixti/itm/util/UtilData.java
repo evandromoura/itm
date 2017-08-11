@@ -1214,8 +1214,7 @@ public class UtilData {
 		Calendar calendario = Calendar.getInstance();
 		calendario.set(Calendar.DAY_OF_MONTH, 1);
 		calendario.set(Calendar.MONTH, arg2.intValue() - 1);
-		SimpleDateFormat formatador = new SimpleDateFormat();
-		formatador.applyPattern("MMMMMM");
+		SimpleDateFormat formatador = new SimpleDateFormat("MMMMMM",new Locale("pt","BR"));
 		return formatador.format(calendario.getTime());
 	}
 
@@ -1456,5 +1455,11 @@ public class UtilData {
 			return Date.from(localDate.atZone(ZoneId.systemDefault()).toInstant());
 		}
 		return null;
+	}
+	
+	public static void main(String[] args) {
+		UtilData utilData = new UtilData();
+		utilData.getMesExtenso(utilData.getMes(new Date()));
+		System.out.println("Mes atual ="+utilData.getMesExtenso(utilData.getMes(new Date())));
 	}
 }

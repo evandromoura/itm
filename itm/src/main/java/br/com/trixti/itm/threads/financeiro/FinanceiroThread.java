@@ -82,7 +82,9 @@ public class FinanceiroThread {
 			BigDecimal valor = BigDecimal.ZERO;
 			List<BoletoLancamento> lancamentosBoleto = new ArrayList<BoletoLancamento>();
 			for (Contrato contrato : cliente.getContratos()) {
-				gerarBoleto(valor, lancamentosBoleto, contrato);
+				if(contrato.getStatus().equals(StatusContrato.ATIVO)){
+					gerarBoleto(valor, lancamentosBoleto, contrato);
+				}	
 			}
 		}
 	}
@@ -151,13 +153,16 @@ public class FinanceiroThread {
 	@Schedule(info = "Enviar-Notificacoes", minute = "*/1", hour = "*", persistent = false)
 	public void processarNotificacao() {
 		List<Boleto> listaBoleto = boletoService.pesquisarBoletoNaoNotificado();
-		String texto = "Sua fatura está disponível"; 
+		 UtilData utilData = new UtilData();
 		for (Boleto boleto : listaBoleto) {
+			String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(boleto.getDataVencimento())));
 			mailService.enviarEmail(boleto,null,texto);
 			smsService.enviarSMS(boleto);
 			contratoNotificacaoService.incluir(comporContratoNotificacao(boleto, MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.ENVIO_BOLETO, texto));
 		}
 	}
+	
+	
 
 	@Schedule(info = "Enviar-Notificacoes-Inadimplencia", hour = "12", persistent = false)
 	public void processarNotificacaoInadimplencia() {
@@ -269,9 +274,8 @@ public class FinanceiroThread {
 	}
 
 	private void gerarBoleto(BigDecimal valor, List<BoletoLancamento> lancamentosBoleto, Contrato contrato) {
-		if (contrato.isGeraBoleto()) {
-			List<ContratoLancamento> lancamentosEmAberto = contratoLancamentoService
-					.pesquisarLancamentoAberto(contrato);
+		if (contrato.isGeraBoleto() && !contrato.getStatus().equals(StatusContrato.CANCELADO)) {
+			List<ContratoLancamento> lancamentosEmAberto = contratoLancamentoService.pesquisarLancamentoAberto(contrato);
 			List<ContratoProduto> produtos = contratoProdutoService.pesquisarVigentePorContrato(contrato);
 			Boleto boleto = new Boleto();
 			UtilData utilData = new UtilData();
@@ -368,7 +372,8 @@ public class FinanceiroThread {
 	}
 
 	public static void main(String[] args) {
-		String valor = "10213699339000170065400194703    0000N/A                      000007180000000000000109                     I01718       05071700000000019903410065408N010617053900000000000000507170000000000000000000000000000000000000000200098328204134Naldo Gomes                             Scia QD 15                              Setor Indust71250050Brasilia       DF                                  00000000 000002";
-		System.out.println(valor.substring(1, 2));
+		UtilData utilData = new UtilData();
+		String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(new Date())));
+		System.out.println(texto);
 	}
 }

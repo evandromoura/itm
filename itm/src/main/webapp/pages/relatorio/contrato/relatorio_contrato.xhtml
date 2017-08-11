@@ -6,7 +6,7 @@
 	template="/WEB-INF/templates/default.xhtml">
 
 
-	<ui:param name="menu" value="produto" />
+	<ui:param name="menu" value="relatorio_contrato" />
 
 	<ui:define name="corpo">
 
@@ -31,15 +31,18 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-sm-5">
+					<div class="col-sm-6">
 						<ui:include src="include_relatorio_contrato_qtd_grupo.xhtml" />
 					</div>
-					<div class="col-sm-5">	
+					<div class="col-sm-6">	
 						<ui:include src="include_relatorio_contrato_qtd_produto.xhtml" />
 					</div>	
 					
-					<div class="col-sm-2">	
+					<div class="col-sm-6">	
 						<ui:include src="include_relatorio_contrato_qtd_status_contrato.xhtml" />
+					</div>	
+					<div class="col-sm-6">	
+						<ui:include src="include_relatorio_contrato_qtd_boleto.xhtml" />
 					</div>	
 				</div>
 			</div>
@@ -49,7 +52,7 @@
 			<div class="card-block">
 				<div class="row">
 					<div class="col-sm-5">
-						<h3 class="card-title clearfix mb-0">Lista Contratos</h3>
+						<h3 class="card-title clearfix mb-0">#{resources['label.global.listacontrato']}</h3>
 					</div>
 				</div>
 				<br />
@@ -73,8 +76,6 @@
 							</f:facet>
 							<h:outputText value="#{contrato.identificador}" />
 						</h:column>
-						
-						
 						
 						<h:column>
 							<f:facet name="header">

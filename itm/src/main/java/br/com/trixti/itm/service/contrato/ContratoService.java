@@ -165,6 +165,17 @@ public class ContratoService extends AbstractService<Contrato> {
 		}	
 		super.excluir(entidade);
 	}
+	
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void cancelar(Contrato entidade) {
+		entidade.setStatus(StatusContrato.CANCELADO);
+		entidade.setDataCancelamento(new Date());
+		if(entidade.getAutenticacoes() != null && !entidade.getAutenticacoes().isEmpty()){
+			freeRadiusService.excluirPorUsername(entidade.getAutenticacoes().get(0).getUsername());
+		}	
+		contratoDAO.alterar(entidade);
+	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void promessaPagamento(Contrato contrato) {

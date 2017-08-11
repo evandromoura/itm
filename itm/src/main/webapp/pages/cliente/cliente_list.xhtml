@@ -153,16 +153,19 @@
 								<h:column><f:facet name="header">#{resources['label.global.acoes']}</f:facet>
 								<f:attribute name="style" value="white-space: nowrap;" />
 									<div>
-										<a href="#{request.contextPath}/cliente/editar/#{cliente.id}" class="btn btn-md btn-info">
-											<i class="fa fa-pencil-square-o" /> #{resources['label.global.editar']}
-										</a>  
+									
+										<a class="btn btn-info" href="#{request.contextPath}/cliente/editar/#{cliente.id}" title="#{resources['label.global.editar']}">
+                                                <i class="fa fa-edit "></i>
+                                         </a>	
+										
 										<h:outputText value=" " />
-										<h:commandButton value="#{resources['label.global.excluir']}" styleClass="btn btn-danger">
+										<h:commandLink styleClass="btn btn-danger">
 									        <f:setPropertyActionListener target="#{clienteController.clienteTO.cliente}" value="#{cliente}" />
 									        <f:ajax />
 									       	<f:passThroughAttribute name="data-toggle" value="modal" />
 											<f:passThroughAttribute name="data-target" value="#idConfirmExcluirCliente" />
-									    </h:commandButton>
+                                            <i class="fa fa-trash-o" />
+									    </h:commandLink>
 									</div>
 								</h:column>
 							</h:dataTable>

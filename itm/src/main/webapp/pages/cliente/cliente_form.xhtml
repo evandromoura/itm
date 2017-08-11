@@ -259,15 +259,36 @@
 								</h:column>
 								<h:column>
 									<f:facet name="header">
+										<h:outputText
+											value="#{resources['label.global.status']}" />
+									</f:facet>
+									<h:outputText value="#{contrato.status.name}" />
+								</h:column>
+								<h:column>
+									<f:facet name="header">
 										<h:outputText value="#{resources['label.global.acoes']}" />
 									</f:facet>
 									<a href="#{request.contextPath}/contrato/editar/#{contrato.id}"
 										class="btn btn-info"><i class="fa fa-floppy-o" /> #{resources['label.global.editar']}</a>
 									<h:outputText value=" " />	 
+									
 									<h:commandLink styleClass="btn btn-danger">
-										<f:ajax listener="#{clienteController.excluirContrato(contrato)}" event="click" render="formCliente"  immediate="true" execute="@this" />
-										<i class="fa fa-times" /> #{resources['label.global.excluir']}
-									</h:commandLink>
+										<i class="fa fa-times"></i> #{resources['label.global.excluir']}
+								        <f:setPropertyActionListener target="#{clienteController.clienteTO.contratoAcao}" value="#{contrato}" />
+								        <f:ajax />
+								       	<f:passThroughAttribute name="data-toggle" value="modal" />
+										<f:passThroughAttribute name="data-target" value="#idExcluirContrato" />
+								    </h:commandLink>
+									<h:outputText value=" " />	 
+									
+									<h:commandLink styleClass="btn btn-danger">
+										<i class="fa fa-times"></i> #{resources['label.global.cancelar']}
+								        <f:setPropertyActionListener target="#{clienteController.clienteTO.contratoAcao}" value="#{contrato}" />
+								        <f:ajax />
+								       	<f:passThroughAttribute name="data-toggle" value="modal" />
+										<f:passThroughAttribute name="data-target" value="#idCancelarContrato" />
+								    </h:commandLink>
+									
 								</h:column>
 							</h:dataTable>
 						</div>
@@ -294,6 +315,20 @@
 						</div>
 					</div>
 				</div>
+				
+				<itm:confirm id="idExcluirContrato" titulo="#{resources['label.global.confirmacao']}" mensagem="#{resources['label.global.desejaexcluircontrato']}">
+					<h:commandLink styleClass="btn btn-danger">
+						<f:ajax listener="#{clienteController.excluirContrato}" event="click" render="@all"  immediate="true" execute="@this" />
+						<i class="fa fa-times" /> #{resources['label.global.excluir']}
+					</h:commandLink>
+				</itm:confirm>
+				
+				<itm:confirm id="idCancelarContrato" titulo="#{resources['label.global.confirmacao']}" mensagem="#{resources['label.global.desejacancelarcontrato']}">
+					<h:commandLink styleClass="btn btn-danger">
+						<f:ajax listener="#{clienteController.cancelarContrato}" event="click" render="@all"  immediate="true" execute="@this" />
+						<i class="fa fa-times" /> #{resources['label.global.cancelarcontrato']} 
+					</h:commandLink>
+				</itm:confirm>
 
 			</h:form>
 

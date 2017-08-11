@@ -67,6 +67,10 @@ public class Contrato implements java.io.Serializable {
 	private Date dataCreditoInicial;
 	
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="data_cancelamento")
+	private Date dataCancelamento;
+	
 	@NotAudited
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<ContratoEquipamento> contratoEquipamentos;
@@ -279,6 +283,14 @@ public class Contrato implements java.io.Serializable {
 
 	public void setCriarLancamentoCredito(boolean criarLancamentoCredito) {
 		this.criarLancamentoCredito = criarLancamentoCredito;
+	}
+
+	public Date getDataCancelamento() {
+		return dataCancelamento;
+	}
+
+	public void setDataCancelamento(Date dataCancelamento) {
+		this.dataCancelamento = dataCancelamento;
 	}
 	
 }

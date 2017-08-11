@@ -69,7 +69,7 @@ public class ClienteService extends AbstractService<Cliente> {
 			for(Contrato contrato:entidade.getContratos()){
 				Contrato contratoCompleto = contratoService.recuperarCompleto(contrato.getId());
 				contratoService.excluir(contratoCompleto);
-				if(contratoCompleto.getAutenticacoes() != null){
+				if(contratoCompleto.getAutenticacoes() != null && contratoCompleto.getAutenticacoes().size() > 0){
 					freeRadiusService.excluirPorUsername(contratoCompleto.getAutenticacoes().get(0).getUsername());
 				}	
 			}

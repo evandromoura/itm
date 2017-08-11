@@ -89,11 +89,22 @@ public class ClienteController extends AbstractController<Cliente> {
 		return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 	}
 	
-	public void excluirContrato(Contrato contrato){
-		contratoService.excluir(contratoService.recuperarCompleto(contrato.getId()));
-		getClienteTO().getCliente().getContratos().remove(contrato);
-		String mensagem = getMessage("label.global.excluirsucesso");
-		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
+	public void excluirContrato(){
+		if(getClienteTO().getContratoAcao() != null){
+			contratoService.excluir(contratoService.recuperarCompleto(getClienteTO().getContratoAcao().getId()));
+			getClienteTO().getCliente().getContratos().remove(getClienteTO().getContratoAcao());
+			String mensagem = getMessage("label.global.excluirsucesso");
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
+		}	
+	}
+	
+	public void cancelarContrato(){
+		if(getClienteTO().getContratoAcao() != null){
+			contratoService.cancelar(contratoService.recuperarCompleto(getClienteTO().getContratoAcao().getId()));
+			String mensagem = getMessage("label.global.cancelarsucesso");
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
+			init();
+		}	
 	}
 	
 	public String cancelar(){

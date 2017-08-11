@@ -16,6 +16,7 @@ public class RelatorioContratoTO {
 	private Map<Grupo,Integer> mapaQuantidadePorGrupo;
 	private Map<Produto,Integer> mapaQuantidadePorProduto;
 	private Map<StatusContrato,Integer> mapaQuantidadePorStatusContrato;
+	private Map<String,Integer> mapaQuantidadeContratoBoleto;
 	
 	public List<Contrato> getContratos() {
 		if (contratos == null) {
@@ -117,8 +118,42 @@ public class RelatorioContratoTO {
 		
 		return sb.toString();
 	}
+	
+	
+	
+	
+	public String getMapaQuantidadePorBoletoContratoJson(){
+		StringBuilder sb = new StringBuilder();
+		int i=0;
+		int total = 0;
+		for(String statusContrato:getMapaQuantidadeContratoBoleto().keySet()){
+			total += getMapaQuantidadeContratoBoleto().get(statusContrato);
+		}
+		for(String statusContrato:getMapaQuantidadeContratoBoleto().keySet()){
+			sb.append("{\"name\":\""+statusContrato+"\",\"y\":"+getPorcentagem(total, getMapaQuantidadeContratoBoleto().get(statusContrato))+"}");
+			i++;
+			if(i<getMapaQuantidadeContratoBoleto().keySet().size()){
+				sb.append(",");
+			}
+		}
+		
+		return sb.toString();
+	}
+	
+	
 	public Long getPorcentagem(Integer total,Integer qtd){
 		return new Long((100 * qtd)/total);
+	}
+
+	public Map<String, Integer> getMapaQuantidadeContratoBoleto() {
+		if (mapaQuantidadeContratoBoleto == null) {
+			mapaQuantidadeContratoBoleto = new HashMap<String,Integer>();
+		}
+		return mapaQuantidadeContratoBoleto;
+	}
+
+	public void setMapaQuantidadeContratoBoleto(Map<String, Integer> mapaQuantidadeContratoBoleto) {
+		this.mapaQuantidadeContratoBoleto = mapaQuantidadeContratoBoleto;
 	}
 
 }

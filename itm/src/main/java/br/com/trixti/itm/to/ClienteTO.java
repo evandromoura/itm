@@ -12,6 +12,8 @@ public class ClienteTO {
 	
 	private Contrato contrato;
 	
+	private Contrato contratoAcao;
+	
 	
 	/**
 	 * Cliente que vai ser manipulado no form
@@ -73,6 +75,17 @@ public class ClienteTO {
 
 	public void setContrato(Contrato contrato) {
 		this.contrato = contrato;
+	}
+
+	public Contrato getContratoAcao() {
+		if (contratoAcao == null) {
+			contratoAcao = new Contrato();
+		}
+		return contratoAcao;
+	}
+
+	public void setContratoAcao(Contrato contratoAcao) {
+		this.contratoAcao = contratoAcao;
 	}
 
 }
