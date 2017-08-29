@@ -86,6 +86,12 @@ public class RemessaController extends AbstractController<Remessa> {
 			}	
 		}	
 	}
+	
+	public void executarManutencaoRemessa(){
+		remessaService.executarManutencao();
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Executado com Sucesso", "Executado com Sucesso"));
+		pesquisar();
+	}
 
 	public RemessaTO getRemessaTO() {
 		if (remessaTO == null) {

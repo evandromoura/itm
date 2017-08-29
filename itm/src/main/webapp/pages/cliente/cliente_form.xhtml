@@ -29,6 +29,7 @@
 				<div class="card card-accent-info">
 					<div class="card-header">
 						<strong>#{resources['label.global.cadastro']}</strong> <small>#{resources['label.global.clientes']}</small>
+						<a href="#{request.contextPath}/cliente/view/#{clienteController.clienteTO.cliente.id}"><span class="badge badge-success float-right">#{resources['label.global.visualizar']}</span></a>
 					</div>
 					<div class="card-block">
 
@@ -269,7 +270,7 @@
 										<h:outputText value="#{resources['label.global.acoes']}" />
 									</f:facet>
 									<a href="#{request.contextPath}/contrato/editar/#{contrato.id}"
-										class="btn btn-info"><i class="fa fa-floppy-o" /> #{resources['label.global.editar']}</a>
+										class="btn btn-primary"><i class="fa fa-floppy-o" /> #{resources['label.global.editar']}</a>
 									<h:outputText value=" " />	 
 									
 									<h:commandLink styleClass="btn btn-danger">
@@ -281,7 +282,7 @@
 								    </h:commandLink>
 									<h:outputText value=" " />	 
 									
-									<h:commandLink styleClass="btn btn-danger">
+									<h:commandLink styleClass="btn btn-info" rendered="#{contrato.status.name ne 'CANCELADO'}">
 										<i class="fa fa-times"></i> #{resources['label.global.cancelar']}
 								        <f:setPropertyActionListener target="#{clienteController.clienteTO.contratoAcao}" value="#{contrato}" />
 								        <f:ajax />
@@ -307,6 +308,7 @@
 										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
 									</h:commandLink>	
 									<h:outputText value=" " />	
+									
 									<h:commandLink action="#{clienteController.cancelar()}" styleClass="btn btn-lg btn-danger" immediate="true">
 										<i class="fa fa-times" /> #{resources['label.global.cancelar']}
 									</h:commandLink>	
@@ -323,12 +325,18 @@
 					</h:commandLink>
 				</itm:confirm>
 				
-				<itm:confirm id="idCancelarContrato" titulo="#{resources['label.global.confirmacao']}" mensagem="#{resources['label.global.desejacancelarcontrato']}">
-					<h:commandLink styleClass="btn btn-danger">
+				<itm:modal id="idCancelarContrato" titulo="#{resources['label.global.confirmacao']}" mensagem="#{resources['label.global.desejacancelarcontrato']}">
+					<h:selectBooleanCheckbox value="#{clienteController.clienteTO.contratoAcao.geraMultaCancelamento}">#{resources['label.global.gerarmultacancelamento']}
+						<f:ajax event="click" />
+					</h:selectBooleanCheckbox> 
+					<br /> 
+					<br /> 
+					<h:commandLink styleClass="btn btn-info">
 						<f:ajax listener="#{clienteController.cancelarContrato}" event="click" render="@all"  immediate="true" execute="@this" />
 						<i class="fa fa-times" /> #{resources['label.global.cancelarcontrato']} 
 					</h:commandLink>
-				</itm:confirm>
+					
+				</itm:modal>
 
 			</h:form>
 

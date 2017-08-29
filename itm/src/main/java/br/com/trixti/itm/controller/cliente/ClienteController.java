@@ -62,6 +62,8 @@ public class ClienteController extends AbstractController<Cliente> {
 		getClienteTO().setCliente(clienteService.recuperar(id));
 		getClienteTO().getContrato().setContaCorrente(new ContaCorrente());
 		getClienteTO().getContrato().setGeraBoleto(true);
+		getClienteTO().getContratoAcao().setGeraMultaCancelamento(true);
+		
 	}
 	
 //	@Admin
@@ -100,7 +102,9 @@ public class ClienteController extends AbstractController<Cliente> {
 	
 	public void cancelarContrato(){
 		if(getClienteTO().getContratoAcao() != null){
-			contratoService.cancelar(contratoService.recuperarCompleto(getClienteTO().getContratoAcao().getId()));
+			Contrato contrato = contratoService.recuperarCompleto(getClienteTO().getContratoAcao().getId());
+			contrato.setGeraMultaCancelamento(getClienteTO().getContratoAcao().isGeraMultaCancelamento());
+			contratoService.cancelar(contrato);
 			String mensagem = getMessage("label.global.cancelarsucesso");
 			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
 			init();

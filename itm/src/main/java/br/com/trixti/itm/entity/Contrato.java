@@ -116,6 +116,9 @@ public class Contrato implements java.io.Serializable {
 	
 	@Transient
 	private boolean criarLancamentoCredito;
+	
+	@Transient
+	private boolean geraMultaCancelamento = true;
 
 	public Integer getId() {
 		return id;
@@ -291,6 +294,14 @@ public class Contrato implements java.io.Serializable {
 
 	public void setDataCancelamento(Date dataCancelamento) {
 		this.dataCancelamento = dataCancelamento;
+	}
+
+	public boolean isGeraMultaCancelamento() {
+		return geraMultaCancelamento;
+	}
+
+	public void setGeraMultaCancelamento(boolean geraMultaCancelamento) {
+		this.geraMultaCancelamento = geraMultaCancelamento;
 	}
 	
 }

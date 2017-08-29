@@ -41,12 +41,14 @@
 								<h:commandLink action="#{remessaController.pesquisar()}" styleClass="btn btn-lg btn-primary" id="idBotaoPesquisar">
 											<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
 								</h:commandLink>
+								<h:outputText value=" " />
+								<h:commandLink action="#{remessaController.executarManutencaoRemessa()}" styleClass="btn btn-lg btn-warning" id="idBotaoExecutarManutencao">
+											<i class="fa fa-search-plus" /> #{resources['label.global.executarmanutencaoremessa']}
+								</h:commandLink>
 							</div>
 						</div>	
 					</div>
 				</div>
-
-
 
 
 				<div class="card">

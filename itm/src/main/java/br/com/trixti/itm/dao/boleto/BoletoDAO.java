@@ -16,6 +16,7 @@ import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.Remessa;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.util.UtilData;
 
@@ -140,6 +141,14 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 						getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO),
 						getCriteriaBuilder().isNotNull(root.<Date>get("dataNotificacao")))
 						)
+				.getResultList();
+	}
+
+	public List<Boleto> pesquisarBoletoRemessa(Remessa remessa) {
+		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
+		Root<Boleto> root = criteria.from(Boleto.class);
+		return getManager()
+				.createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("remessa"), remessa)))
 				.getResultList();
 	}
 

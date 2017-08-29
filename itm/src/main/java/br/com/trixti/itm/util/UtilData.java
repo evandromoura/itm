@@ -787,6 +787,25 @@ public class UtilData {
 		}
 		return diferenca;
 	}
+	
+	
+	/**
+	 * Retorna a diferen�a em dias entre duas datas
+	 * 
+	 * @param dataMaior Date
+	 * @param dataMenor Date
+	 * @return long
+	 */
+	public long getDiferencaMes(Date dataMaior, Date dataMenor) {
+		long diferenca = 0;
+		try {
+			diferenca = getDiferencaDias(dataMaior, dataMenor);
+			diferenca = diferenca / 30; 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return diferenca;
+	}
 
 	/**
 	 * Data Corrente

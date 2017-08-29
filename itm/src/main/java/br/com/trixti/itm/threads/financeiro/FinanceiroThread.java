@@ -274,7 +274,7 @@ public class FinanceiroThread {
 	}
 
 	private void gerarBoleto(BigDecimal valor, List<BoletoLancamento> lancamentosBoleto, Contrato contrato) {
-		if (contrato.isGeraBoleto() && !contrato.getStatus().equals(StatusContrato.CANCELADO)) {
+		if (contrato.isGeraBoleto()) {
 			List<ContratoLancamento> lancamentosEmAberto = contratoLancamentoService.pesquisarLancamentoAberto(contrato);
 			List<ContratoProduto> produtos = contratoProdutoService.pesquisarVigentePorContrato(contrato);
 			Boleto boleto = new Boleto();
@@ -289,23 +289,25 @@ public class FinanceiroThread {
 					lancamentosBoleto.add(new BoletoLancamento(boleto, lancamentoAberto));
 				}
 
-				for (ContratoProduto produto : produtos) {
-					ContratoLancamento contratoLancamento = new ContratoLancamento();
-					contratoLancamento.setContrato(contrato);
-					contratoLancamento.setDataLancamento(new Date());
-					contratoLancamento.setDescricao(produto.getProduto().getNome());
-					contratoLancamento.setStatus(StatusLancamentoEnum.PENDENTE);
-					contratoLancamento.setTipoLancamento(TipoLancamentoEnum.DEBITO);
-					contratoLancamento.setValor(produto.getValor());
-					contratoLancamentoService.incluir(contratoLancamento);
-
-					BoletoLancamento boletoLancamento = new BoletoLancamento();
-					boletoLancamento.setBoleto(boleto);
-					boletoLancamento.setContratoLancamento(contratoLancamento);
-
-					lancamentosBoleto.add(boletoLancamento);
-					valor = valor.add(produto.getValor());
-				}
+				if(!contrato.getStatus().equals(StatusContrato.CANCELADO)){
+					for (ContratoProduto produto : produtos) {
+						ContratoLancamento contratoLancamento = new ContratoLancamento();
+						contratoLancamento.setContrato(contrato);
+						contratoLancamento.setDataLancamento(new Date());
+						contratoLancamento.setDescricao(produto.getProduto().getNome());
+						contratoLancamento.setStatus(StatusLancamentoEnum.PENDENTE);
+						contratoLancamento.setTipoLancamento(TipoLancamentoEnum.DEBITO);
+						contratoLancamento.setValor(produto.getValor());
+						contratoLancamentoService.incluir(contratoLancamento);
+	
+						BoletoLancamento boletoLancamento = new BoletoLancamento();
+						boletoLancamento.setBoleto(boleto);
+						boletoLancamento.setContratoLancamento(contratoLancamento);
+	
+						lancamentosBoleto.add(boletoLancamento);
+						valor = valor.add(produto.getValor());
+					}
+				}	
 				if (valor.intValue() > 0) {
 					boleto.setContrato(contrato);
 					boleto.setLancamentos(lancamentosBoleto);

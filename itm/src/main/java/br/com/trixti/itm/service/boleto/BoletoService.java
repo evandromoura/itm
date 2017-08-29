@@ -18,6 +18,7 @@ import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoLancamento;
+import br.com.trixti.itm.entity.Remessa;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
@@ -65,6 +66,10 @@ public class BoletoService extends AbstractService<Boleto>{
 	
 	public List<Boleto> pesquisarBoletoCliente(Cliente cliente,Date data){
 		return boletoDAO.pesquisarBoletoCliente(cliente, data);
+	}
+	
+	public List<Boleto> pesquisarBoletoRemessa(Remessa remessa){
+		return boletoDAO.pesquisarBoletoRemessa(remessa);
 	}
 	
 	public Boleto recuperarBoletoContrato(Contrato contrato,Date dataVencimento){
@@ -117,7 +122,9 @@ public class BoletoService extends AbstractService<Boleto>{
 	
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public BigInteger recuperarNossoNumero(){
-		return boletoDAO.recuperarNossoNumero();
+		BigInteger nossoNumero = boletoDAO.recuperarNossoNumero();
+		System.out.println("Gerou o NOSSO NUMEROO: "+nossoNumero);
+		return nossoNumero;
 	}
 
 	public Boleto recuperarPorNossoNumero(String nossoNumero,StatusBoletoEnum... status) {

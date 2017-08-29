@@ -2,6 +2,10 @@ package br.com.trixti.itm.service.contrato;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,15 +16,19 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.contrato.ContratoDAO;
+import br.com.trixti.itm.entity.Boleto;
+import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.ContratoProduto;
+import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
+import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
@@ -171,10 +179,55 @@ public class ContratoService extends AbstractService<Contrato> {
 	public void cancelar(Contrato entidade) {
 		entidade.setStatus(StatusContrato.CANCELADO);
 		entidade.setDataCancelamento(new Date());
+		
 		if(entidade.getAutenticacoes() != null && !entidade.getAutenticacoes().isEmpty()){
 			freeRadiusService.excluirPorUsername(entidade.getAutenticacoes().get(0).getUsername());
-		}	
+		}
 		contratoDAO.alterar(entidade);
+		if(entidade.isGeraMultaCancelamento()){
+			criarMultaContratoLancamento(entidade);
+		}	
+	}
+	
+	private void criarMultaContratoLancamento(Contrato contrato){
+		UtilData utilData = new UtilData();
+		ContratoLancamento contratoLancamento = new ContratoLancamento();
+		contratoLancamento.setContrato(contrato);
+		contratoLancamento.setDataLancamento(new Date());
+
+		BigDecimal totalProdutos = BigDecimal.ZERO;
+		for(ContratoProduto contratoProduto:contrato.getContratoProdutos()){
+			totalProdutos = totalProdutos.add(contratoProduto.getValor());
+		}
+		
+		Double total = totalProdutos.doubleValue() * (12 -utilData.getDiferencaMes(new Date(), contrato.getDataCriacao()));
+		BigDecimal valorFinal = BigDecimal.valueOf(total).multiply(BigDecimal.valueOf(10)).divide(BigDecimal.valueOf(100));
+		
+		contratoLancamento.setValor(valorFinal.setScale(2,RoundingMode.HALF_UP));
+		
+		contratoLancamento.setTipoLancamento(TipoLancamentoEnum.DEBITO);
+		contratoLancamento.setStatus(StatusLancamentoEnum.PENDENTE);
+		contratoLancamento.setDescricao("Multa por cancelamento");
+		
+		Boleto boleto = new Boleto();
+		boleto.setContrato(contrato);
+		boleto.setDataCriacao(new Date());
+		boleto.setDataVencimento(new Date());
+		boleto.setValor(valorFinal.setScale(2,RoundingMode.HALF_UP));
+		List<BoletoLancamento> listaBoletoLancamento = new ArrayList<BoletoLancamento>();
+		BoletoLancamento boletoLancamento = new BoletoLancamento();
+		boletoLancamento.setBoleto(boleto);
+		contratoLancamentoService.incluir(contratoLancamento);
+		boletoLancamento.setContratoLancamento(contratoLancamento);
+		listaBoletoLancamento.add(boletoLancamento);
+		boleto.setLancamentos(listaBoletoLancamento);
+		boleto.setStatus(StatusBoletoEnum.ABERTO);
+		BigInteger nossoNumero = boletoService.recuperarNossoNumero();
+		boleto.setNumeroDocumento(nossoNumero.toString());
+		boleto.setNossoNumero(nossoNumero.toString());
+		boleto.setDigitoNossoNumero(String.valueOf(new CalculaBase10().getMod10(nossoNumero.toString())));
+		boleto.setNossoNumeroCompleto(boleto.getNossoNumero()+boleto.getDigitoNossoNumero());
+		boletoService.incluir(boleto);
 	}
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)

@@ -35,6 +35,20 @@ public class RemessaService extends AbstractService<Remessa>{
 		return remessaDAO.recuperarCompleto(id);
 	}
 	
+	public void executarManutencao(){
+		List<Remessa> listaRemessa = remessaDAO.listarNaoEnviadas();
+		for(Remessa remessa:listaRemessa){
+			List<Boleto> listaBoleto = boletoService.pesquisarBoletoRemessa(remessa);
+			if(listaBoleto != null){
+				for(Boleto boleto:listaBoleto){
+					boleto.setRemessa(null);
+					boletoService.alterar(boleto);
+				}
+			}
+			excluir(remessa);
+		}
+	}
+	
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void enviarRemessa(Remessa remessa){

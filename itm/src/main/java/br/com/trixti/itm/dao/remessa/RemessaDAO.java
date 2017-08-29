@@ -55,5 +55,11 @@ public class RemessaDAO extends AbstractDAO<Remessa> {
 		}
 		return (Predicate[]) listaPredicado.toArray(new Predicate[listaPredicado.size()]);
 	}
+	
+	public List<Remessa> listarNaoEnviadas(){
+		CriteriaQuery<Remessa> criteria = getCriteriaBuilder().createQuery(Remessa.class);
+		Root<Remessa> root = criteria.from(Remessa.class);
+		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().isNull(root.get("dataEnvio")))).getResultList();
+	}
 
 }
