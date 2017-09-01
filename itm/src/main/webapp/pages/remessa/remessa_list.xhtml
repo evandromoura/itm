@@ -35,6 +35,36 @@
 									<itm:data value="#{remessaController.remessaTO.remessaPesquisa.periodoTO.dataFim}"  styleClass="form-control" size="10" />
 								</div>
 							</div>
+							
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarRemessa:banco_remessa">#{resources['label.global.banco']}</label>
+									 
+									<h:selectOneMenu value="#{remessaController.remessaTO.remessaPesquisa.banco}" id="banco_remessa" styleClass="form-control">
+										<f:selectItem  itemValue="" itemLabel="#{resources['label.global.selecionar']}"/>
+										<f:selectItems var="banco" value="#{combosBean.listaBancosSuportados}" itemValue="#{banco}" itemLabel="#{banco.instituicao}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarRemessa:nome_remessa">#{resources['label.global.identificador']}</label> 
+									<h:inputText value="#{remessaController.remessaTO.remessaPesquisa.codigo}" styleClass="form-control"  
+										maxlength="7" onkeypress="mascara(this,mesAno);" >
+										<f:passThroughAttribute name="placeholder" value="MM/AAAA"  />
+									</h:inputText>
+								</div>
+							</div>
+							
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarRemessa:nome_status">#{resources['label.global.status']}</label> 
+									<h:selectOneMenu value="#{remessaController.remessaTO.remessaPesquisa.status}" id="status_remessa" styleClass="form-control">
+										<f:selectItem  itemValue="" itemLabel="#{resources['label.global.selecionar']}"/>
+										<f:selectItems var="status" value="#{combosBean.statusRemessaEnum}" itemValue="#{status}" itemLabel="#{status.name}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-6">

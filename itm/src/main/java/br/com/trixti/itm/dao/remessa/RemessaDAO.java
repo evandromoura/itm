@@ -47,9 +47,20 @@ public class RemessaDAO extends AbstractDAO<Remessa> {
 	private Predicate[] comporFiltro(Remessa remessa, Root<Remessa> root){
 		UtilString us = new UtilString();
 		List<Predicate> listaPredicado = new ArrayList<Predicate>();
+		
+		
 		if(!us.vazio(remessa.getBanco())){
 			listaPredicado.add(getCriteriaBuilder().equal(root.get("banco"), remessa.getBanco()));
 		}
+		
+		if(!us.vazio(remessa.getCodigo())){
+			listaPredicado.add(getCriteriaBuilder().equal(root.get("codigo"), remessa.getCodigo()));
+		}
+		
+		if(remessa.getStatus() != null){
+			listaPredicado.add(getCriteriaBuilder().equal(root.get("status"), remessa.getStatus()));
+		}
+		
 		if(remessa.getPeriodoTO().getDataInicio() != null && remessa.getPeriodoTO().getDataFim() != null){
 			listaPredicado.add(getCriteriaBuilder().between(root.<Date>get("dataCriacao"), remessa.getPeriodoTO().getDataInicio(), remessa.getPeriodoTO().getDataFim()));
 		}

@@ -14,6 +14,7 @@ import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.enums.PerfilEnum;
+import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.service.contacorrente.ContaCorrenteService;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
@@ -63,6 +64,10 @@ public class CombosBean {
    public StatusContrato[] getStatusContrato(){
 		return StatusContrato.values();
 	}
+   
+   public StatusRemessaEnum[] getStatusRemessaEnum(){
+	   return StatusRemessaEnum.values();
+   }
 	
 }
  
