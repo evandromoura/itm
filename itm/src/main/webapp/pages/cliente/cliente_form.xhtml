@@ -88,12 +88,19 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-3">
 								<div class="form-group">
 									<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}</label>
 									<h:inputText
 										value="#{clienteController.clienteTO.cliente.telefoneCelular}"
 										id="cliente_telefone_celular" styleClass="form-control" />
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formCliente:cliente_telefone_fixo">#{resources['label.global.telefonefixo']}</label> 
+									<h:inputText
+										value="#{clienteController.clienteTO.cliente.telefoneFixo}" id="cliente_telefone_fixo" styleClass="form-control" />
 								</div>
 							</div>
 							

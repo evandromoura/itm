@@ -16,6 +16,7 @@ import br.com.trixti.itm.entity.SMS;
 import br.com.trixti.itm.entity.SMS.SMSBuilder;
 import br.com.trixti.itm.infra.sms.EnvioSMSZenviaService;
 import br.com.trixti.itm.service.AbstractService;
+import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.util.UtilData;
 import br.com.trixti.itm.util.UtilString;
@@ -29,6 +30,7 @@ public class SMSService extends AbstractService<SMS> {
 	
 	private @Inject EnvioSMSZenviaService envioSMSZenviaService;
 	private @Inject GeradorBoletoService geradorBoletoService;
+	private @Inject BoletoService boletoService;
 	
 	@Override
 	public AbstractDAO<SMS> getDAO() {
@@ -58,7 +60,11 @@ public class SMSService extends AbstractService<SMS> {
 			sms.setDataCriacao(LocalDateTime.now());
 			smsDAO.incluir(sms);
 			envioSMSZenviaService.enviar(sms);
-		} catch (RestClientException e) {
+			if(boleto.getDataSms() == null){
+				boleto.setDataSms(new Date());
+				boletoService.alterar(boleto);
+			}	
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -69,7 +75,11 @@ public class SMSService extends AbstractService<SMS> {
 			sms.setDataCriacao(LocalDateTime.now());
 			smsDAO.incluir(sms);
 			envioSMSZenviaService.enviar(sms);
-		} catch (RestClientException e) {
+			if(boleto.getDataSms() == null){
+				boleto.setDataSms(new Date());
+				boletoService.alterar(boleto);
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

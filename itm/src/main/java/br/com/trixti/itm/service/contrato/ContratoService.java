@@ -109,7 +109,9 @@ public class ContratoService extends AbstractService<Contrato> {
 		if(entidade.isCriarLancamentoCredito()){
 			criarLancamentoCredito(entidade);
 		}	
+		
 		super.alterar(entidade);
+		
 		for(ContratoProduto contratoProduto:entidade.getContratoProdutos()){
 			if(contratoProduto.getId() == null){
 				contratoProdutoService.incluir(contratoProduto);
@@ -142,7 +144,9 @@ public class ContratoService extends AbstractService<Contrato> {
 				contratoAutenticacaoService.alterar(autenticacao);
 			}	
 		}
+		
 		freeRadiusService.sincronizarContrato(entidade);
+		
 	}
 	
 	public List<Contrato> listarAtivo() {

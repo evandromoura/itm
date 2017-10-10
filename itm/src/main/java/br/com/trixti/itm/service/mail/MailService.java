@@ -38,6 +38,16 @@ public class MailService {
 	private @Inject GeradorBoletoService geradorBoletoService;
 	private @Inject BoletoService boletoService;
 
+	
+	
+	
+	@Asynchronous
+	
+	public void enviar(String titulo, String texto, String...destinatarios){
+		
+		
+	}
+	
 	@Asynchronous
 	public void enviarEmail(Boleto boleto,String titulo, String texto) {
 		File arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
@@ -59,7 +69,8 @@ public class MailService {
 			
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(boleto.getContrato().getCliente().getEmail()+",boletos@trixti.com.br"));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(boleto.getContrato().getCliente().getEmail()
+					+",boletos@trixti.com.br"));
 			message.setSubject(titulo);
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart.setContent(UtilEmail.corpo.replace("@@TEXTO", texto),"text/html");
@@ -79,7 +90,7 @@ public class MailService {
 			}	
 			
 		} catch (MessagingException e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
 		}finally {
 			if(arquivoBoleto != null){
 				arquivoBoleto.delete();

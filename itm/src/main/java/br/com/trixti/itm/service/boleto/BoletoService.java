@@ -79,6 +79,15 @@ public class BoletoService extends AbstractService<Boleto>{
 			return null;
 		}	
 	}
+	
+	
+	public Boleto recuperarBoletoContratoMes(Contrato contrato, Date data){
+		try{
+			return boletoDAO.recuperarBoletoContratoMes(contrato,data);
+		}catch(Exception e){
+			return null;
+		}	
+	}
 
 	@Override
 	public AbstractDAO<Boleto> getDAO() {
@@ -92,6 +101,11 @@ public class BoletoService extends AbstractService<Boleto>{
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<Boleto> pesquisarBoletoEmAberto() {
 		return boletoDAO.pesquisarBoletoEmAberto();
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+	public List<Boleto> pesquisarBoletoEmAberto(Remessa remessa) {
+		return boletoDAO.pesquisarBoletoEmAberto(remessa);
 	}
 	
 	public List<Boleto> pesquisarBoletoEmAbertoContratoComAviso(Contrato contrato) {

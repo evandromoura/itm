@@ -34,6 +34,17 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 						getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataCriacao"), dataPrimeiroDia))))
 				.getResultList();
 	}
+	
+	public Boleto recuperarBoletoContratoMes(Contrato contrato,Date data) {
+		UtilData utilData = new UtilData();
+		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
+		Root<Boleto> root = criteria.from(Boleto.class);
+		return getManager()
+				.createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("contrato"), contrato),
+						getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataVencimento"),utilData.ajustaData(data, 1, 0, 0, 0)),
+						getCriteriaBuilder().lessThan(root.<Date>get("dataVencimento"),utilData.ajustaData(utilData.adicionarMeses(data,1), 1, 0, 0, 0))
+						)).getSingleResult();
+	}
 
 	public Boleto recuperarBoletoContrato(Contrato contrato, Date dataVencimento) {
 		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
@@ -60,6 +71,15 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 		Root<Boleto> root = criteria.from(Boleto.class);
 		return getManager().createQuery(criteria.select(root)
 						.where(getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO)))
+				.getResultList();
+	}
+	
+	public List<Boleto> pesquisarBoletoEmAberto(Remessa remessa) {
+		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
+		Root<Boleto> root = criteria.from(Boleto.class);
+		return getManager().createQuery(criteria.select(root).distinct(true)
+						.where(getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO),
+							   getCriteriaBuilder().equal(root.get("remessa"), remessa)))
 				.getResultList();
 	}
 
@@ -127,7 +147,10 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
 		Root<Boleto> root = criteria.from(Boleto.class);
 		return getManager().createQuery(criteria.select(root).where(
-				getCriteriaBuilder().isNull(root.get("dataNotificacao")),
+				
+				getCriteriaBuilder().or(getCriteriaBuilder().isNull(root.get("dataNotificacao")),
+							getCriteriaBuilder().isNull(root.get("dataSms"))),
+				
 				getCriteriaBuilder().isNotNull(root.join("remessa",JoinType.LEFT).get("dataEnvio"))
 				)).getResultList();
 	}

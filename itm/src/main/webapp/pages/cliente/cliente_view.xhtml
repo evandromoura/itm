@@ -34,7 +34,7 @@
 								</div>
 								<div class="card-block">
 									<div class="row">
-										<div class="col-sm-4">
+										<div class="col-sm-2">
 											<div class="form-group">
 												<label>#{resources['label.global.tipopessoa']}:</label><br />
 												#{clienteViewController.clienteTO.cliente.tipoPessoa}
@@ -43,7 +43,7 @@
 										<h:panelGroup id="idTipoPessoa">
 											<ui:fragment
 												rendered="#{clienteViewController.clienteTO.cliente.tipoPessoa.name eq 'FISICA'}">
-												<div class="col-sm-6">
+												<div class="col-sm-4">
 													<div class="form-group">
 														<label>#{resources['label.global.cpf']}:</label><br /> 
 														#{clienteViewController.clienteTO.cliente.cpfCnpj}
@@ -59,27 +59,37 @@
 													</div>
 												</div>
 											</ui:fragment>
+											
 											<div class="col-sm-4">
 												<div class="form-group">
 													<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}:</label><br />
 													#{clienteViewController.clienteTO.cliente.telefoneCelular}
 												</div>
 											</div>
-											<div class="col-sm-2">
+											
+											<div class="col-sm-4">
 												<div class="form-group">
-													<label>#{resources['label.global.email']}:</label><br />
-													#{clienteViewController.clienteTO.cliente.email}
+													<label for="formCliente:cliente_telefone_fixo">#{resources['label.global.telefonefixo']}:</label><br />
+													#{clienteViewController.clienteTO.cliente.telefoneFixo}
 												</div>
 											</div>
+											
+											
 										</h:panelGroup>
 									</div>
 									<div class="row">
-										<div class="col-sm-12">
+										<div class="col-sm-8">
 											<div class="form-group">
 												<label for="formCliente:cliente_nome">#{resources['label.global.nome']}:</label><br />
 												#{clienteViewController.clienteTO.cliente.nome}
 											</div>
 										</div>
+										<div class="col-sm-4">
+												<div class="form-group">
+													<label>#{resources['label.global.email']}:</label><br />
+													#{clienteViewController.clienteTO.cliente.email}
+												</div>
+											</div>
 									</div>
 									<div class="row">
 										<div class="col-sm-4">

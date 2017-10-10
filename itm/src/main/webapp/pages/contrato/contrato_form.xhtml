@@ -3,8 +3,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	template="/WEB-INF/templates/default.xhtml"
-                xmlns:itm="http://java.sun.com/jsf/composite/components">
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
+	template="/WEB-INF/templates/default.xhtml">
 
 	
 	<ui:define name="breadcrumb">
@@ -26,23 +26,28 @@
 					</div>
 					<div class="card-block">
 						<div class="row">
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<div class="form-group">
-									<label>#{resources['label.global.cliente']} : </label>
-									<h:outputText
-										value="#{contratoController.contratoTO.contrato.cliente.nome}" />
+									<label>#{resources['label.global.cliente']} : </label><br />
+									<h:outputText value="#{contratoController.contratoTO.contrato.cliente.nome}" />
 								</div>
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<div class="form-group">
-									<label>#{resources['label.global.identificador']} : </label>
+									<label>#{resources['label.global.identificador']} : </label><br />
 									<h:outputText
 										value="#{contratoController.contratoTO.contrato.identificador}" />
 								</div>
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<div class="form-group">
-									<label>#{resources['label.global.criarlancamentocreditoinicial']} : </label>
+									<label>#{resources['label.global.diamesvencimento']} : </label>
+									<itm:numero value="#{contratoController.contratoTO.contrato.diaMesVencimento}" maxlength="2" />
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label>#{resources['label.global.criarlancamentocreditoinicial']} : </label><br />
 									<h:selectBooleanCheckbox value="#{contratoController.contratoTO.contrato.criarLancamentoCredito}" />
 								</div>
 							</div>

@@ -61,7 +61,7 @@ import br.com.trixti.itm.to.SnmpTO;
 						session.getBasicRemote().sendText(msg);
 	        	   }
         	   } catch (IOException e) {
-        		   e.printStackTrace();
+        		   System.out.println("Canal Fechado!");
         	   }
            }
 

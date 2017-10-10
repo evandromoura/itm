@@ -1,6 +1,7 @@
 package br.com.trixti.itm.controller.remessa;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -28,6 +29,10 @@ public class RemessaViewController extends AbstractController<Remessa> {
 	}
 	
 	
+	public void notificarEmAtraso(){
+		remessaService.notificarTodosBoleto(getRemessaTO().getRemessa());
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviado com Sucesso", "O Registro foi incluido na base"));
+	}
 	
 	private void inicializarView(Integer id){
 		getRemessaTO().setRemessa(remessaService.recuperar(id));

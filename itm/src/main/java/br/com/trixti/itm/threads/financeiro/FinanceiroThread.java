@@ -73,158 +73,179 @@ public class FinanceiroThread {
 	private @Inject GeradorBoletoService geradorBoletoService;
 	private @Inject MensagemFactory mensagemFactory;
 	private @Inject ContratoNotificacaoService contratoNotificacaoService;
+	
+	private boolean ativo = true;
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
-		parametro = parametroService.recuperarParametro();
-		List<Cliente> clientes = clienteService.listarAtivo();
-		for (Cliente cliente : clientes) {
-			BigDecimal valor = BigDecimal.ZERO;
-			List<BoletoLancamento> lancamentosBoleto = new ArrayList<BoletoLancamento>();
-			for (Contrato contrato : cliente.getContratos()) {
-				if(contrato.getStatus().equals(StatusContrato.ATIVO)){
-					gerarBoleto(valor, lancamentosBoleto, contrato);
-				}	
+		if(ativo){
+			parametro = parametroService.recuperarParametro();
+			List<Cliente> clientes = clienteService.listarAtivo();
+			for (Cliente cliente : clientes) {
+				BigDecimal valor = BigDecimal.ZERO;
+				List<BoletoLancamento> lancamentosBoleto = new ArrayList<BoletoLancamento>();
+				for (Contrato contrato : cliente.getContratos()) {
+					if(contrato.getStatus().equals(StatusContrato.ATIVO)){
+						gerarBoleto(valor, lancamentosBoleto, contrato);
+					}	
+				}
 			}
-		}
+		}	
 	}
 
-	// @Schedule(info="Bloquear-Contrato", hour = "12", persistent = false)
 	@Schedule(info = "Bloquear-Contrato", minute = "*", hour = "*", persistent = false)
 	public void bloquearContrato() {
-		parametro = parametroService.recuperarParametro();
-		List<Cliente> clientes = clienteService.listarAtivo();
-		for (Cliente cliente : clientes) {
-			for (Contrato contrato : cliente.getContratos()) {
-				verificarBloqueioContrato(contrato);
+		if(ativo){
+			parametro = parametroService.recuperarParametro();
+			List<Cliente> clientes = clienteService.listarAtivo();
+			for (Cliente cliente : clientes) {
+				for (Contrato contrato : cliente.getContratos()) {
+					verificarBloqueioContrato(contrato);
+				}
 			}
-		}
+		}	
 	}
 
 	@Schedule(info = "Desbloquear-Contrato", minute = "*", hour = "*", persistent = false)
 	public void desbloquearContrato() {
-		parametro = parametroService.recuperarParametro();
-		List<Cliente> clientes = clienteService.listarAtivo();
-		for (Cliente cliente : clientes) {
-			for (Contrato contrato : cliente.getContratos()) {
-				verificarDesbloquearContrato(contrato);
+		if(ativo){
+			parametro = parametroService.recuperarParametro();
+			List<Cliente> clientes = clienteService.listarAtivo();
+			for (Cliente cliente : clientes) {
+				for (Contrato contrato : cliente.getContratos()) {
+					verificarDesbloquearContrato(contrato);
+				}
 			}
-		}
+		}	
 	}
 
 	@Schedule(info = "Processar-Remessa", minute = "*/1", hour = "*", persistent = false)
 	public void processarRemessa() {
-		List<Boleto> listaBoleto = boletoService.pesquisarBoletoSemRemessa();
-		Map<String, List<Boleto>> mapaBoletoBanco = new HashMap<String, List<Boleto>>();
-		for (Boleto boleto : listaBoleto) {
-			if (boleto.getStatus().equals(StatusBoletoEnum.ABERTO)) {
-				if (mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()) == null) {
-					mapaBoletoBanco.put(boleto.getContrato().getContaCorrente().getBanco(), new ArrayList<Boleto>());
+		if(ativo){
+			List<Boleto> listaBoleto = boletoService.pesquisarBoletoSemRemessa();
+			Map<String, List<Boleto>> mapaBoletoBanco = new HashMap<String, List<Boleto>>();
+			for (Boleto boleto : listaBoleto) {
+				if (boleto.getStatus().equals(StatusBoletoEnum.ABERTO)) {
+					if (mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()) == null) {
+						mapaBoletoBanco.put(boleto.getContrato().getContaCorrente().getBanco(), new ArrayList<Boleto>());
+					}
+					mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()).add(boleto);
 				}
-				mapaBoletoBanco.get(boleto.getContrato().getContaCorrente().getBanco()).add(boleto);
 			}
-		}
-		for (String banco : mapaBoletoBanco.keySet()) {
-			if (banco.equals(BancosSuportados.BANCO_ITAU.name())) {
-				integracaoFinanceiraItau.gerarRemessa(mapaBoletoBanco.get(banco));
+			for (String banco : mapaBoletoBanco.keySet()) {
+				if (banco.equals(BancosSuportados.BANCO_ITAU.name())) {
+					integracaoFinanceiraItau.gerarRemessa(mapaBoletoBanco.get(banco));
+				}
 			}
-		}
+		}	
 	}
 
 	@Schedule(info = "Processar-Retorno", minute = "*", hour = "*", persistent = false)
 	public void processarRetorno() {
-		List<Retorno> listaRetorno = retornoService.listarPendentes();
-		Map<String, List<Retorno>> mapaRetorno = new HashMap<String, List<Retorno>>();
-		for (Retorno retorno : listaRetorno) {
-			if (retorno.getBanco().equals(BancosSuportados.BANCO_ITAU.name())) {
-				if (mapaRetorno.get(retorno.getBanco()) == null) {
-					mapaRetorno.put(retorno.getBanco(), new ArrayList<Retorno>());
+		if(ativo){
+			List<Retorno> listaRetorno = retornoService.listarPendentes();
+			Map<String, List<Retorno>> mapaRetorno = new HashMap<String, List<Retorno>>();
+			for (Retorno retorno : listaRetorno) {
+				if (retorno.getBanco().equals(BancosSuportados.BANCO_ITAU.name())) {
+					if (mapaRetorno.get(retorno.getBanco()) == null) {
+						mapaRetorno.put(retorno.getBanco(), new ArrayList<Retorno>());
+					}
+					mapaRetorno.get(retorno.getBanco()).add(retorno);
 				}
-				mapaRetorno.get(retorno.getBanco()).add(retorno);
 			}
-		}
-		for (String banco : mapaRetorno.keySet()) {
-			if (BancosSuportados.BANCO_ITAU.name().equals(banco)) {
-				integracaoFinanceiraItau.processarRetorno(mapaRetorno.get(banco));
+			for (String banco : mapaRetorno.keySet()) {
+				if (BancosSuportados.BANCO_ITAU.name().equals(banco)) {
+					integracaoFinanceiraItau.processarRetorno(mapaRetorno.get(banco));
+				}
 			}
-		}
+		}	
 	}
 
 	@Schedule(info = "Enviar-Notificacoes", minute = "*/1", hour = "*", persistent = false)
 	public void processarNotificacao() {
-		List<Boleto> listaBoleto = boletoService.pesquisarBoletoNaoNotificado();
-		 UtilData utilData = new UtilData();
-		for (Boleto boleto : listaBoleto) {
-			String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(boleto.getDataVencimento())));
-			mailService.enviarEmail(boleto,null,texto);
-			smsService.enviarSMS(boleto);
-			contratoNotificacaoService.incluir(comporContratoNotificacao(boleto, MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.ENVIO_BOLETO, texto));
-		}
+		if(ativo){
+			List<Boleto> listaBoleto = boletoService.pesquisarBoletoNaoNotificado();
+			 UtilData utilData = new UtilData();
+			for (Boleto boleto : listaBoleto) {
+				String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(boleto.getDataVencimento())));
+				
+				if(boleto.getDataNotificacao() == null){
+					mailService.enviarEmail(boleto,null,texto);
+					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto, MeioEnvioContratoNotificacao.EMAIL, TipoContratoNotificacao.ENVIO_BOLETO, texto));
+				}
+				if(boleto.getDataSms() == null){
+					smsService.enviarSMS(boleto);
+					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto, MeioEnvioContratoNotificacao.SMS, TipoContratoNotificacao.ENVIO_BOLETO, texto));
+				}
+			}
+		}	
 	}
 	
 	
 
 	@Schedule(info = "Enviar-Notificacoes-Inadimplencia", hour = "12", persistent = false)
 	public void processarNotificacaoInadimplencia() {
-		UtilData utilData = new UtilData();
-		List<Boleto> listaBoletoAberto = boletoService.pesquisarBoletoEmAberto();
-		for (Boleto boleto : listaBoletoAberto) {
-			Integer qtdDiferenca = Long.valueOf(utilData.getDiferencaDias(new Date(), boleto.getDataVencimento())).intValue();
-			boleto.setDataVencimento(new Date());
-			if(qtdDiferenca >= 3 && qtdDiferenca < 5){
-				ContratoNotificacao contratoNotificacaoRetornoInicial = 
-					contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(), TipoContratoNotificacao.AVISO_ATRASO_INICIAL, new Date());
-				if (contratoNotificacaoRetornoInicial == null) {
-					String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoatrasado");
-					String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoatrasadosms");
-					mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
-					smsService.enviarSMS(boleto, textoSms);
-					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.AVISO_ATRASO_INICIAL, texto));
-				}
-			}else if(qtdDiferenca >=5 && qtdDiferenca < 10){	
-				ContratoNotificacao contratoNotificacaoRetornoAntesBloqueio = 
-					contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(),TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_PRIMEIRO, new Date());
-				if (contratoNotificacaoRetornoAntesBloqueio == null) {
-					String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueio");
-					String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueiosms");
-					mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
-					smsService.enviarSMS(boleto,textoSms);
-					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_PRIMEIRO, texto));
-				}
-			}else if(qtdDiferenca >= 10 && qtdDiferenca < 15){
-				ContratoNotificacao contratoNotificacaoRetornoAntesDezDias = 
-						contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(),TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_SEGUNDO, new Date());
-				if (contratoNotificacaoRetornoAntesDezDias == null) {
-					String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueio");
-					String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueiosms");
-					mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
-					smsService.enviarSMS(boleto,textoSms);
-					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_SEGUNDO, texto));
-				}
-			}else if(qtdDiferenca >= 15 && qtdDiferenca < 45){
-				ContratoNotificacao contratoNotificacaoRetornoAntesDezDias = 
-						contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(),TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_TERCEIRO, new Date());
-				if (contratoNotificacaoRetornoAntesDezDias == null) {
-					String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueio");
-					String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueiosms");
-					mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
-					smsService.enviarSMS(boleto,textoSms);
-					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,
-							TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_TERCEIRO, texto));
-				}
-			}else if(qtdDiferenca > 45){
-				ContratoNotificacao contratoNotificacaoRetornoAntesDezDias = 
-					contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(),TipoContratoNotificacao.AVISO_NEGATIVACAO, new Date());
-				if (contratoNotificacaoRetornoAntesDezDias == null) {
-					String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentonegativacao");
-					String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentonegativacaosms");
-					mailService.enviarEmail(boleto,"ITRIX - Aviso - Negativação", texto);
-					smsService.enviarSMS(boleto,textoSms);
-					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,
-							TipoContratoNotificacao.AVISO_NEGATIVACAO, texto));
+		if(ativo){
+			UtilData utilData = new UtilData();
+			List<Boleto> listaBoletoAberto = boletoService.pesquisarBoletoEmAberto();
+			for (Boleto boleto : listaBoletoAberto) {
+				Integer qtdDiferenca = Long.valueOf(utilData.getDiferencaDias(new Date(), boleto.getDataVencimento())).intValue();
+				boleto.setDataVencimento(new Date());
+				if(qtdDiferenca >= 3 && qtdDiferenca < 5){
+					ContratoNotificacao contratoNotificacaoRetornoInicial = 
+						contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(), TipoContratoNotificacao.AVISO_ATRASO_INICIAL, new Date());
+					if (contratoNotificacaoRetornoInicial == null) {
+						String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoatrasado");
+						String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoatrasadosms");
+						mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
+						smsService.enviarSMS(boleto, textoSms);
+						contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.AVISO_ATRASO_INICIAL, texto));
+					}
+				}else if(qtdDiferenca >=5 && qtdDiferenca < 10){	
+					ContratoNotificacao contratoNotificacaoRetornoAntesBloqueio = 
+						contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(),TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_PRIMEIRO, new Date());
+					if (contratoNotificacaoRetornoAntesBloqueio == null) {
+						String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueio");
+						String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueiosms");
+						mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
+						smsService.enviarSMS(boleto,textoSms);
+						contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_PRIMEIRO, texto));
+					}
+				}else if(qtdDiferenca >= 10 && qtdDiferenca < 15){
+					ContratoNotificacao contratoNotificacaoRetornoAntesDezDias = 
+							contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(),TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_SEGUNDO, new Date());
+					if (contratoNotificacaoRetornoAntesDezDias == null) {
+						String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueio");
+						String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueiosms");
+						mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
+						smsService.enviarSMS(boleto,textoSms);
+						contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_SEGUNDO, texto));
+					}
+				}else if(qtdDiferenca >= 15 && qtdDiferenca < 45){
+					ContratoNotificacao contratoNotificacaoRetornoAntesDezDias = 
+							contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(),TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_TERCEIRO, new Date());
+					if (contratoNotificacaoRetornoAntesDezDias == null) {
+						String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueio");
+						String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueiosms");
+						mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
+						smsService.enviarSMS(boleto,textoSms);
+						contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,
+								TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_TERCEIRO, texto));
+					}
+				}else if(qtdDiferenca > 45){
+					ContratoNotificacao contratoNotificacaoRetornoAntesDezDias = 
+						contratoNotificacaoService.recuperarPorContratoDataTipo(boleto.getContrato(),TipoContratoNotificacao.AVISO_NEGATIVACAO, new Date());
+					if (contratoNotificacaoRetornoAntesDezDias == null) {
+						String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentonegativacao");
+						String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentonegativacaosms");
+						mailService.enviarEmail(boleto,"ITRIX - Aviso - Negativação", texto);
+						smsService.enviarSMS(boleto,textoSms);
+						contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,
+								TipoContratoNotificacao.AVISO_NEGATIVACAO, texto));
+					}
 				}
 			}
-		}
+		}	
 	}
 
 	private ContratoNotificacao comporContratoNotificacao(Boleto boleto,MeioEnvioContratoNotificacao meio,TipoContratoNotificacao tipo, String texto3) {
@@ -279,16 +300,19 @@ public class FinanceiroThread {
 			List<ContratoProduto> produtos = contratoProdutoService.pesquisarVigentePorContrato(contrato);
 			Boleto boleto = new Boleto();
 			UtilData utilData = new UtilData();
-			Date dataVencimento = utilData.ajustaData(utilData.adicionarMeses(new Date(), 1),
-					contrato.getDiaMesVencimento(), 23, 59, 59);
-			Boleto boletoJaCriado = boletoService.recuperarBoletoContrato(contrato, dataVencimento);
-			if (boletoJaCriado == null) {
+			Date dataVencimento = utilData.ajustaData(new Date(),contrato.getDiaMesVencimento(), 23, 59, 59);
+			
+			Boleto boletoJaCriado = boletoService.recuperarBoletoContratoMes(contrato,new Date());
+			Boleto boletoJaCriadoProximoMes = boletoService.recuperarBoletoContratoMes(contrato,utilData.adicionarMeses(new Date(), 1));
+			
+			if (boletoJaCriado == null && boletoJaCriadoProximoMes == null) {
+				
 				for (ContratoLancamento lancamentoAberto : lancamentosEmAberto) {
 					valor = lancamentoAberto.getTipoLancamento().equals(TipoLancamentoEnum.DEBITO)
 							? valor.add(lancamentoAberto.getValor()) : valor.subtract(lancamentoAberto.getValor());
 					lancamentosBoleto.add(new BoletoLancamento(boleto, lancamentoAberto));
 				}
-
+				
 				if(!contrato.getStatus().equals(StatusContrato.CANCELADO)){
 					for (ContratoProduto produto : produtos) {
 						ContratoLancamento contratoLancamento = new ContratoLancamento();

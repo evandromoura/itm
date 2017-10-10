@@ -124,6 +124,13 @@ public class HomeController extends AbstractController<Object>{
 		contratoService.promessaPagamento(contrato);
 		getFacesContext().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Promessa registrada com sucesso! Em breve sua internet será desbloqueada", "Promessa registrada com sucesso! Em breve sua internet será desbloqueada"));
 	}
+	
+	public void enviarEmailTeste(){
+		
+		
+//		mailService.
+	}
+	
 
 	public HomeTO getHomeTO() {
 		if (homeTO == null) {

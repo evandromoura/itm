@@ -43,7 +43,7 @@
 									
 								</div>
 							</div>
-							<div class="col-sm-3">
+							<div class="col-sm-2">
 								<div class="form-group">
 									<h6 class="mb-1"><b>#{resources['label.global.status']}</b></h6>
 									<div>
@@ -53,16 +53,29 @@
 									
 								</div>
 							</div>
-							<div class="col-sm-3">
+							<div class="col-sm-2">
 								<div class="form-group">
 									<h6 class="mb-1"><b>#{resources['label.global.banco']}</b></h6>
 									<div>
 										<h:outputText
 											value="#{remessaViewController.remessaTO.remessa.banco}" />
 									</div>
-									
 								</div>
 							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<h6 class="mb-1"><b>#{resources['label.global.notificacoes']}</b></h6>
+									<div>
+										<h:commandLink action="#{remessaViewController.notificarEmAtraso}"  styleClass="btn btn-success">
+											<h:outputText value="#{resources['label.global.notificarBoletoEmAberto']}" /> 
+										</h:commandLink>
+									</div>
+								</div>
+							</div>
+							
+							
+							
+							
 						</div>
 
 					</div>

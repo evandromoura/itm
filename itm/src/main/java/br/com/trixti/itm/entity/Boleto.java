@@ -89,6 +89,11 @@ public class Boleto implements java.io.Serializable {
 	@Column(name="data_notificacao")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataNotificacao;
+	
+	
+	@Column(name="data_sms")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dataSms;
 
 	public Boleto() {
 	}
@@ -237,6 +242,14 @@ public class Boleto implements java.io.Serializable {
 
 	public void setDataNotificacao(Date dataNotificacao) {
 		this.dataNotificacao = dataNotificacao;
+	}
+
+	public Date getDataSms() {
+		return dataSms;
+	}
+
+	public void setDataSms(Date dataSms) {
+		this.dataSms = dataSms;
 	}
 
 }

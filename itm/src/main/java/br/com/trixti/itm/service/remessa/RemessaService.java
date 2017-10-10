@@ -11,16 +11,29 @@ import javax.inject.Inject;
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.remessa.RemessaDAO;
 import br.com.trixti.itm.entity.Boleto;
+import br.com.trixti.itm.entity.ContratoNotificacao;
+import br.com.trixti.itm.entity.MeioEnvioContratoNotificacao;
 import br.com.trixti.itm.entity.Remessa;
+import br.com.trixti.itm.entity.TipoContratoNotificacao;
 import br.com.trixti.itm.enums.StatusRemessaEnum;
+import br.com.trixti.itm.infra.msg.MensagemFactory;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boleto.BoletoService;
+import br.com.trixti.itm.service.contratonotificacao.ContratoNotificacaoService;
+import br.com.trixti.itm.service.mail.MailService;
+import br.com.trixti.itm.service.sms.SMSService;
+import br.com.trixti.itm.util.UtilData;
 
 @Stateless
 public class RemessaService extends AbstractService<Remessa>{
 
 	private @Inject RemessaDAO remessaDAO;
 	private @Inject BoletoService boletoService;
+	private @Inject MailService mailService;
+	private @Inject SMSService smsService;
+	private @Inject MensagemFactory mensagemFactory;
+	private @Inject ContratoNotificacaoService contratoNotificacaoService;
+	
 
 	@Override
 	public AbstractDAO<Remessa> getDAO() {
@@ -47,6 +60,44 @@ public class RemessaService extends AbstractService<Remessa>{
 			}
 			excluir(remessa);
 		}
+	}
+	
+	public void notificarBoletoEmAtraso(Remessa remessa){
+		UtilData utilData = new UtilData();
+		List<Boleto> listaBoletoAberto = boletoService.pesquisarBoletoEmAberto(remessa);
+		for (Boleto boleto : listaBoletoAberto) {
+			Integer qtdDiferenca = Long.valueOf(utilData.getDiferencaDias(new Date(), boleto.getDataVencimento())).intValue();
+			if(qtdDiferenca > 0){
+				String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.mensagemreevioatraso");
+				String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.mensagemreevioatrasosms");
+				mailService.enviarEmail(boleto,"ITRIX - Aviso - Negativação", texto);
+				smsService.enviarSMS(boleto,textoSms);
+				contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,
+						TipoContratoNotificacao.SEGUNDA_VIDA, texto));
+			}
+		}	
+	}
+	
+	public void notificarTodosBoleto(Remessa remessa){
+		remessa = remessaDAO.recuperarCompleto(remessa.getId());
+		UtilData utilData = new UtilData();
+		List<Boleto> listaBoletoAberto = remessa.getBoletos();
+		for (Boleto boleto : listaBoletoAberto) {
+			String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(boleto.getDataVencimento())));
+			mailService.enviarEmail(boleto,"ITRIX - Envio de Fatura", texto);
+			smsService.enviarSMS(boleto);
+			contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,TipoContratoNotificacao.SEGUNDA_VIDA, texto));
+		}	
+	}
+	
+	private ContratoNotificacao comporContratoNotificacao(Boleto boleto,MeioEnvioContratoNotificacao meio,TipoContratoNotificacao tipo, String texto3) {
+		ContratoNotificacao contratoNotificacaoAvisoInicial = new ContratoNotificacao();
+		contratoNotificacaoAvisoInicial.setContrato(boleto.getContrato());
+		contratoNotificacaoAvisoInicial.setTexto(texto3);
+		contratoNotificacaoAvisoInicial.setMeioEnvio(meio);
+		contratoNotificacaoAvisoInicial.setTipo(tipo);
+		contratoNotificacaoAvisoInicial.setDataEnvio(new Date());
+		return contratoNotificacaoAvisoInicial;
 	}
 	
 	
