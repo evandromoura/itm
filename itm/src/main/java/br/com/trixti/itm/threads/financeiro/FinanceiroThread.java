@@ -39,7 +39,6 @@ import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.infra.msg.MensagemFactory;
 import br.com.trixti.itm.service.boleto.BoletoService;
-import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
@@ -70,7 +69,6 @@ public class FinanceiroThread {
 	private @Resource TimerService sessionContext;
 	private @Inject MailService mailService;
 	private @Inject SMSService smsService;
-	private @Inject GeradorBoletoService geradorBoletoService;
 	private @Inject MensagemFactory mensagemFactory;
 	private @Inject ContratoNotificacaoService contratoNotificacaoService;
 	
@@ -304,6 +302,7 @@ public class FinanceiroThread {
 			
 			Boleto boletoJaCriado = boletoService.recuperarBoletoContratoMes(contrato,new Date());
 			Boleto boletoJaCriadoProximoMes = boletoService.recuperarBoletoContratoMes(contrato,utilData.adicionarMeses(new Date(), 1));
+			Boleto boletoJaCriadoAnteriorMes = boletoService.recuperarBoletoContratoMes(contrato,utilData.subtrairMeses(new Date(), 1));
 			
 			if (boletoJaCriado == null && boletoJaCriadoProximoMes == null) {
 				
@@ -312,9 +311,11 @@ public class FinanceiroThread {
 							? valor.add(lancamentoAberto.getValor()) : valor.subtract(lancamentoAberto.getValor());
 					lancamentosBoleto.add(new BoletoLancamento(boleto, lancamentoAberto));
 				}
+				System.out.println("");
 				
 				if(!contrato.getStatus().equals(StatusContrato.CANCELADO)){
 					for (ContratoProduto produto : produtos) {
+						
 						ContratoLancamento contratoLancamento = new ContratoLancamento();
 						contratoLancamento.setContrato(contrato);
 						contratoLancamento.setDataLancamento(new Date());
@@ -338,7 +339,11 @@ public class FinanceiroThread {
 					boleto.setDataCriacao(new Date());
 					boleto.setStatus(StatusBoletoEnum.ABERTO);
 					boleto.setValor(valor);
-					boleto.setDataVencimento(dataVencimento);
+					if(boletoJaCriadoAnteriorMes == null){
+						boleto.setDataVencimento(utilData.adicionarMeses(dataVencimento, 1));
+					}else{
+						boleto.setDataVencimento(dataVencimento);
+					}	
 					comporNossoNumero(boleto);
 					boletoService.incluir(boleto);
 				} else {

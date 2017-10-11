@@ -39,11 +39,12 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 		UtilData utilData = new UtilData();
 		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
 		Root<Boleto> root = criteria.from(Boleto.class);
-		return getManager()
+		Boleto boletoRetorno = getManager()
 				.createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("contrato"), contrato),
 						getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataVencimento"),utilData.ajustaData(data, 1, 0, 0, 0)),
 						getCriteriaBuilder().lessThan(root.<Date>get("dataVencimento"),utilData.ajustaData(utilData.adicionarMeses(data,1), 1, 0, 0, 0))
-						)).getSingleResult();
+						)).setMaxResults(1).getSingleResult();
+		return boletoRetorno;
 	}
 
 	public Boleto recuperarBoletoContrato(Contrato contrato, Date dataVencimento) {
