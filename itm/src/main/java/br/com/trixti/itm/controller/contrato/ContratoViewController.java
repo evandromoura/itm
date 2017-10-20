@@ -212,6 +212,11 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		}	
 	}
 	
+	public void enviarSegundaViaBoleto(){
+		getContratoTO().getBoletoSegundaVia().setDataVencimento(getContratoTO().getDataSegundaViaBoleto());
+		enviarEmail(getContratoTO().getBoletoSegundaVia());
+	}
+	
 	public void removerBoletoRemessa(Boleto boleto){
 		remessaService.removerBoletoRemessa(boleto);
 		String mensagem = getMessage("label.global.alterarsucesso");

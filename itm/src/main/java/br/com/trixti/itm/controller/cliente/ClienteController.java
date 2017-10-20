@@ -111,13 +111,26 @@ public class ClienteController extends AbstractController<Cliente> {
 		}	
 	}
 	
+	
+	public void desbloquearContrato(){
+		if(getClienteTO().getContratoAcao() != null){
+			Contrato contrato = contratoService.recuperarCompleto(getClienteTO().getContratoAcao().getId());
+			contratoService.desbloquear(contrato);
+			String mensagem = getMessage("label.global.desbloquearsucesso");
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
+			init();
+		}	
+	}
+	
 	public String cancelar(){
 		getClienteTO().setCliente(null);
 		return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 	}
 	
 	public void excluir(){
-		clienteService.excluir(clienteService.recuperar(getClienteTO().getCliente().getId()));
+		Cliente cliente =  clienteService.recuperar(getClienteTO().getCliente().getId());
+		cliente.setUsuarioUltimaAtualizacao(customIdentity.getUsuario());
+		clienteService.excluir(cliente);
 		String mensagem = getMessage("label.global.excluirsucesso");
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
 		pesquisar();

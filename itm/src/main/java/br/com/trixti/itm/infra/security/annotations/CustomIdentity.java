@@ -20,6 +20,7 @@ public class CustomIdentity implements Serializable {
 	private PerfilEnum perfil;
 	private Contrato contratoSelecionado;
 	private Usuario usuario;
+	private boolean menuAberto = true;
 
 	public Cliente getCliente() {
 		return cliente;
@@ -51,6 +52,14 @@ public class CustomIdentity implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public boolean isMenuAberto() {
+		return menuAberto;
+	}
+
+	public void setMenuAberto(boolean menuAberto) {
+		this.menuAberto = menuAberto;
 	}
 
 	

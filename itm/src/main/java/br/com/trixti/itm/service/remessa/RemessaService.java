@@ -117,5 +117,15 @@ public class RemessaService extends AbstractService<Remessa>{
 		boleto.setRemessa(null);
 		boletoService.alterar(boleto);
 	}
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	@Override
+	public void excluir(Remessa entidade) {
+		try{
+			super.excluir(entidade);
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
+	}
 	
 }

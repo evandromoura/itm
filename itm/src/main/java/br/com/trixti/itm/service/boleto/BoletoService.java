@@ -85,7 +85,6 @@ public class BoletoService extends AbstractService<Boleto>{
 		try{
 			return boletoDAO.recuperarBoletoContratoMes(contrato,data);
 		}catch(Exception e){
-			e.printStackTrace();
 			return null;
 		}	
 	}

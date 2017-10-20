@@ -30,6 +30,12 @@ public class RemessaViewController extends AbstractController<Remessa> {
 	
 	
 	public void notificarEmAtraso(){
+		remessaService.notificarBoletoEmAtraso(getRemessaTO().getRemessa());
+		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviado com Sucesso", "O Registro foi incluido na base"));
+	}
+	
+	
+	public void notificarTodos(){
 		remessaService.notificarTodosBoleto(getRemessaTO().getRemessa());
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Enviado com Sucesso", "O Registro foi incluido na base"));
 	}

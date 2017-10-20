@@ -296,6 +296,15 @@
 								       	<f:passThroughAttribute name="data-toggle" value="modal" />
 										<f:passThroughAttribute name="data-target" value="#idCancelarContrato" />
 								    </h:commandLink>
+								    
+								    
+								    <h:commandLink styleClass="btn btn-info" rendered="#{contrato.status.name eq 'CANCELADO'}">
+										<i class="fa fa-times"></i> #{resources['label.global.desbloquear']}
+								        <f:setPropertyActionListener target="#{clienteController.clienteTO.contratoAcao}" value="#{contrato}" />
+								        <f:ajax />
+								       	<f:passThroughAttribute name="data-toggle" value="modal" />
+										<f:passThroughAttribute name="data-target" value="#idDesbloquearContrato" />
+								    </h:commandLink>
 									
 								</h:column>
 							</h:dataTable>
@@ -341,6 +350,14 @@
 					<h:commandLink styleClass="btn btn-info">
 						<f:ajax listener="#{clienteController.cancelarContrato}" event="click" render="@all"  immediate="true" execute="@this" />
 						<i class="fa fa-times" /> #{resources['label.global.cancelarcontrato']} 
+					</h:commandLink>
+					
+				</itm:modal>
+				
+				<itm:modal id="idDesbloquearContrato" titulo="#{resources['label.global.confirmacao']}" mensagem="#{resources['label.global.desejadesbloquearcontrato']}">
+					<h:commandLink styleClass="btn btn-info">
+						<f:ajax listener="#{clienteController.desbloquearContrato}" event="click" render="@all"  immediate="true" execute="@this" />
+						<i class="fa fa-times" /> #{resources['label.global.desbloquearcontrato']} 
 					</h:commandLink>
 					
 				</itm:modal>

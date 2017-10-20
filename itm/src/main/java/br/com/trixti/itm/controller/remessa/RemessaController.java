@@ -111,8 +111,24 @@ public class RemessaController extends AbstractController<Remessa> {
 	}
 	
 	public void excluir(Remessa remessa){
-		remessaService.excluir(remessa);
-		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi incluido na base"));
-		pesquisar();
+		try{
+			remessaService.excluir(remessa);
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi incluido na base"));
+			pesquisar();
+		}catch(Exception e){
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage()));
+		}	
+	}
+	
+	public void excluir() {
+		try {
+			remessaService.excluir(getRemessaTO().getRemessa());
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso",
+					"O Registro foi excluido na base"));
+			pesquisar();
+		} catch (Exception e) {
+			getFacesContext().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), e.getMessage()));
+		}
 	}
 }

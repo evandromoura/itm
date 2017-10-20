@@ -680,7 +680,7 @@
 				
 				<itm:modal id="idSegundaVia" titulo="#{resources['label.global.segundavia']}">
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 							<h:outputText value="#{resources['label.global.informeadata']}" /> 
 						</div>
 						<div class="col-sm-4">
@@ -688,7 +688,12 @@
 							</itm:data>
 						</div>
 						
-						<div class="col-sm-4">
+						<div class="col-sm-2">
+							<h:commandLink styleClass="btn btn-secondary" action="#{contratoViewController.enviarSegundaViaBoleto}">
+								<i class="fa fa-download"></i> #{resources['label.global.enviaremail']}
+							</h:commandLink>
+						</div>
+						<div class="col-sm-2">
 							<h:commandLink styleClass="btn btn-secondary" action="#{contratoViewController.gerarSegundaViaBoleto}">
 								<i class="fa fa-download"></i> #{resources['label.global.download']}
 							</h:commandLink>

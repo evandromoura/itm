@@ -244,5 +244,16 @@ public class ContratoService extends AbstractService<Contrato> {
 	public List<Contrato> listarRelatorio(){
 		return contratoDAO.listarRelatorio();
 	}
+
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void desbloquear(Contrato entidade) {
+		entidade.setStatus(StatusContrato.ATIVO);
+		entidade.setDataCancelamento(null);
+		
+		if(entidade.getAutenticacoes() != null && !entidade.getAutenticacoes().isEmpty()){
+			freeRadiusService.sincronizarContrato(entidade);
+		}
+		contratoDAO.alterar(entidade);
+	}
 	
 }
