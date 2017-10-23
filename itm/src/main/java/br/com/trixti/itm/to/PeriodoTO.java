@@ -7,6 +7,14 @@ public class PeriodoTO {
 	private Date dataInicio;
 	private Date dataFim;
 	
+	public PeriodoTO(){
+		
+	}
+	
+	public PeriodoTO(Date dataInicio,Date dataFim){
+		setDataInicio(dataInicio);
+		setDataFim(dataFim);
+	}
 	public Date getDataInicio() {
 		return dataInicio;
 	}

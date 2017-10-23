@@ -39,8 +39,9 @@ public class UsuarioDAO extends AbstractDAO<Usuario> {
 	public Usuario login(String login, String senha) {
 		CriteriaQuery<Usuario> criteria = getCriteriaBuilder().createQuery(Usuario.class);
 		Root<Usuario> root = criteria.from(Usuario.class);
-		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("login"), login),
-						getCriteriaBuilder().equal(root.get("senha"), senha))).getSingleResult();
+		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("login"), login)
+					,getCriteriaBuilder().equal(root.get("senha"), senha)
+						)).getSingleResult();
 	}
 	
 

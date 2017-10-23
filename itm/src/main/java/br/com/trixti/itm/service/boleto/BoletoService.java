@@ -26,6 +26,7 @@ import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boletolancamento.BoletoLancamentoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
+import br.com.trixti.itm.to.PeriodoTO;
 
 @Stateless
 public class BoletoService extends AbstractService<Boleto>{
@@ -152,5 +153,9 @@ public class BoletoService extends AbstractService<Boleto>{
 
 	public List<Boleto> pesquisarBoletoNaoNotificado() {
 		return boletoDAO.pesquisarBoletoNaoNotificado();
+	}
+
+	public List<Boleto> listarBoletoEmAtraso() {
+		return boletoDAO.listarBoletoEmAtraso();
 	}
 }

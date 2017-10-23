@@ -22,6 +22,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.envers.NotAudited;
 
@@ -90,10 +91,12 @@ public class Boleto implements java.io.Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataNotificacao;
 	
-	
 	@Column(name="data_sms")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataSms;
+	
+	@Transient
+	private long diferencaDias;
 
 	public Boleto() {
 	}
@@ -250,6 +253,14 @@ public class Boleto implements java.io.Serializable {
 
 	public void setDataSms(Date dataSms) {
 		this.dataSms = dataSms;
+	}
+
+	public long getDiferencaDias() {
+		return diferencaDias;
+	}
+
+	public void setDiferencaDias(long diferencaDias) {
+		this.diferencaDias = diferencaDias;
 	}
 
 }

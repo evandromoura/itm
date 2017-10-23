@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.cliente.ClienteDAO;
+import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.service.AbstractService;
@@ -41,6 +42,12 @@ public class ClienteService extends AbstractService<Cliente> {
 	public List<Cliente> pesquisar(Cliente clientePesquisa) {
 		return clienteDAO.pesquisar(clientePesquisa);
 	}
+	
+	public List<Cliente> listarPorBoletoAtrasado(){
+//		return comporBoletoAtrasado(clienteDAO.listarPorBoletoAtrasado());
+		return clienteDAO.listarPorBoletoAtrasado();
+	}
+	
 
 	@Override
 	public void incluir(Cliente entidade) {

@@ -50,6 +50,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 		  
 		  
 		  @URLMapping(id = "relatorio_contrato", pattern = "/relatorio/contrato", viewId = "/pages/relatorio/contrato/relatorio_contrato.jsf"),
+		  @URLMapping(id = "relatorio_cliente_inadimplente", pattern = "/relatorio/cliente/inadimplente", viewId = "/pages/relatorio/cliente/inadimplente/relatorio_cliente_inadimplente.jsf"),
 		  
 		  
 		})

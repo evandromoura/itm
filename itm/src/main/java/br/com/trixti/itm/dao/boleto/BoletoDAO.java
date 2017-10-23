@@ -18,6 +18,7 @@ import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.Remessa;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
+import br.com.trixti.itm.to.PeriodoTO;
 import br.com.trixti.itm.util.UtilData;
 
 public class BoletoDAO extends AbstractDAO<Boleto> {
@@ -173,6 +174,16 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 		Root<Boleto> root = criteria.from(Boleto.class);
 		return getManager()
 				.createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("remessa"), remessa)))
+				.getResultList();
+	}
+
+	public List<Boleto> listarBoletoEmAtraso() {
+		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
+		Root<Boleto> root = criteria.from(Boleto.class);
+		return getManager().createQuery(criteria.select(root).where(
+						getCriteriaBuilder().lessThan(root.<Date>get("dataVencimento"), new Date()),
+						getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO))
+					.orderBy(getCriteriaBuilder().asc(root.get("contrato").get("cliente").get("nome"))))
 				.getResultList();
 	}
 

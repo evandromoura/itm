@@ -3738,7 +3738,7 @@ button.close {
   margin: 10px; }
 
 .modal-content {
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: column;
   background-color: #fff;

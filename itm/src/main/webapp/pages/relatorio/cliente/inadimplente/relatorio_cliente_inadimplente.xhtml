@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml"
+                xmlns:itm="http://java.sun.com/jsf/composite/components">
+
+
+	<ui:param name="menu" value="relatorio_cliente_inadimplente" />
+
+	<ui:define name="corpo">
+			<h:form id="idFormRelatorioClienteInadimplente">
+				<div class="row" style="font-size: 10px">
+					<div class="col-sm-3 col-md-3">
+						<div class="card card-accent-success">
+			                <div class="card-header">
+			                  <b>(Aviso) Boletos até #{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.parametro.qtdDiasAviso}</b>
+			                  <span class="badge badge-pill badge-danger float-right">#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos15Dias.size()}</span>
+			                </div>
+			                <div class="card-body">
+		                		<h:dataTable var="boleto" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos15Dias}" styleClass="table"  style="width:100%" >
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.cliente']}
+										</f:facet>
+										<h:commandLink>
+										<h:outputText value="#{boleto.contrato.cliente.nome}" />
+								        <f:setPropertyActionListener target="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente}" value="#{boleto.contrato.cliente}" />
+								        <f:ajax render="idFormRelatorioClienteInadimplente:idModalDetalharCliente:idFragmentPainelCliente" />
+								       	<f:passThroughAttribute name="data-toggle" value="modal" />
+										<f:passThroughAttribute name="data-target" value="#idModalDetalharCliente" />
+								    </h:commandLink>
+										
+									</h:column>
+									<h:column> 
+										<f:facet name="header">
+											#{resources['label.global.data']}
+										</f:facet>
+										<a href="#{request.contextPath}/contrato/view/#{boleto.contrato.id}#financeiro" target="parent">
+										  <h:outputText value="#{boleto.dataVencimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+										</a>
+									</h:column>
+									
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.dias']}
+										</f:facet>
+										<h:outputText value="#{boleto.diferencaDias}">
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.valor']}
+										</f:facet>
+										<h:outputText value="#{boleto.valor}">
+										</h:outputText>
+									</h:column>
+								</h:dataTable>
+			                </div>
+			              </div>
+			           </div>   
+					<div class="col-sm-3 col-md-3">
+						<div class="card card-accent-info">
+			                <div class="card-header">
+			                  <b>(Bloqueio) Boletos até #{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.parametro.qtdDiasBloqueio}</b>
+			                  <span class="badge badge-pill badge-danger float-right">#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos30Dias.size()}</span>
+			                </div>
+			                <div class="card-body">
+		                		<h:dataTable var="boleto" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos30Dias}" styleClass="table"  style="width:100%" >
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.cliente']}
+										</f:facet>
+										<h:commandLink>
+										<h:outputText value="#{boleto.contrato.cliente.nome}" />
+								        <f:setPropertyActionListener target="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente}" value="#{boleto.contrato.cliente}" />
+								        <f:ajax render="idFormRelatorioClienteInadimplente:idModalDetalharCliente:idFragmentPainelCliente" />
+								       	<f:passThroughAttribute name="data-toggle" value="modal" />
+										<f:passThroughAttribute name="data-target" value="#idModalDetalharCliente" />
+								    </h:commandLink>
+										
+									</h:column>
+									<h:column> 
+										<f:facet name="header">
+											#{resources['label.global.data']}
+										</f:facet>
+										<a href="#{request.contextPath}/contrato/view/#{boleto.contrato.id}#financeiro" target="parent">
+										  <h:outputText value="#{boleto.dataVencimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+										</a>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.dias']}
+										</f:facet>
+										<h:outputText value="#{boleto.diferencaDias}">
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.valor']}
+										</f:facet>
+										<h:outputText value="#{boleto.valor}">
+										</h:outputText>
+									</h:column>
+								</h:dataTable>
+			                </div>
+			              </div>
+			           </div>   
+		              <div class="col-sm-3 col-md-3">
+			              <div class="card card-accent-warning">
+			                <div class="card-header">
+			                  <b>(Inativação) Boletos até #{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.parametro.qtdDiasInativacao}</b>
+			                  <span class="badge badge-pill badge-danger float-right">#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos60Dias.size()}</span>
+			                </div>
+			                <div class="card-body">
+		                		<h:dataTable var="boleto" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos60Dias}" styleClass="table"  style="width:100%" >
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.cliente']}
+										</f:facet>
+										<h:commandLink>
+										<h:outputText value="#{boleto.contrato.cliente.nome}" />
+								        <f:setPropertyActionListener target="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente}" value="#{boleto.contrato.cliente}" />
+								        <f:ajax render="idFormRelatorioClienteInadimplente:idModalDetalharCliente:idFragmentPainelCliente" />
+								       	<f:passThroughAttribute name="data-toggle" value="modal" />
+										<f:passThroughAttribute name="data-target" value="#idModalDetalharCliente" />
+								    </h:commandLink>
+										
+									</h:column>
+									<h:column> 
+										<f:facet name="header">
+											#{resources['label.global.data']}
+										</f:facet>
+										<a href="#{request.contextPath}/contrato/view/#{boleto.contrato.id}#financeiro" target="parent">
+										  <h:outputText value="#{boleto.dataVencimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+										</a>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.dias']}
+										</f:facet>
+										<h:outputText value="#{boleto.diferencaDias}">
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.valor']}
+										</f:facet>
+										<h:outputText value="#{boleto.valor}">
+										</h:outputText>
+									</h:column>
+								</h:dataTable>
+			                </div>
+			              </div>
+			          </div>   
+			          
+			          <div class="col-sm-3 col-md-3">
+			              <div class="card card-accent-danger">
+			                <div class="card-header">
+			                  <b>(Negativação) Boletos até #{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.parametro.qtdDiasNegativacao} ou mais</b>
+			                  <span class="badge badge-pill badge-danger float-right">#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos90Dias.size()}</span>
+			                </div>
+			                <div class="card-body">
+		                		<h:dataTable var="boleto" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos90Dias}" styleClass="table"  style="width:100%" >
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.cliente']}
+										</f:facet>
+										<h:commandLink>
+										<h:outputText value="#{boleto.contrato.cliente.nome}" />
+								        <f:setPropertyActionListener target="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente}" value="#{boleto.contrato.cliente}" />
+								        <f:ajax render="idFormRelatorioClienteInadimplente:idModalDetalharCliente:idFragmentPainelCliente" />
+								       	<f:passThroughAttribute name="data-toggle" value="modal" />
+										<f:passThroughAttribute name="data-target" value="#idModalDetalharCliente" />
+								    </h:commandLink>
+										
+									</h:column>
+									<h:column> 
+										<f:facet name="header">
+											#{resources['label.global.data']}
+										</f:facet>
+										<a href="#{request.contextPath}/contrato/view/#{boleto.contrato.id}#financeiro" target="parent">
+										  <h:outputText value="#{boleto.dataVencimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+										</a>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.dias']}
+										</f:facet>
+										<h:outputText value="#{boleto.diferencaDias}">
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.valor']}
+										</f:facet>
+										<h:outputText value="#{boleto.valor}">
+										</h:outputText>
+									</h:column>
+								</h:dataTable>
+			                </div>
+			              </div>
+			          </div>    
+				</div>
+				
+				
+				
+				
+				
+				<itm:modal id="idModalDetalharCliente" titulo="#{resources['label.global.detalharcliente']}">
+					<h:panelGroup id="idFragmentPainelCliente">
+						
+						<div class="row">
+						
+						<div class="col-sm-3">
+							<div class="form-group">
+								<label>#{resources['label.global.tipopessoa']}:</label><br />
+								#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente.tipoPessoa}
+							</div>
+						</div>
+						
+						<div class="col-sm-9">
+							<div class="form-group">
+								<label>#{resources['label.global.nome']}:</label><br />
+								#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente.nome}
+							</div>
+						</div>
+						
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>#{resources['label.global.email']}:</label><br />
+								#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente.email}
+							</div>
+						</div>
+						
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>#{resources['label.global.celular']}:</label><br />
+								#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente.telefoneCelular}
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>#{resources['label.global.telefonefixo']}:</label><br />
+								#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente.telefoneFixo}
+							</div>
+						</div>
+						</div>
+										
+					</h:panelGroup>
+				</itm:modal>
+		 </h:form>			
+	</ui:define>
+
+
+</ui:composition>

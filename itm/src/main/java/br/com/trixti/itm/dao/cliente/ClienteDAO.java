@@ -2,10 +2,12 @@ package br.com.trixti.itm.dao.cliente;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -15,6 +17,7 @@ import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoProduto;
+import br.com.trixti.itm.entity.StatusBoletoEnum;
 
 
 @Stateless
@@ -124,6 +127,17 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 			return inicializarCliente(getManager().createQuery(criteria.select(root)
 					.where(getCriteriaBuilder().equal(root.get("email"),email))
 					).setMaxResults(1).getSingleResult());
+	}
+
+	public List<Cliente> listarPorBoletoAtrasado() {
+		CriteriaQuery<Cliente> criteria = getCriteriaBuilder().createQuery(Cliente.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		Join<Contrato, Boleto> join = root.join("contratos", JoinType.LEFT).join("boletos", JoinType.LEFT);
+		return getManager()
+				.createQuery(criteria.select(root).distinct(true).where(
+						getCriteriaBuilder().lessThan(join.<Date>get("dataVencimento"), new Date()),
+						getCriteriaBuilder().equal(join.get("status"), StatusBoletoEnum.ABERTO)))
+				.getResultList();
 	}
 	
 
