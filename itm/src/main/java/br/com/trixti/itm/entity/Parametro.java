@@ -2,6 +2,8 @@ package br.com.trixti.itm.entity;
 // default package
 // Generated 22/02/2017 14:34:07 by Hibernate Tools 4.3.4.Final
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -80,7 +82,12 @@ public class Parametro implements java.io.Serializable {
 	
 	@Column(name="snmp_porta")
 	private Integer snmpPorta;
+	
+	private BigDecimal multa;
 
+	@Column(name="juros_mes")
+	private BigDecimal jurosMes;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -231,6 +238,22 @@ public class Parametro implements java.io.Serializable {
 
 	public void setQtdDiasNegativacao(Integer qtdDiasNegativacao) {
 		this.qtdDiasNegativacao = qtdDiasNegativacao;
+	}
+
+	public BigDecimal getMulta() {
+		return multa;
+	}
+
+	public void setMulta(BigDecimal multa) {
+		this.multa = multa;
+	}
+
+	public BigDecimal getJurosMes() {
+		return jurosMes;
+	}
+
+	public void setJurosMes(BigDecimal jurosMes) {
+		this.jurosMes = jurosMes;
 	}
 
 }

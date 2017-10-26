@@ -3,7 +3,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	template="/WEB-INF/templates/default.xhtml">
+	template="/WEB-INF/templates/default.xhtml"
+                xmlns:itm="http://java.sun.com/jsf/composite/components">
 
 	<ui:param name="menu" value="parametro" />
 	
@@ -40,36 +41,52 @@
 					<div class="card-block">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="col-sm-2">		
+								<div class="col-sm-3">		
 									<div class="form-group">
 										<label for="formParametro:qtd_dias_temp">#{resources['label.global.qtd_desbloqueio_temporario']}</label> 
 										<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasDesbloqueioTemporario}" id="qtd_dias_temp" styleClass="form-control" />
 									</div>
 								</div>
-							    <div class="col-sm-2">		
+							    <div class="col-sm-3">		
 									<div class="form-group">
 										<label for="formParametro:qtd_dias_aviso">#{resources['label.global.qtd_dias_aviso']}</label> 
 										<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasAviso}" id="qtd_dias_aviso" styleClass="form-control" />
 									</div>
 								</div>
-								<div class="col-sm-2">		
+								<div class="col-sm-3">		
 									<div class="form-group">
 										<label for="formParametro:qtd_dias_bloqueio">#{resources['label.global.qtd_dias_bloqueio']}</label> 
 										<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasBloqueio}" id="qtd_dias_bloqueio" styleClass="form-control" />
 									</div>
 								</div>
-							    <div class="col-sm-2">		
+							    <div class="col-sm-3">		
 									<div class="form-group">
 										<label for="formParametro:qtd_dias_inativacao">#{resources['label.global.qtd_dias_inativacao']}</label> 
 										<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasInativacao}" id="qtd_dias_inativacao" styleClass="form-control" />
 									</div>
 								</div>
-							    <div class="col-sm-2">		
+							    <div class="col-sm-3">		
 									<div class="form-group">
 										<label for="formParametro:qtd_dias_negativacao">#{resources['label.global.qtd_dias_negativacao']}</label> 
 										<h:inputText value="#{parametroController.parametroTO.parametro.qtdDiasNegativacao}" id="qtd_dias_negativacao" styleClass="form-control" />
 									</div>
 								</div>
+								
+								<div class="col-sm-3">		
+									<div class="form-group">
+										<label for="formParametro:qtd_dias_negativacao">#{resources['label.global.multa']}</label>  
+										<itm:moeda value="#{parametroController.parametroTO.parametro.multa}" id="multa" styleClass="form-control" /> 
+									</div>
+								</div>
+								
+								
+								<div class="col-sm-3">		
+									<div class="form-group">
+										<label for="formParametro:qtd_dias_negativacao">#{resources['label.global.jurosmes']}</label>  
+										<itm:moeda value="#{parametroController.parametroTO.parametro.jurosMes}" id="juros_mes" styleClass="form-control" />
+									</div>
+								</div>
+								
 							</div>
 						</div>
 					</div>	

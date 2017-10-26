@@ -43,6 +43,8 @@ public class ContratoAutenticacao implements java.io.Serializable {
 	
 	private String ip;
 	
+	private String grupo;
+	
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_criacao", length = 29)
@@ -95,5 +97,15 @@ public class ContratoAutenticacao implements java.io.Serializable {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
+
+	public String getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(String grupo) {
+		this.grupo = grupo;
+	}
+	
+	
 
 }

@@ -128,7 +128,7 @@
 									</div>
 									<div class="card-block">
 									
-										<h:dataTable id="idDataTableContrato"
+										<h:dataTable id="idDataTableContrato" 
 														rendered="#{clienteViewController.clienteTO.cliente.contratos ne null and  not empty clienteViewController.clienteTO.cliente.contratos}"
 														value="#{clienteViewController.clienteTO.cliente.contratos}"
 														var="contrato" styleClass="table table-bordered table-striped">
@@ -146,15 +146,15 @@
 												<f:facet name="header">
 													<h:outputText value="#{resources['label.global.identificador']}" />
 												</f:facet>
-												
 												<a href="#{request.contextPath}/contrato/view/#{contrato.id}"><h:outputText value="#{contrato.identificador}" /></a>  
-											
 											</h:column>			
 											<h:column>
 												<f:facet name="header">
 													<h:outputText value="#{resources['label.global.status']}" />
 												</f:facet>
-												<h:outputText value="#{contrato.status}" />  
+												<span class="btn #{contrato.status.name eq 'ATIVO'?'btn-success':'btn-danger'}">
+													<h:outputText value="#{contrato.status}" />  
+												</span>
 											</h:column>			
 														
 										</h:dataTable>

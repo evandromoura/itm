@@ -12,14 +12,14 @@
 	<ui:define name="corpo">
 			<h:form id="idFormRelatorioClienteInadimplente">
 				<div class="row" style="font-size: 10px">
-					<div class="col-sm-3 col-md-3">
+					<div class="col-sm-6 col-md-3">
 						<div class="card card-accent-success">
 			                <div class="card-header">
 			                  <b>(Aviso) Boletos até #{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.parametro.qtdDiasAviso}</b>
 			                  <span class="badge badge-pill badge-danger float-right">#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos15Dias.size()}</span>
 			                </div>
 			                <div class="card-body">
-		                		<h:dataTable var="boleto" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos15Dias}" styleClass="table"  style="width:100%" >
+		                		<h:dataTable id="idDataTableAviso" var="boleto" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos15Dias}" styleClass="table table-responsive"  style="width:100%" >
 									<h:column>
 										<f:facet name="header">
 											#{resources['label.global.cliente']}
@@ -39,7 +39,7 @@
 										</f:facet>
 										<a href="#{request.contextPath}/contrato/view/#{boleto.contrato.id}#financeiro" target="parent">
 										  <h:outputText value="#{boleto.dataVencimento}">
-											<f:convertDateTime pattern="dd/MM/yyyy" />
+											<f:convertDateTime pattern="dd/MM" />
 										</h:outputText>
 										</a>
 									</h:column>
@@ -62,14 +62,14 @@
 			                </div>
 			              </div>
 			           </div>   
-					<div class="col-sm-3 col-md-3">
+					<div class="col-sm-6 col-md-3">
 						<div class="card card-accent-info">
 			                <div class="card-header">
 			                  <b>(Bloqueio) Boletos até #{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.parametro.qtdDiasBloqueio}</b>
 			                  <span class="badge badge-pill badge-danger float-right">#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos30Dias.size()}</span>
 			                </div>
 			                <div class="card-body">
-		                		<h:dataTable var="boleto" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos30Dias}" styleClass="table"  style="width:100%" >
+		                		<h:dataTable id="idDataTableBloqueio" var="boleto" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos30Dias}" styleClass="table table-responsive"  style="width:100%" >
 									<h:column>
 										<f:facet name="header">
 											#{resources['label.global.cliente']}
@@ -89,7 +89,7 @@
 										</f:facet>
 										<a href="#{request.contextPath}/contrato/view/#{boleto.contrato.id}#financeiro" target="parent">
 										  <h:outputText value="#{boleto.dataVencimento}">
-											<f:convertDateTime pattern="dd/MM/yyyy" />
+											<f:convertDateTime pattern="dd/MM" />
 										</h:outputText>
 										</a>
 									</h:column>
@@ -111,14 +111,14 @@
 			                </div>
 			              </div>
 			           </div>   
-		              <div class="col-sm-3 col-md-3">
+		              <div class="col-sm-6 col-md-3">
 			              <div class="card card-accent-warning">
 			                <div class="card-header">
 			                  <b>(Inativação) Boletos até #{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.parametro.qtdDiasInativacao}</b>
 			                  <span class="badge badge-pill badge-danger float-right">#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos60Dias.size()}</span>
 			                </div>
 			                <div class="card-body">
-		                		<h:dataTable var="boleto" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos60Dias}" styleClass="table"  style="width:100%" >
+		                		<h:dataTable id="idDataTableInativacao" var="boleto" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos60Dias}" styleClass="table table-responsive"  style="width:100%" >
 									<h:column>
 										<f:facet name="header">
 											#{resources['label.global.cliente']}
@@ -138,7 +138,7 @@
 										</f:facet>
 										<a href="#{request.contextPath}/contrato/view/#{boleto.contrato.id}#financeiro" target="parent">
 										  <h:outputText value="#{boleto.dataVencimento}">
-											<f:convertDateTime pattern="dd/MM/yyyy" />
+											<f:convertDateTime pattern="dd/MM" />
 										</h:outputText>
 										</a>
 									</h:column>
@@ -161,14 +161,14 @@
 			              </div>
 			          </div>   
 			          
-			          <div class="col-sm-3 col-md-3">
+			          <div class="col-sm-6 col-md-3">
 			              <div class="card card-accent-danger">
 			                <div class="card-header">
 			                  <b>(Negativação) Boletos até #{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.parametro.qtdDiasNegativacao} ou mais</b>
 			                  <span class="badge badge-pill badge-danger float-right">#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos90Dias.size()}</span>
 			                </div>
 			                <div class="card-body">
-		                		<h:dataTable var="boleto" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos90Dias}" styleClass="table"  style="width:100%" >
+		                		<h:dataTable var="boleto" id="idDataTableNegativacao" value="#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.boletos90Dias}" styleClass="table table-responsive"  style="width:100%" >
 									<h:column>
 										<f:facet name="header">
 											#{resources['label.global.cliente']}
@@ -188,7 +188,7 @@
 										</f:facet>
 										<a href="#{request.contextPath}/contrato/view/#{boleto.contrato.id}#financeiro" target="parent">
 										  <h:outputText value="#{boleto.dataVencimento}">
-											<f:convertDateTime pattern="dd/MM/yyyy" />
+											<f:convertDateTime pattern="dd/MM" />
 										</h:outputText>
 										</a>
 									</h:column>
@@ -212,10 +212,6 @@
 			          </div>    
 				</div>
 				
-				
-				
-				
-				
 				<itm:modal id="idModalDetalharCliente" titulo="#{resources['label.global.detalharcliente']}">
 					<h:panelGroup id="idFragmentPainelCliente">
 						
@@ -235,30 +231,31 @@
 							</div>
 						</div>
 						
-						<div class="col-sm-4">
+						<div class="col-sm-12">
 							<div class="form-group">
 								<label>#{resources['label.global.email']}:</label><br />
 								#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente.email}
 							</div>
 						</div>
 						
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<div class="form-group">
 								<label>#{resources['label.global.celular']}:</label><br />
 								#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente.telefoneCelular}
 							</div>
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<div class="form-group">
 								<label>#{resources['label.global.telefonefixo']}:</label><br />
 								#{relatorioClienteInadimplenteController.relatorioClienteInadimplenteTO.cliente.telefoneFixo}
 							</div>
 						</div>
 						</div>
-										
 					</h:panelGroup>
 				</itm:modal>
 		 </h:form>			
+		 
+		
 	</ui:define>
 
 

@@ -100,14 +100,10 @@ public class ContratoController extends AbstractController<Contrato> {
 	}
 	
 	public void adicionarContratoAutenticacao(){
-		if(getContratoTO().getContrato().getAutenticacoes() == null || 
-				getContratoTO().getContrato().getAutenticacoes().isEmpty() || 
-					getContratoTO().getContrato().getAutenticacoes().size() == 0){
 			getContratoTO().getContratoAutenticacao().setContrato(getContratoTO().getContrato());
 			getContratoTO().getContratoAutenticacao().setDataCriacao(new Date());
 			getContratoTO().getContrato().getAutenticacoes().add(getContratoTO().getContratoAutenticacao());
 			getContratoTO().setContratoAutenticacao(null);
-		}	
 	}
 	
 	public void removerGrupo(ContratoGrupo contratoGrupo){

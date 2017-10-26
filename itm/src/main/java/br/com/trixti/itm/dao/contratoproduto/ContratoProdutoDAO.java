@@ -23,6 +23,7 @@ public class ContratoProdutoDAO extends AbstractDAO<ContratoProduto> {
 		return getManager().createQuery(criteria.select(root)
 				.where(
 						getCriteriaBuilder().equal(root.get("contrato"), contrato),
+						getCriteriaBuilder().isNull(root.get("dataExclusao")),
 						getCriteriaBuilder().and(
 						getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
 						getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0)))

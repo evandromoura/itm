@@ -166,7 +166,6 @@ public class FinanceiroThread {
 			 UtilData utilData = new UtilData();
 			for (Boleto boleto : listaBoleto) {
 				String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(boleto.getDataVencimento())));
-				
 				if(boleto.getDataNotificacao() == null){
 					mailService.enviarEmail(boleto,null,texto);
 					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto, MeioEnvioContratoNotificacao.EMAIL, TipoContratoNotificacao.ENVIO_BOLETO, texto));
@@ -313,9 +312,11 @@ public class FinanceiroThread {
 				}
 				System.out.println("");
 				
-				if(!contrato.getStatus().equals(StatusContrato.CANCELADO)){
+				if(!contrato.getStatus().equals(StatusContrato.CANCELADO) && 
+						!contrato.getStatus().equals(StatusContrato.BLOQUEADO) && 
+							!contrato.getStatus().equals(StatusContrato.INATIVO)){
+					
 					for (ContratoProduto produto : produtos) {
-						
 						ContratoLancamento contratoLancamento = new ContratoLancamento();
 						contratoLancamento.setContrato(contrato);
 						contratoLancamento.setDataLancamento(new Date());
@@ -332,38 +333,39 @@ public class FinanceiroThread {
 						lancamentosBoleto.add(boletoLancamento);
 						valor = valor.add(produto.getValor());
 					}
-				}	
-				if (valor.intValue() > 0) {
-					boleto.setContrato(contrato);
-					boleto.setLancamentos(lancamentosBoleto);
-					boleto.setDataCriacao(new Date());
-					boleto.setStatus(StatusBoletoEnum.ABERTO);
-					boleto.setValor(valor);
-					if(boletoJaCriadoAnteriorMes == null){
-						boleto.setDataVencimento(utilData.adicionarMeses(dataVencimento, 1));
-					}else{
-						boleto.setDataVencimento(dataVencimento);
-					}	
-					comporNossoNumero(boleto);
-					boletoService.incluir(boleto);
-				} else {
-					boleto.setContrato(contrato);
-					boleto.setLancamentos(lancamentosBoleto);
-					boleto.setDataCriacao(new Date());
-					boleto.setStatus(StatusBoletoEnum.PAGO);
-					boleto.setValor(BigDecimal.ZERO);
-					boleto.setDataVencimento(dataVencimento);
-					if (boleto.getLancamentos() != null && !boleto.getLancamentos().isEmpty()) {
+				
+					if (valor.intValue() > 0) {
+						boleto.setContrato(contrato);
+						boleto.setLancamentos(lancamentosBoleto);
+						boleto.setDataCriacao(new Date());
+						boleto.setStatus(StatusBoletoEnum.ABERTO);
+						boleto.setValor(valor);
+						if(boletoJaCriadoAnteriorMes == null){
+							boleto.setDataVencimento(utilData.adicionarMeses(dataVencimento, 1));
+						}else{
+							boleto.setDataVencimento(dataVencimento);
+						}	
 						comporNossoNumero(boleto);
 						boletoService.incluir(boleto);
+					} else {
+						boleto.setContrato(contrato);
+						boleto.setLancamentos(lancamentosBoleto);
+						boleto.setDataCriacao(new Date());
+						boleto.setStatus(StatusBoletoEnum.PAGO);
+						boleto.setValor(BigDecimal.ZERO);
+						boleto.setDataVencimento(dataVencimento);
+						if (boleto.getLancamentos() != null && !boleto.getLancamentos().isEmpty()) {
+							comporNossoNumero(boleto);
+							boletoService.incluir(boleto);
+						}
+						// TODO: getResources
+						if (valor.abs().intValue() > 0) {
+							contratoLancamentoService.incluir(new ContratoLancamento("Credito em Conta", contrato,
+									valor.abs(), TipoLancamentoEnum.CREDITO, new Date(), StatusLancamentoEnum.PENDENTE));
+						}
+	
 					}
-					// TODO: getResources
-					if (valor.abs().intValue() > 0) {
-						contratoLancamentoService.incluir(new ContratoLancamento("Credito em Conta", contrato,
-								valor.abs(), TipoLancamentoEnum.CREDITO, new Date(), StatusLancamentoEnum.PENDENTE));
-					}
-
-				}
+				}	
 			}
 		}
 	}

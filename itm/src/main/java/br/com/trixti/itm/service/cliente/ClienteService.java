@@ -14,6 +14,7 @@ import br.com.trixti.itm.dao.cliente.ClienteDAO;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
@@ -77,7 +78,9 @@ public class ClienteService extends AbstractService<Cliente> {
 				Contrato contratoCompleto = contratoService.recuperarCompleto(contrato.getId());
 				contratoService.excluir(contratoCompleto);
 				if(contratoCompleto.getAutenticacoes() != null && contratoCompleto.getAutenticacoes().size() > 0){
-					freeRadiusService.excluirPorUsername(contratoCompleto.getAutenticacoes().get(0).getUsername());
+					for(ContratoAutenticacao contratoAutenticacao:contratoCompleto.getAutenticacoes()){
+						freeRadiusService.excluirPorUsername(contratoAutenticacao.getUsername());
+					}	
 				}	
 			}
 		}	

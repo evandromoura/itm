@@ -9,6 +9,7 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.GrupoParametro;
 import br.com.trixti.itm.entity.Radcheck;
@@ -35,43 +36,49 @@ public class FreeRadiusService {
 	}
 
 	private void sincronizarUserGroup(Contrato contrato) {
+		
+		
 		if(contrato.getContratoGrupos() != null && !contrato.getContratoGrupos().isEmpty()){
-			radusergroupService.excluirPorUsername(contrato.getAutenticacoes().get(0).getUsername());
-			Radusergroup radusergroup  = new Radusergroup();
-			radusergroup.setGroupname(contrato.getContratoGrupos().get(0).getGrupo().getNome());
-			radusergroup.setUsername(contrato.getAutenticacoes().get(0).getUsername());
-			radusergroup.setPriority(1);
-			radusergroupService.incluir(radusergroup);
+			for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
+				radusergroupService.excluirPorUsername(contratoAutenticacao.getUsername());
+				Radusergroup radusergroup  = new Radusergroup();
+				radusergroup.setGroupname(contratoAutenticacao.getGrupo());
+				radusergroup.setUsername(contratoAutenticacao.getUsername());
+				radusergroup.setPriority(1);
+				radusergroupService.incluir(radusergroup);
+			}	
 		}	
 	}
 
 
 	private void sincronizarRadCheck(Contrato contrato) {
-		radcheckService.excluirPorUsername(contrato.getAutenticacoes().get(0).getUsername());
-		List<Radcheck> listaRadCheck = new ArrayList<Radcheck>();
-		Radcheck radcheckLogin = new Radcheck();
-		radcheckLogin.setAttribute("Cleartext-Password");
-		radcheckLogin.setOp(":=");
-		radcheckLogin.setValue(contrato.getAutenticacoes().get(0).getSenha());
-		radcheckLogin.setUsername(contrato.getAutenticacoes().get(0).getUsername());
-		listaRadCheck.add(radcheckLogin);
-		Radcheck radcheckLoginSimultaneo = new Radcheck();
-		radcheckLoginSimultaneo.setAttribute("Simultaneous-Use");
-		radcheckLoginSimultaneo.setOp(":=");
-		radcheckLoginSimultaneo.setValue("1");
-		radcheckLoginSimultaneo.setUsername(contrato.getAutenticacoes().get(0).getUsername());
-		listaRadCheck.add(radcheckLoginSimultaneo);
-		if(contrato.getAutenticacoes().get(0).getIp() != null && !contrato.getAutenticacoes().get(0).getIp().equals("")){
-			//TODO Alterar para RadReply
-			
-//			Radcheck radcheckIP = new Radcheck();
-//			radcheckIP.setAttribute("Framed-IP-Address");
-//			radcheckIP.setOp("=");
-//			radcheckIP.setValue(contrato.getAutenticacoes().get(0).getIp());
-//			radcheckIP.setUsername(contrato.getAutenticacoes().get(0).getUsername());
-//			listaRadCheck.add(radcheckIP);
-		}
-		radcheckService.incluirLista(listaRadCheck);
+		for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
+			radcheckService.excluirPorUsername(contratoAutenticacao.getUsername());
+			List<Radcheck> listaRadCheck = new ArrayList<Radcheck>();
+			Radcheck radcheckLogin = new Radcheck();
+			radcheckLogin.setAttribute("Cleartext-Password");
+			radcheckLogin.setOp(":=");
+			radcheckLogin.setValue(contratoAutenticacao.getSenha());
+			radcheckLogin.setUsername(contratoAutenticacao.getUsername());
+			listaRadCheck.add(radcheckLogin);
+			Radcheck radcheckLoginSimultaneo = new Radcheck();
+			radcheckLoginSimultaneo.setAttribute("Simultaneous-Use");
+			radcheckLoginSimultaneo.setOp(":=");
+			radcheckLoginSimultaneo.setValue("1");
+			radcheckLoginSimultaneo.setUsername(contratoAutenticacao.getUsername());
+			listaRadCheck.add(radcheckLoginSimultaneo);
+			if(contratoAutenticacao.getIp() != null && !contratoAutenticacao.getIp().equals("")){
+				//TODO Alterar para RadReply
+				
+	//			Radcheck radcheckIP = new Radcheck();
+	//			radcheckIP.setAttribute("Framed-IP-Address");
+	//			radcheckIP.setOp("=");
+	//			radcheckIP.setValue(contratoAutenticacao.getIp());
+	//			radcheckIP.setUsername(contratoAutenticacao.getUsername());
+	//			listaRadCheck.add(radcheckIP);
+			}
+			radcheckService.incluirLista(listaRadCheck);
+		}	
 	}
 
 
@@ -94,18 +101,22 @@ public class FreeRadiusService {
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void bloquearContrato(Contrato contrato) {
 		if(contrato.getAutenticacoes() != null && !contrato.getAutenticacoes().isEmpty()){
-			Radcheck radcheck = new Radcheck();
-			radcheck.setAttribute("Auth-Type");
-			radcheck.setOp(":=");
-			radcheck.setValue("Reject");
-			radcheck.setUsername(contrato.getAutenticacoes().get(0).getUsername());
-			radcheckService.incluir(radcheck);
+			for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
+				Radcheck radcheck = new Radcheck();
+				radcheck.setAttribute("Auth-Type");
+				radcheck.setOp(":=");
+				radcheck.setValue("Reject");
+				radcheck.setUsername(contratoAutenticacao.getUsername());
+				radcheckService.incluir(radcheck);
+			}	
 		}	
 	}
 	
 	public void desbloquearContrato(Contrato contrato){
 		if(contrato.getAutenticacoes() != null && !contrato.getAutenticacoes().isEmpty()){
-			radcheckService.excluirPorUsernameAttributeValue(contrato.getAutenticacoes().get(0).getUsername(),"Auth-Type","Reject");
+			for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
+				radcheckService.excluirPorUsernameAttributeValue(contratoAutenticacao.getUsername(),"Auth-Type","Reject");
+			}	
 		}	
 	}
 	

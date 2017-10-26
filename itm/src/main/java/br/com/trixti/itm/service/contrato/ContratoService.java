@@ -73,10 +73,6 @@ public class ContratoService extends AbstractService<Contrato> {
 		entidade.setDataCriacao(new Date());
 		entidade.setStatus(StatusContrato.ATIVO);
 		super.incluir(entidade);
-//		contratoProdutoService.incluirLista(entidade.getContratoProdutos());
-//		contratoGrupoService.incluirLista(entidade.getContratoGrupos());
-//		contratoEquipamentoService.incluirLista(entidade.getContratoEquipamentos());
-		
 		freeRadiusService.sincronizarContrato(entidade);
 	}
 	
@@ -109,9 +105,7 @@ public class ContratoService extends AbstractService<Contrato> {
 		if(entidade.isCriarLancamentoCredito()){
 			criarLancamentoCredito(entidade);
 		}	
-		
 		super.alterar(entidade);
-		
 		for(ContratoProduto contratoProduto:entidade.getContratoProdutos()){
 			if(contratoProduto.getId() == null){
 				contratoProdutoService.incluir(contratoProduto);
@@ -120,15 +114,6 @@ public class ContratoService extends AbstractService<Contrato> {
 				
 			}	
 		}
-//		for(ContratoGrupo contratoGrupo:entidade.getContratoGrupos()){
-//			if(contratoGrupo.getId() == null){
-//				contratoGrupoService.incluir(contratoGrupo);
-//			}
-//			else{
-//				contratoGrupoService.alterar(contratoGrupo);
-//			}	
-//		}
-		
 		for(ContratoEquipamento contratoEquipamento:entidade.getContratoEquipamentos()){
 			if(contratoEquipamento.getId() == null){
 				contratoEquipamentoService.incluir(contratoEquipamento);
@@ -146,7 +131,6 @@ public class ContratoService extends AbstractService<Contrato> {
 		}
 		
 		freeRadiusService.sincronizarContrato(entidade);
-		
 	}
 	
 	public List<Contrato> listarAtivo() {
@@ -173,7 +157,9 @@ public class ContratoService extends AbstractService<Contrato> {
 		boletoService.excluirPorContrato(entidade);
 		contratoLancamentoService.excluirPorContrato(entidade);
 		if(entidade.getAutenticacoes() != null && !entidade.getAutenticacoes().isEmpty()){
-			freeRadiusService.excluirPorUsername(entidade.getAutenticacoes().get(0).getUsername());
+			for(ContratoAutenticacao contratoAutenticacao:entidade.getAutenticacoes()){
+				freeRadiusService.excluirPorUsername(contratoAutenticacao.getUsername());
+			}	
 		}	
 		super.excluir(entidade);
 	}
@@ -185,7 +171,9 @@ public class ContratoService extends AbstractService<Contrato> {
 		entidade.setDataCancelamento(new Date());
 		
 		if(entidade.getAutenticacoes() != null && !entidade.getAutenticacoes().isEmpty()){
-			freeRadiusService.excluirPorUsername(entidade.getAutenticacoes().get(0).getUsername());
+			for(ContratoAutenticacao contratoAutenticacao:entidade.getAutenticacoes()){
+				freeRadiusService.excluirPorUsername(contratoAutenticacao.getUsername());
+			}	
 		}
 		contratoDAO.alterar(entidade);
 		if(entidade.isGeraMultaCancelamento()){
