@@ -33,6 +33,10 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 		  @URLMapping(id = "produto_list", pattern = "/produto", viewId = "/pages/produto/produto_list.jsf"),
 		  @URLMapping(id = "produto_form_view", pattern = "/produto/#{acao}", viewId = "/pages/produto/produto_form.jsf"),
 		  
+		  @URLMapping(id = "tag_form", pattern = "/tag/#{acao}/#{parametro}", viewId = "/pages/tag/tag_form.jsf"),
+		  @URLMapping(id = "tag_list", pattern = "/tag", viewId = "/pages/tag/tag_list.jsf"),
+		  @URLMapping(id = "tag_form_view", pattern = "/tag/#{acao}", viewId = "/pages/tag/tag_form.jsf"),
+		  
 		  @URLMapping(id = "remessa_list", pattern = "/remessa", viewId = "/pages/remessa/remessa_list.jsf"),
 		  @URLMapping(id = "remessa_view", pattern = "/remessa/view/#{parametro}", viewId = "/pages/remessa/remessa_view.jsf"),
 

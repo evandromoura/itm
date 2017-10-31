@@ -36,4 +36,15 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#pages#usuario#usuario_list.xhtml"
   PATH="/pages/usuario/usuario_list.xhtml" SHAPE="240,289,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#tag#tag_form.xhtml"
+  PATH="/pages/tag/tag_form.xhtml" SHAPE="32,385,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#tag#tag_form.xhtml:0" NAME="item"
+   PATH="/pages/tag/tag_form.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="sucesso::#pages#tag#tag_list.xhtml"
+    NAME="output" PATH="/pages/tag/tag_list.xhtml"
+    TARGET="rules:#pages#tag#tag_list.xhtml" TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#tag#tag_list.xhtml"
+  PATH="/pages/tag/tag_list.xhtml" SHAPE="240,401,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

@@ -219,10 +219,17 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	
 	public void removerBoletoRemessa(Boleto boleto){
 		remessaService.removerBoletoRemessa(boleto);
-		String mensagem = getMessage("label.global.alterarsucesso");
-		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
+		adicionarMensagem("label.global.alterarsucesso",FacesMessage.SEVERITY_INFO);
 	}
 	
+	public void pagarBoleto(){
+		try{
+			boletoService.pagar(getContratoTO().getBoleto(),getContratoTO().getChaveMestra());
+			adicionarMensagem("label.global.pagarsucesso",FacesMessage.SEVERITY_INFO);
+		}catch(Exception e){
+			adicionarMensagem("label.global.chavemestrainvalida",FacesMessage.SEVERITY_ERROR);
+		}	
+	}
 
 	public ContratoTO getContratoTO() {
 		if (contratoTO == null) {
@@ -234,5 +241,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	public void setContratoTO(ContratoTO contratoTO) {
 		this.contratoTO = contratoTO;
 	}
+	
+	
 
 }

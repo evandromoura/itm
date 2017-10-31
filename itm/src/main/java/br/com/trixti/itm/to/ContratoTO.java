@@ -18,7 +18,8 @@ public class ContratoTO {
 	private List<Contrato> contratos;
 	
 	private Contrato contrato;
-	
+	private String chaveMestra;
+	private Boleto boleto;
 	
 	/**
 	 * Produto a ser Manipulado no Form
@@ -200,6 +201,25 @@ public class ContratoTO {
 
 	public void setContratos(List<Contrato> contratos) {
 		this.contratos = contratos;
+	}
+
+	public String getChaveMestra() {
+		return chaveMestra;
+	}
+
+	public void setChaveMestra(String chaveMestra) {
+		this.chaveMestra = chaveMestra;
+	}
+
+	public Boleto getBoleto() {
+		if (boleto == null) {
+			boleto = new Boleto();
+		}
+		return boleto;
+	}
+
+	public void setBoleto(Boleto boleto) {
+		this.boleto = boleto;
 	}
 
 

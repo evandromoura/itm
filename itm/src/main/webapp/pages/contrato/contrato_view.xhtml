@@ -29,7 +29,13 @@
 		<div class="row">
 
 			<div class="col-md-12">
-				<h1 class="profile-username text-center">#{contratoViewController.contratoTO.contrato.identificador}</h1>
+				<h1 class="profile-username text-center">
+					#{contratoViewController.contratoTO.contrato.cliente.nome} - #{contratoViewController.contratoTO.contrato.identificador}
+					<br />
+					<span class="btn #{contratoViewController.contratoTO.contrato.status.name eq 'ATIVO'?'btn-success':'btn-danger'}" style="cursor:auto;">
+						<h:outputText value="#{contratoViewController.contratoTO.contrato.status}" />  
+					</span>
+				</h1>
 				<ui:fragment rendered="#{contratoViewController.contratoTO.contrato.dataParaBloqueio ne null}">
 					<h4 class="alert alert-danger text-center">#{resources['label.global.contratobloqueadonovamente']} 
 						<h:outputText value="#{contratoViewController.contratoTO.contrato.dataParaBloqueio}">
@@ -149,7 +155,9 @@
 							</div>
 							<ui:fragment rendered="#{contratoViewController.contratoTO.contrato.status.name() eq 'BLOQUEADO'}">
 								<br />
-								<a href="#" data-toggle="modal" data-target="#idDesbloquearContrato" class="btn btn-info">#{resources['label.global.desbloquear']} </a>
+								<div class="text-center">
+									<a href="#" data-toggle="modal" data-target="#idDesbloquearContrato" class="btn btn-lg btn-info"><i class="fa fa-magic"></i> #{resources['label.global.desbloquear']} </a>
+								</div>
 								<br /> 
 								<h:outputText value=" " />
 							</ui:fragment>
@@ -214,11 +222,7 @@
 													
 													</td>
 												</tr>
-											
-											
-											
 											</ui:repeat>
-											
 											
 											</table>
 												
@@ -584,9 +588,15 @@
 																		<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
 																		<i class="fa fa-times"></i> #{resources['label.global.excluir']}
 																	</h:commandLink>
+																	
+																	<h:commandLink styleClass="btn btn-secondary">
+																		<i class="fa fa-calendar-o"></i> #{resources['label.global.pagarboleto']}
+																        <f:setPropertyActionListener target="#{contratoViewController.contratoTO.boleto}" value="#{boleto}" />
+																        <f:ajax />
+																       	<f:passThroughAttribute name="data-toggle" value="modal" />
+																		<f:passThroughAttribute name="data-target" value="#idPagarBoleto" />
+																    </h:commandLink>
 																</ui:fragment>	
-																
-																
 															</h:column>
 														</h:dataTable>
 													</div>
@@ -674,6 +684,42 @@
 						<div class="col-sm-2">
 							<h:commandLink styleClass="btn btn-secondary" action="#{contratoViewController.gerarSegundaViaBoleto}">
 								<i class="fa fa-download"></i> #{resources['label.global.download']}
+							</h:commandLink>
+						</div>
+					</div>
+				</itm:modal>
+				
+				
+				<itm:modal id="idPagarBoleto" titulo="#{resources['label.global.pagarboleto']}">
+					<div class="row">
+					
+						<div class="col-sm-3">
+							<h:outputText value="#{resources['label.global.datapagamento']}" /> 
+						</div>
+						<div class="col-sm-9">
+							<itm:data value="#{contratoViewController.contratoTO.boleto.dataPagamento}" />
+						</div>
+						
+						<div class="col-sm-3">
+							<h:outputText value="#{resources['label.global.valorpago']}" /> 
+						</div>
+						<div class="col-sm-9">
+							<itm:moeda value="#{contratoViewController.contratoTO.boleto.valorPago}"  />
+						</div>
+						
+						<div class="col-sm-3">
+							<h:outputText value="#{resources['label.global.informeachavemestra']}" /> 
+						</div>
+						<div class="col-sm-9">
+							<h:inputText value="#{contratoViewController.contratoTO.chaveMestra}" />
+						</div>
+						
+						<div class="col-sm-3">
+							<h:outputText value=" " />
+						</div>
+						<div class="col-sm-9">
+							<h:commandLink styleClass="btn btn-secondary" action="#{contratoViewController.pagarBoleto}">
+								<i class="fa fa-download"></i> #{resources['label.global.pagarboleto']} 
 							</h:commandLink>
 						</div>
 					</div>

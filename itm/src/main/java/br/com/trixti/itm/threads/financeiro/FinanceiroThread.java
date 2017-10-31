@@ -194,7 +194,7 @@ public class FinanceiroThread {
 					if (contratoNotificacaoRetornoInicial == null) {
 						String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoatrasado");
 						String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoatrasadosms");
-						mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
+						mailService.enviarEmail(boleto,"ITRIX - "+boleto.getContrato().getCliente().getNome()+" Aviso - Atraso de Pagamento", texto);
 						smsService.enviarSMS(boleto, textoSms);
 						contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.AVISO_ATRASO_INICIAL, texto));
 					}
@@ -204,7 +204,7 @@ public class FinanceiroThread {
 					if (contratoNotificacaoRetornoAntesBloqueio == null) {
 						String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueio");
 						String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueiosms");
-						mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
+						mailService.enviarEmail(boleto,"ITRIX - "+boleto.getContrato().getCliente().getNome()+" - Aviso - Atraso de Pagamento", texto);
 						smsService.enviarSMS(boleto,textoSms);
 						contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_PRIMEIRO, texto));
 					}
@@ -214,7 +214,7 @@ public class FinanceiroThread {
 					if (contratoNotificacaoRetornoAntesDezDias == null) {
 						String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueio");
 						String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueiosms");
-						mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
+						mailService.enviarEmail(boleto,"ITRIX - "+boleto.getContrato().getCliente().getNome()+" - Aviso - Atraso de Pagamento", texto);
 						smsService.enviarSMS(boleto,textoSms);
 						contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS, TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_SEGUNDO, texto));
 					}
@@ -224,7 +224,7 @@ public class FinanceiroThread {
 					if (contratoNotificacaoRetornoAntesDezDias == null) {
 						String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueio");
 						String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentoantesbloqueiosms");
-						mailService.enviarEmail(boleto,"ITRIX - Aviso - Atraso de Pagamento", texto);
+						mailService.enviarEmail(boleto,"ITRIX - "+boleto.getContrato().getCliente().getNome()+" - Aviso - Atraso de Pagamento", texto);
 						smsService.enviarSMS(boleto,textoSms);
 						contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,
 								TipoContratoNotificacao.AVISO_ANTES_BLOQUEIO_TERCEIRO, texto));
@@ -235,7 +235,7 @@ public class FinanceiroThread {
 					if (contratoNotificacaoRetornoAntesDezDias == null) {
 						String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentonegativacao");
 						String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.pagamentonegativacaosms");
-						mailService.enviarEmail(boleto,"ITRIX - Aviso - Negativação", texto);
+						mailService.enviarEmail(boleto,"ITRIX - "+boleto.getContrato().getCliente().getNome()+" - Aviso - Negativação", texto);
 						smsService.enviarSMS(boleto,textoSms);
 						contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,
 								TipoContratoNotificacao.AVISO_NEGATIVACAO, texto));
@@ -275,19 +275,26 @@ public class FinanceiroThread {
 		UtilData utilData = new UtilData();
 		List<Boleto> boletos = boletoService.pesquisarBoletoEmAbertoContrato(contrato);
 		boolean desbloquear = true;
+		boolean boletoEmAtraso = false;
+		
 		for (Boleto boleto : boletos) {
-			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasBloqueio()
-					&& (contrato.getDataParaBloqueio() == null
-							|| utilData.data1MaiorIgualData2(new Date(), contrato.getDataParaBloqueio()))) {
-				desbloquear = false;
+			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasBloqueio()){
+				boletoEmAtraso = true;	
+				if(contrato.getDataParaBloqueio() == null || utilData.data1MaiorIgualData2(new Date(), contrato.getDataParaBloqueio())) {
+					desbloquear = false;
+				}	
 			}
 		}
 		if (desbloquear && contrato.getStatus().equals(StatusContrato.BLOQUEADO)) {
 			contrato.setStatus(StatusContrato.ATIVO);
-			// contrato.setDataParaBloqueio(null);
 			contratoService.alterar(contrato);
 			freeRadiusService.desbloquearContrato(contrato);
 		}
+		if(!boletoEmAtraso && contrato.getDataParaBloqueio() != null){
+			contrato.setDataParaBloqueio(null);
+			contratoService.alterar(contrato);
+		}
+		
 
 	}
 

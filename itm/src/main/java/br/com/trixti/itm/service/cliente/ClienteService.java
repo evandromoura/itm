@@ -11,12 +11,12 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.cliente.ClienteDAO;
-import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boleto.BoletoService;
+import br.com.trixti.itm.service.clientetag.ClienteTagService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 
@@ -34,6 +34,7 @@ public class ClienteService extends AbstractService<Cliente> {
 	private @Inject ContratoService contratoService;
 	private @Inject FreeRadiusService freeRadiusService;
 	private @Inject BoletoService boletoService;
+	private @Inject ClienteTagService clienteTagService;
 	
 	@Override
 	public AbstractDAO<Cliente> getDAO() {
@@ -54,6 +55,21 @@ public class ClienteService extends AbstractService<Cliente> {
 	public void incluir(Cliente entidade) {
 		entidade.setDataCriacao(new Date());
 		super.incluir(entidade);
+//		atualizarTags(entidade);
+	}
+	
+	
+	
+	
+	@Override
+	public void alterar(Cliente entidade) {
+		super.alterar(entidade);
+//		atualizarTags(entidade);
+	}
+
+	private void atualizarTags(Cliente entidade){
+		clienteTagService.excluirPorCliente(entidade);
+		clienteTagService.incluirLista(entidade.getClienteTags());
 	}
 
 

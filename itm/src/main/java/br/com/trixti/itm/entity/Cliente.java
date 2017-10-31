@@ -2,6 +2,7 @@ package br.com.trixti.itm.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -95,6 +96,10 @@ public class Cliente implements java.io.Serializable {
 	
 	private String senha;
 	
+	@NotAudited
+	@OneToMany(mappedBy="cliente",cascade=CascadeType.ALL,orphanRemoval=true)
+	private List<ClienteTag> clienteTags;
+	
 	@Transient
 	private String login;
 	
@@ -106,6 +111,9 @@ public class Cliente implements java.io.Serializable {
 	
 	@Transient
 	private StatusContrato statusContrato;
+	
+	@Transient
+	private String[] tags;
 	
 	public Cliente() {
 	}
@@ -125,7 +133,7 @@ public class Cliente implements java.io.Serializable {
 	public String getNome() {
 		return this.nome;
 	}
-
+	
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -290,5 +298,22 @@ public class Cliente implements java.io.Serializable {
 	public void setStatusContrato(StatusContrato statusContrato) {
 		this.statusContrato = statusContrato;
 	}
+
+	public List<ClienteTag> getClienteTags() {
+		return clienteTags;
+	}
+
+	public void setClienteTags(List<ClienteTag> clienteTags) {
+		this.clienteTags = clienteTags;
+	}
+
+	public String[] getTags() {
+		return tags;
+	}
+
+	public void setTags(String[] tags) {
+		this.tags = tags;
+	}
+	
 
 }

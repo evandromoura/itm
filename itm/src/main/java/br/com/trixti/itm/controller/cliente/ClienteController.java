@@ -1,6 +1,8 @@
 package br.com.trixti.itm.controller.cliente;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -10,15 +12,18 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Cliente;
+import br.com.trixti.itm.entity.ClienteTag;
 import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
+import br.com.trixti.itm.entity.Tag;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
+import br.com.trixti.itm.service.tag.TagService;
 import br.com.trixti.itm.to.ClienteTO;
 
 
@@ -32,6 +37,7 @@ public class ClienteController extends AbstractController<Cliente> {
 	private @Inject ClienteService clienteService;
 	private @Inject ContratoService contratoService;
 	private @Inject CustomIdentity customIdentity;
+	private @Inject TagService tagService;
 	
 	@PostConstruct
 	private void init(){
@@ -56,6 +62,8 @@ public class ClienteController extends AbstractController<Cliente> {
 		getClienteTO().getCliente().setTipoPessoa(TipoPessoaEnum.FISICA);
 		getClienteTO().getContrato().setContaCorrente(new ContaCorrente());
 		getClienteTO().getContrato().setGeraBoleto(true);
+		getClienteTO().getCliente().setClienteTags(new ArrayList<ClienteTag>());
+		getClienteTO().setTags(tagService.listar());
 	}
 	
 	private void inicializarAlterar(Serializable id){
@@ -63,7 +71,7 @@ public class ClienteController extends AbstractController<Cliente> {
 		getClienteTO().getContrato().setContaCorrente(new ContaCorrente());
 		getClienteTO().getContrato().setGeraBoleto(true);
 		getClienteTO().getContratoAcao().setGeraMultaCancelamento(true);
-		
+		getClienteTO().setTags(tagService.listar());
 	}
 	
 //	@Admin
@@ -158,6 +166,18 @@ public class ClienteController extends AbstractController<Cliente> {
 
 	public void setClienteTO(ClienteTO clienteTO) {
 		this.clienteTO = clienteTO;
+	}
+	
+	public void adicionarTag(){
+		for(Tag tag:getClienteTO().getTags()){
+			if(tag.isSelecionado()){
+				getClienteTO().getCliente().getClienteTags().add(new ClienteTag(getClienteTO().getCliente(), tag));
+			}
+		}
+	}
+	
+	public void excluirTag(ClienteTag clienteTag){
+		getClienteTO().getCliente().getClienteTags().remove(clienteTag);
 	}
 	
 	

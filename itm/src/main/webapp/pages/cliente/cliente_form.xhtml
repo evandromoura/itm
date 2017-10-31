@@ -32,57 +32,84 @@
 						<a href="#{request.contextPath}/cliente/view/#{clienteController.clienteTO.cliente.id}"><span class="badge badge-success float-right">#{resources['label.global.visualizar']}</span></a>
 					</div>
 					<div class="card-block">
-
 						<div class="row">
-							<div class="col-sm-12">
-								<div class="form-group">
-									<label>#{resources['label.global.tipopessoa']}</label>
-									<h:selectOneRadio
-										value="#{clienteController.clienteTO.cliente.tipoPessoa}">
-										<f:selectItems value="#{combosBean.tipoPessoa}" 
-											var="tipoPessoa" itemValue="#{tipoPessoa}"
-											itemLabel="#{resources[tipoPessoa.key]}" />
-										<f:ajax event="click" render="idTipoPessoa" immediate="true"
-											execute="@this" />
-									</h:selectOneRadio>
+							<div class="col-sm-6">
+									<div class="row">
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label>#{resources['label.global.tipopessoa']}</label>
+												<h:selectOneRadio
+													value="#{clienteController.clienteTO.cliente.tipoPessoa}">
+													<f:selectItems value="#{combosBean.tipoPessoa}" 
+														var="tipoPessoa" itemValue="#{tipoPessoa}"
+														itemLabel="#{resources[tipoPessoa.key]}" />
+													<f:ajax event="click" render="idTipoPessoa" immediate="true"
+														execute="@this" />
+												</h:selectOneRadio>
+											</div>
+										</div>
+									</div>
+			
+									<div class="row">
+										<h:panelGroup id="idTipoPessoa">
+											<ui:fragment
+												rendered="#{clienteController.clienteTO.cliente.tipoPessoa.name eq 'FISICA'}">
+												<div class="col-sm-12">
+													<div class="form-group">
+														<label>#{resources['label.global.cpf']}</label>
+			
+														<itm:cpf required="true" label="#{resources['label.global.cpf']}"
+															value="#{clienteController.clienteTO.cliente.cpfCnpj}"
+															id="cliente_cpf" styleClass="form-control" />
+													</div>
+												</div>
+											</ui:fragment>
+											<ui:fragment
+												rendered="#{clienteController.clienteTO.cliente.tipoPessoa.name eq 'JURIDICA'}">
+												<div class="col-sm-12">
+													<div class="form-group">
+														<label>#{resources['label.global.cnpj']}</label>
+														<itm:cnpj value="#{clienteController.clienteTO.cliente.cpfCnpj}" label="#{resources['label.global.cnpj']}"
+															id="cliente_cnpj" styleClass="form-control" />
+													</div>
+												</div>
+											</ui:fragment>
+										</h:panelGroup>
+			
+									</div>
 								</div>
-							</div>
-						</div>
-
-						<div class="row">
-							<h:panelGroup id="idTipoPessoa">
-								<ui:fragment
-									rendered="#{clienteController.clienteTO.cliente.tipoPessoa.name eq 'FISICA'}">
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label>#{resources['label.global.cpf']}</label>
-
-											<itm:cpf required="true" label="#{resources['label.global.cpf']}"
-												value="#{clienteController.clienteTO.cliente.cpfCnpj}"
-												id="cliente_cpf" styleClass="form-control" />
+								<div class="col-sm-5">
+									<h:panelGroup id="idPanelTags">
+										<div class="card card-accent-info">
+										
+											<div class="card-header">
+												<strong>#{resources['label.global.tags']}</strong>
+												<a class="badge badge-success float-right" data-toggle="modal" data-target="#idSelecionarTag">
+													<i class="fa fa-plus"></i>
+											    </a>
+											</div>
+											<div class="card-block">
+												<ui:repeat var="clienteTag" value="#{clienteController.clienteTO.cliente.clienteTags}">
+														<span class="a badge badge-#{clienteTag.tag.style}">
+															#{clienteTag.tag.nome} 
+														</span>
+														<h:commandLink action="#{clienteController.excluirTag(clienteTag)}">
+															<i class="fa fa-times"></i>
+															<f:ajax execute="@this" render="formCliente:idPanelTags"/>	
+														</h:commandLink>
+														<br />
+												</ui:repeat>
+											</div>
 										</div>
-									</div>
-								</ui:fragment>
-								<ui:fragment
-									rendered="#{clienteController.clienteTO.cliente.tipoPessoa.name eq 'JURIDICA'}">
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label>#{resources['label.global.cnpj']}</label>
-											<itm:cnpj value="#{clienteController.clienteTO.cliente.cpfCnpj}" label="#{resources['label.global.cnpj']}"
-												id="cliente_cnpj" styleClass="form-control" />
-										</div>
-									</div>
-								</ui:fragment>
-							</h:panelGroup>
-
-						</div>
+									</h:panelGroup>	
+								</div>
+							</div>		
 
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
 									<label for="formCliente:cliente_nome">#{resources['label.global.nome']}</label>
-									<h:inputText
-										value="#{clienteController.clienteTO.cliente.nome}" label="#{resources['label.global.nome']}"
+									<h:inputText value="#{clienteController.clienteTO.cliente.nome}" label="#{resources['label.global.nome']}"
 										id="cliente_nome" styleClass="form-control" required="true" />
 								</div>
 							</div>
@@ -360,6 +387,35 @@
 						<i class="fa fa-times" /> #{resources['label.global.desbloquearcontrato']} 
 					</h:commandLink>
 					
+				</itm:modal>
+				
+				
+				<itm:modal id="idSelecionarTag" titulo="#{resources['label.global.selecionetags']}">
+					<h:dataTable var="tag" value="#{clienteController.clienteTO.tags}">
+						<h:column>
+							<f:facet name="header">
+								#
+							</f:facet>
+							<h:selectBooleanCheckbox value="#{tag.selecionado}">
+								<f:ajax execute="@this"/>
+							</h:selectBooleanCheckbox>
+						</h:column>
+						
+						<h:column>	
+							<f:facet name="header">
+									#{resources['label.global.tag']}
+							</f:facet>
+							<span class="badge badge-#{tag.style}" style="cursor:auto;">
+									#{tag.nome}
+							</span>
+						</h:column>
+						
+					</h:dataTable>
+					<br />
+					<h:commandLink action="#{clienteController.adicionarTag}" value="#{resources['label.global.adicionar']}">
+						<f:ajax render="formCliente:idPanelTags" execute="idSelecionarTag"/>
+						<f:passThroughAttribute name="data-dismiss" value="modal" />
+					</h:commandLink>
 				</itm:modal>
 
 			</h:form>

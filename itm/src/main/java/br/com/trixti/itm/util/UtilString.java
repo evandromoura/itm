@@ -282,4 +282,8 @@ public class UtilString {
             return str.indexOf(str, fromIndex);
         }
     }
+	
+	public String getPrimeiraPalavra(String valor){
+		return valor.substring(0,valor.indexOf(" "));
+	}
 }

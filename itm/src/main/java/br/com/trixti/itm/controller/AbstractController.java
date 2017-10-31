@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -77,5 +79,10 @@ public class AbstractController<T> {
 	public String getMessage(String label){
 		ResourceBundle rb = ResourceBundle.getBundle("resources", getFacesContext().getViewRoot().getLocale());
 		return rb.getString(label);
+	}
+	
+	public void adicionarMensagem(String key,Severity severity){
+		String mensagem = getMessage(key);
+		getFacesContext().addMessage(null, new FacesMessage(severity, mensagem, mensagem));
 	}
 }

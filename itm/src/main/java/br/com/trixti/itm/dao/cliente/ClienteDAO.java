@@ -15,6 +15,7 @@ import javax.persistence.criteria.Root;
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
+import br.com.trixti.itm.entity.ClienteTag;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
@@ -64,6 +65,10 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 			predicateList.add(getCriteriaBuilder().equal(root.join("contratos", JoinType.LEFT).get("status"),clientePesquisa.getStatusContrato()));
 		}
 		
+		if(clientePesquisa.getTags() != null && clientePesquisa.getTags().length > 0){
+			predicateList.add(root.join("clienteTags", JoinType.LEFT).get("tag").get("nome").in(clientePesquisa.getTags()));
+		}
+		
 		return (Predicate[]) predicateList.toArray(new Predicate[predicateList.size()]);
 	}
 
@@ -95,6 +100,12 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 //							}	
 //						}
 //					}
+				}
+				
+			}
+			if(cliente.getClienteTags() != null){
+				for(ClienteTag clienteTag:cliente.getClienteTags()){
+					clienteTag.getTag().getId();
 				}
 				
 			}

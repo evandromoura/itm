@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.Tag;
 
 public class ClienteTO {
 	
@@ -29,6 +30,9 @@ public class ClienteTO {
 	 * Cliente usado como filtro de pesquisa
 	 */
 	private Cliente clientePesquisa;
+	
+	
+	private List<Tag> tags;
 	
 	
 	
@@ -86,6 +90,17 @@ public class ClienteTO {
 
 	public void setContratoAcao(Contrato contratoAcao) {
 		this.contratoAcao = contratoAcao;
+	}
+
+	public List<Tag> getTags() {
+		if (tags == null) {
+			tags = new ArrayList<Tag>();
+		}
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
 }

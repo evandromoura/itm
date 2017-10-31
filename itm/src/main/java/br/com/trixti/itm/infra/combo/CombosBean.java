@@ -12,6 +12,7 @@ import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.entity.StatusContrato;
+import br.com.trixti.itm.entity.Tag;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.enums.PerfilEnum;
 import br.com.trixti.itm.enums.StatusRemessaEnum;
@@ -20,6 +21,7 @@ import br.com.trixti.itm.service.contacorrente.ContaCorrenteService;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
 import br.com.trixti.itm.service.grupo.GrupoService;
 import br.com.trixti.itm.service.produto.ProdutoService;
+import br.com.trixti.itm.service.tag.TagService;
 
 @Named
 public class CombosBean {
@@ -28,6 +30,7 @@ public class CombosBean {
 	private @Inject EquipamentoService equipamentoService;
 	private @Inject GrupoService grupoService;
 	private @Inject ContaCorrenteService contaCorrenteService;
+	private @Inject TagService tagService;
 	
 	public TipoPessoaEnum[] getTipoPessoa(){
 		return TipoPessoaEnum.values();
@@ -67,6 +70,10 @@ public class CombosBean {
    
    public StatusRemessaEnum[] getStatusRemessaEnum(){
 	   return StatusRemessaEnum.values();
+   }
+   
+   public List<Tag> getListaTag(){
+	   return tagService.listar();
    }
 	
 }

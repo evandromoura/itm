@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:param name="menu" value="tag" />
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formTag">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.cadastrotag']}</strong>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formTag:nome_tag">#{resources['label.global.nome']}</label>
+									<h:inputText value="#{tagController.tagTO.tag.nome}"
+										id="nome_tag" styleClass="form-control" />
+								</div>
+							</div>
+							
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formTag:style_tag">#{resources['label.global.style']}</label>
+									<br />
+									<h:selectOneMenu value="#{tagController.tagTO.tag.style}" id="style_tag" styleClass="form-control"> 
+										<f:selectItem itemLabel="Padrão" itemValue="default"/>
+										<f:selectItem itemLabel="Sucesso" itemValue="success"/>
+										<f:selectItem itemLabel="Informativo" itemValue="info"/>
+										<f:selectItem itemLabel="Atenção" itemValue="warning"/>
+										<f:selectItem itemLabel="Perigo" itemValue="danger"/>
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<h:commandLink action="#{tagController.gravar()}"
+										styleClass="btn btn-lg btn-success">
+										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
+									</h:commandLink>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

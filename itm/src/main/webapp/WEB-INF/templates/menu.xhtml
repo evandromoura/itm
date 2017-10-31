@@ -101,6 +101,13 @@
 							</a>
 						</li>
 					</ui:fragment>
+					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">										
+						<li class="nav-item">
+							<a class="nav-link #{menu eq 'tag'?'active':''}" href="#{request.contextPath}/tag">
+								<i class="icon-briefcase"></i> #{resources['label.global.tag']} 
+							</a>
+						</li>
+					</ui:fragment>
 					
 					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">	
 						<li class="nav-item">

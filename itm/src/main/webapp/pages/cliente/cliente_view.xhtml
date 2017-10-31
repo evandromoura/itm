@@ -114,7 +114,16 @@
 												#{clienteViewController.clienteTO.cliente.cidade}
 											</div>
 										</div>
-										
+											<div class="col-sm-12">
+												<div class="form-group">
+													<label for="formCliente:cliente_telefone_fixo">#{resources['label.global.tags']}:</label><br />
+													<ui:repeat var="clienteTag" value="#{clienteViewController.clienteTO.cliente.clienteTags}">
+													<span class="btn btn-md btn-#{clienteTag.tag.style}" style="cursor:auto;">
+															#{clienteTag.tag.nome} 
+														</span>
+													</ui:repeat>  
+												</div>
+											</div>
 									</div>
 								</div>
 							</div>

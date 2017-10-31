@@ -88,6 +88,9 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="juros_mes")
 	private BigDecimal jurosMes;
 	
+	@Column(name="chave_mestra")
+	private String chaveMestra;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -254,6 +257,14 @@ public class Parametro implements java.io.Serializable {
 
 	public void setJurosMes(BigDecimal jurosMes) {
 		this.jurosMes = jurosMes;
+	}
+
+	public String getChaveMestra() {
+		return chaveMestra;
+	}
+
+	public void setChaveMestra(String chaveMestra) {
+		this.chaveMestra = chaveMestra;
 	}
 
 }

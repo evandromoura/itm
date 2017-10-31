@@ -102,7 +102,7 @@ public class MailService {
 	private String comporTitulo(Boleto boleto) {
 		UtilData utildata = new UtilData();
 		UtilString utilString = new UtilString();
-		String titulo = "ITRIX Sua fatura do mês "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utildata.getMes(boleto.getDataVencimento())), 2))+" chegou!";
+		String titulo = "ITRIX - "+boleto.getContrato().getCliente().getNome()+" sua fatura do mês "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utildata.getMes(boleto.getDataVencimento())), 2))+" chegou!";
 		return titulo;
 	}
 

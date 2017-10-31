@@ -11,6 +11,8 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.boleto.BoletoDAO;
 import br.com.trixti.itm.entity.Boleto;
@@ -18,15 +20,18 @@ import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoLancamento;
+import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.Remessa;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
+import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boletolancamento.BoletoLancamentoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
-import br.com.trixti.itm.to.PeriodoTO;
+import br.com.trixti.itm.service.parametro.ParametroService;
+import br.com.trixti.itm.service.remessa.RemessaService;
 
 @Stateless
 public class BoletoService extends AbstractService<Boleto>{
@@ -35,6 +40,8 @@ public class BoletoService extends AbstractService<Boleto>{
 	private @Inject ContratoService contratoService;
 	private @Inject ContratoLancamentoService contratoLancamentoService;
 	private @Inject BoletoLancamentoService boletoLancamentoService;
+	private @Inject ParametroService parametroService;
+	private @Inject RemessaService remessaService;
 	
 	public void criarBoleto()throws Exception{
 		Date dataAtual = new Date();
@@ -157,5 +164,24 @@ public class BoletoService extends AbstractService<Boleto>{
 
 	public List<Boleto> listarBoletoEmAtraso() {
 		return boletoDAO.listarBoletoEmAtraso();
+	}
+
+	public void pagar(Boleto boleto,String chaveMestra) throws Exception{
+		Parametro parametro = parametroService.recuperarParametro();
+		if(DigestUtils.md5Hex(chaveMestra).equals(parametro.getChaveMestra())){
+			boleto.setDataPagamento(new Date());
+			boleto.setStatus(StatusBoletoEnum.PAGO);
+			boleto.getRemessa().setQtdBoletoAberto(boleto.getRemessa().getQtdBoletoAberto() - 1);
+			boleto.getRemessa().setQtdBoletoFechado(boleto.getRemessa().getQtdBoletoFechado() + 1);
+			boleto.getRemessa().setValorRecebido(boleto.getRemessa().getValorRecebido().add(boleto.getValorPago()));
+			if(boleto.getRemessa().getQtdBoletoAberto().equals(0)){
+				boleto.getRemessa().setStatus(StatusRemessaEnum.FECHADO);
+			}
+			alterar(boleto);
+			remessaService.alterar(boleto.getRemessa());
+			
+		}else{
+			throw new Exception("CHAVE MESTRA INVALIDA");
+		}	
 	}
 }

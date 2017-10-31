@@ -61,7 +61,9 @@
 							
 							
 							
-							<div class="col-sm-4">
+							
+							
+							<div class="col-sm-3">
 								<div class="form-group">
 									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.produto']}</label>
 									<h:selectOneMenu id="idProduto"
@@ -74,7 +76,7 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<div class="form-group">
 									<label for="idFormPesquisarCliente:cliente_grupo">#{resources['label.global.velocidade']}</label> 
 									<h:selectOneMenu id="idGrupo"
@@ -87,7 +89,7 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-4">
+							<div class="col-sm-3">
 								<div class="form-group">
 									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.statuscontrato']}</label>
 									<h:selectOneMenu id="idStatusContrato"
@@ -97,6 +99,15 @@
 										<f:selectItems value="#{combosBean.statusContrato}" var="statusContrato"
 											itemLabel="#{statusContrato.name}" itemValue="#{statusContrato}" />
 									</h:selectOneMenu>
+								</div>
+							</div>
+							
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.tags']}</label>
+									<h:selectManyListbox value="#{clienteController.clienteTO.clientePesquisa.tags}" styleClass="form-control">
+										<f:selectItems value="#{combosBean.listaTag}" var="tag" itemValue="#{tag.nome}"  itemLabel="#{tag.nome}"/>
+									</h:selectManyListbox> 
 								</div>
 							</div>
 							
