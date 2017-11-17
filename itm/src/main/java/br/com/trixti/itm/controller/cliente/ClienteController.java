@@ -2,7 +2,6 @@ package br.com.trixti.itm.controller.cliente;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -19,8 +18,8 @@ import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.entity.Tag;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
-import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
+import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.tag.TagService;
@@ -29,7 +28,7 @@ import br.com.trixti.itm.to.ClienteTO;
 
 @ManagedBean
 @ViewScoped
-@Admin
+@SuporteNivel1
 public class ClienteController extends AbstractController<Cliente> {
 	
 	private ClienteTO clienteTO;

@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
-import br.com.trixti.itm.infra.security.annotations.Admin;
+import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.to.ClienteTO;
@@ -19,7 +19,7 @@ import br.com.trixti.itm.util.UtilArquivo;
 
 @Model
 @ViewScoped
-@Admin
+@SuporteNivel1
 public class ClienteViewController  extends AbstractController<Cliente>{
 	
 	

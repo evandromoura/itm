@@ -8,8 +8,8 @@ import javax.inject.Inject;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Usuario;
-import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
+import br.com.trixti.itm.infra.security.annotations.SuporteNivel2;
 import br.com.trixti.itm.service.usuario.UsuarioService;
 import br.com.trixti.itm.to.UsuarioTO;
 
@@ -17,16 +17,12 @@ import br.com.trixti.itm.to.UsuarioTO;
 
 @ViewScoped
 @ManagedBean
-@Admin
+@SuporteNivel2
 public class UsuarioController extends AbstractController<Usuario> {
-	
 	
 	private @Inject UsuarioService usuarioService;
 	private UsuarioTO usuarioTO;
 	private @Inject CustomIdentity customIdentity;
-	
-	
-	
 	
 	@PostConstruct
 	private void init(){

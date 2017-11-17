@@ -80,7 +80,9 @@
 								<f:facet name="header">
 									#{resources['label.global.acoes']}
 								</f:facet>
-								<a href="#{request.contextPath}/usuario/editar/#{usuario.id}" class="btn btn-info">#{resources['label.global.editar']}</a>
+								<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPORTE_NIVEL2')}">
+									<a href="#{request.contextPath}/usuario/editar/#{usuario.id}" class="btn btn-info">#{resources['label.global.editar']}</a>
+								</ui:fragment>
 								<h:outputText value=" " />
 								<h:commandLink action="#{usuarioController.excluir(usuario)}"  styleClass="btn btn-info"
 									value="#{resources['label.global.excluir']}" immediate="true" />

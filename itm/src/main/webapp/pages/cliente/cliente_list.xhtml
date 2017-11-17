@@ -171,19 +171,19 @@
 								<h:column><f:facet name="header">#{resources['label.global.acoes']}</f:facet>
 								<f:attribute name="style" value="white-space: nowrap;" />
 									<div>
-									
-										<a class="btn btn-info" href="#{request.contextPath}/cliente/editar/#{cliente.id}" title="#{resources['label.global.editar']}">
-                                                <i class="fa fa-edit "></i>
-                                         </a>	
-										
-										<h:outputText value=" " />
-										<h:commandLink styleClass="btn btn-danger">
-									        <f:setPropertyActionListener target="#{clienteController.clienteTO.cliente}" value="#{cliente}" />
-									        <f:ajax />
-									       	<f:passThroughAttribute name="data-toggle" value="modal" />
-											<f:passThroughAttribute name="data-target" value="#idConfirmExcluirCliente" />
-                                            <i class="fa fa-trash-o" />
-									    </h:commandLink>
+										<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+											<a class="btn btn-info" href="#{request.contextPath}/cliente/editar/#{cliente.id}" title="#{resources['label.global.editar']}">
+	                                                <i class="fa fa-edit "></i>
+	                                         </a>	
+											<h:outputText value=" " />
+											<h:commandLink styleClass="btn btn-danger">
+										        <f:setPropertyActionListener target="#{clienteController.clienteTO.cliente}" value="#{cliente}" />
+										        <f:ajax />
+										       	<f:passThroughAttribute name="data-toggle" value="modal" />
+												<f:passThroughAttribute name="data-target" value="#idConfirmExcluirCliente" />
+	                                            <i class="fa fa-trash-o" />
+										    </h:commandLink>
+										</ui:fragment>    
 									</div>
 								</h:column>
 							</h:dataTable>

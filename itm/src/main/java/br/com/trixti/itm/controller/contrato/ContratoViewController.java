@@ -24,6 +24,7 @@ import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
+import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
@@ -38,6 +39,7 @@ import br.com.trixti.itm.util.UtilData;
 
 @ViewScoped
 @ManagedBean
+@SuporteNivel1
 public class ContratoViewController extends AbstractController<Contrato> {
 
 	private ContratoTO contratoTO;

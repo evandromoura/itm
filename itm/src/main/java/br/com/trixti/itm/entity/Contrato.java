@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -83,7 +84,9 @@ public class Contrato implements java.io.Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade={CascadeType.ALL},orphanRemoval=true)
 	private List<ContratoGrupo> contratoGrupos;
 	
+	
 	@NotAudited
+	@OrderBy("dataVencimento desc")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<Boleto> boletos;
 	

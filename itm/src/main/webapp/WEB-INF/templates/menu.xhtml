@@ -78,7 +78,7 @@
 							</a>
 						</li>
 					</ui:fragment>
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">	
+					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPORTE_NIVEL2')}">	
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'usuario'?'active':''}" href="#{request.contextPath}/usuario">
 								<i class="icon-people"></i> #{resources['label.global.usuario']}
@@ -104,7 +104,7 @@
 					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">										
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'tag'?'active':''}" href="#{request.contextPath}/tag">
-								<i class="icon-briefcase"></i> #{resources['label.global.tag']} 
+								<i class="icon-tag"></i> #{resources['label.global.tag']} 
 							</a>
 						</li>
 					</ui:fragment>
@@ -154,7 +154,8 @@
 							</li>
 					</ui:fragment>		
 					
-					<li class="nav-title text-center"><span>#{resources['label.global.relatorios']}</span></li> 
+					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+						<li class="nav-title text-center"><span>#{resources['label.global.relatorios']}</span></li> 
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'relatorio_contrato'?'active':''}" href="#{request.contextPath}/relatorio/contrato">
 								<i class="icon-envelope-open"></i> #{resources['label.global.contratos']} 
@@ -165,7 +166,7 @@
 								<i class="icon-envelope-open"></i> #{resources['label.global.clientesinadimplentes']}
 							</a>
 						</li>
-						
+					</ui:fragment>	
 					<li>
 						<hr />
 					</li>
