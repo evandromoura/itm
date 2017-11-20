@@ -1,5 +1,6 @@
 package br.com.trixti.itm.infra.combo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,6 +39,20 @@ public class CombosBean {
 
 	public PerfilEnum[] getPerfis(){
 		return PerfilEnum.values();
+	}
+	
+	public PerfilEnum[] getPerfis(PerfilEnum perfil){
+		List<PerfilEnum> listaPerfilPermitido = new ArrayList<PerfilEnum>();
+		boolean encontrou = false;
+		for(PerfilEnum perfilEnum:PerfilEnum.values()){
+			if(perfilEnum.equals(perfil)){
+				encontrou = true;
+			}
+			if(encontrou){
+				listaPerfilPermitido.add(perfilEnum);
+			}
+		}
+		return (PerfilEnum[]) listaPerfilPermitido.toArray(new PerfilEnum[listaPerfilPermitido.size()]);
 	}
 	
    public List<Produto> getListaProduto(){

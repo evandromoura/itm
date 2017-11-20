@@ -24,12 +24,22 @@
 								</div>
 							</div>
 							<div class="col-sm-6">
-								<div class="form-group">
-									<label for="formUsuario:perfil_usuario">#{resources['label.global.perfil']}</label> 
-									<h:selectOneMenu value="#{usuarioController.usuarioTO.usuario.perfil}" id="perfil_usuario" styleClass="form-control">
-										<f:selectItems value="#{combosBean.perfis}" var="perfil" itemValue="#{perfil}" itemLabel="#{perfil.name}" />
-									</h:selectOneMenu>
-								</div>
+								<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+									<div class="form-group">
+										<label for="formUsuario:perfil_usuario_admin">#{resources['label.global.perfil']}</label> 
+										<h:selectOneMenu value="#{usuarioController.usuarioTO.usuario.perfil}" id="perfil_usuario_admin" styleClass="form-control">
+											<f:selectItems value="#{combosBean.perfis}" var="perfil" itemValue="#{perfil}" itemLabel="#{perfil.name}" />
+										</h:selectOneMenu>
+									</div>
+								</ui:fragment>
+								<ui:fragment rendered="#{!securityBean.isPermissao('ADMIN')}">
+									<div class="form-group">
+										<label for="formUsuario:perfil_usuario">#{resources['label.global.perfil']}</label> 
+										<h:selectOneMenu value="#{usuarioController.usuarioTO.usuario.perfil}" id="perfil_usuario" styleClass="form-control">
+											<f:selectItems value="#{combosBean.getPerfis(customIdentity.usuario.perfil)}" var="perfil" itemValue="#{perfil}" itemLabel="#{perfil.name}" />
+										</h:selectOneMenu>
+									</div>
+								</ui:fragment>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group">

@@ -2,11 +2,10 @@ package br.com.trixti.itm.enums;
 
 public enum PerfilEnum {
 	ADMIN,
-	SUPORTE_NIVEL1,
+	FINANCEIRO,
 	SUPORTE_NIVEL2,
-	CLIENTE,
-	FINANCEIRO;
-	
+	SUPORTE_NIVEL1,
+	CLIENTE;
 	
 	public String getName(){
 		return name();
