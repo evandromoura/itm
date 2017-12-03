@@ -372,6 +372,8 @@
 						<div class="#{contratoViewController.contratoTO.abaAtiva eq 'financeiro'?'active':''} tab-pane" id="financeiro">
 							
 							<ui:fragment id="idTabFinanceiro">
+							
+								<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO')}">
 									<div class="card card-accent-info">
 										<div class="card-header">
 											<i class="fa fa-plus-square-o" />
@@ -496,8 +498,7 @@
 											</div>
 										</div>
 									</div>
-									
-									
+									</ui:fragment>	
 		
 									<div class="card card-accent-info">
 										<div class="card-header">

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
@@ -19,6 +20,7 @@ import br.com.trixti.itm.entity.ClienteTag;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
+import br.com.trixti.itm.to.ClienteWSTO;
 
 
 @Stateless
@@ -142,6 +144,19 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 					.where(getCriteriaBuilder().equal(root.get("email"),email))
 					).setMaxResults(1).getSingleResult());
 	}
+	
+	public ClienteWSTO recuperarPorCpf(String cpf) {
+		try{
+			Query query = getManager()
+					.createNativeQuery("select * from itm_cliente where ( UPPER(TRANSLATE( cpf_cnpj,'.-','' ) ) like '%" + cpf + "%')",
+							Cliente.class);
+			Cliente cliente = (Cliente)query.getSingleResult();
+			ClienteWSTO clienteRetorno = new ClienteWSTO(cliente.getCpfCnpj(),cliente.getNome());
+			return clienteRetorno;
+		}catch(Exception e){
+			return new ClienteWSTO("0", "Cliente não encontrado");
+		}	
+}
 
 	public List<Cliente> listarPorBoletoAtrasado() {
 		CriteriaQuery<Cliente> criteria = getCriteriaBuilder().createQuery(Cliente.class);

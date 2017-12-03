@@ -86,6 +86,7 @@ public class Cliente implements java.io.Serializable {
 	private Date dataExclusao;
 	
 	
+	
 	@NotAudited
 	@OneToMany(mappedBy="cliente")
 	private List<Contrato> contratos;
@@ -119,6 +120,10 @@ public class Cliente implements java.io.Serializable {
 	}
 
 	public Cliente(int id) {
+		this.id = id;
+	}
+	
+	public Cliente(int id,String cpfCnpj,String nome) {
 		this.id = id;
 	}
 	

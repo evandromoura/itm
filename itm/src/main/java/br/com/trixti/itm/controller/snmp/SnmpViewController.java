@@ -6,10 +6,12 @@ import javax.faces.bean.ViewScoped;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
 import br.com.trixti.itm.to.SnmpViewTO;
 
 @ViewScoped
 @ManagedBean
+@SuporteNivel1
 public class SnmpViewController extends AbstractController<Contrato> {
 
 	private SnmpViewTO snmpViewTO;

@@ -2,14 +2,18 @@ package br.com.trixti.itm.rest;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
+import br.com.trixti.itm.to.ClienteWSTO;
 
 
 @javax.ws.rs.Path(value="/data")
@@ -18,6 +22,7 @@ public class ItmRESTService {
 	
 	
 	private @Inject ClienteService clienteService;
+	private @Inject BoletoService boletoService;
 	
 	@GET
 	@Path("/cliente")
@@ -26,5 +31,19 @@ public class ItmRESTService {
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		return gson.toJson(clienteService.listar());
 	}
+	
+	
+	
+	@GET
+	@POST
+	@Path("/integracao/cliente")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ClienteWSTO integracaoCliente(@QueryParam("cpf") String cpf) throws Exception {
+		ClienteWSTO cliente = clienteService.recuperarPorCpf(cpf);
+		return cliente;
+	}
+	
+	
+	
 	
 }

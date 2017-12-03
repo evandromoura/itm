@@ -19,6 +19,7 @@ import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.clientetag.ClienteTagService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
+import br.com.trixti.itm.to.ClienteWSTO;
 
 /**
  * Classe que aplica a regra de negocio do caso de uso (Cliente)
@@ -118,6 +119,15 @@ public class ClienteService extends AbstractService<Cliente> {
 	public Cliente recuperarPorEmail(String email){
 		try{
 			return clienteDAO.recuperarPorEmail(email);
+		}catch(Exception e){
+			return null;
+		}	
+	}
+	
+	
+	public ClienteWSTO recuperarPorCpf(String cpf){
+		try{
+			return clienteDAO.recuperarPorCpf(cpf);
 		}catch(Exception e){
 			return null;
 		}	

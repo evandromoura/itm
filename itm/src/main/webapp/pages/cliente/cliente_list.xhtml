@@ -105,7 +105,7 @@
 							<div class="col-sm-3">
 								<div class="form-group">
 									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.tags']}</label>
-									<h:selectManyListbox value="#{clienteController.clienteTO.clientePesquisa.tags}" styleClass="form-control">
+									<h:selectManyListbox value="#{clienteController.clienteTO.clientePesquisa.tags}" styleClass="form-control" style="overflow-x: scroll;height:100px">
 										<f:selectItems value="#{combosBean.listaTag}" var="tag" itemValue="#{tag.nome}"  itemLabel="#{tag.nome}"/>
 									</h:selectManyListbox> 
 								</div>
@@ -123,9 +123,11 @@
 									<h:commandLink action="#{clienteController.pesquisar()}" styleClass="btn btn-lg btn-primary" id="idBotaoPesquisar">
 										<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
 									</h:commandLink>
-									<a href="#{request.contextPath}/cliente/novo" class="btn btn-lg btn-success">
-										<i class="fa fa-user-plus" /> #{resources['label.global.novocliente']}
-									</a>
+									<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+										<a href="#{request.contextPath}/cliente/novo" class="btn btn-lg btn-success">
+											<i class="fa fa-user-plus" /> #{resources['label.global.novocliente']}
+										</a>
+									</ui:fragment>
 							</div>
 						</div>   			
 					</div>

@@ -139,19 +139,22 @@
 								<i class="icon-clock"></i> #{resources['label.global.threads']} 
 							</a>
 						</li>
-					</ui:fragment>	
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+					</ui:fragment>
+					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO') 
+										or securityBean.isPermissao('SUPORTE_NIVEL1') or securityBean.isPermissao('SUPORTE_NIVEL2')}">
 						    <li class="nav-title text-center"><span>#{resources['label.global.admin']}</span></li> 
 							<li class="nav-item">
 								<a class="nav-link #{menu eq 'snmp'?'active':''}" href="#{request.contextPath}/snmp">
 									<i class="icon-shuffle"></i> #{resources['label.global.snmptools']} 
 								</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link #{menu eq 'log'?'active':''}" href="#{request.contextPath}/log">
-									<i class="icon-book-open"></i> #{resources['label.global.log']}
-								</a>
-							</li>
+					</ui:fragment>		
+					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+						<li class="nav-item">
+							<a class="nav-link #{menu eq 'log'?'active':''}" href="#{request.contextPath}/log">
+								<i class="icon-book-open"></i> #{resources['label.global.log']}
+							</a>
+						</li>
 					</ui:fragment>		
 					
 					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
