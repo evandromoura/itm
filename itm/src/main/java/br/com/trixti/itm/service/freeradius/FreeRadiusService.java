@@ -14,14 +14,17 @@ import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.GrupoParametro;
 import br.com.trixti.itm.entity.Radcheck;
 import br.com.trixti.itm.entity.Radgroupreply;
+import br.com.trixti.itm.entity.Radreply;
 import br.com.trixti.itm.entity.Radusergroup;
 import br.com.trixti.itm.service.radcheck.RadcheckService;
 import br.com.trixti.itm.service.radgroupreply.RadgroupreplyService;
+import br.com.trixti.itm.service.radreply.RadreplyService;
 import br.com.trixti.itm.service.radusergroup.RadusergroupService;
 
 @Stateless
 public class FreeRadiusService {
 
+	private @Inject RadreplyService radreplyService;
 	private @Inject RadcheckService radcheckService;
 	private @Inject RadusergroupService radusergroupService;
 	private @Inject RadgroupreplyService radgroupreplyService;
@@ -116,6 +119,29 @@ public class FreeRadiusService {
 		if(contrato.getAutenticacoes() != null && !contrato.getAutenticacoes().isEmpty()){
 			for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
 				radcheckService.excluirPorUsernameAttributeValue(contratoAutenticacao.getUsername(),"Auth-Type","Reject");
+			}	
+		}	
+	}
+	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	public void suspenderContrato(Contrato contrato) {
+		if(contrato.getAutenticacoes() != null && !contrato.getAutenticacoes().isEmpty()){
+			for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
+				Radreply radreply = new Radreply();
+				radreply.setAttribute("Mikrotik-Rate-Limit");
+				radreply.setOp(":=");
+				radreply.setValue("512k/512k");
+				radreply.setUsername(contratoAutenticacao.getUsername());
+				radreplyService.incluir(radreply);
+			}	
+		}	
+	}
+	
+	//TODO REMOVER A SUSPENSAO 
+	public void removerSuspensaoContrato(Contrato contrato){
+		if(contrato.getAutenticacoes() != null && !contrato.getAutenticacoes().isEmpty()){
+			for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
+				radreplyService.excluirPorUsernameAttributeValue(contratoAutenticacao.getUsername(),"Mikrotik-Rate-Limit","512k/512k");
 			}	
 		}	
 	}

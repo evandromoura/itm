@@ -151,10 +151,10 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 					.createNativeQuery("select * from itm_cliente where ( UPPER(TRANSLATE( cpf_cnpj,'.-','' ) ) like '%" + cpf + "%')",
 							Cliente.class);
 			Cliente cliente = (Cliente)query.getSingleResult();
-			ClienteWSTO clienteRetorno = new ClienteWSTO(cliente.getCpfCnpj(),cliente.getNome());
+			ClienteWSTO clienteRetorno = new ClienteWSTO(cliente.getId(),cliente.getCpfCnpj(),cliente.getNome());
 			return clienteRetorno;
 		}catch(Exception e){
-			return new ClienteWSTO("0", "Cliente não encontrado");
+			return new ClienteWSTO(0,"0", "Cliente não encontrado");
 		}	
 }
 

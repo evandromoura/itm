@@ -72,7 +72,7 @@ public class FinanceiroThread {
 	private @Inject MensagemFactory mensagemFactory;
 	private @Inject ContratoNotificacaoService contratoNotificacaoService;
 	
-	private boolean ativo = true;
+	private boolean ativo = false;
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
@@ -83,7 +83,7 @@ public class FinanceiroThread {
 				BigDecimal valor = BigDecimal.ZERO;
 				List<BoletoLancamento> lancamentosBoleto = new ArrayList<BoletoLancamento>();
 				for (Contrato contrato : cliente.getContratos()) {
-					if(contrato.getStatus().equals(StatusContrato.ATIVO)){
+					if(contrato.getStatus().equals(StatusContrato.ATIVO) || contrato.getStatus().equals(StatusContrato.SUSPENSO)){
 						gerarBoleto(valor, lancamentosBoleto, contrato);
 					}	
 				}
@@ -259,12 +259,25 @@ public class FinanceiroThread {
 		UtilData utilData = new UtilData();
 		List<Boleto> boletos = boletoService.pesquisarBoletoEmAbertoContrato(contrato);
 		for (Boleto boleto : boletos) {
+			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasAviso()) {
+				if (contrato.getStatus().equals(StatusContrato.ATIVO)) {
+					contrato.setStatus(StatusContrato.SUSPENSO);
+					contratoService.alterar(contrato);
+					freeRadiusService.suspenderContrato(contrato);
+					boleto.setDataVencimento(new Date());
+					String texto = "Sua velocidade foi reduzida, pague seu boleto e evite bloqueio.";
+					mailService.enviarEmail(boleto,null,texto);
+					smsService.enviarSMS(boleto, texto);
+					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto, MeioEnvioContratoNotificacao.EMAIL, TipoContratoNotificacao.ENVIO_BOLETO, texto));
+				}
+			}
 			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasBloqueio()
 					&& (contrato.getDataParaBloqueio() == null
 							|| utilData.data1MaiorIgualData2(new Date(), contrato.getDataParaBloqueio()))) {
-				if (contrato.getStatus().equals(StatusContrato.ATIVO)) {
+				if (contrato.getStatus().equals(StatusContrato.ATIVO) || contrato.getStatus().equals(StatusContrato.SUSPENSO)) {
 					contrato.setStatus(StatusContrato.BLOQUEADO);
 					contratoService.alterar(contrato);
+					freeRadiusService.removerSuspensaoContrato(contrato);
 					freeRadiusService.bloquearContrato(contrato);
 				}
 			}
@@ -275,9 +288,15 @@ public class FinanceiroThread {
 		UtilData utilData = new UtilData();
 		List<Boleto> boletos = boletoService.pesquisarBoletoEmAbertoContrato(contrato);
 		boolean desbloquear = true;
+		boolean removersuspensao = true;
 		boolean boletoEmAtraso = false;
 		
 		for (Boleto boleto : boletos) {
+			
+			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasAviso()){
+					removersuspensao = false;
+			}
+			
 			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasBloqueio()){
 				boletoEmAtraso = true;	
 				if(contrato.getDataParaBloqueio() == null || utilData.data1MaiorIgualData2(new Date(), contrato.getDataParaBloqueio())) {
@@ -290,6 +309,15 @@ public class FinanceiroThread {
 			contratoService.alterar(contrato);
 			freeRadiusService.desbloquearContrato(contrato);
 		}
+		
+		
+		if (removersuspensao && contrato.getStatus().equals(StatusContrato.SUSPENSO)) {
+			contrato.setStatus(StatusContrato.ATIVO);
+			contratoService.alterar(contrato);
+			freeRadiusService.removerSuspensaoContrato(contrato);
+		}
+		
+		
 		if(!boletoEmAtraso && contrato.getDataParaBloqueio() != null){
 			contrato.setDataParaBloqueio(null);
 			contratoService.alterar(contrato);

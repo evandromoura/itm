@@ -16,7 +16,6 @@
 
 	//<![CDATA[
 
-	
 // Radialize the colors
 Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
     return {
@@ -27,7 +26,7 @@ Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, 
         },
         stops: [
             [0, color],
-            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] 
         ]
     };
 });

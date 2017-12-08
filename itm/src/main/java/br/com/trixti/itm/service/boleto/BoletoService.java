@@ -102,6 +102,7 @@ public class BoletoService extends AbstractService<Boleto>{
 		return boletoDAO;
 	}
 
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<Boleto> pesquisarBoletoEmAbertoContrato(Contrato contrato) {
 		return boletoDAO.pesquisarBoletoEmAbertoContrato(contrato);
 	}

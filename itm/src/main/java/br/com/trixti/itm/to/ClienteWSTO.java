@@ -2,11 +2,13 @@ package br.com.trixti.itm.to;
 
 public class ClienteWSTO {
 	
+	private Integer id;
 	private String cpf;
 	private String nome;
 	private Integer qtdBoletoEmAtraso;
 	
-	public ClienteWSTO(String cpf,String nome){
+	public ClienteWSTO(Integer id, String cpf,String nome){
+		setId(id);
 		setCpf(cpf);
 		setNome(nome);
 	}
@@ -34,6 +36,14 @@ public class ClienteWSTO {
 
 	public void setQtdBoletoEmAtraso(Integer qtdBoletoEmAtraso) {
 		this.qtdBoletoEmAtraso = qtdBoletoEmAtraso;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	

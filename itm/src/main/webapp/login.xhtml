@@ -43,7 +43,7 @@
 	                            <div class="input-group mb-1">
 	                                <span class="input-group-addon"><i class="icon-user"></i>
 	                                </span>
-									<h:inputText id="j_username"  styleClass="form-control" required="true" label="#{resources['label.global.username']}">
+									<h:inputText id="j_username"  styleClass="form-control" required="true" label="#{resources['label.global.username']}" autocomplete="false">
 										<f:passThroughAttribute name="placeholder" value="#{resources['label.global.username']}"  />
 										<f:passThroughAttribute name="required" value="required"  />
 									</h:inputText>
@@ -53,7 +53,7 @@
 	                                <span class="input-group-addon"><i class="icon-lock"></i>
 	                                </span>
 	                                
-	                                <h:inputSecret id="j_password"  styleClass="form-control" required="true" label="#{resources['label.global.senha']}" redisplay="true">
+	                                <h:inputSecret id="j_password"  styleClass="form-control" required="true" label="#{resources['label.global.senha']}" redisplay="false">
 										<f:passThroughAttribute name="placeholder" value="#{resources['label.global.senha']}" />
 										<f:passThroughAttribute name="required" value="required"  />
 									</h:inputSecret>
@@ -79,12 +79,12 @@
 	                                 <h:form id="idFormPrimeiroAcesso">
 	                                 		<h:messages showSummary="true" showDetail="false" infoClass="alert alert-success" errorClass="alert alert-danger" layout="list" style="width:96%"/>
 			                                <ui:fragment rendered="#{loginController.loginTO.primeiroAcesso}" id="idPrimeiroAcesso">
-			                                	<h:inputText id="idEmailPrimeiroAcesso" value="#{loginController.loginTO.cliente.email}" styleClass="form-control">
+			                                	<h:inputText id="idEmailPrimeiroAcesso" value="#{loginController.loginTO.cliente.email}" styleClass="form-control" autocomplete="false">
 			                                		<f:ajax  event="blur" listener="#{loginController.recuperarCliente}" execute="@this" render="idFormPrimeiroAcesso"/>
 			                                		<f:passThroughAttribute name="placeholder" value="#{resources['label.global.informeemail']}"  />
 			                                	</h:inputText>
 			                                	<br />
-			                                	<h:inputSecret value="#{loginController.loginTO.cliente.senha}" styleClass="form-control">
+			                                	<h:inputSecret id="idSenhaPrimeiroAcesso" value="#{loginController.loginTO.cliente.senha}" styleClass="form-control" autocomplete="false">
 			                                		<f:passThroughAttribute name="placeholder" value="#{resources['label.global.informesenha']}"  />
 			                                	</h:inputSecret>
 			                                	<h:commandLink action="#{loginController.gravarCliente}" value="#{resources['label.global.gravar']}" styleClass="btn btn-primary active mt-1"  rendered="#{loginController.loginTO.cliente.id ne null}"/>

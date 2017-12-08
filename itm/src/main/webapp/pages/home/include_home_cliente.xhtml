@@ -536,7 +536,7 @@
 				      }
 
 				      function onOpen_#{contrato.id}(evt) {             
-				    	  wsocket_#{contrato.id}.send("#{contrato.autenticacoes.get(0).username}");          
+				    	  wsocket_#{contrato.id}.send("#{contrato.autenticacoes ne null and not empty contrato.autenticacoes?contrato.autenticacoes.get(0).username:''}");          
 					  }
 					  connect_#{contrato.id}();
 				    
