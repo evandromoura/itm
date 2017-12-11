@@ -9,7 +9,7 @@
 	<header class="app-header navbar">
 			<button class="navbar-toggler mobile-sidebar-toggler hidden-lg-up" type="button">☰</button>
 			<a class="navbar-brand" href="#{request.contextPath}/home"></a>
-			<ul class="nav navbar-nav hidden-md-down b-r-1">
+			<!-- <ul class="nav navbar-nav hidden-md-down b-r-1">
 				<li class="nav-item">
 					<h:form>
 						<h:commandLink 
@@ -22,10 +22,13 @@
 						</h:commandLink>
 					</h:form>
 				</li>
-			</ul>
+			</ul> -->
 			
 			
 			<ul class="nav navbar-nav ml-auto">
+				<li>Bem Vindo(a)  <b>#{homeController.homeTO.cliente.nome}</b>  </li>
+			
+			
 				<li class="nav-item dropdown"><a
 					class="nav-link nav-pill avatar" data-toggle="dropdown"
 					href="#" role="button" aria-haspopup="true"
@@ -33,7 +36,7 @@
 						class="img-avatar" alt="evandro@trixti.com.br" /><span
 						class="badge badge-pill badge-danger">9</span>
 				</a>
-					<div class="dropdown-menu dropdown-menu-right">
+					<!-- <div class="dropdown-menu dropdown-menu-right">
 						<div class="dropdown-header text-center">
 							<strong>Account</strong>
 						</div>
@@ -63,10 +66,7 @@
 						<a class="dropdown-item" href="#"><i
 							class="fa fa-shield"></i> Lock Account</a> <a class="dropdown-item"
 							href="#"><i class="fa fa-lock"></i> Logout</a>
-					</div></li>
-				<li class="nav-item hidden-md-down"><a
-					class="nav-link navbar-toggler aside-menu-toggler"
-					href="#">☰</a></li>
+					</div> --></li>
 
 			</ul>
 		</header>

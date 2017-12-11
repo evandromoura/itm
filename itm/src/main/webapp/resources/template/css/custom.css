@@ -1,0 +1,48 @@
+.btn-primary {
+    color: #333;
+    background-color: #ffc107; 
+    border-color: #fabb3d;
+}
+.btn-primary:hover, .fc-today-button:hover {
+    color: #fff;
+    background-color: #fabb3d;
+    border-color: #fabb3d; 
+}
+
+.btn-primary:not([disabled]):not(.disabled).active, .btn-primary:not([disabled]):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #ffc107;
+    border-color: #fabb3d;
+    box-shadow: 0 0 0 0.2rem #c2992a;
+}
+
+
+
+.card-primary {
+  background-color: #6a6e6f;
+  border-color: #68366f; }
+  .card-primary .card-header,
+  .card-primary .card-footer {
+    background-color: transparent; }
+   
+.card-primary {
+  background-color: #6a6e6f; }
+  .card-primary .card-header {
+    border-color: #1d97c2; }
+  .card-primary .card-header, .card-primary .card-footer {
+    background-color: #1d97c2; }
+    
+    
+header.navbar .navbar-brand {
+    display: inline-block;
+    width: 250px;
+    height: 60px;
+    margin-right: 0;
+    padding: 0.5rem 1rem;
+    background-color: #fabb3d;
+    background-image: url(/itm/resources/template/img/logo.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 90px auto;
+    border-bottom: 1px solid #fabb3d;
+}

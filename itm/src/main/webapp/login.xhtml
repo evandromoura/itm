@@ -21,19 +21,26 @@
 		<meta name="author" content="iTrix" />
 		<meta name="keyword"
 			content="Internet manager" />
-		<link rel="shortcut icon" href="img/favicon.png" />
+		<link rel="shortcut icon" href="img/logo_itrix.png" />
 		<title>ITM</title>
 		 <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
 		
 		<h:outputStylesheet name="template/css/font-awesome.min.css" />
 		<h:outputStylesheet name="template/css/simple-line-icons.css" />
 		<h:outputStylesheet name="template/css/style.css" />
+		<h:outputStylesheet name="template/css/custom.css" />
 	</h:head>
 
 	<h:body styleClass="app flex-row align-items-center">
 		<div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
+            
+            
+          		<div class="text-center">
+          		<img src="resources/template/img/logo_itrix.png" />
+          		<p></p>
+          		</div>
                 <div class="card-group mb-0">
                     <div class="card p-2">
                         <div class="card-block">
@@ -43,8 +50,8 @@
 	                            <div class="input-group mb-1">
 	                                <span class="input-group-addon"><i class="icon-user"></i>
 	                                </span>
-									<h:inputText id="j_username"  styleClass="form-control" required="true" label="#{resources['label.global.username']}" autocomplete="false">
-										<f:passThroughAttribute name="placeholder" value="#{resources['label.global.username']}"  />
+									<h:inputText id="j_username"  styleClass="form-control" required="true" label="#{resources['label.global.usuario']}">
+										<f:passThroughAttribute name="placeholder" value="#{resources['label.global.usuario']}"  />
 										<f:passThroughAttribute name="required" value="required"  />
 									</h:inputText>
 	                                
@@ -53,7 +60,7 @@
 	                                <span class="input-group-addon"><i class="icon-lock"></i>
 	                                </span>
 	                                
-	                                <h:inputSecret id="j_password"  styleClass="form-control" required="true" label="#{resources['label.global.senha']}" redisplay="false">
+	                                <h:inputSecret id="j_password"  styleClass="form-control" required="true" label="#{resources['label.global.senha']}" redisplay="true">
 										<f:passThroughAttribute name="placeholder" value="#{resources['label.global.senha']}" />
 										<f:passThroughAttribute name="required" value="required"  />
 									</h:inputSecret>
@@ -74,17 +81,18 @@
 	                    <div class="card card-inverse card-primary py-3">
 	                        <div class="card-block text-center">
 	                            <div>
-	                                <h2>ITM</h2>
-	                                <p>Itrix Internet Manager</p>
+	                               
+	                                <h3>Meu primeiro acesso</h3>
+​									<p class="h6">Para utilizar todos os serviços online do ITM é necessário confirmar os dados abaixo e criar sua senha.</p>
 	                                 <h:form id="idFormPrimeiroAcesso">
 	                                 		<h:messages showSummary="true" showDetail="false" infoClass="alert alert-success" errorClass="alert alert-danger" layout="list" style="width:96%"/>
 			                                <ui:fragment rendered="#{loginController.loginTO.primeiroAcesso}" id="idPrimeiroAcesso">
-			                                	<h:inputText id="idEmailPrimeiroAcesso" value="#{loginController.loginTO.cliente.email}" styleClass="form-control" autocomplete="false">
+			                                	<h:inputText id="idEmailPrimeiroAcesso" value="#{loginController.loginTO.cliente.email}" styleClass="form-control">
 			                                		<f:ajax  event="blur" listener="#{loginController.recuperarCliente}" execute="@this" render="idFormPrimeiroAcesso"/>
 			                                		<f:passThroughAttribute name="placeholder" value="#{resources['label.global.informeemail']}"  />
 			                                	</h:inputText>
 			                                	<br />
-			                                	<h:inputSecret id="idSenhaPrimeiroAcesso" value="#{loginController.loginTO.cliente.senha}" styleClass="form-control" autocomplete="false">
+			                                	<h:inputSecret value="#{loginController.loginTO.cliente.senha}" styleClass="form-control">
 			                                		<f:passThroughAttribute name="placeholder" value="#{resources['label.global.informesenha']}"  />
 			                                	</h:inputSecret>
 			                                	<h:commandLink action="#{loginController.gravarCliente}" value="#{resources['label.global.gravar']}" styleClass="btn btn-primary active mt-1"  rendered="#{loginController.loginTO.cliente.id ne null}"/>
