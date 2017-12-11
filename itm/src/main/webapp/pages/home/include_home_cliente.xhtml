@@ -19,7 +19,7 @@
 					<div class="row">
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label for="formCliente:cliente_nome">#{resources['label.global.nome']}:</label><br />
+								<label for="formCliente:cliente_nome">#{resources['label.global.nome']}: </label>
 								#{homeController.homeTO.cliente.nome}
 							</div>
 						</div>
@@ -27,15 +27,14 @@
 							<ui:fragment
 								rendered="#{homeController.homeTO.cliente.tipoPessoa.name eq 'FISICA'}">
 								<div class="form-group">
-									<label>#{resources['label.global.cpf']}:</label><br />#{homeController.homeTO.cliente.cpfCnpj}
+									<label>#{resources['label.global.cpf']} : </label> #{homeController.homeTO.cliente.cpfCnpj}
 								</div>
 							</ui:fragment>
 							<ui:fragment
 								rendered="#{homeController.homeTO.cliente.tipoPessoa.name eq 'JURIDICA'}">
 								<div class="col-sm-8">
 									<div class="form-group">
-										<label>#{resources['label.global.cnpj']}:</label>
-										#{homeController.homeTO.cliente.cpfCnpj}
+										<label>#{resources['label.global.cnpj']} : </label> #{homeController.homeTO.cliente.cpfCnpj}
 									</div>
 								</div>
 							</ui:fragment>
@@ -45,26 +44,26 @@
 					<div class="row">
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.endereco']}:</label><br />
+								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.endereco']}:</label>
 								#{homeController.homeTO.cliente.endereco}
 							</div>
 						</div>
 						<div class="col-sm-1">
 							<div class="form-group">
 
-								<label>#{resources['label.global.numero']}:</label><br />
+								<label>#{resources['label.global.numero']}:</label>
 								#{homeController.homeTO.cliente.numeroEndereco}
 							</div>
 						</div>
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.bairro']}:</label><br />
+								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.bairro']}:</label>
 								#{homeController.homeTO.cliente.bairro}
 							</div>
 						</div>
 						<div class="col-sm-1">
 							<div class="form-group">
-								<label for="formCliente:cliente_telefone_cidade">#{resources['label.global.cidade']}:</label><br />
+								<label for="formCliente:cliente_telefone_cidade">#{resources['label.global.cidade']}:</label>
 								#{homeController.homeTO.cliente.cidade}
 							</div>
 						</div>
@@ -72,13 +71,13 @@
 					<div class="row">
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}:</label><br />
+								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}:</label>
 								#{homeController.homeTO.cliente.telefoneCelular}
 							</div>
 						</div>
 						<div class="col-sm-4">
 							<div class="form-group">
-								<label for="formCliente:cliente_email">#{resources['label.global.email']}:</label><br />
+								<label for="formCliente:cliente_email">#{resources['label.global.email']}:</label>
 								#{homeController.homeTO.cliente.email}
 							</div>
 						</div>
@@ -86,13 +85,14 @@
 				</div>
 			</div>
 		</div>
+		<h2 class="text-center"><br /><br />CONTRATOS</h2>
 		<ui:repeat var="contrato" value="#{customIdentity.cliente.contratos}" varStatus="status">
 			
-			<h2 class="text-center"><br /><br />##{contrato.identificador}</h2>
-			<h4 class="text-center">(#{contrato.status.name})</h4>
+			<!-- <h2 class="text-center"><br /><br />#{contrato.identificador}</h2> -->
+			<!-- <h4 class="text-center">(#{contrato.status.name})</h4>
 			<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
 				<h5 class="text-center">#{resources['label.global.tempoparabloqueio']}:<span id="clock_#{contrato.id}" /></h5>
-			</ui:fragment>
+			</ui:fragment> -->
 			<br />
 			<h:outputText value=" " />
 			<div class="col-md-12 mb-2">
@@ -100,8 +100,7 @@
 					<li class="nav-item">
 					    <a class="nav-link active"
 							data-toggle="tab" href="#home4_#{contrato.id}" role="tab"
-							aria-controls="home"><i class="icon-calculator"></i> Dados
-								Gerais </a>
+							aria-controls="home"><strong>Contrato - #{contrato.identificador}</strong></a>
 					</li>
 					
 						<li class="nav-item">
@@ -137,16 +136,25 @@
 							</div>
 							<div class="card-block">
 								<div class="row">
-									<div class="col-sm-6">
+									<div class="col-sm-4">
 										<div class="form-group">
-											<label for="formContrato:contrato_nome">#{resources['label.global.identificador']}:</label><br />
+											<label for="formContrato:contrato_nome">#{resources['label.global.identificador']}:</label>
 											#{contrato.identificador}
 										</div>
 									</div>
-									<div class="col-sm-6">
+									<div class="col-sm-4">
 										<div class="form-group">
-											<label for="formContrato:contrato_diamesvencimento">#{resources['label.global.diamesvencimento']}:</label><br />
+											<label for="formContrato:contrato_diamesvencimento">#{resources['label.global.diamesvencimento']}:</label>
 											#{contrato.diaMesVencimento}
+										</div>
+									</div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="formContrato:contrato_status">#{resources['label.global.status']}:</label>
+											#{contrato.status.name}
+											<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
+											#{resources['label.global.tempoparabloqueio']}:<span id="clock_#{contrato.id}" />
+											</ui:fragment>
 										</div>
 									</div>
 								</div>
