@@ -1,23 +1,28 @@
 package br.com.trixti.itm.controller.log;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Log;
+import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.service.log.LogService;
 import br.com.trixti.itm.to.LogTO;
 
 
 
+@Named
 @ViewScoped
-@ManagedBean
-public class LogController extends AbstractController<Log> {
+@Admin
+public class LogController extends AbstractController<Log> implements Serializable{
 	
 	
+	private static final long serialVersionUID = -2503972804160042054L;
 	private @Inject LogService logService;
 	private LogTO logTO;
 	

@@ -1,23 +1,27 @@
 package br.com.trixti.itm.controller.produto;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-
+import javax.inject.Named;
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Produto;
+import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.service.produto.ProdutoService;
 import br.com.trixti.itm.to.ProdutoTO;
 
 
 
+@Named
 @ViewScoped
-@ManagedBean
-public class ProdutoController extends AbstractController<Produto> {
+@Admin
+public class ProdutoController extends AbstractController<Produto> implements Serializable {
 	
 	
+	private static final long serialVersionUID = -3430900005102330317L;
 	private @Inject ProdutoService produtoService;
 	private ProdutoTO produtoTO;
 	

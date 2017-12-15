@@ -15,7 +15,8 @@ public class HttpSecurityConfiguration {
 		builder.http().allPaths()
 	    	.authenticateWith().form()
 	    		.authenticationUri("/login").loginPage("/login").errorPage("/login").restoreOriginalRequest()
-	    		.forPath("/javax.faces.resource/*").unprotected()
+	    		
+	    	.forPath("/javax.faces.resource/*").unprotected()
 			.forPath("/rest/*").unprotected()
 			.forPath("/resources/*").unprotected()
 			.forPath("/img/*").unprotected()

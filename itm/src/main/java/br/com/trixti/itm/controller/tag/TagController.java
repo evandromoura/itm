@@ -1,23 +1,28 @@
 package br.com.trixti.itm.controller.tag;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Tag;
+import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.service.tag.TagService;
 import br.com.trixti.itm.to.TagTO;
 
 
 
+@Named
 @ViewScoped
-@ManagedBean
-public class TagController extends AbstractController<Tag> {
+@Admin
+public class TagController extends AbstractController<Tag> implements Serializable{
 	
 	
+	private static final long serialVersionUID = 7126475577875716222L;
 	private @Inject TagService tagService;
 	private TagTO tagTO;
 	

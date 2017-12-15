@@ -1,11 +1,12 @@
 package br.com.trixti.itm.controller.thread;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.trixti.itm.infra.security.annotations.Financeiro;
 import br.com.trixti.itm.service.thread.ThreadService;
@@ -14,11 +15,12 @@ import br.com.trixti.itm.util.UtilData;
 
 
 
+@Named
 @ViewScoped
-@ManagedBean
 @Financeiro
-public class ThreadController{
+public class ThreadController implements Serializable{
 	
+	private static final long serialVersionUID = -3061878692187354148L;
 	private @Inject ThreadService threadService;
 	private ThreadTO threadTO;
 	

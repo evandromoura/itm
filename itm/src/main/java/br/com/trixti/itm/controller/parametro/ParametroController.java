@@ -1,21 +1,27 @@
 package br.com.trixti.itm.controller.parametro;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Parametro;
+import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.to.ParametroTO;
 
 
+@Named
 @ViewScoped
-@ManagedBean
-public class ParametroController extends AbstractController<Parametro> {
+@Admin
+public class ParametroController extends AbstractController<Parametro> implements Serializable {
 	
+	
+	private static final long serialVersionUID = -3856432157125743244L;
 	
 	private @Inject ParametroService parametroService;
 	private ParametroTO parametroTO;

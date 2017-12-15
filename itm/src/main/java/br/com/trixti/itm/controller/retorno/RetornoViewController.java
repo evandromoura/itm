@@ -1,5 +1,7 @@
 package br.com.trixti.itm.controller.retorno;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Model;
 import javax.faces.bean.ViewScoped;
@@ -9,15 +11,16 @@ import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Retorno;
 import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.infra.security.annotations.Admin;
+import br.com.trixti.itm.infra.security.annotations.Financeiro;
 import br.com.trixti.itm.service.retorno.RetornoService;
 import br.com.trixti.itm.to.RetornoTO;
 
 @Model
 @ViewScoped
-@Admin
-public class RetornoViewController  extends AbstractController<Retorno>{
+@Financeiro
+public class RetornoViewController  extends AbstractController<Retorno> implements Serializable{
 	
-	
+	private static final long serialVersionUID = 8607007655516127618L;
 	private RetornoTO retornoTO;
 	private @Inject RetornoService retornoService;
 	private @Inject IntegracaoFinanceiraItau integracaoFinanceiraItau;

@@ -1,17 +1,22 @@
 package br.com.trixti.itm.controller.relatorio.cliente.inadimplente;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
+import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.service.relatorio.cliente.inadimplente.RelatorioClienteInadimplenteService;
 import br.com.trixti.itm.to.RelatorioClienteInadimplenteTO;
 
+@Named
 @ViewScoped
-@ManagedBean
-public class RelatorioClienteInadimplenteController{
+@Admin
+public class RelatorioClienteInadimplenteController implements Serializable{
 	
+	private static final long serialVersionUID = 3091023177323349325L;
 	private @Inject RelatorioClienteInadimplenteService relatorioClienteInadimplenteService;
 	private RelatorioClienteInadimplenteTO relatorioClienteInadimplenteTO ;
 	

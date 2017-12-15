@@ -1,10 +1,12 @@
 package br.com.trixti.itm.controller.usuario;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Usuario;
@@ -15,11 +17,12 @@ import br.com.trixti.itm.to.UsuarioTO;
 
 
 
+@Named
 @ViewScoped
-@ManagedBean
 @SuporteNivel2
-public class UsuarioController extends AbstractController<Usuario> {
+public class UsuarioController extends AbstractController<Usuario> implements Serializable{
 	
+	private static final long serialVersionUID = -4616291693862856220L;
 	private @Inject UsuarioService usuarioService;
 	private UsuarioTO usuarioTO;
 	private @Inject CustomIdentity customIdentity;

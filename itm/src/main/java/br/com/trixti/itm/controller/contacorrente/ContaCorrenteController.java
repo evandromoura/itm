@@ -1,23 +1,27 @@
 package br.com.trixti.itm.controller.contacorrente;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.ContaCorrente;
+import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.infra.security.annotations.Financeiro;
 import br.com.trixti.itm.service.contacorrente.ContaCorrenteService;
 import br.com.trixti.itm.to.ContaCorrenteTO;
 
 
+@Named
 @ViewScoped
-@ManagedBean
-@Financeiro
-public class ContaCorrenteController extends AbstractController<ContaCorrente> {
+@Admin
+public class ContaCorrenteController extends AbstractController<ContaCorrente> implements Serializable{
 	
+	private static final long serialVersionUID = 6591103680400220607L;
 	private @Inject ContaCorrenteService contaCorrenteService;
 	private ContaCorrenteTO contaCorrenteTO;
 	
@@ -36,6 +40,7 @@ public class ContaCorrenteController extends AbstractController<ContaCorrente> {
 		
 	}
 	
+	@Financeiro
 	public void pesquisar(){
 		getContaCorrenteTO().setContas(
 				contaCorrenteService.pesquisar(getContaCorrenteTO().getContaPesquisa()));

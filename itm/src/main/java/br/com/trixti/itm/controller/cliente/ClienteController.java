@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Cliente;
@@ -25,12 +25,13 @@ import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.tag.TagService;
 import br.com.trixti.itm.to.ClienteTO;
 
-
-@ManagedBean
+@Named
 @ViewScoped
 @SuporteNivel1
-public class ClienteController extends AbstractController<Cliente> {
+public class ClienteController extends AbstractController<Cliente> implements Serializable{
 	
+	private static final long serialVersionUID = -5045680464698139930L;
+
 	private ClienteTO clienteTO;
 	
 	private @Inject ClienteService clienteService;
@@ -39,6 +40,7 @@ public class ClienteController extends AbstractController<Cliente> {
 	private @Inject TagService tagService;
 	
 	@PostConstruct
+	
 	private void init(){
 		
 		String acao = getRequest().getParameter("acao");

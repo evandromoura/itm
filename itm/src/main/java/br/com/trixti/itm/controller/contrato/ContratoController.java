@@ -1,12 +1,13 @@
 package br.com.trixti.itm.controller.contrato;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Contrato;
@@ -18,6 +19,7 @@ import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
+import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
 import br.com.trixti.itm.service.contratogrupo.ContratoGrupoService;
@@ -28,10 +30,12 @@ import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilData;
 import br.com.trixti.itm.util.UtilRandomString;
 
+@Named
 @ViewScoped
-@ManagedBean
-public class ContratoController extends AbstractController<Contrato> {
+@SuporteNivel1
+public class ContratoController extends AbstractController<Contrato> implements Serializable{
 	
+	private static final long serialVersionUID = 3598046507172820327L;
 	
 	private @Inject ContratoService contratoService;
 	private @Inject ProdutoService produtoService;

@@ -2,15 +2,18 @@ package br.com.trixti.itm.controller.remessa;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Remessa;
+import br.com.trixti.itm.infra.security.annotations.Admin;
+import br.com.trixti.itm.infra.security.annotations.Financeiro;
 import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.to.RemessaTO;
 import br.com.trixti.itm.util.Base64Utils;
@@ -18,10 +21,12 @@ import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilString;
 
 
-
+@Named
 @ViewScoped
-@ManagedBean
-public class RemessaController extends AbstractController<Remessa> {
+@Financeiro
+public class RemessaController extends AbstractController<Remessa> implements Serializable {
+	
+	private static final long serialVersionUID = -5859579938447357382L;
 	
 	private @Inject RemessaService remessaService;
 	private RemessaTO remessaTO;

@@ -1,26 +1,29 @@
 package br.com.trixti.itm.controller.grupo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.GrupoParametro;
+import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.service.grupo.GrupoService;
 import br.com.trixti.itm.to.GrupoTO;
 
 
+@Named
 @ViewScoped
-@ManagedBean
-public class GrupoController extends AbstractController<Cliente> {
+@Admin
+public class GrupoController extends AbstractController<Cliente> implements Serializable{
 	
-
+	private static final long serialVersionUID = -205864340129872714L;
 	private GrupoTO grupoTO;
 	private @Inject GrupoService grupoService;
 	
