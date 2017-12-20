@@ -46,3 +46,11 @@ header.navbar .navbar-brand {
     background-size: 90px auto;
     border-bottom: 1px solid #fabb3d;
 }
+
+
+ .card-success-clean {
+  background-color: rgba(232, 255, 221, 0.63);;
+  border-color: #79c447; }
+  .card-success-clean .card-header,
+  .card-success-clean .card-footer {
+    background-color: transparent ; }   

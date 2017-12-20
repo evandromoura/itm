@@ -8,322 +8,374 @@
 
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
 	
-	<h:form>
+	<!-- <h:form> -->
+	
+		
+		<!-- DADOS DO USUARIO  -->
+	
+	<p></p>	
+	<div class="row">
 		<div class="col-md-12">
-			<div class="card card-accent-info">
-				<div class="card-header">
-					<i class="fa fa-newspaper-o" /><strong>#{resources['label.global.minhasinformacoes']}</strong>
-				</div>
-				<div class="card-block">
-					<div class="row">
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label for="formCliente:cliente_nome">#{resources['label.global.nome']}: </label>
-								#{homeController.homeTO.cliente.nome}
-							</div>
-						</div>
-						<h:panelGroup id="idTipoPessoa" styleClass="col-sm-8">
-							<ui:fragment
-								rendered="#{homeController.homeTO.cliente.tipoPessoa.name eq 'FISICA'}">
-								<div class="form-group">
-									<label>#{resources['label.global.cpf']} : </label> #{homeController.homeTO.cliente.cpfCnpj}
-								</div>
-							</ui:fragment>
-							<ui:fragment
-								rendered="#{homeController.homeTO.cliente.tipoPessoa.name eq 'JURIDICA'}">
-								<div class="col-sm-8">
-									<div class="form-group">
-										<label>#{resources['label.global.cnpj']} : </label> #{homeController.homeTO.cliente.cpfCnpj}
-									</div>
-								</div>
-							</ui:fragment>
-						</h:panelGroup>
-					</div>
-
-					<div class="row">
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.endereco']}:</label>
-								#{homeController.homeTO.cliente.endereco}
-							</div>
-						</div>
-						<div class="col-sm-1">
-							<div class="form-group">
-
-								<label>#{resources['label.global.numero']}:</label>
-								#{homeController.homeTO.cliente.numeroEndereco}
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.bairro']}:</label>
-								#{homeController.homeTO.cliente.bairro}
-							</div>
-						</div>
-						<div class="col-sm-1">
-							<div class="form-group">
-								<label for="formCliente:cliente_telefone_cidade">#{resources['label.global.cidade']}:</label>
-								#{homeController.homeTO.cliente.cidade}
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label for="formCliente:cliente_telefone_celular">#{resources['label.global.celular']}:</label>
-								#{homeController.homeTO.cliente.telefoneCelular}
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="form-group">
-								<label for="formCliente:cliente_email">#{resources['label.global.email']}:</label>
-								#{homeController.homeTO.cliente.email}
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+              <div class="card">
+                <div class="card-body p-0 clearfix">
+                  <i class="fa fa-laptop bg-warning p-4 px-5 font-2xl mr-3 float-left"></i>
+                  <div class="h5 mb-0 pt-3 text-center">#{resources['label.global.minhasinformacoes']}</div>
+                </div>
+              </div>
 		</div>
-		<h2 class="text-center"><br /><br />CONTRATOS</h2>
-		<ui:repeat var="contrato" value="#{customIdentity.cliente.contratos}" varStatus="status">
-			
-			<!-- <h2 class="text-center"><br /><br />#{contrato.identificador}</h2> -->
-			<!-- <h4 class="text-center">(#{contrato.status.name})</h4>
-			<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
-				<h5 class="text-center">#{resources['label.global.tempoparabloqueio']}:<span id="clock_#{contrato.id}" /></h5>
-			</ui:fragment> -->
-			<br />
-			<h:outputText value=" " />
-			<div class="col-md-12 mb-2">
-				<ul class="nav nav-tabs" role="tablist">
-					<li class="nav-item">
-					    <a class="nav-link active"
-							data-toggle="tab" href="#home4_#{contrato.id}" role="tab"
-							aria-controls="home"><strong>Contrato - #{contrato.identificador}</strong></a>
-					</li>
-					
-						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#profile4_#{contrato.id}" role="tab" aria-controls="profile">
-								<i class="icon-basket-loaded"></i> Boletos em aberto
-								<span class="badge badge-pill badge-danger">#{homeController.calcularQtdBoletoAberto(contrato)}</span>
-							</a>
-						</li>
-					
-					<ui:fragment rendered="#{homeController.calcularQtdBoletoAberto(contrato) > 0}">	
-					<li class="nav-item"><a class="nav-link" data-toggle="tab"
-						href="#messages4_#{contrato.id}" role="tab"
-						aria-controls="messages"><i class="icon-pie-chart"></i>
-							#{resources['label.global.promessapagamento']}</a></li>
-					</ui:fragment>		 
-					<ui:fragment rendered="#{contrato.autenticacoes ne null and not empty contrato.autenticacoes}">	
-						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab"
-							href="#medidor4_#{contrato.id}" role="tab"
-							aria-controls="messages"><i class="fa fa-bar-chart"></i>
-								#{resources['label.global.medidordetrafego']}</a>
-						</li>
-					</ui:fragment>		 
-				</ul>
-
-				<div class="tab-content">
-					<div class="tab-pane active" id="home4_#{contrato.id}"
-						role="tabpanel">
-
-						<div class="card card-accent-info">
-							<div class="card-header">
-								<i class="fa fa-user" /> <strong>#{resources['label.global.informacoes']}</strong>
-							</div>
-							<div class="card-block">
-								<div class="row">
-									<div class="col-sm-4">
-										<div class="form-group">
-											<label for="formContrato:contrato_nome">#{resources['label.global.identificador']}:</label>
-											#{contrato.identificador}
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="form-group">
-											<label for="formContrato:contrato_diamesvencimento">#{resources['label.global.diamesvencimento']}:</label>
-											#{contrato.diaMesVencimento}
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="form-group">
-											<label for="formContrato:contrato_status">#{resources['label.global.status']}:</label>
-											#{contrato.status.name}
-											<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
-											#{resources['label.global.tempoparabloqueio']}:<span id="clock_#{contrato.id}" />
-											</ui:fragment>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="card card-accent-info">
-							<div class="card-header">
-								<i class="fa fa-user" /> <strong>#{resources['label.global.produtos']}</strong>
-							</div>
-							<div class="card-block">
-								<div class="row">
-									<table id="idDataTableContratoProduto"
-										class="table table-bordered">
-
-										<thead>
-											<tr>
-												<th scope="col">#{resources['label.global.data']}</th>
-												<th scope="col">#{resources['label.global.nome']}</th>
-												<th scope="col">#{resources['label.global.valortotal']}</th>
-												<th scope="col">#{resources['label.global.datainicio']}</th>
-												<th scope="col">#{resources['label.global.datafim']}</th>
-											</tr>
-										</thead>
-										<ui:repeat var="contratoProduto"
-											value="#{contrato.contratoProdutos}">
-
-											<tr
-												class="#{contratoProduto.vigente?'card-success-clean':''}">
-												<td><h:outputText
-														value="#{contratoProduto.dataCriacao}">
-														<f:convertDateTime pattern="dd/MM/yyyy" />
-													</h:outputText></td>
-												<td><h:outputText
-														value="#{contratoProduto.produto.nome}" /></td>
-												<td><h:outputText value="#{contratoProduto.valor}">
-														<f:convertNumber pattern="#,##0.00" />
-													</h:outputText></td>
-												<td><h:outputText value="#{contratoProduto.dataInicio}">
-														<f:convertDateTime pattern="dd/MM/yyyy" />
-													</h:outputText></td>
-												<td><h:outputText value="#{contratoProduto.dataFim}">
-														<f:convertDateTime pattern="dd/MM/yyyy" />
-													</h:outputText></td>
-											</tr>
-										</ui:repeat>
-									</table>
-								</div>
-							</div>
-						</div>
-
-
-					</div>
-					<div class="tab-pane" id="profile4_#{contrato.id}" role="tabpanel">
-						
-						<ui:fragment rendered="#{contrato.boletos eq null or empty contrato.boletos}">
-								<h4>Parabéns, você não possui boletos em aberto. </h4>
-						</ui:fragment>
-					
-						<h:dataTable id="idDataTableContratoBoleto" rendered="#{contrato.boletos ne null and  not empty contrato.boletos}" 
-								value="#{contrato.boletos}" var="boleto" styleClass="table table-bordered table-striped">
-								<h:column>
-									<f:facet name="header">#{resources['label.global.datavencimento']}</f:facet>
-									<h:outputText value="#{boleto.dataVencimento}">
-										<f:convertDateTime pattern="dd/MM/yyyy" />
-									</h:outputText>
-								</h:column>
-								<h:column>
-									<f:facet name="header">#{resources['label.global.status']}</f:facet>
-									<h:outputText value="#{boleto.status.name}" />
-								</h:column>
-								<h:column>
-									<f:facet name="header">#{resources['label.global.valor']}</f:facet>
-									<h:outputText value="#{boleto.valor}">
-										<f:convertNumber pattern="#,##0.00" /> 
-									</h:outputText>
-								</h:column>
-								<h:column>
-									
-									<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
-									<ui:fragment rendered="#{boleto.status.name eq 'ABERTO'}">
-									
-										<ui:fragment rendered="#{boleto.dataVencimento le homeController.homeTO.dataAtual}">
-											<h:commandLink  styleClass="btn btn-secondary" action="#{homeController.downloadSegundaViaBoleto(boleto)}">
-												<i class="fa fa-download"></i> #{resources['label.global.segundavia']}
-											</h:commandLink>  
-										</ui:fragment>	
-										
-										<ui:fragment rendered="#{boleto.dataVencimento ge homeController.homeTO.dataAtual}">
-											<h:outputText value=" " />
-											<h:commandLink  styleClass="btn btn-secondary" action="#{homeController.downloadBoleto(boleto)}">
-												<i class="fa fa-download"></i> #{resources['label.global.download']}
-											</h:commandLink> 
-											<h:outputText value=" " />
-											<h:commandLink styleClass="btn btn-secondary" action="#{homeController.enviarEmail(boleto)}">
-												<i class="fa fa-envelope-o"></i> #{resources['label.global.receberviaemail']} 
-											</h:commandLink>
-											<h:outputText value=" " />
-											<h:commandLink styleClass="btn btn-secondary" action="#{homeController.enviarSMS(boleto)}">
-												<i class="fa fa-commenting-o"></i> #{resources['label.global.receberviasms']} 
-											</h:commandLink>
-										</ui:fragment>
-									</ui:fragment>
-								</h:column>
-							</h:dataTable>
-					</div>
-					
-					<ui:fragment rendered="#{homeController.calcularQtdBoletoAberto(contrato) > 0}">
-						<div class="tab-pane" id="messages4_#{contrato.id}" role="tabpanel">
-							<ui:fragment rendered="#{contrato.dataParaBloqueio eq null}">
-								<p>A promessa de pagamento permite que sua internet seja desbloqueada temporariamente, permitindo que você efetue o pagamento.</p>
-								<p>Caso o pagamento não seja identificado nesse periodo, será bloqueada novamente.</p>
-								<br />
-									<h:commandLink styleClass="btn btn-secondary" action="#{homeController.promessaPagamento(contrato)}">
-										<i class="fa fa-commenting-o"></i> #{resources['label.global.cliqueaquiprometerpagamento']} 
-									</h:commandLink>
-							</ui:fragment>	
-							<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
-								<p>Promessa de pagamento ja registrada!</p>							
-							</ui:fragment>
-						</div>
-					</ui:fragment>
-					
-					<ui:fragment rendered="#{contrato.autenticacoes ne null and not empty contrato.autenticacoes}">	
-						
-						<div class="tab-pane" id="medidor4_#{contrato.id}" role="tabpanel">
-							<div class="row">
-								<div class="col-sm-6">
-									<div class="card card-accent-info">
-										<div class="card-header">
-											<strong>#{resources['label.global.download']}</strong>
-										</div>
-										<div class="card-block">
-											<div class="row">
-												<div class="col-sm-12">
-													<div id="container_download_#{contrato.id}"
-														style="min-width: 100%; height: 400px; margin: 0 auto"></div>
-												</div>
-											</div>
-										</div>
-									</div>	
-								</div>
-								<div class="col-sm-6">
-									<div class="card card-accent-info">
-										<div class="card-header">
-											<strong>#{resources['label.global.upload']}</strong>
-										</div>
-										<div class="card-block">
-											<div class="row">
-												<div class="col-sm-12">
-													<div id="container_upload_#{contrato.id}"
-														style="min-width: 100%; height: 400px; margin: 0 auto"></div>
-												</div>
-											</div>
-										</div>
-									</div>	
-								</div>
-							</div>	
-						</div>
-					</ui:fragment>
-					
-					
-				</div>
+	</div>	
+	
+	<div class="row">
+			<div class="col-sm-4">
+			    <div class="card" style="height: 16rem; ">
+			      <div class="card-block ">
+			      		<h5 class="mb-0 " style="text-transform: uppercase">DADOS GERAIS</h5>
+					    <hr class="mb-4"></hr>	          
+	
+	
+						        <p><strong> #{resources['label.global.nome']}:</strong> #{homeController.homeTO.cliente.nome}</p>
+						     
+							    <ui:fragment rendered="#{homeController.homeTO.cliente.tipoPessoa.name eq 'FISICA'}">
+								  <p><strong> #{resources['label.global.cpf']}:</strong>  #{homeController.homeTO.cliente.cpfCnpj}</p>
+							    </ui:fragment>
+							    <ui:fragment rendered="#{homeController.homeTO.cliente.tipoPessoa.name eq 'JURIDICA'}">
+								  <p><strong> #{resources['label.global.cnpj']}:</strong>  #{homeController.homeTO.cliente.cpfCnpj}</p>
+							    </ui:fragment>
+							    <p> </p>
+							    <p> </p>
+	
+	
+			        </div>
+			    </div>
 			</div>
 			
+			<div class="col-sm-4">
+			    <div class="card" style="height: 16rem; ">
+			    <div class="card-block ">
+			      <h5 class="mb-0 " style="text-transform: uppercase">ENDEREÇO</h5>
+					    <hr class="mb-4"></hr>	          
+				          <p><strong>#{resources['label.global.endereco']}: </strong>#{homeController.homeTO.cliente.endereco}</p>
+				          <p><strong>#{resources['label.global.numero']}: </strong>#{homeController.homeTO.cliente.numeroEndereco}</p>
+				          <p><strong>#{resources['label.global.bairro']}: </strong>#{homeController.homeTO.cliente.bairro}</p>
+				          <p><strong>#{resources['label.global.cidade']}: </strong>#{homeController.homeTO.cliente.cidade}</p>
+				</div>
+			    </div>
+			</div>
 			
-			
-			
-			<script>
-		//<![CDATA[
+			<div class="col-sm-4">
+			    <div class="card" style="height: 16rem;">
+			    <div class="card-block ">
+			    <h5 class="mb-0 " style="text-transform: uppercase">CONTATO</h5>
+					    <hr class="mb-4"></hr>	          
+	
+				          	<p><strong>#{resources['label.global.celular']}: </strong>#{homeController.homeTO.cliente.telefoneCelular}</p>
+				          	<p><strong>#{resources['label.global.email']}: </strong>#{homeController.homeTO.cliente.email}</p>
+				          	<p> </p>
+				          	<p> </p>
+	
+			    </div>
+			    </div>
+			</div>
+	</div>		
+		         
+	
+	<!-- FIM DADOS DO USUARIO  -->
+	
+	
+	
+	<!-- DADOS CONTRATOS -->
+	<div class="row">
+	
+			<div class="col-md-12">		       	
+		       	<div class="card">
+                <div class="card-body p-0 clearfix">
+                  <i class="fa icon-speedometer bg-warning p-4 px-5 font-2xl mr-3 float-left"></i>
+                  <div class="h5 mb-0 pt-3 text-center">#{resources['label.global.contratos']}</div>
+                </div>
+              </div>
+		    </div>
+	</div>
+			<!-- TABS CONTRATOS -->
+	 <div class="row">      	
+	       	<ui:repeat var="contrato" value="#{customIdentity.cliente.contratos}" varStatus="status">
+	       	
+	       	
+
+       		  	
+       		  	<!-- ABAS  -->
+       		  	<div class="col-md-12">
+<!--        		  	<div id="accordion" role="tablist" aria-multiselectable="true">
+ -->	       			
+ 					<div class="card">
+
+				        <div class="card-block">
+				        		<h4 class="mb-0 font-weight-bold" style="text-transform: uppercase">#{contrato.identificador}</h4>
+				        		<div class="small text-muted">#{contrato.status.name}</div>
+				        		<hr class="mb-4"></hr>
+				  
+				          	<ul class="nav nav-tabs" role="tablist">
+				          		
+								<li class="nav-item ">
+								    <a class="nav-link active" data-toggle="tab" href="#home4_#{contrato.id}" role="tab" aria-controls="home">
+								    <i class="icon-user"></i>
+								    Dados Gerais
+								    </a>
+								</li>
+								
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#profile4_#{contrato.id}" role="tab" aria-controls="profile">
+										<i class="icon-wallet"></i>  Boletos em aberto
+										<!-- <span class="badge badge-pill badge-danger">#{homeController.calcularQtdBoletoAberto(contrato)}</span> -->
+									</a>
+								</li>
+								
+								<ui:fragment rendered="#{homeController.calcularQtdBoletoAberto(contrato) > 0}">	
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#messages4_#{contrato.id}" role="tab" aria-controls="messages">
+									<i class="icon-pie-chart"></i>  #{resources['label.global.promessapagamento']}
+									</a>
+								</li>
+								</ui:fragment>	
+									 
+								<ui:fragment rendered="#{contrato.autenticacoes ne null and not empty contrato.autenticacoes}">	
+									<li class="nav-item">
+										<a class="nav-link" data-toggle="tab" href="#medidor4_#{contrato.id}" role="tab" aria-controls="messages">
+										<i class="fa fa-bar-chart"></i>  #{resources['label.global.medidordetrafego']}
+										</a>
+									</li>
+								</ui:fragment>		 
+								
+								<li class="nav-item">
+								    <a class="nav-link" data-toggle="tab" href="#fechar_#{contrato.id}" role="tab" aria-controls="fechar">
+								    <i class="icon-arrow-up"></i>
+								    </a>
+								</li>
+							</ul>
+				        </div>
+			     	
+			     	
+			     	
+			     	<!-- TABS CONTENT -->
+			     	
+			     	<div class="tab-content border-0">
+			     	
+			     		
+			     		
+						<div class="tab-pane active" id="home4_#{contrato.id}" role="tabpanel">
+	
+							<div class="card">
+								<div class="card-header">
+									<i class="fa fa-user" /> <strong>#{resources['label.global.informacoes']}</strong>
+								</div>
+								<div class="card-block">
+									<div class="row">
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label for="formContrato:contrato_nome">#{resources['label.global.identificador']}:</label>
+												#{contrato.identificador}
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label for="formContrato:contrato_diamesvencimento">#{resources['label.global.diamesvencimento']}:</label>
+												#{contrato.diaMesVencimento}
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div class="form-group">
+												<label for="formContrato:contrato_status">#{resources['label.global.status']}:</label>
+												#{contrato.status.name}
+												<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
+												#{resources['label.global.tempoparabloqueio']}:<span id="clock_#{contrato.id}" />
+												</ui:fragment>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header">
+									<i class="fa fa-user" /> <strong>#{resources['label.global.produtos']}</strong>
+								</div>
+								<div class="card-block">
+									<div class="row">
+										<table id="idDataTableContratoProduto"
+											class="table table-bordered">
+	
+											<thead>
+												<tr>
+													<th scope="col">#{resources['label.global.data']}</th>
+													<th scope="col">#{resources['label.global.nome']}</th>
+													<th scope="col">#{resources['label.global.valortotal']}</th>
+													<th scope="col">#{resources['label.global.datainicio']}</th>
+													<th scope="col">#{resources['label.global.datafim']}</th>
+												</tr>
+											</thead>
+											<ui:repeat var="contratoProduto"
+												value="#{contrato.contratoProdutos}">
+	
+												<tr
+													class="#{contratoProduto.vigente?'card-success-clean':''}">
+													<td><h:outputText
+															value="#{contratoProduto.dataCriacao}">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText></td>
+													<td><h:outputText
+															value="#{contratoProduto.produto.nome}" /></td>
+													<td><h:outputText value="#{contratoProduto.valor}">
+															<f:convertNumber pattern="#,##0.00" />
+														</h:outputText></td>
+													<td><h:outputText value="#{contratoProduto.dataInicio}">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText></td>
+													<td><h:outputText value="#{contratoProduto.dataFim}">
+															<f:convertDateTime pattern="dd/MM/yyyy" />
+														</h:outputText></td>
+												</tr>
+											</ui:repeat>
+										</table>
+									</div>
+								</div>
+							</div>
+	
+	
+						</div>
+						<div class="tab-pane" id="profile4_#{contrato.id}" role="tabpanel">
+							
+							<ui:fragment rendered="#{contrato.boletos eq null or empty contrato.boletos}">
+									<h5>Parabéns, você não possui boletos em aberto. </h5>
+							</ui:fragment>
+						
+							<h:dataTable id="idDataTableContratoBoleto" rendered="#{contrato.boletos ne null and  not empty contrato.boletos}" 
+									value="#{contrato.boletos}" var="boleto" styleClass="table table-bordered table-striped">
+									<h:column>
+										<f:facet name="header">#{resources['label.global.datavencimento']}</f:facet>
+										<h:outputText value="#{boleto.dataVencimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">#{resources['label.global.status']}</f:facet>
+										<h:outputText value="#{boleto.status.name}" />
+									</h:column>
+									<h:column>
+										<f:facet name="header">#{resources['label.global.valor']}</f:facet>
+										<h:outputText value="#{boleto.valor}">
+											<f:convertNumber pattern="#,##0.00" /> 
+										</h:outputText>
+									</h:column>
+									<h:column>
+										
+										<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
+										<ui:fragment rendered="#{boleto.status.name eq 'ABERTO'}">
+										
+											<ui:fragment rendered="#{boleto.dataVencimento le homeController.homeTO.dataAtual}">
+												<h:commandLink  styleClass="btn btn-secondary" action="#{homeController.downloadSegundaViaBoleto(boleto)}">
+													<i class="fa fa-download"></i> #{resources['label.global.segundavia']}
+												</h:commandLink>  
+											</ui:fragment>	
+											
+											<ui:fragment rendered="#{boleto.dataVencimento ge homeController.homeTO.dataAtual}">
+												<h:outputText value=" " />
+												<h:commandLink  styleClass="btn btn-secondary" action="#{homeController.downloadBoleto(boleto)}">
+													<i class="fa fa-download"></i> #{resources['label.global.download']}
+												</h:commandLink> 
+												<h:outputText value=" " />
+												<h:commandLink styleClass="btn btn-secondary" action="#{homeController.enviarEmail(boleto)}">
+													<i class="fa fa-envelope-o"></i> #{resources['label.global.receberviaemail']} 
+												</h:commandLink>
+												<h:outputText value=" " />
+												<h:commandLink styleClass="btn btn-secondary" action="#{homeController.enviarSMS(boleto)}">
+													<i class="fa fa-commenting-o"></i> #{resources['label.global.receberviasms']} 
+												</h:commandLink>
+											</ui:fragment>
+										</ui:fragment>
+									</h:column>
+								</h:dataTable>
+						</div>
+
+						<div class="tab-pane" id="fechar_#{contrato.id}" role="tabpanel">
+			     		<!-- minimize -->
+			     		</div>		
+			     						
+						<ui:fragment rendered="#{homeController.calcularQtdBoletoAberto(contrato) > 0}">
+							<div class="tab-pane" id="messages4_#{contrato.id}" role="tabpanel">
+								<ui:fragment rendered="#{contrato.dataParaBloqueio eq null}">
+									<p>A promessa de pagamento permite que sua internet seja desbloqueada temporariamente, permitindo que você efetue o pagamento.</p>
+									<p>Caso o pagamento não seja identificado nesse periodo, será bloqueada novamente.</p>
+									<br />
+										<h:commandLink styleClass="btn btn-secondary" action="#{homeController.promessaPagamento(contrato)}">
+											<i class="fa fa-commenting-o"></i> #{resources['label.global.cliqueaquiprometerpagamento']} 
+										</h:commandLink>
+								</ui:fragment>	
+								<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
+									<p>Promessa de pagamento ja registrada!</p>							
+								</ui:fragment>
+							</div>
+						</ui:fragment>
+						
+						<ui:fragment rendered="#{contrato.autenticacoes ne null and not empty contrato.autenticacoes}">	
+							
+							<div class="tab-pane" id="medidor4_#{contrato.id}" role="tabpanel">
+								<div class="row">
+									<div class="col-sm-6">
+										<div class="card">
+											<div class="card-header">
+												<strong>#{resources['label.global.download']}</strong>
+											</div>
+											<div class="card-block">
+												<div class="row">
+													<div class="col-sm-12">
+														<div id="container_download_#{contrato.id}"
+															style="min-width: 100%; height: 400px; margin: 0 auto"></div>
+													</div>
+												</div>
+											</div>
+										</div>	
+									</div>
+									<div class="col-sm-6">
+										<div class="card">
+											<div class="card-header">
+												<strong>#{resources['label.global.upload']}</strong>
+											</div>
+											<div class="card-block">
+												<div class="row">
+													<div class="col-sm-12">
+														<div id="container_upload_#{contrato.id}"
+															style="min-width: 100%; height: 400px; margin: 0 auto"></div>
+													</div>
+												</div>
+											</div>
+										</div>	
+									</div>
+								</div>	
+							</div>
+						</ui:fragment>
+					</div>
+		     	</div>
+	       	</div>
+		
+
+
+	       	<!-- </div> -->
+		       	<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
+				<script>
+					$('#clock_#{contrato.id}').countdown('#{homeController.formatDate(contrato.dataParaBloqueio)}', {elapse: true})
+						.on('update.countdown', function(event) {
+						  var $this = $(this);
+						  if (event.elapsed) {
+						    $this.html(event.strftime('<span style="color:#b00">Executado</span>'));
+						  } else {
+						    $this.html(event.strftime('<span >%D dias %H:%M:%S</span>'));
+						  }
+					});
+				</script>
+	    			</ui:fragment>
+	    			
+	    			<script>
+			//<![CDATA[
 
 
 
@@ -552,21 +604,17 @@
 		      
 		//]]>
 		</script>
-		
-		<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
-			<script>
-				$('#clock_#{contrato.id}').countdown('#{homeController.formatDate(contrato.dataParaBloqueio)}', {elapse: true})
-					.on('update.countdown', function(event) {
-					  var $this = $(this);
-					  if (event.elapsed) {
-					    $this.html(event.strftime('<span style="color:#b00">Executado</span>'));
-					  } else {
-					    $this.html(event.strftime('<span >%D dias %H:%M:%S</span>'));
-					  }
-				});
-	    	</script>
-    	</ui:fragment>
-		</ui:repeat>
-	</h:form>
+			
+	       	</ui:repeat>
+	    </div>
+	       	
+
+		    
+		    
+		    <!-- FIM TABS CONTRATOS -->
+
+    
+    <!-- FIM DADOS CONTRATOS -->
+<!-- 	</h:form> -->
 	
 </ui:composition>
