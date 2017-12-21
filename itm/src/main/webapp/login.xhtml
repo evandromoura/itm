@@ -5,7 +5,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:s="http://jboss.org/seam/faces"
 	xmlns:c="http://java.sun.com/jsp/jstl/core">
-
+	
 <f:view contentType="text/html" encoding="ISO-8859-1">
 	<h:head>
 		<ui:fragment rendered="#{identity.loggedIn}">		
@@ -23,70 +23,85 @@
 			content="Internet manager" />
 		<link rel="shortcut icon" href="img/logo_itrix.png" />
 		<title>ITM</title>
-		 <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
+<!-- 		 <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />  -->
 		
 		<h:outputStylesheet name="template/css/font-awesome.min.css" />
 		<h:outputStylesheet name="template/css/simple-line-icons.css" />
-		<h:outputStylesheet name="template/css/style.css" />
+		<h:outputStylesheet name="template/css/style1.8.css" />
 		<h:outputStylesheet name="template/css/custom.css" />
+		
 	</h:head>
 
 	<h:body styleClass="app flex-row align-items-center">
 		<div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-12">
             
             
           		<div class="text-center">
           		<img src="resources/template/img/logo_itrix.png" />
           		<p></p>
           		</div>
-                <div class="card-group mb-0">
+                <div class="card-group mw-100">
                     <div class="card p-2">
                         <div class="card-block">
                         	<h:form method="POST" prependId="false">
-	                            <h1>Login</h1>
-	                            <p class="text-muted">Entre com suas informações</p>
+	                            <h1>Acesse sua conta</h1>
+	                            <p class="text-muted">Os seus serviços a qualquer hora. É rápido e seguro.</p>
 	                            <div class="input-group mb-1">
 	                                <span class="input-group-addon"><i class="icon-user"></i>
 	                                </span>
-									<h:inputText id="j_username"  styleClass="form-control" required="true" label="#{resources['label.global.usuario']}">
-										<f:passThroughAttribute name="placeholder" value="#{resources['label.global.usuario']}"  />
+									<h:inputText id="j_username"  styleClass="form-control col-form-label-lg" required="true" label="#{resources['label.global.usuario']}">
+										<f:passThroughAttribute name="placeholder" value="CPF ou E-mail"  />
 										<f:passThroughAttribute name="required" value="required"  />
 									</h:inputText>
-	                                
 	                            </div>
 	                            <div class="input-group mb-2">
 	                                <span class="input-group-addon"><i class="icon-lock"></i>
 	                                </span>
 	                                
-	                                <h:inputSecret id="j_password"  styleClass="form-control" required="true" label="#{resources['label.global.senha']}" redisplay="true">
+	                                <h:inputSecret id="j_password"  styleClass="form-control col-form-label-lg" required="true" label="#{resources['label.global.senha']}" redisplay="true">
 										<f:passThroughAttribute name="placeholder" value="#{resources['label.global.senha']}" />
 										<f:passThroughAttribute name="required" value="required"  />
 									</h:inputSecret>
-									
+									<div class="col-2 text-right">
+	                                    <button type="button" class="btn btn-link px-0">Esqueceu?</button>
+	                                </div>
 	                            </div>
 	                            <div class="row">
-	                                <div class="col-6">
-	                                   <h:commandButton id="login" value="#{resources['label.global.entrar']}" action="#{identity.login}" styleClass="btn btn-primary pull-right" />
-	                                </div>
-	                                <div class="col-6 text-right">
-	                                    <button type="button" class="btn btn-link px-0">Esqueceu sua senha?</button>
+	                                <div class="col-2">
+	                                   <h:commandButton id="login" value="#{resources['label.global.entrar']}" action="#{identity.login}" styleClass="btn btn-primary btn-lg btn-block" />
 	                                </div>
 	                            </div>
+	                            <br />
+	                           
 	                         </h:form>   
-                        </div>
-                    </div>
+	                          <div class="row py-3" >
+	                              <div class="col-12">
+	                              		<h4>Ainda não tem cadastro? </h4>
+	                  					<p class="text-muted">Crie seu usuário</p>
+	 
+	                                 	<button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#exampleModalLong">Cadastre-se Agora</button>
 
-	                    <div class="card card-inverse card-primary py-3">
-	                        <div class="card-block text-center">
-	                            <div>
-	                               
-	                                <h3>Meu primeiro acesso</h3>
+	                              </div>
+	                          </div>
+						
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModalLong" tabindex="9999" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title" id="exampleModalLongTitle">Meu primeiro acesso</h5>
+							        <button type="button" class="close" data-dismiss="modal" aria-label="">
+							          <span aria-hidden="true"><i class="fa fa-close"></i></span>
+							        </button>
+							      </div>
+							      <h:form id="idFormPrimeiroAcesso">
+							      <div class="modal-body">
 ​									<p class="h6">Para utilizar todos os serviços online do ITM é necessário confirmar os dados abaixo e criar sua senha.</p>
-	                                 <h:form id="idFormPrimeiroAcesso">
+	                                 
 	                                 		<h:messages showSummary="true" showDetail="false" infoClass="alert alert-success" errorClass="alert alert-danger" layout="list" style="width:96%"/>
-			                                <ui:fragment rendered="#{loginController.loginTO.primeiroAcesso}" id="idPrimeiroAcesso">
+			                                
 			                                	<h:inputText id="idEmailPrimeiroAcesso" value="#{loginController.loginTO.cliente.email}" styleClass="form-control">
 			                                		<f:ajax  event="blur" listener="#{loginController.recuperarCliente}" execute="@this" render="idFormPrimeiroAcesso"/>
 			                                		<f:passThroughAttribute name="placeholder" value="#{resources['label.global.informeemail']}"  />
@@ -95,16 +110,55 @@
 			                                	<h:inputSecret value="#{loginController.loginTO.cliente.senha}" styleClass="form-control">
 			                                		<f:passThroughAttribute name="placeholder" value="#{resources['label.global.informesenha']}"  />
 			                                	</h:inputSecret>
-			                                	<h:commandLink action="#{loginController.gravarCliente}" value="#{resources['label.global.gravar']}" styleClass="btn btn-primary active mt-1"  rendered="#{loginController.loginTO.cliente.id ne null}"/>
-			                                </ui:fragment>
-			                                <h:commandLink value="#{resources['label.global.primeiroacesso']}" styleClass="btn btn-primary active mt-1" rendered="#{!loginController.loginTO.primeiroAcesso}">
-			                                	<f:setPropertyActionListener value="true" target="#{loginController.loginTO.primeiroAcesso}" />
-			                                	<f:ajax render="idFormPrimeiroAcesso" />
-			                                </h:commandLink>
-	                                </h:form>
-	                            </div>
-	                        </div>
-	                    </div>
+			                                	
+			                                
+			                                
+	                               
+							      </div>
+							      <div class="modal-footer">
+							        
+							        	<h:commandLink action="#{loginController.gravarCliente}" value="Salvar" styleClass="btn btn-primary active mt-1"  rendered="#{loginController.loginTO.cliente.id ne null}"/>
+							      </div>
+							       </h:form>
+							    </div>
+							  </div>
+							</div>
+							
+							<!-- fim modal -->
+
+                        </div>
+                         
+    
+                    </div>
+                       
+	                 <div class="card card-blank p-2">
+                        <div class="card-block">    
+                        <h1>Atendimento Online</h1>
+                        
+	                    
+					      <div class="card">
+					        <div class="card-body p-0 clearfix">
+					          <i class="fa fa-barcode  p-5 px-2 font-2xl mr-3 float-left"></i>
+					          <div class="h4 mb-0 pt-3">Preciso pagar uma conta</div>
+					          <div class="text-muted">2ª via da conta</div>
+					          <div class="text-muted">Conta Online</div>
+					          <div class="text-muted">Consumo Detalhado</div>
+					        </div>
+					      </div>
+					      
+					      <br />
+					      <div class="card">
+					      
+					        <div class="card-body p-6 clearfix h-100 d-inline-block" >
+					          <!-- publicidade -->
+							  <img src="resources/template/img/publicidade.jpg" width="100%;"/>
+					        </div>
+					      </div>
+					      
+					    
+					 </div>   
+                    </div>
+                    
                     
                 </div>
             </div>
@@ -112,9 +166,18 @@
     </div>
     	
 		
-		<h:outputScript name="template/js/libs/jquery.min.js" />
-		<h:outputScript name="template/js/libs/bootstrap.min.js" />
-		<h:outputScript name="template/js/app.js" />
+
+		
+		<!-- Bootstrap and necessary plugins -->
+	    <h:outputScript name="template/js/libs/jquery.min.js"/>
+	    <h:outputScript name="template/js/libs/tether.min.js"/>
+	    <h:outputScript name="template/js/bootstrap.min.js"/>
+	    <h:outputScript name="template/js/libs/pace.min.js"/>
+	    <h:outputScript name="template/js/docs.min.js"/>
+	    <!-- GenesisUI main scripts -->
+	    <script src="template/js/app.js"/>
+	    
+
 
 	</h:body>
 
