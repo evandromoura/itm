@@ -1,5 +1,9 @@
 package br.com.trixti.itm.threads.financeiro;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -33,6 +37,7 @@ import br.com.trixti.itm.entity.Retorno;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
+import br.com.trixti.itm.entity.StatusRetorno;
 import br.com.trixti.itm.entity.TipoContratoNotificacao;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
@@ -49,6 +54,8 @@ import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.retorno.RetornoService;
 import br.com.trixti.itm.service.sms.SMSService;
+import br.com.trixti.itm.util.Base64Utils;
+import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilData;
 
 @Named
@@ -140,7 +147,7 @@ public class FinanceiroThread {
 
 	@Schedule(info = "Processar-Retorno", minute = "*", hour = "*", persistent = false)
 	public void processarRetorno() {
-		if(ativo){
+		if(true){
 			List<Retorno> listaRetorno = retornoService.listarPendentes();
 			Map<String, List<Retorno>> mapaRetorno = new HashMap<String, List<Retorno>>();
 			for (Retorno retorno : listaRetorno) {
@@ -248,12 +255,63 @@ public class FinanceiroThread {
 	
 	@Schedule(info = "Processar-Integracao-Financeira", minute = "*/1", hour = "*", persistent = false)
 	public void processarIntegracaoFinanceira() {
-		
-		
+		if(ativo){
+			try {
+				Runtime rt = Runtime.getRuntime();
+				String[] commands = {"system.exe","-get t"};
+				String command = "java -cp "+System.getProperty("user.home")+"/itau/Edi7WebCli/bin/Edi7WebCli.jar webclicfg.Edi7WebCli.Main –cITRIXIN –p001 –tP";
+				System.out.println(command);
+				Process proc = rt.exec(command);
+	
+				BufferedReader stdInput = new BufferedReader(new 
+				     InputStreamReader(proc.getInputStream()));
+	
+				BufferedReader stdError = new BufferedReader(new 
+				     InputStreamReader(proc.getErrorStream()));
+	
+				String s = null;
+				while ((s = stdInput.readLine()) != null) {
+				    System.out.println(s);
+				}
+	
+				while ((s = stdError.readLine()) != null) {
+				    System.out.println(s);
+				}
+				
+	//			Runtime.getRuntime().exec("su -l itm -c \"java -cp "+System.getProperty("user.home")+"/itau/Edi7WebCli/bin/Edi7WebCli.jar webclicfg.Edi7WebCli.Main –cITRIXIN –p001 –tP\"");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}	
 		
 	}
 	
 	
+	@Schedule(info = "Processar-Arquivos-Recebidos", minute = "*/1", hour = "*", persistent = false)
+	public void processarArquivosRecebidos() {
+		
+		if(true){
+			try{
+				String diretorio = System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/recepcao";
+				UtilArquivo utilArquivo = new UtilArquivo();
+				File file = new File(diretorio);
+				File[] arquivos = file.listFiles();
+				for (File fileTmp : arquivos) {
+				     Retorno retorno = new Retorno();
+				     retorno.setDataCriacao(new Date());
+				     retorno.setArquivo(Base64Utils.base64Encode(utilArquivo.getBytesFromFile(fileTmp)));
+				     retorno.setNomeArquivo(fileTmp.getName());
+				     retorno.setStatus(StatusRetorno.PENDENTE);
+				     retorno.setBanco(BancosSuportados.BANCO_ITAU.name());
+				     retornoService.incluir(retorno);
+				     fileTmp.renameTo(new File(System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/recebidos/"+fileTmp.getName()));
+				 }
+			}catch(Exception e){
+				e.printStackTrace();
+			}	
+		}		 
+		
+	}
 	
 
 	private ContratoNotificacao comporContratoNotificacao(Boleto boleto,MeioEnvioContratoNotificacao meio,TipoContratoNotificacao tipo, String texto3) {
