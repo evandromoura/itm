@@ -244,6 +244,17 @@ public class FinanceiroThread {
 			}
 		}	
 	}
+	
+	
+	@Schedule(info = "Processar-Integracao-Financeira", minute = "*/1", hour = "*", persistent = false)
+	public void processarIntegracaoFinanceira() {
+		
+		
+		
+	}
+	
+	
+	
 
 	private ContratoNotificacao comporContratoNotificacao(Boleto boleto,MeioEnvioContratoNotificacao meio,TipoContratoNotificacao tipo, String texto3) {
 		ContratoNotificacao contratoNotificacaoAvisoInicial = new ContratoNotificacao();

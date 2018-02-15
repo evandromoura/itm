@@ -185,4 +185,8 @@ public class BoletoService extends AbstractService<Boleto>{
 			throw new Exception("CHAVE MESTRA INVALIDA");
 		}	
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(DigestUtils.md5Hex("pagamentoitrix@!"));
+	}
 }
