@@ -33,6 +33,7 @@ import br.com.trixti.itm.entity.ContratoNotificacao;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.MeioEnvioContratoNotificacao;
 import br.com.trixti.itm.entity.Parametro;
+import br.com.trixti.itm.entity.Remessa;
 import br.com.trixti.itm.entity.Retorno;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
@@ -40,6 +41,7 @@ import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.StatusRetorno;
 import br.com.trixti.itm.entity.TipoContratoNotificacao;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
+import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.infra.msg.MensagemFactory;
@@ -52,11 +54,13 @@ import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
+import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.service.retorno.RetornoService;
 import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.util.Base64Utils;
 import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilData;
+import br.com.trixti.itm.util.UtilString;
 
 @Named
 @Singleton
@@ -78,8 +82,9 @@ public class FinanceiroThread {
 	private @Inject SMSService smsService;
 	private @Inject MensagemFactory mensagemFactory;
 	private @Inject ContratoNotificacaoService contratoNotificacaoService;
+	private @Inject RemessaService remessaService;
 	
-	private boolean ativo = false;
+	private boolean ativo = true;
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
@@ -124,7 +129,7 @@ public class FinanceiroThread {
 		}	
 	}
 
-	@Schedule(info = "Processar-Remessa", minute = "*/1", hour = "*", persistent = false)
+	@Schedule(info = "Gerar-Remessa", minute = "*/1", hour = "*", persistent = false)
 	public void processarRemessa() {
 		if(ativo){
 			List<Boleto> listaBoleto = boletoService.pesquisarBoletoSemRemessa();
@@ -144,10 +149,55 @@ public class FinanceiroThread {
 			}
 		}	
 	}
+	
+	@Schedule(info = "Enviar-Remessa", minute = "*/1", hour = "*", persistent = false)
+	public void processarEnvioRemessa() {
+		UtilString utilString = new UtilString();
+		UtilArquivo utilArquivo = new UtilArquivo();
+		try{
+			List<Remessa> listaRemessasNaoEnviadas = remessaService.listarNaoEnviadas();
+			for(Remessa remessa:listaRemessasNaoEnviadas){
+				Remessa remessaCompleta = remessaService.recuperarCompleto(remessa.getId());
+				String nomeArquivo = "CB"+utilString.completaComZerosAEsquerda(remessaCompleta.getId().toString(), 6)+".rem";
+				File arquivo = utilArquivo.getFileFromBytes(Base64Utils.base64Decode(remessaCompleta.getArquivo()), nomeArquivo);
+				String diretorio = System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/enviar";
+				arquivo.renameTo(new File(diretorio+"/"+nomeArquivo));
+				remessaCompleta.setStatus(StatusRemessaEnum.A_ENVIAR);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
+	}
+	
+	
+	@Schedule(info = "Confirmar-Envio-Remessa", minute = "*/1", hour = "*", persistent = false)
+	public void processarConfirmacaoEnvioRemessa() {
+		UtilString utilString = new UtilString();
+		try{
+			List<Remessa> listaRemessasNaoEnviadas = remessaService.listarAEnviar();
+			for(Remessa remessa:listaRemessasNaoEnviadas){
+				String diretorio = System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/enviados";
+				File file = new File(diretorio);
+				File[] arquivos = file.listFiles();
+				GOTO:for (File fileTmp : arquivos) {
+					if(fileTmp.getName().equals("CB"+utilString.completaComZerosAEsquerda(remessa.getId().toString(), 6)+".rem")){
+						remessa.setDataEnvio(new Date());
+						remessa.setStatus(StatusRemessaEnum.ENVIADO);
+						remessaService.alterar(remessa);
+						break GOTO;
+					}
+				}
+			}	
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
+	}
+	
 
 	@Schedule(info = "Processar-Retorno", minute = "*", hour = "*", persistent = false)
 	public void processarRetorno() {
-		if(true){
+		if(ativo){
 			List<Retorno> listaRetorno = retornoService.listarPendentes();
 			Map<String, List<Retorno>> mapaRetorno = new HashMap<String, List<Retorno>>();
 			for (Retorno retorno : listaRetorno) {
@@ -253,12 +303,11 @@ public class FinanceiroThread {
 	}
 	
 	
-	@Schedule(info = "Processar-Integracao-Financeira", minute = "*/1", hour = "*", persistent = false)
+	@Schedule(info = "Processar-Agent-Integracao-Financeira", minute = "*/1", hour = "*", persistent = false)
 	public void processarIntegracaoFinanceira() {
 		if(ativo){
 			try {
 				Runtime rt = Runtime.getRuntime();
-				String[] commands = {"system.exe","-get t"};
 				String command = "java -cp "+System.getProperty("user.home")+"/itau/Edi7WebCli/bin/Edi7WebCli.jar webclicfg.Edi7WebCli.Main –cITRIXIN –p001 –tP";
 				System.out.println(command);
 				Process proc = rt.exec(command);
@@ -278,7 +327,6 @@ public class FinanceiroThread {
 				    System.out.println(s);
 				}
 				
-	//			Runtime.getRuntime().exec("su -l itm -c \"java -cp "+System.getProperty("user.home")+"/itau/Edi7WebCli/bin/Edi7WebCli.jar webclicfg.Edi7WebCli.Main –cITRIXIN –p001 –tP\"");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -289,8 +337,7 @@ public class FinanceiroThread {
 	
 	@Schedule(info = "Processar-Arquivos-Recebidos", minute = "*/1", hour = "*", persistent = false)
 	public void processarArquivosRecebidos() {
-		
-		if(true){
+		if(ativo){
 			try{
 				String diretorio = System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/recepcao";
 				UtilArquivo utilArquivo = new UtilArquivo();

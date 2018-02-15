@@ -13,6 +13,7 @@ import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.Remessa;
+import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.util.UtilString;
 
 @Stateless
@@ -70,7 +71,17 @@ public class RemessaDAO extends AbstractDAO<Remessa> {
 	public List<Remessa> listarNaoEnviadas(){
 		CriteriaQuery<Remessa> criteria = getCriteriaBuilder().createQuery(Remessa.class);
 		Root<Remessa> root = criteria.from(Remessa.class);
-		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().isNull(root.get("dataEnvio")))).getResultList();
+		return getManager().createQuery(criteria.select(root).where(
+				getCriteriaBuilder().equal(root.get("status"), StatusRemessaEnum.GERADO),
+				getCriteriaBuilder().isNull(root.get("dataEnvio")))).getResultList();
+	}
+	
+	public List<Remessa> listarAEnviar(){
+		CriteriaQuery<Remessa> criteria = getCriteriaBuilder().createQuery(Remessa.class);
+		Root<Remessa> root = criteria.from(Remessa.class);
+		return getManager().createQuery(criteria.select(root).where(
+				getCriteriaBuilder().equal(root.get("status"), StatusRemessaEnum.A_ENVIAR),
+				getCriteriaBuilder().isNull(root.get("dataEnvio")))).getResultList();
 	}
 
 }

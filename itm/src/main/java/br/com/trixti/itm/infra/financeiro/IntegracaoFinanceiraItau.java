@@ -108,6 +108,9 @@ public class IntegracaoFinanceiraItau {
 					FlatFile<Record> ff = Texgit.createFlatFile(layout);
 					ff.read(FileUtil.read(arquivoRetorno.getAbsolutePath()));
 					Record header = ff.getRecord("Header");
+					if(header == null){
+						throw new Exception("Arquivo invalido!");
+					}
 					Collection<Record> titulosEmCobranca = ff.getRecords("TransacaoTitulo");
 					for (Record titulo : titulosEmCobranca) {
 						System.out.println(((Integer)titulo.getValue("NossoNumero")).toString()+" = "+(BigDecimal)titulo.getValue("ValorPago"));
@@ -150,11 +153,12 @@ public class IntegracaoFinanceiraItau {
 	
 	public List<Record> comporRetorno(Retorno retorno) {
 		File layout = null;
+		File arquivoRetorno = null;
 		Collection<Record> titulosEmCobranca=null;
 		try {
 			UtilArquivo utilArquivo = new UtilArquivo();
 				byte[] bytes = Base64Utils.base64Decode(retorno.getArquivo());
-				File arquivoRetorno = utilArquivo.getFileFromBytes(bytes, retorno.getNomeArquivo());
+				arquivoRetorno = utilArquivo.getFileFromBytes(bytes, retorno.getNomeArquivo());
 				layout = utilArquivo.getFileFromBytes(UtilArquivo.converteInputStreamEmBytes(IntegracaoFinanceiraItau.class.getClassLoader().getResourceAsStream("layout-cnab400-itau-retorno.xml")), "layout-cnab400-itau-retorno.xml");
 				FlatFile<Record> ff = Texgit.createFlatFile(layout);
 				ff.read(FileUtil.read(arquivoRetorno.getAbsolutePath()));
@@ -164,6 +168,9 @@ public class IntegracaoFinanceiraItau {
 		}finally {
 			if(layout != null && layout.exists()){
 				layout.delete();
+			}
+			if(arquivoRetorno != null && arquivoRetorno.exists()){
+				arquivoRetorno.delete();
 			}
 		}	
 		return titulosEmCobranca != null ? new ArrayList<Record>(titulosEmCobranca):new ArrayList<Record>();

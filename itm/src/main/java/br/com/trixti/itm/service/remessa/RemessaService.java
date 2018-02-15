@@ -117,6 +117,15 @@ public class RemessaService extends AbstractService<Remessa>{
 		boleto.setRemessa(null);
 		boletoService.alterar(boleto);
 	}
+	
+	public List<Remessa> listarNaoEnviadas(){
+		return remessaDAO.listarNaoEnviadas();
+	}
+	
+	public List<Remessa> listarAEnviar(){
+		return remessaDAO.listarAEnviar();
+	}
+	
 
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	@Override
