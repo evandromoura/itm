@@ -32,7 +32,7 @@ import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.remessa.RemessaService;
-import br.com.trixti.itm.service.sms.SMSService;
+//import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilData;
@@ -49,7 +49,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject BoletoService boletoService;
 	private @Inject ParametroService parametroService;
 	private @Inject MailService mailService;
-	private @Inject SMSService smsService;
+//	private @Inject SMSService smsService;
 	private @Inject RemessaService remessaService;
 	
 
@@ -92,7 +92,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	}
 
 	public void enviarSMS(Boleto boleto){
-		smsService.enviarSMS(boleto);
+//		smsService.enviarSMS(boleto);
 		getFacesContext().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "SMS enviado com sucesso!", "SMS enviado com sucesso!"));
 	}
 	

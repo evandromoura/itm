@@ -80,3 +80,45 @@ header.navbar .navbar-brand {
   text-align: left;
   vertical-align: middle;
 }
+
+
+.menu>ul {
+    list-style: none;
+    padding-left: 500px;
+}
+
+.menu>li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    padding-top: 20px;
+    display: inline-block;
+}
+.menu>li>a {
+    color: #2a363f;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-family: 'Roboto', sans-serif;
+    padding: 10px 18px;
+    
+}
+
+.menu>li>a:hover {
+	text-decoration: none; 
+    color: #f2d438;
+}
+
+.header {
+    display: block;
+    z-index: 9000!important;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    background-color: transparent;
+    height: 210px;
+    padding-top: 25px;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
