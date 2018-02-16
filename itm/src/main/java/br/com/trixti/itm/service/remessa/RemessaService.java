@@ -113,6 +113,9 @@ public class RemessaService extends AbstractService<Remessa>{
 		Remessa remessa = recuperar(boleto.getRemessa().getId());
 		remessa.setValor(remessa.getValor().subtract(boleto.getValor()));
 		remessa.setQtdBoletoAberto(remessa.getQtdBoletoAberto() - 1);
+		if(remessa.getQtdBoletoAberto().equals(0)){
+			remessa.setStatus(StatusRemessaEnum.FECHADO);
+		}
 		remessaDAO.alterar(remessa);
 		boleto.setRemessa(null);
 		boletoService.alterar(boleto);

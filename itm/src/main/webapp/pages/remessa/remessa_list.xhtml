@@ -81,6 +81,12 @@
 									</h:selectOneMenu>
 								</div>
 							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarRemessa:nome_status">#{resources['label.global.nossonumero']}</label>
+									<h:inputText value="#{remessaController.remessaTO.remessaPesquisa.nossoNumeroPesquisa}" styleClass="form-control" maxlength="7" onkeypress="mascara(this,soNumeros);" />
+								</div>
+							</div>
 						</div>
 						<div class="row">
 							<div class="col-sm-6">

@@ -10,7 +10,7 @@
 </cc:interface>
 
 <cc:implementation>
-	<h:inputText id="#{cc.attrs.id}" value="#{cc.attrs.value}" onkeypress="mascara(this,soNumeros);" styleClass="#{cc.attrs.styleClass}" maxlength="#{cc.attrs.maxlength}" /> 
+	<h:inputText id="#{cc.attrs.id}" value="#{cc.attrs.value}" onkeypress="mascara(this,soNumeros);"  onblur="mascara(this,soNumeros);" styleClass="#{cc.attrs.styleClass}" maxlength="#{cc.attrs.maxlength}" /> 
 </cc:implementation>
 
 </html>

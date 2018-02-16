@@ -11,10 +11,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
+import javax.ejb.AccessTimeout;
 import javax.ejb.Schedule;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
+import javax.ejb.Timeout;
 import javax.ejb.Timer;
 import javax.ejb.TimerService;
 import javax.ejb.TransactionAttribute;
@@ -63,8 +66,7 @@ import br.com.trixti.itm.util.UtilData;
 import br.com.trixti.itm.util.UtilString;
 
 @Named
-@Singleton
-@TransactionAttribute(TransactionAttributeType.REQUIRED)
+@Stateless
 public class FinanceiroThread {
 
 	private @Inject ClienteService clienteService;
@@ -303,6 +305,7 @@ public class FinanceiroThread {
 	}
 	
 	
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	@Schedule(info = "Processar-Agent-Integracao-Financeira", minute = "*/1", hour = "*", persistent = false)
 	public void processarIntegracaoFinanceira() {
 		if(ativo){
@@ -461,7 +464,6 @@ public class FinanceiroThread {
 							? valor.add(lancamentoAberto.getValor()) : valor.subtract(lancamentoAberto.getValor());
 					lancamentosBoleto.add(new BoletoLancamento(boleto, lancamentoAberto));
 				}
-				System.out.println("");
 				
 				if(!contrato.getStatus().equals(StatusContrato.CANCELADO) && 
 						!contrato.getStatus().equals(StatusContrato.BLOQUEADO) && 
@@ -530,6 +532,7 @@ public class FinanceiroThread {
 		boleto.setNossoNumeroCompleto(boleto.getNossoNumero() + boleto.getDigitoNossoNumero());
 	}
 
+	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	public List<Timer> listarThreads() {
 		return new ArrayList<Timer>(sessionContext.getTimers());
 	}
@@ -553,6 +556,12 @@ public class FinanceiroThread {
 		} catch (Throwable e) {
 			System.out.println("PAROU A THREAD");
 		}
+	}
+	
+	@Timeout
+	@AccessTimeout(value = 20, unit = TimeUnit.MINUTES)
+	public void process(Timer timer) {
+	   System.out.println("TIMEOUT: "+timer);
 	}
 
 	public static void main(String[] args) {

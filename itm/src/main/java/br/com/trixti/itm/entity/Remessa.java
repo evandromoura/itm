@@ -75,6 +75,9 @@ public class Remessa implements java.io.Serializable {
 	@Transient
 	private PeriodoTO periodoTO;
 	
+	@Transient
+	private String nossoNumeroPesquisa;
+	
 	
 	public Remessa(){
 		
@@ -200,6 +203,14 @@ public class Remessa implements java.io.Serializable {
 
 	public void setPeriodoTO(PeriodoTO periodoTO) {
 		this.periodoTO = periodoTO;
+	}
+
+	public String getNossoNumeroPesquisa() {
+		return nossoNumeroPesquisa;
+	}
+
+	public void setNossoNumeroPesquisa(String nossoNumeroPesquisa) {
+		this.nossoNumeroPesquisa = nossoNumeroPesquisa;
 	}
 
 }

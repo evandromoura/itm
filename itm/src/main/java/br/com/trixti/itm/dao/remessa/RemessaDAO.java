@@ -58,6 +58,11 @@ public class RemessaDAO extends AbstractDAO<Remessa> {
 			listaPredicado.add(getCriteriaBuilder().equal(root.get("codigo"), remessa.getCodigo()));
 		}
 		
+		if(!us.vazio(remessa.getNossoNumeroPesquisa())){
+			listaPredicado.add(getCriteriaBuilder().equal(root.join("boletos",JoinType.LEFT).get("nossoNumero"), remessa.getNossoNumeroPesquisa()));
+			
+		}
+		
 		if(remessa.getStatus() != null){
 			listaPredicado.add(getCriteriaBuilder().equal(root.get("status"), remessa.getStatus()));
 		}
