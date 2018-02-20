@@ -87,6 +87,7 @@ public class FinanceiroThread {
 	private @Inject RemessaService remessaService;
 	
 	private boolean ativo = true;
+	
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
@@ -329,7 +330,9 @@ public class FinanceiroThread {
 				while ((s = stdError.readLine()) != null) {
 				    System.out.println(s);
 				}
-				
+				stdInput.close();
+				stdError.close();
+				proc.destroy();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -559,9 +562,9 @@ public class FinanceiroThread {
 	}
 	
 	@Timeout
-	@AccessTimeout(value = 20, unit = TimeUnit.MINUTES)
+	@AccessTimeout(value = 5, unit = TimeUnit.MINUTES)
 	public void process(Timer timer) {
-	   System.out.println("TIMEOUT: "+timer);
+	   System.out.println("DEU PROBLEMA DE TIMEOUT: "+timer);
 	}
 
 	public static void main(String[] args) {
