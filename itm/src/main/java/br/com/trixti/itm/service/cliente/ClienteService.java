@@ -125,13 +125,24 @@ public class ClienteService extends AbstractService<Cliente> {
 	}
 	
 	
-	public ClienteWSTO recuperarPorCpf(String cpf){
+	public ClienteWSTO recuperarPorCpfWS(String cpf){
+		try{
+			return clienteDAO.recuperarPorCpfWS(cpf);
+		}catch(Exception e){
+			return null;
+		}	
+	}
+	
+	
+	public Cliente recuperarPorCpf(String cpf){
 		try{
 			return clienteDAO.recuperarPorCpf(cpf);
 		}catch(Exception e){
 			return null;
 		}	
 	}
+	
+	
 	
 	
 	

@@ -1,5 +1,7 @@
 package br.com.trixti.itm.controller.retorno;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +16,8 @@ import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.infra.security.annotations.Financeiro;
 import br.com.trixti.itm.service.retorno.RetornoService;
 import br.com.trixti.itm.to.RetornoTO;
+import br.com.trixti.itm.util.Base64Utils;
+import br.com.trixti.itm.util.UtilArquivo;
 
 @Model
 @ViewScoped
@@ -34,6 +38,27 @@ public class RetornoViewController  extends AbstractController<Retorno> implemen
 		String parametro = getRequest().getParameter("parametro");
 		getRetornoTO().setRetorno(retornoService.recuperar(new Integer(parametro)));
 		getRetornoTO().setRecords(integracaoFinanceiraItau.comporRetorno(getRetornoTO().getRetorno()));
+	}
+	
+	
+	public void download(Retorno retorno){
+		File arquivo =null;
+		try{
+			Retorno retornoCompleta = retornoService.recuperarCompleto(retorno.getId());
+			UtilArquivo utilArquivo = new UtilArquivo();
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			String nomeArquivo = retornoCompleta.getNomeArquivo();
+			arquivo = utilArquivo.getFileFromBytes(Base64Utils.base64Decode(retornoCompleta.getArquivo()), nomeArquivo);
+			utilArquivo.convertFileToByteArrayOutputStream(arquivo,
+					byteArrayOutputStream);
+			download(byteArrayOutputStream, nomeArquivo);
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			if(arquivo != null){
+				arquivo.delete();
+			}	
+		}	
 	}
 	
 	

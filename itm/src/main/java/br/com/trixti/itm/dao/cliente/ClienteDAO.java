@@ -145,7 +145,7 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 					).setMaxResults(1).getSingleResult());
 	}
 	
-	public ClienteWSTO recuperarPorCpf(String cpf) {
+	public ClienteWSTO recuperarPorCpfWS(String cpf) {
 		try{
 			Query query = getManager()
 					.createNativeQuery("select * from itm_cliente where ( UPPER(TRANSLATE( cpf_cnpj,'.-','' ) ) like '%" + cpf + "%')",
@@ -168,6 +168,19 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 						getCriteriaBuilder().equal(join.get("status"), StatusBoletoEnum.ABERTO)))
 				.getResultList();
 	}
+	
+	
+	
+	public Cliente recuperarPorCpf(String cpf) {
+		try{
+			Query query = getManager()
+					.createNativeQuery("select * from itm_cliente where ( UPPER(TRANSLATE( cpf_cnpj,'.-','' ) ) like '%" + cpf + "%')",
+							Cliente.class);
+			return (Cliente)query.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}	
+}
 	
 
 }

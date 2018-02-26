@@ -26,6 +26,7 @@
 	<ui:define name="corpo">
 		<div class="col-sm-12">
 			<h:form id="formCliente">
+				<input type="hidden" name="hidden1" value="#{clienteController.clienteTO.cliente.id}" />
 				<div class="card card-accent-info">
 					<div class="card-header">
 						<strong>#{resources['label.global.cadastro']}</strong> <small>#{resources['label.global.clientes']}</small>
@@ -57,10 +58,13 @@
 												<div class="col-sm-12">
 													<div class="form-group">
 														<label>#{resources['label.global.cpf']}</label>
-			
-														<itm:cpf required="true" label="#{resources['label.global.cpf']}"
-															value="#{clienteController.clienteTO.cliente.cpfCnpj}"
-															id="cliente_cpf" styleClass="form-control" />
+														<h:inputText id="cliente_cpf" value="#{clienteController.clienteTO.cliente.cpfCnpj}" onkeypress="mascara(this,cpf);" 
+															styleClass="form-control" maxlength="14"
+															label="#{resources['label.global.cpf']}" 
+															required="true">
+															  <f:validator validatorId="CpfValidator" />  
+															  <f:validator validatorId="CpfUserValidator" />  
+														</h:inputText>	 
 													</div>
 												</div>
 											</ui:fragment>

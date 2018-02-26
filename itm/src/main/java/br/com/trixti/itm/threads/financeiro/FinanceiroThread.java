@@ -1,9 +1,6 @@
 package br.com.trixti.itm.threads.financeiro;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -307,35 +304,10 @@ public class FinanceiroThread {
 	
 	
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
-	@Schedule(info = "Processar-Agent-Integracao-Financeira", minute = "*/1", hour = "*", persistent = false)
+	@Schedule(info = "Processar-Agent-Integracao-Financeira", minute = "*/2", hour = "*", persistent = false)
 	public void processarIntegracaoFinanceira() {
 		if(ativo){
-			try {
-				Runtime rt = Runtime.getRuntime();
-				String command = "java -cp "+System.getProperty("user.home")+"/itau/Edi7WebCli/bin/Edi7WebCli.jar webclicfg.Edi7WebCli.Main –cITRIXIN –p001 –tP";
-				System.out.println(command);
-				Process proc = rt.exec(command);
-	
-				BufferedReader stdInput = new BufferedReader(new 
-				     InputStreamReader(proc.getInputStream()));
-	
-				BufferedReader stdError = new BufferedReader(new 
-				     InputStreamReader(proc.getErrorStream()));
-	
-				String s = null;
-				while ((s = stdInput.readLine()) != null) {
-				    System.out.println(s);
-				}
-	
-				while ((s = stdError.readLine()) != null) {
-				    System.out.println(s);
-				}
-				stdInput.close();
-				stdError.close();
-				proc.destroy();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			new IntegracaoItauThread().start(); 
 		}	
 		
 	}

@@ -7296,6 +7296,11 @@ div[toast].ng-leave.ng-leave-active,
 * https://github.com/l-lin/angular-datatables
 * License: MIT
 */
+
+
+.dataTables_wrapper {
+	width: 100%;
+	}
 div.dataTables_length label {
   font-weight: normal;
   float: left;

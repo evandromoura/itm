@@ -40,6 +40,7 @@ public class UsuarioService extends AbstractService<Usuario> {
 		entidade.setDataCriacao(new Date());
 		super.incluir(entidade);
 	}
+	
 
 }
 

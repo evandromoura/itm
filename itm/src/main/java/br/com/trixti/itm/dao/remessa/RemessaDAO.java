@@ -63,9 +63,13 @@ public class RemessaDAO extends AbstractDAO<Remessa> {
 			
 		}
 		
-		if(remessa.getStatus() != null){
-			listaPredicado.add(getCriteriaBuilder().equal(root.get("status"), remessa.getStatus()));
+		if(remessa.getListaStatus() != null){
+			listaPredicado.add(root.get("status").in(remessa.getListaStatus()));
 		}
+		
+//		if(remessa.getStatus() != null){
+//			listaPredicado.add(getCriteriaBuilder().equal(root.get("status"), remessa.getStatus()));
+//		}
 		
 		if(remessa.getPeriodoTO().getDataInicio() != null && remessa.getPeriodoTO().getDataFim() != null){
 			listaPredicado.add(getCriteriaBuilder().between(root.<Date>get("dataCriacao"), remessa.getPeriodoTO().getDataInicio(), remessa.getPeriodoTO().getDataFim()));

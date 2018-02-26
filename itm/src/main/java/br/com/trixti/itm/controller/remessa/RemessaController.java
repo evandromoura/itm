@@ -3,6 +3,7 @@ package br.com.trixti.itm.controller.remessa;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -12,7 +13,7 @@ import javax.inject.Named;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Remessa;
-import br.com.trixti.itm.infra.security.annotations.Admin;
+import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.infra.security.annotations.Financeiro;
 import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.to.RemessaTO;
@@ -43,6 +44,8 @@ public class RemessaController extends AbstractController<Remessa> implements Se
 		}else if(acao != null && parametro == null){
 				inicializarIncluir();
 		}else{
+			StatusRemessaEnum[] listaStatus = {StatusRemessaEnum.A_ENVIAR, StatusRemessaEnum.A_ENVIAR, StatusRemessaEnum.ENVIADO,StatusRemessaEnum.GERADO,StatusRemessaEnum.PROCESSADO};
+			getRemessaTO().getRemessaPesquisa().setListaStatus(listaStatus);
 			pesquisar();
 		}
 	}

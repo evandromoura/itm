@@ -78,6 +78,9 @@ public class Remessa implements java.io.Serializable {
 	@Transient
 	private String nossoNumeroPesquisa;
 	
+	@Transient
+	private StatusRemessaEnum[] listaStatus;
+	
 	
 	public Remessa(){
 		
@@ -211,6 +214,14 @@ public class Remessa implements java.io.Serializable {
 
 	public void setNossoNumeroPesquisa(String nossoNumeroPesquisa) {
 		this.nossoNumeroPesquisa = nossoNumeroPesquisa;
+	}
+
+	public StatusRemessaEnum[] getListaStatus() {
+		return listaStatus;
+	}
+
+	public void setListaStatus(StatusRemessaEnum[] listaStatus) {
+		this.listaStatus = listaStatus;
 	}
 
 }

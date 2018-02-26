@@ -94,7 +94,7 @@
 					</div>
 					<div class="card-block">
 						<div class="row">
-							<h:dataTable var="boleto" value="#{remessaViewController.remessaTO.remessa.boletos}" styleClass="table">
+							<h:dataTable id="idDataTableRemessaView" var="boleto" value="#{remessaViewController.remessaTO.remessa.boletos}" styleClass="table table-striped" width="100%">
 								<h:column>
 									<f:facet name="header">
 										#
@@ -168,6 +168,25 @@
 								
 							</h:dataTable>
 						</div>
+						<script>
+				//<![CDATA[
+					$(document).ready(function() {
+						$("table[id$='idDataTableRemessaView']").DataTable({
+							"bFilter":false,
+					    	"processing": false,
+						    "serverSide": false,
+						    "bServerSide": false,
+						    "search":false,
+						    "paging":   false,
+					        "info":     false,
+					        "order": [[ 8, 'asc' ]]
+							});
+					});
+
+					
+				//]]>
+
+				</script>
 
 					</div>
 				</div>

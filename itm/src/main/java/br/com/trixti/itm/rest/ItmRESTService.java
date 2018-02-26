@@ -44,7 +44,7 @@ public class ItmRESTService {
 	@Path("/integracao/cliente")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ClienteWSTO integracaoCliente(@QueryParam("cpf") String cpf) throws Exception {
-		ClienteWSTO cliente = clienteService.recuperarPorCpf(cpf);
+		ClienteWSTO cliente = clienteService.recuperarPorCpfWS(cpf);
 		return cliente;
 	}
 	
@@ -54,7 +54,7 @@ public class ItmRESTService {
 	@Path("/integracao/cliente/situacao")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ClienteWSTO situacaoCliente(@QueryParam("cpf") String cpf) throws Exception {
-		ClienteWSTO cliente1 = clienteService.recuperarPorCpf(cpf);
+		ClienteWSTO cliente1 = clienteService.recuperarPorCpfWS(cpf);
 		Cliente cliente = clienteService.recuperar(cliente1.getId());
 		Integer qtdBoletosEmAberto = 0;
 		if(cliente.getContratos() != null){

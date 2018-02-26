@@ -70,15 +70,13 @@
 							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="idFormPesquisarRemessa:nome_status">#{resources['label.global.status']}</label>
-									<h:selectOneMenu
-										value="#{remessaController.remessaTO.remessaPesquisa.status}"
+									<h:selectManyListbox 
+										value="#{remessaController.remessaTO.remessaPesquisa.listaStatus}"
 										id="status_remessa" styleClass="form-control">
-										<f:selectItem itemValue=""
-											itemLabel="#{resources['label.global.selecionar']}" />
 										<f:selectItems var="status"
 											value="#{combosBean.statusRemessaEnum}" itemValue="#{status}"
 											itemLabel="#{status.name}" />
-									</h:selectOneMenu>
+									</h:selectManyListbox>
 								</div>
 							</div>
 							<div class="col-sm-6">
