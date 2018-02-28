@@ -3,7 +3,6 @@ package br.com.trixti.itm.service.contrato;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,6 +36,7 @@ import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.contratonotificacao.ContratoNotificacaoService;
 import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
+import br.com.trixti.itm.to.PeriodoTO;
 import br.com.trixti.itm.util.UtilData;
 
 @Stateless
@@ -149,6 +149,10 @@ public class ContratoService extends AbstractService<Contrato> {
 	public List<Contrato> pesquisarPorCliente(Cliente cliente) {
 		return contratoDAO.pesquisarPorCliente(cliente);
 	}
+	
+	public List<Contrato> pesquisarPorPeriodo(PeriodoTO periodoTO){
+		return contratoDAO.pesquisarPorPeriodo(periodoTO);
+	}
 
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
@@ -242,6 +246,39 @@ public class ContratoService extends AbstractService<Contrato> {
 			freeRadiusService.sincronizarContrato(entidade);
 		}
 		contratoDAO.alterar(entidade);
+	}
+	
+	public Integer qtdContratoAtivo() {
+		return contratoDAO.qtdContratoAtivo();
+	}
+	
+	public BigDecimal valorTotalFixo(){
+		BigDecimal total = BigDecimal.ZERO;
+		List<ContratoProduto> listaContratoProduto = contratoProdutoService.listarAtivos();
+		for(ContratoProduto contratoProduto:listaContratoProduto){
+			if(contratoProduto.getValor() != null){
+				total = total.add(contratoProduto.getValor());
+			}	
+		}
+		return total;
+	}
+	
+	
+	public BigDecimal valorTotalAtrasado(){
+		BigDecimal total = BigDecimal.ZERO;
+		List<Boleto> boletos = boletoService.listarBoletoEmAtraso();
+		for(Boleto boleto:boletos){
+			total = total.add(boleto.getValor());
+		}
+		return total;
+	}
+	
+	public Integer qtdContratoCriadoPeriodo(PeriodoTO periodoTO) {
+		return contratoDAO.qtdContratoCriadoPeriodo(periodoTO);
+	}
+	
+	public Integer qtdContratoCanceladoPeriodo(PeriodoTO periodoTO) {
+		return contratoDAO.qtdContratoCanceladoPeriodo(periodoTO);
 	}
 	
 }

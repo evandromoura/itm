@@ -1481,4 +1481,53 @@ public class UtilData {
 		utilData.getMesExtenso(utilData.getMes(new Date()));
 		System.out.println("Mes atual ="+utilData.getMesExtenso(utilData.getMes(new Date())));
 	}
+	
+	public  Date ajustaData(Date data, int dia,int mes, int horas, int minutos, int segundos) {
+		Calendar calendar = null;
+		try {
+			if (data != null) {
+				calendar = Calendar.getInstance();
+				calendar.setTime(data);
+				calendar.set(Calendar.DAY_OF_MONTH, dia);
+				calendar.set(Calendar.MONTH, mes);
+				calendar.set(Calendar.HOUR_OF_DAY, horas);
+				calendar.set(Calendar.MINUTE, minutos);
+				calendar.set(Calendar.SECOND, segundos);
+				data = calendar.getTime();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+	
+	public Date ajustarPrimeiroDiaMes(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return ajustaData(date, 1, 0, 0, 0);
+	}
+	
+	public Date ajustarUltimoDiaMes(Date date){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return ajustaData(date, calendar.getActualMaximum(Calendar.DAY_OF_MONTH), 23, 59, 59);
+	}
+	
+	public String getAnoCorrente(Date mes) {
+		SimpleDateFormat f = new SimpleDateFormat("YYYY");
+		return f.format(mes);
+	}
+	
+	public String getMesCorrente(Date mes) {
+		SimpleDateFormat f = new SimpleDateFormat("MM");
+		return f.format(mes);
+	}
+	
+	
+	public String obterNomeMes(int mes){
+	    String[] meses = {"01 Janeiro", "02 Fevereiro", "03 Março", "04 Abril", "05 Maio", "06 Junho", "07 Julho", 
+	                      "08 Agosto", "09 Setembro", "10 Outubro", "11 Novembro", "12 Dezembro"};
+	    return meses[mes-1];
+	}
 }
+

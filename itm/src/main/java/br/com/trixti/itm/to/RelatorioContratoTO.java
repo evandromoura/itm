@@ -142,7 +142,7 @@ public class RelatorioContratoTO {
 	
 	
 	public Long getPorcentagem(Integer total,Integer qtd){
-		return new Long((100 * qtd)/total);
+		return total != 0?new Long((100 * qtd)/total):new Long(0);
 	}
 
 	public Map<String, Integer> getMapaQuantidadeContratoBoleto() {

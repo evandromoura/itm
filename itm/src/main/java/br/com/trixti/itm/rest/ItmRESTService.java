@@ -1,5 +1,6 @@
 package br.com.trixti.itm.rest;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -18,7 +19,9 @@ import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
+import br.com.trixti.itm.service.dashboard.DashboardService;
 import br.com.trixti.itm.to.ClienteWSTO;
+import br.com.trixti.itm.to.DashboardWSTO;
 
 
 @javax.ws.rs.Path(value="/data")
@@ -28,6 +31,7 @@ public class ItmRESTService {
 	
 	private @Inject ClienteService clienteService;
 	private @Inject BoletoService boletoService;
+	private @Inject DashboardService dashboardService;
 	
 	@GET
 	@Path("/cliente")
@@ -67,6 +71,14 @@ public class ItmRESTService {
 		}	
 		cliente1.setQtdBoletoEmAtraso(qtdBoletosEmAberto);
 		return cliente1;
+	}
+	
+	
+	@GET
+	@Path("/dashboard")
+	@Produces(MediaType.APPLICATION_JSON)
+	public DashboardWSTO dashboard() throws Exception {
+		return dashboardService.dashboard();
 	}
 	
 	

@@ -19,9 +19,9 @@
             <div class="col-sm-6 col-lg-3">
               <div class="card">
                 <div class="card-block p-0 clearfix">
-                  <i class="fa fa-cogs bg-primary p-4 px-5 font-2xl mr-3 float-left"></i>
-                  <div class="h5 mb-0 pt-3 text-center">4.589</div>
-                  <div class="text-muted text-uppercase font-weight-bold font-xs text-center">Clients</div>
+                  <i class="fa fa-users bg-primary p-5 px-6 font-4xl mr-4 float-left"></i>
+                  <div id="id_total_cliente" class="h5 mb-0 pt-3 text-center"></div>
+                  <div class="text-muted text-uppercase font-weight-bold font-xs text-center">Clientes</div>
                 </div>
               </div>
             </div>
@@ -30,9 +30,9 @@
             <div class="col-sm-6 col-lg-3">
               <div class="card">
                 <div class="card-block p-0 clearfix">
-                  <i class="fa fa-laptop bg-danger p-4 px-5 font-2xl mr-3 float-left"></i>
-                  <div class="h5 mb-0 pt-3 text-center">789</div>
-                  <div class="text-muted text-uppercase font-weight-bold font-xs text-center">Deals</div>
+                  <i class="fa fa-book bg-warning p-5 px-6 font-4xl mr-4 float-left"></i>
+                  <div id="id_total_contrato" class="h5 mb-0 pt-3 text-center"></div>
+                  <div class="text-muted text-uppercase font-weight-bold font-xs text-center">Contratos</div>
                 </div>
               </div>
             </div>
@@ -41,9 +41,9 @@
             <div class="col-sm-6 col-lg-3">
               <div class="card">
                 <div class="card-block p-0 clearfix">
-                  <i class="fa fa-moon-o bg-success p-4 px-5 font-2xl mr-3 float-left"></i>
-                  <div class="h5 mb-0 pt-3 text-center">$1.999,50</div>
-                  <div class="text-muted text-uppercase font-weight-bold font-xs text-center">Income</div>
+                  <i class="fa fa-money bg-success p-5 px-6 font-4xl mr-4 float-left"></i>
+                  <div id="id_total_valor_fixo" class="h5 mb-0 pt-3 text-center"></div>
+                  <div class="text-muted text-uppercase font-weight-bold font-xs text-center">Valor Fixo Mensal</div>
                 </div>
               </div>
             </div>
@@ -52,17 +52,167 @@
             <div class="col-sm-6 col-lg-3">
               <div class="card">
                 <div class="card-block p-0 clearfix">
-                  <i class="fa fa-bell bg-info p-4 px-5 font-2xl mr-3 float-left"></i>
-                  <div class="h5 mb-0 pt-3 text-center">$19.999,50</div>
-                  <div class="text-muted text-uppercase font-weight-bold font-xs text-center">Account</div>
+                  <i class="fa fa-bell bg-danger p-5 px-6 font-4xl mr-4 float-left"></i>
+                  <div id="id_total_valor_em_atraso" class="h5 mb-0 pt-3 text-center"></div>
+                  <div class="text-muted text-uppercase font-weight-bold font-xs text-center">Em Atraso</div>
                 </div>
               </div>
             </div>
             <!--/.col-->
           </div>
+          <div class="row">
+          		<div class="col-sm-12 col-lg-12">
+          			<div id="container" style="min-width: 310px; height: 350px; margin: 0 auto"></div>
+          		</div>	
+          </div>
+          
+          <div class="row">
+          		<div class="col-sm-12 col-lg-12">
+          			<br />
+          			<div id="id_table_tags" ></div>
+          		</div>	
+          </div>
+          
+          
           <!--/.row-->
           </div>
           </div>
+          
+          
+          <script>
+        //<![CDATA[
+          var result;
+  		$.ajax({
+  		    url: '#{request.contextPath}/rest/data/dashboard',
+  		    dataType: 'json',
+  		    async: false,
+  		    success: function(data) {
+  		        result = data;
+  		    }
+  		});
+  		console.log('Valor');
+  		console.log(result.qtdCliente);
+  		document.getElementById('id_total_cliente').innerHTML = result.qtdCliente;
+  		document.getElementById('id_total_contrato').innerHTML = result.qtdContrato;
+  		document.getElementById('id_total_valor_fixo').innerHTML = numberToReal(result.totalFixoMensal);
+  		document.getElementById('id_total_valor_em_atraso').innerHTML = numberToReal(result.totalAtrasado);
+
+  		function numberToReal(numero) {
+  		    var numero = numero.toFixed(2).split('.');
+  		    numero[0] = "R$ " + numero[0].split(/(?=(?:...)*$)/).join('.');
+  		    return numero.join(',');
+  		}
+
+
+  		Highcharts.chart('container', {
+  		    chart: {
+  		        type: 'line'
+  		    },
+  		    title: {
+  		        text: 'Venda de contratos'
+  		    },
+  		    subtitle: {
+  		        text: 'Novos Contratos X Cancelamentos'
+  		    },
+  		    xAxis: {
+  		        categories: result.novosContratos.meses
+  		    },
+  		    yAxis: {
+  		        title: {
+  		            text: 'Contratos'
+  		        }
+  		    },
+  		    plotOptions: {
+  		        line: {
+  		            dataLabels: {
+  		                enabled: true
+  		            },
+  		            enableMouseTracking: false
+  		        }
+  		    },
+  		    series: [{
+  		        name: 'Adesão',
+  		        data: result.novosContratos.qtdContratosNovos
+  		    }, {
+  		        name: 'Cancelamento',
+  		        data: result.novosContratos.qtdContratosCancelados
+  		    }]
+  		});
+
+
+  		var table = document.createElement('table');
+  		
+  		var thead = document.createElement('thead');
+  		
+  		var tr = document.createElement('tr');
+
+  		var td = document.createElement('th');
+  		td.appendChild(document.createTextNode('Tag'))
+  		tr.appendChild(td);
+
+  		var td = document.createElement('th');
+  		td.appendChild(document.createTextNode('Pagantes'))
+  		tr.appendChild(td);
+
+  		var td = document.createElement('th');
+  		td.appendChild(document.createTextNode('Nao Pagantes'))
+  		tr.appendChild(td);
+
+  		var td = document.createElement('th');
+  		td.appendChild(document.createTextNode('Valor Total'))
+  		tr.appendChild(td);
+  		thead.appendChild(tr);
+  		table.appendChild(thead);
+  		
+
+  		var tbody = document.createElement('tbody');
+  		$.each(result.listaTags, function(index, tag) {
+
+  			var tr = document.createElement('tr');
+
+  	  		var td = document.createElement('td');
+  	  		td.appendChild(document.createTextNode(result.listaTags[index].nome))
+  	  		tr.appendChild(td);
+
+  	  		var td = document.createElement('td');
+  	  		td.appendChild(document.createTextNode(result.listaTags[index].qtdClientesPagantes))
+  	  		tr.appendChild(td);
+
+  	  		var td = document.createElement('td');
+  	  		td.appendChild(document.createTextNode(result.listaTags[index].qtdClienteNaoPagantes))
+  	  		tr.appendChild(td);
+
+  	  		var td = document.createElement('td');
+  	  		td.appendChild(document.createTextNode(result.listaTags[index].valorTotal))
+  	  		tr.appendChild(td);
+	  		tbody.appendChild(tr);
+  			
+  		});
+  		
+  		table.appendChild(tbody);
+
+  		table.setAttribute("id", "id_datatable_tags");
+  		table.setAttribute("border", "0");
+  		table.setAttribute("class", "table table-striped");
+
+  		document.getElementById('id_table_tags').appendChild(table);
+
+
+  		$(document).ready(function() {
+			$("table[id$='id_datatable_tags']").DataTable({
+				"bFilter":false,
+		    	"processing": false,
+			    "serverSide": false,
+			    "bServerSide": false,
+			    "search":false,
+			    "paging":   false,
+		        "info":     false,
+		        "order": [[ 3, 'desc' ]]
+				});
+		});
+  		
+  		//]]>
+  		</script>
           
 	
 </ui:composition>

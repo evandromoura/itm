@@ -62,7 +62,7 @@
 															styleClass="form-control" maxlength="14"
 															label="#{resources['label.global.cpf']}" 
 															required="true">
-															  <f:validator validatorId="CpfValidator" />  
+															  <f:validator validatorId="CPFValidator" />  
 															  <f:validator validatorId="CpfUserValidator" />  
 														</h:inputText>	 
 													</div>
@@ -73,8 +73,10 @@
 												<div class="col-sm-12">
 													<div class="form-group">
 														<label>#{resources['label.global.cnpj']}</label>
-														<itm:cnpj value="#{clienteController.clienteTO.cliente.cpfCnpj}" label="#{resources['label.global.cnpj']}"
-															id="cliente_cnpj" styleClass="form-control" />
+														<h:inputText id="cliente_cnpj" value="#{clienteController.clienteTO.cliente.cpfCnpj}" onkeypress="mascara(this,cnpj);" 
+															label="#{resources['label.global.cnpj']}" styleClass="form-control" maxlength="18" required="false">
+															<f:validator validatorId="CpfUserValidator" />
+														</h:inputText>	 	
 													</div>
 												</div>
 											</ui:fragment>
@@ -259,7 +261,7 @@
 								<div class="form-group">
 									<h:commandLink
 										action="#{clienteController.adicionarContrato}"
-										styleClass="btn btn-lg btn-info">
+										styleClass="btn btn-sm btn-info">
 										<i class="fa fa-magic" />
 										#{resources['label.global.adicionarcontrato']}
 									</h:commandLink>	
@@ -352,12 +354,12 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
-									<h:commandLink action="#{clienteController.gravar()}" styleClass="btn btn-lg btn-success">
+									<h:commandLink action="#{clienteController.gravar()}" styleClass="btn btn-sm btn-success">
 										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
 									</h:commandLink>	
 									<h:outputText value=" " />	
 									
-									<h:commandLink action="#{clienteController.cancelar()}" styleClass="btn btn-lg btn-danger" immediate="true">
+									<h:commandLink action="#{clienteController.cancelar()}" styleClass="btn btn-sm btn-danger" immediate="true">
 										<i class="fa fa-times" /> #{resources['label.global.cancelar']}
 									</h:commandLink>	
 								</div>

@@ -38,11 +38,13 @@ public class CpfUserValidator implements Validator {
 		Integer idClient = Integer.parseInt(hidden);
 		if (cpf != null && !cpf.isEmpty()){
 			Cliente client;
-			client = clienteService.recuperarPorCpf(cpf);
+			client = clienteService.recuperarPorCpfCnpj(cpf);
 			if (client != null && client.getId().intValue() != idClient.intValue()){
 				ResourceBundle rb = ResourceBundle.getBundle("resources", context.getViewRoot().getLocale());
 				String messageText = rb.getString("label.componente.cpf.existente");
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, messageText, messageText));
 				throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,messageText, messageText));
+
 			}
 		}
 	}

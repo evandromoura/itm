@@ -1,5 +1,6 @@
 package br.com.trixti.itm.dao.contrato;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -15,6 +16,7 @@ import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoGrupo;
 import br.com.trixti.itm.entity.ContratoProduto;
+import br.com.trixti.itm.to.PeriodoTO;
 
 @Stateless
 public class ContratoDAO extends AbstractDAO<Contrato> {
@@ -103,5 +105,43 @@ public class ContratoDAO extends AbstractDAO<Contrato> {
 		}
 		return contratos;
 	}
+	
+	public Integer qtdContratoAtivo() {
+		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+		Root<Contrato> root = criteria.from(Contrato.class);
+		criteria.select(getCriteriaBuilder().count(root));
+		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+
+
+	public List<Contrato> pesquisarPorPeriodo(PeriodoTO periodoTO) {
+		CriteriaQuery<Contrato> criteria = getCriteriaBuilder().createQuery(Contrato.class);
+		Root<Contrato> root = criteria.from(Contrato.class);
+		
+		return getManager().createQuery(criteria.select(root).where(
+				getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataCriacao"), periodoTO.getDataInicio()),
+				getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataCriacao"), periodoTO.getDataFim()))).getResultList();
+	}
+	
+	
+	public Integer qtdContratoCriadoPeriodo(PeriodoTO periodoTO) {
+		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+		Root<Contrato> root = criteria.from(Contrato.class);
+		criteria.select(getCriteriaBuilder().count(root)).where(
+				getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataCriacao"), periodoTO.getDataInicio()),
+				getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataCriacao"), periodoTO.getDataFim()));
+		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+	
+	
+	public Integer qtdContratoCanceladoPeriodo(PeriodoTO periodoTO) {
+		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+		Root<Contrato> root = criteria.from(Contrato.class);
+		criteria.select(getCriteriaBuilder().count(root)).where(
+				getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataCancelamento"), periodoTO.getDataInicio()),
+				getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataCancelamento"), periodoTO.getDataFim()));
+		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+		
 
 }

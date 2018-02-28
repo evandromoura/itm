@@ -134,15 +134,18 @@ public class ClienteService extends AbstractService<Cliente> {
 	}
 	
 	
-	public Cliente recuperarPorCpf(String cpf){
+	public Cliente recuperarPorCpfCnpj(String cpf){
 		try{
-			return clienteDAO.recuperarPorCpf(cpf);
+			return clienteDAO.recuperarPorCpfCnpj(cpf);
 		}catch(Exception e){
 			return null;
 		}	
 	}
 	
-	
+
+	public Integer qtdClienteAtivo() {
+		return clienteDAO.qtdClienteAtivo();
+	}
 	
 	
 	

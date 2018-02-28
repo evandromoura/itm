@@ -24,7 +24,7 @@
 								</div>
 							</div>
 							<div class="col-sm-6">
-								<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+								<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPER_ADMIN')}">
 									<div class="form-group">
 										<label for="formUsuario:perfil_usuario_admin">#{resources['label.global.perfil']}</label> 
 										<h:selectOneMenu value="#{usuarioController.usuarioTO.usuario.perfil}" id="perfil_usuario_admin" styleClass="form-control">
@@ -32,7 +32,7 @@
 										</h:selectOneMenu>
 									</div>
 								</ui:fragment>
-								<ui:fragment rendered="#{!securityBean.isPermissao('ADMIN')}">
+								<ui:fragment rendered="#{!securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPER_ADMIN')}">
 									<div class="form-group">
 										<label for="formUsuario:perfil_usuario">#{resources['label.global.perfil']}</label> 
 										<h:selectOneMenu value="#{usuarioController.usuarioTO.usuario.perfil}" id="perfil_usuario" styleClass="form-control">
@@ -72,7 +72,7 @@
 									
 
 								<div class="form-group">
-									<h:commandLink action="#{usuarioController.gravar()}" styleClass="btn btn-lg btn-success">
+									<h:commandLink action="#{usuarioController.gravar()}" styleClass="btn btn-sm btn-success">
 										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
 									</h:commandLink>	
 	

@@ -18,7 +18,7 @@
 	<ui:define name="corpo">
 		<div class="col-sm-12">
 			<h:form id="idFormPesquisarCliente">
-				<div class="card">
+				<div class="card card-accent-info">
 					<div class="card-header">
 						<strong>#{resources['label.global.pesquisar']}</strong> <small>#{resources['label.global.clientes']}</small>
 					</div>
@@ -60,7 +60,14 @@
 							</div>
 							
 							
-							
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.tags']}</label>
+									<h:selectManyListbox value="#{clienteController.clienteTO.clientePesquisa.tags}" styleClass="form-control" style="overflow-x: scroll;height:100px">
+										<f:selectItems value="#{combosBean.listaTag}" var="tag" itemValue="#{tag.nome}"  itemLabel="#{tag.nome}"/>
+									</h:selectManyListbox> 
+								</div>
+							</div>
 							
 							
 							<div class="col-sm-3">
@@ -73,6 +80,7 @@
 										<f:selectItems value="#{combosBean.listaProduto}" var="produto"
 											itemLabel="#{produto.nome}" itemValue="#{produto.id}" />
 									</h:selectOneMenu>
+									
 								</div>
 							</div>
 							
@@ -102,17 +110,16 @@
 								</div>
 							</div>
 							
+							
 							<div class="col-sm-3">
 								<div class="form-group">
-									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.tags']}</label>
-									<h:selectManyListbox value="#{clienteController.clienteTO.clientePesquisa.tags}" styleClass="form-control" style="overflow-x: scroll;height:100px">
-										<f:selectItems value="#{combosBean.listaTag}" var="tag" itemValue="#{tag.nome}"  itemLabel="#{tag.nome}"/>
-									</h:selectManyListbox> 
+									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.sempagamento']}</label>
+									<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.semPagamento}" />
+									<br />
+									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.semtag']}</label>
+									<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.semTag}" />
 								</div>
-							</div>
-							
-							
-							
+							</div>		
 							
 						</div>
 						<div class="row">
@@ -120,11 +127,11 @@
 						</div>
 						<div class="row">
 							<div class="col-sm-12">
-									<h:commandLink action="#{clienteController.pesquisar()}" styleClass="btn btn-lg btn-primary" id="idBotaoPesquisar">
+									<h:commandLink action="#{clienteController.pesquisar()}" styleClass="btn btn-sm btn-primary" id="idBotaoPesquisar">
 										<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
 									</h:commandLink>
-									<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
-										<a href="#{request.contextPath}/cliente/novo" class="btn btn-lg btn-success">
+									<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPER_ADMIN')}">
+										<a href="#{request.contextPath}/cliente/novo" class="btn btn-sm btn-success">
 											<i class="fa fa-user-plus" /> #{resources['label.global.novocliente']}
 										</a>
 									</ui:fragment>
@@ -173,7 +180,7 @@
 								<h:column><f:facet name="header">#{resources['label.global.acoes']}</f:facet>
 								<f:attribute name="style" value="white-space: nowrap;" />
 									<div>
-										<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+										<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPER_ADMIN')}">
 											<a class="btn btn-info" href="#{request.contextPath}/cliente/editar/#{cliente.id}" title="#{resources['label.global.editar']}">
 	                                                <i class="fa fa-edit "></i>
 	                                         </a>	

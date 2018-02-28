@@ -9,7 +9,7 @@
 
 	<ui:define name="corpo">
 
-		<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+		<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN')}">
 			<ui:include src="include_home_dashboard.xhtml" />
 		</ui:fragment>
 		<ui:fragment rendered="#{securityBean.isPermissao('CLIENTE')}">

@@ -1,6 +1,7 @@
 package br.com.trixti.itm.dao.cliente;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.Boleto;
+import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteTag;
 import br.com.trixti.itm.entity.Contrato;
@@ -69,6 +71,13 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		
 		if(clientePesquisa.getTags() != null && clientePesquisa.getTags().length > 0){
 			predicateList.add(root.join("clienteTags", JoinType.LEFT).get("tag").get("nome").in(clientePesquisa.getTags()));
+		}
+		if(clientePesquisa.isSemPagamento()){
+			Join<Contrato,ContratoProduto> join =  root.join("contratos",JoinType.LEFT).join("contratoProdutos",JoinType.LEFT);
+			predicateList.add(getCriteriaBuilder().or(getCriteriaBuilder().isNull(join.get("valor")),getCriteriaBuilder().equal(join.get("valor"), BigDecimal.ZERO)));
+		}
+		if(clientePesquisa.isSemTag()){
+			predicateList.add(getCriteriaBuilder().isEmpty(root.join("contratos",JoinType.LEFT).join("cliente",JoinType.LEFT).<List<ClienteTag>>get("clienteTags")));
 		}
 		
 		return (Predicate[]) predicateList.toArray(new Predicate[predicateList.size()]);
@@ -171,16 +180,22 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 	
 	
 	
-	public Cliente recuperarPorCpf(String cpf) {
+	public Cliente recuperarPorCpfCnpj(String cpf) {
 		try{
-			Query query = getManager()
-					.createNativeQuery("select * from itm_cliente where ( UPPER(TRANSLATE( cpf_cnpj,'.-','' ) ) like '%" + cpf + "%')",
-							Cliente.class);
-			return (Cliente)query.getSingleResult();
+			CriteriaQuery<Cliente> criteria = getCriteriaBuilder().createQuery(Cliente.class);
+			Root<Cliente> root = criteria.from(Cliente.class);
+			return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("cpfCnpj"), cpf))).getSingleResult();
 		}catch(Exception e){
 			return null;
 		}	
-}
+	}
+	
+	public Integer qtdClienteAtivo() {
+		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		criteria.select(getCriteriaBuilder().count(root));
+		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
 	
 
 }

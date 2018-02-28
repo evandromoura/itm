@@ -28,7 +28,7 @@
 			<div class="col-md-12">
 							<div class="card card-accent-info">
 								<div class="card-header">
-									<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+									<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">
 										<i class="fa fa-newspaper-o" /><strong>#{resources['label.global.informacoes']}</strong>
 										<a href="#{request.contextPath}/cliente/editar/#{clienteViewController.clienteTO.cliente.id}"><span class="badge badge-success float-right">#{resources['label.global.editar']}</span></a>
 										<span class="float-right"><h:outputText value=" " /></span>

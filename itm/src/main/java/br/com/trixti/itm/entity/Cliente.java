@@ -116,6 +116,12 @@ public class Cliente implements java.io.Serializable {
 	@Transient
 	private String[] tags;
 	
+	@Transient
+	private boolean semPagamento;
+	
+	@Transient
+	private boolean semTag;
+	
 	public Cliente() {
 	}
 
@@ -319,6 +325,21 @@ public class Cliente implements java.io.Serializable {
 	public void setTags(String[] tags) {
 		this.tags = tags;
 	}
-	
+
+	public boolean isSemPagamento() {
+		return semPagamento;
+	}
+
+	public void setSemPagamento(boolean semPagamento) {
+		this.semPagamento = semPagamento;
+	}
+
+	public boolean isSemTag() {
+		return semTag;
+	}
+
+	public void setSemTag(boolean semTag) {
+		this.semTag = semTag;
+	}
 
 }

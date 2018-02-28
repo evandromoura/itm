@@ -6,70 +6,19 @@
 
 	<div class="sidebar">
 		<nav class="sidebar-nav">
-			<ul class="nav">
-				<li class="nav-title text-center"><span>#{resources['label.global.menu']}</span></li>
-				<li class="nav-item">
-					<a class="nav-link" href="#{request.contextPath}/home">
-						<i class="icon-home"></i> #{resources['label.global.home']} 
-					</a>
-				</li>
-			</ul>	
-<!-- 			<ui:fragment rendered="#{securityBean.isPermissao('CLIENTE')}"> -->
-<!-- 				<ul class="nav"> -->
-				
-<!-- 					<li class="nav-item"> -->
-<!-- 						<a class="nav-link" href="#{request.contextPath}/"> -->
-<!-- 							<i class="icon-people"></i> Contratos  -->
-<!-- 						</a> -->
-<!-- 					</li> -->
-					
-<!-- 					<li class="nav-item"> -->
-<!-- 						<a class="nav-link" href="#{request.contextPath}"> -->
-<!-- 							<i class="icon-people"></i> Alterar dia do vencimento  -->
-<!-- 						</a> -->
-<!-- 					</li> -->
-					
-<!-- 					<li class="nav-item"> -->
-<!-- 						<a class="nav-link" href="#{request.contextPath}"> -->
-<!-- 							<i class="icon-people"></i> Alterar Endereco de cobranca  -->
-<!-- 						</a> -->
-<!-- 					</li> -->
-					
-					
-<!-- 					<li class="nav-item"> -->
-<!-- 						<a class="nav-link" href="#{request.contextPath}"> -->
-<!-- 							<i class="icon-people"></i> Segunda via de boleto  -->
-<!-- 						</a> -->
-<!-- 					</li> -->
-					
-					
-<!-- 					<li class="nav-item"> -->
-<!-- 						<a class="nav-link" href="#{request.contextPath}"> -->
-<!-- 							<i class="icon-people"></i> Alterar forma de pagamento  -->
-<!-- 						</a> -->
-<!-- 					</li> -->
-					
-					
-<!-- 					<li class="nav-item"> -->
-<!-- 						<a class="nav-link" href="#{request.contextPath}"> -->
-<!-- 							<i class="icon-people"></i> Promessa de pagamento  -->
-<!-- 						</a> -->
-<!-- 					</li> -->
-					
-					
-<!-- 				</ul>	 -->
-			
-<!-- 			</ui:fragment> -->
-			<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO') 
-										or securityBean.isPermissao('SUPORTE_NIVEL1') or securityBean.isPermissao('SUPORTE_NIVEL2')}">
-										
-										
-				
-																				
 				<ul class="nav">
+				
+					<li class="nav-title text-center"><span>#{resources['label.global.menu']}</span></li>
+						<li class="nav-item">
+							<a class="nav-link #{menu eq 'home'?'active':''}" href="#{request.contextPath}/home">
+								<i class="icon-people"></i> #{resources['label.global.home']}
+							</a>
+						</li>
+			<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO') 
+										or securityBean.isPermissao('SUPORTE_NIVEL1') or securityBean.isPermissao('SUPORTE_NIVEL2')}">													
 					<li class="nav-title text-center"><span>#{resources['label.global.cadastro']}</span></li>
 					
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO') 
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO') 
 										or securityBean.isPermissao('SUPORTE_NIVEL1') or securityBean.isPermissao('SUPORTE_NIVEL2')}">
 										
 						<li class="nav-item">
@@ -78,7 +27,7 @@
 							</a>
 						</li>
 					</ui:fragment>
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPORTE_NIVEL2')}">	
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPORTE_NIVEL2')}">	
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'usuario'?'active':''}" href="#{request.contextPath}/usuario">
 								<i class="icon-people"></i> #{resources['label.global.usuario']}
@@ -86,7 +35,7 @@
 						</li>
 					</ui:fragment>	
 					
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'grupo'?'active':''}" href="#{request.contextPath}/grupo">
 								<i class="icon-speedometer"></i> #{resources['label.global.grupo']} 
@@ -94,14 +43,14 @@
 						</li>
 					</ui:fragment>	
 					
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">										
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">										
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'produto'?'active':''}" href="#{request.contextPath}/produto">
 								<i class="icon-briefcase"></i> #{resources['label.global.produto']} 
 							</a>
 						</li>
 					</ui:fragment>
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">										
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">										
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'tag'?'active':''}" href="#{request.contextPath}/tag">
 								<i class="icon-tag"></i> #{resources['label.global.tag']} 
@@ -109,7 +58,7 @@
 						</li>
 					</ui:fragment>
 					
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">	
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">	
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'parametro'?'active':''}" href="#{request.contextPath}/parametro/editar/1">
 								<i class="icon-list"></i> #{resources['label.global.parametros']} 
@@ -117,7 +66,7 @@
 						</li>
 					</ui:fragment>	
 					
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO')}">
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO')}">
 						<li class="nav-title text-center"><span>#{resources['label.global.financeiro']}</span></li>
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'contacorrente'?'active':''}" href="#{request.contextPath}/contacorrente">
@@ -140,7 +89,7 @@
 							</a>
 						</li>
 					</ui:fragment>
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO') 
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO') 
 										or securityBean.isPermissao('SUPORTE_NIVEL1') or securityBean.isPermissao('SUPORTE_NIVEL2')}">
 						    <li class="nav-title text-center"><span>#{resources['label.global.admin']}</span></li> 
 							<li class="nav-item">
@@ -149,7 +98,7 @@
 								</a>
 							</li>
 					</ui:fragment>		
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'log'?'active':''}" href="#{request.contextPath}/log">
 								<i class="icon-book-open"></i> #{resources['label.global.log']}
@@ -157,7 +106,7 @@
 						</li>
 					</ui:fragment>		
 					
-					<ui:fragment rendered="#{securityBean.isPermissao('ADMIN')}">
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">
 						<li class="nav-title text-center"><span>#{resources['label.global.relatorios']}</span></li> 
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'relatorio_contrato'?'active':''}" href="#{request.contextPath}/relatorio/contrato">
@@ -174,10 +123,7 @@
 						<hr />
 					</li>
 					
-				</ul>
 			</ui:fragment>	
-			
-			<ul class="nav">
 					<li class="nav-item">
 						<h:form>
 							<h:commandLink action="#{simpleAuthenticator.logout()}" immediate="true" styleClass="nav-link">
