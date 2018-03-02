@@ -143,6 +143,7 @@
   		var table = document.createElement('table');
   		
   		var thead = document.createElement('thead');
+  		thead.setAttribute("class","thead-default");
   		
   		var tr = document.createElement('tr');
 
@@ -193,7 +194,7 @@
 
   		table.setAttribute("id", "id_datatable_tags");
   		table.setAttribute("border", "0");
-  		table.setAttribute("class", "table table-striped");
+  		table.setAttribute("class", "table table-responsive table-hover table-outline mb-0 table-striped");
 
   		document.getElementById('id_table_tags').appendChild(table);
 

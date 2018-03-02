@@ -129,7 +129,7 @@ public class FinanceiroThread {
 		}	
 	}
 
-	@Schedule(info = "Gerar-Remessa", minute = "*/1", hour = "*", persistent = false)
+	@Schedule(info = "Gerar-Remessa", minute = "*/3", hour = "*", persistent = false)
 	public void processarRemessa() {
 		if(ativo){
 			List<Boleto> listaBoleto = boletoService.pesquisarBoletoSemRemessa();

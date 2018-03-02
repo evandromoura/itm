@@ -41,6 +41,7 @@ public class ContratoProdutoDAO extends AbstractDAO<ContratoProduto> {
 		return getManager().createQuery(criteria.select(root)
 				.where(
 				root.get("contrato").get("status").in(StatusContrato.ATIVO,StatusContrato.SUSPENSO),
+				getCriteriaBuilder().isNull(root.get("dataExclusao")),
 				getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
 				getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0)
 				))).getResultList(); 
@@ -52,10 +53,9 @@ public class ContratoProdutoDAO extends AbstractDAO<ContratoProduto> {
 		CriteriaQuery<ContratoProduto> criteria = getCriteriaBuilder().createQuery(ContratoProduto.class);
 		Root<ContratoProduto> root = criteria.from(ContratoProduto.class);
 		return getManager().createQuery(criteria.select(root).distinct(true).where(
-				
 				getCriteriaBuilder().equal(root.join("contrato",JoinType.LEFT).join("cliente",JoinType.LEFT).join("clienteTags",JoinType.LEFT).get("tag"),tag),
-				
 				root.get("contrato").get("status").in(StatusContrato.ATIVO,StatusContrato.SUSPENSO),
+				getCriteriaBuilder().isNull(root.get("dataExclusao")),
 				getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
 				getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0)
 				))).getResultList();
@@ -69,8 +69,8 @@ public class ContratoProdutoDAO extends AbstractDAO<ContratoProduto> {
 		return getManager().createQuery(criteria.select(root).distinct(true).where(
 				
 				getCriteriaBuilder().isEmpty(root.join("contrato").join("cliente").<List<ClienteTag>>get("clienteTags")),
-				
 						root.get("contrato").get("status").in(StatusContrato.ATIVO,StatusContrato.SUSPENSO),
+						getCriteriaBuilder().isNull(root.get("dataExclusao")),
 						getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
 						getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0)
 						))).getResultList();

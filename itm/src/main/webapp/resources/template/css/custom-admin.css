@@ -110,3 +110,10 @@ body {
     .card-columns .card {
       display: inline-block;
       width: 100%; } }
+      
+       .card-success-clean {
+  background-color: rgba(232, 255, 221, 0.63);;
+  border-color: #79c447; }
+  .card-success-clean .card-header,
+  .card-success-clean .card-footer {
+    background-color: transparent ; }   
