@@ -24,11 +24,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
-
+@Audited
 @Entity
 @Table(name = "itm_boleto", schema = "public")
+@AuditTable(value="itm_boleto_historico") 
 public class Boleto implements java.io.Serializable {
 
 	private static final long serialVersionUID = 8924539309625088184L;
@@ -63,10 +66,12 @@ public class Boleto implements java.io.Serializable {
 	@Column(name="numero_documento")
 	private String numeroDocumento;
 	
+	@NotAudited
 	@ManyToOne
 	@JoinColumn(name="id_remessa")
 	private Remessa remessa;
 	
+	@NotAudited
 	@ManyToOne
 	@JoinColumn(name="id_retorno")
 	private Retorno retorno;

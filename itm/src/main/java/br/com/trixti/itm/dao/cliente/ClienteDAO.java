@@ -16,7 +16,6 @@ import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.Boleto;
-import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteTag;
 import br.com.trixti.itm.entity.Contrato;
@@ -65,6 +64,13 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 			predicateList.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("cpfCnpj")), "%"+ clientePesquisa.getCpfCnpj().toLowerCase()+"%"));
 		}
 		
+		if(clientePesquisa.getPeriodoCadastroContrato().getDataInicio() != null){
+			predicateList.add(getCriteriaBuilder().greaterThanOrEqualTo(root.join("contratos",JoinType.LEFT).<Date>get("dataCriacao"), clientePesquisa.getPeriodoCadastroContrato().getDataInicio()));
+		}
+		if(clientePesquisa.getPeriodoCadastroContrato().getDataFim() != null){
+			predicateList.add(getCriteriaBuilder().lessThanOrEqualTo(root.join("contratos",JoinType.LEFT).<Date>get("dataCriacao"), clientePesquisa.getPeriodoCadastroContrato().getDataFim()));
+		}
+		
 		if(clientePesquisa.getStatusContrato() != null){
 			predicateList.add(getCriteriaBuilder().equal(root.join("contratos", JoinType.LEFT).get("status"),clientePesquisa.getStatusContrato()));
 		}
@@ -72,12 +78,33 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		if(clientePesquisa.getTags() != null && clientePesquisa.getTags().length > 0){
 			predicateList.add(root.join("clienteTags", JoinType.LEFT).get("tag").get("nome").in(clientePesquisa.getTags()));
 		}
+		if(clientePesquisa.getStatus() != null && clientePesquisa.getStatus().length > 0){
+			predicateList.add(root.join("contratos", JoinType.LEFT).get("status").in(clientePesquisa.getStatus()));
+		}
 		if(clientePesquisa.isSemPagamento()){
 			Join<Contrato,ContratoProduto> join =  root.join("contratos",JoinType.LEFT).join("contratoProdutos",JoinType.LEFT);
 			predicateList.add(getCriteriaBuilder().or(getCriteriaBuilder().isNull(join.get("valor")),getCriteriaBuilder().equal(join.get("valor"), BigDecimal.ZERO)));
 		}
+		
+		if(clientePesquisa.isComPagamento()){
+			Join<Contrato,ContratoProduto> join =  root.join("contratos",JoinType.LEFT).join("contratoProdutos",JoinType.LEFT);
+			predicateList.add(getCriteriaBuilder().or(getCriteriaBuilder().isNull(join.get("valor")),getCriteriaBuilder().greaterThan(join.<BigDecimal>get("valor"), BigDecimal.ZERO)));
+		}
+		
 		if(clientePesquisa.isSemTag()){
-			predicateList.add(getCriteriaBuilder().isEmpty(root.join("contratos",JoinType.LEFT).join("cliente",JoinType.LEFT).<List<ClienteTag>>get("clienteTags")));
+			predicateList.add(getCriteriaBuilder().isEmpty(root.join("contratos").join("cliente",JoinType.LEFT).<List<ClienteTag>>get("clienteTags")));
+		}
+		
+		if(clientePesquisa.isSemContrato()){
+			predicateList.add(getCriteriaBuilder().isEmpty(root.<List<Contrato>>get("contratos")));
+		}
+		
+		if(clientePesquisa.isComContrato()){
+			predicateList.add(getCriteriaBuilder().not(getCriteriaBuilder().isEmpty(root.<List<Contrato>>get("contratos"))));
+		}
+		
+		if(clientePesquisa.isSemProduto()){
+			predicateList.add(getCriteriaBuilder().isEmpty(root.join("contratos").<List<ContratoProduto>>get("contratoProdutos")));
 		}
 		
 		return (Predicate[]) predicateList.toArray(new Predicate[predicateList.size()]);

@@ -90,7 +90,8 @@
 										</div>
 										<div class="card-block">
 									
-											<h:dataTable value="#{retornoViewController.retornoTO.records}" var="record" styleClass="table table-bordered table-striped">
+											<h:dataTable value="#{retornoViewController.retornoTO.records}" var="record" styleClass="table table-bordered" 
+												rowClasses="#{record}">
 												<h:column>
 													<f:facet name="header">
 														#{resources['label.global.nossonumero']}
@@ -128,19 +129,17 @@
 													<f:facet name="header">
 														#{resources['label.global.valorpago']}
 													</f:facet>
-													#{record.getValue('ValorPago')}
+													<ui:fragment rendered="#{record.getValue('ValorPago').intValue() gt 0}">
+														<span class="badge badge-success">#{record.getValue('ValorPago')}</span>
+													</ui:fragment>	
+													<ui:fragment rendered="#{record.getValue('ValorPago').intValue() eq 0}">
+														#{record.getValue('ValorPago')}
+													</ui:fragment>	
 												</h:column>
-												
-											
 											</h:dataTable>
 										</div>
 									</div>		
-									
-									
-								
-							
 						</div>
-						
 					</div>
 	</h:form>
 	</ui:define>

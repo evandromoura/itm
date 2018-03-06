@@ -26,6 +26,7 @@ import org.hibernate.envers.NotAudited;
 import com.google.gson.annotations.Expose;
 
 import br.com.trixti.itm.enums.TipoPessoaEnum;
+import br.com.trixti.itm.to.PeriodoTO;
 
 @Audited
 @Entity
@@ -117,10 +118,28 @@ public class Cliente implements java.io.Serializable {
 	private String[] tags;
 	
 	@Transient
+	private StatusContrato[] status;
+	
+	@Transient
 	private boolean semPagamento;
+
+	@Transient
+	private boolean comPagamento;
+	
+	@Transient
+	private boolean semContrato;
+
+	@Transient
+	private boolean comContrato;
+	
+	@Transient
+	private boolean semProduto;	
 	
 	@Transient
 	private boolean semTag;
+	
+	@Transient
+	private PeriodoTO periodoCadastroContrato;
 	
 	public Cliente() {
 	}
@@ -342,4 +361,55 @@ public class Cliente implements java.io.Serializable {
 		this.semTag = semTag;
 	}
 
+	public PeriodoTO getPeriodoCadastroContrato() {
+		if (periodoCadastroContrato == null) {
+			periodoCadastroContrato = new PeriodoTO();
+		}
+		return periodoCadastroContrato;
+	}
+
+	public void setPeriodoCadastroContrato(PeriodoTO periodoCadastroContrato) {
+		this.periodoCadastroContrato = periodoCadastroContrato;
+	}
+
+	public boolean isComPagamento() {
+		return comPagamento;
+	}
+
+	public void setComPagamento(boolean comPagamento) {
+		this.comPagamento = comPagamento;
+	}
+
+	public StatusContrato[] getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusContrato[] status) {
+		this.status = status;
+	}
+
+	public boolean isSemContrato() {
+		return semContrato;
+	}
+
+	public void setSemContrato(boolean semContrato) {
+		this.semContrato = semContrato;
+	}
+
+	public boolean isComContrato() {
+		return comContrato;
+	}
+
+	public void setComContrato(boolean comContrato) {
+		this.comContrato = comContrato;
+	}
+
+	public boolean isSemProduto() {
+		return semProduto;
+	}
+
+	public void setSemProduto(boolean semProduto) {
+		this.semProduto = semProduto;
+	}
+	
 }

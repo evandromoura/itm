@@ -1,11 +1,13 @@
 package br.com.trixti.itm.dao.contrato;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
@@ -138,6 +140,29 @@ public class ContratoDAO extends AbstractDAO<Contrato> {
 		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
 		Root<Contrato> root = criteria.from(Contrato.class);
 		criteria.select(getCriteriaBuilder().count(root)).where(
+				getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataCancelamento"), periodoTO.getDataInicio()),
+				getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataCancelamento"), periodoTO.getDataFim()));
+		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+	
+	
+	public Integer qtdContratoCriadoPeriodoPagantes(PeriodoTO periodoTO) {
+		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+		Root<Contrato> root = criteria.from(Contrato.class);
+		criteria.select(getCriteriaBuilder().count(root)).where(
+				getCriteriaBuilder().greaterThan(root.join("contratoProdutos").<BigDecimal>get("valor"), BigDecimal.ZERO),
+				
+				getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataCriacao"), periodoTO.getDataInicio()),
+				getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataCriacao"), periodoTO.getDataFim()));
+		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+	
+	
+	public Integer qtdContratoCanceladoPeriodoPagantes(PeriodoTO periodoTO) {
+		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+		Root<Contrato> root = criteria.from(Contrato.class);
+		criteria.select(getCriteriaBuilder().count(root)).where(
+				getCriteriaBuilder().greaterThan(root.join("contratoProdutos").<BigDecimal>get("valor"), BigDecimal.ZERO),
 				getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("dataCancelamento"), periodoTO.getDataInicio()),
 				getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataCancelamento"), periodoTO.getDataFim()));
 		return getManager().createQuery(criteria).getSingleResult().intValue();

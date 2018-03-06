@@ -116,6 +116,8 @@ public class ContratoController extends AbstractController<Contrato> implements 
 	}
 	
 	public void removerAutenticacao(ContratoAutenticacao contratoAutenticacao){
+		getContratoTO().getContrato().setUsuarioAlteracao(customIdentity.getUsuario());
+		contratoService.alterar(getContratoTO().getContrato());
 		contratoAutenticacaoService.excluir(contratoAutenticacao);
 		init();
 	}

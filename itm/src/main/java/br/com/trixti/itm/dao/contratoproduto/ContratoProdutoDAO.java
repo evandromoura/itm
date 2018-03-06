@@ -67,7 +67,6 @@ public class ContratoProdutoDAO extends AbstractDAO<ContratoProduto> {
 		CriteriaQuery<ContratoProduto> criteria = getCriteriaBuilder().createQuery(ContratoProduto.class);
 		Root<ContratoProduto> root = criteria.from(ContratoProduto.class);
 		return getManager().createQuery(criteria.select(root).distinct(true).where(
-				
 				getCriteriaBuilder().isEmpty(root.join("contrato").join("cliente").<List<ClienteTag>>get("clienteTags")),
 						root.get("contrato").get("status").in(StatusContrato.ATIVO,StatusContrato.SUSPENSO),
 						getCriteriaBuilder().isNull(root.get("dataExclusao")),

@@ -313,15 +313,16 @@
 									<a href="#{request.contextPath}/contrato/editar/#{contrato.id}"
 										class="btn btn-primary"><i class="fa fa-floppy-o" /> #{resources['label.global.editar']}</a>
 									<h:outputText value=" " />	 
-									
-									<h:commandLink styleClass="btn btn-danger">
-										<i class="fa fa-times"></i> #{resources['label.global.excluir']}
-								        <f:setPropertyActionListener target="#{clienteController.clienteTO.contratoAcao}" value="#{contrato}" />
-								        <f:ajax />
-								       	<f:passThroughAttribute name="data-toggle" value="modal" />
-										<f:passThroughAttribute name="data-target" value="#idExcluirContrato" />
-								    </h:commandLink>
-									<h:outputText value=" " />	 
+									<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN')}">
+										<h:commandLink styleClass="btn btn-danger">
+											<i class="fa fa-times"></i> #{resources['label.global.excluir']}
+									        <f:setPropertyActionListener target="#{clienteController.clienteTO.contratoAcao}" value="#{contrato}" />
+									        <f:ajax />
+									       	<f:passThroughAttribute name="data-toggle" value="modal" />
+											<f:passThroughAttribute name="data-target" value="#idExcluirContrato" />
+									    </h:commandLink>
+										<h:outputText value=" " />
+									</ui:fragment>		 
 									
 									<h:commandLink styleClass="btn btn-info" rendered="#{contrato.status.name ne 'CANCELADO'}">
 										<i class="fa fa-times"></i> #{resources['label.global.cancelar']}

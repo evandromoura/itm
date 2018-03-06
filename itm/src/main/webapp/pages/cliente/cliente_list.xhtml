@@ -60,66 +60,107 @@
 							</div>
 							
 							
-							<div class="col-sm-3">
-								<div class="form-group">
-									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.tags']}</label>
-									<h:selectManyListbox value="#{clienteController.clienteTO.clientePesquisa.tags}" styleClass="form-control" style="overflow-x: scroll;height:100px">
-										<f:selectItems value="#{combosBean.listaTag}" var="tag" itemValue="#{tag.nome}"  itemLabel="#{tag.nome}"/>
-									</h:selectManyListbox> 
+							
+							<div class="col-sm-9">
+								<div class="col-sm-6">
+									<fieldset>
+										<legend>#{resources['label.global.periodocriacaocontrato']}</legend>
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.datainicio']}</label>
+												<itm:data value="#{clienteController.clienteTO.clientePesquisa.periodoCadastroContrato.dataInicio}" />
+											</div>
+										</div>		
+										<div class="col-sm-6">
+											<div class="form-group">
+												<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.datafim']}</label>
+												<itm:data value="#{clienteController.clienteTO.clientePesquisa.periodoCadastroContrato.dataFim}" />
+											</div>
+										</div>	
+									</fieldset>	
+								</div>	
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.produto']}</label>
+										<h:selectOneMenu id="idProduto"
+											value="#{clienteController.clienteTO.clientePesquisa.produto.id}"
+											styleClass="form-control">
+											<f:selectItem itemLabel="#{resources['label.global.selecionar']}"/>
+											<f:selectItems value="#{combosBean.listaProduto}" var="produto"
+												itemLabel="#{produto.nome}" itemValue="#{produto.id}" />
+										</h:selectOneMenu>
+										
+									</div>
 								</div>
+								
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label for="idFormPesquisarCliente:cliente_grupo">#{resources['label.global.velocidade']}</label> 
+										<h:selectOneMenu id="idGrupo"
+											value="#{clienteController.clienteTO.clientePesquisa.grupo.id}"
+											styleClass="form-control">
+											<f:selectItem itemLabel="#{resources['label.global.selecionar']}"/>
+											<f:selectItems value="#{combosBean.listaGrupo}" var="grupo"
+												itemLabel="#{grupo.nome}" itemValue="#{grupo.id}" />
+										</h:selectOneMenu>
+									</div>
+								</div>
+								
+								
+								
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.compagamento']}</label>
+										<h:outputText value=" " />
+										<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.comPagamento}" />
+										<br />
+										<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.sempagamento']}</label>
+										<h:outputText value=" " />
+										<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.semPagamento}" />
+										<br />
+										<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.semtag']}</label>
+										<h:outputText value=" " />
+										<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.semTag}" />
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<div class="form-group">
+										<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.comcontrato']}</label>
+										<h:outputText value=" " />
+										<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.comContrato}" />
+										<br />
+										<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.semcontrato']}</label>
+										<h:outputText value=" " />
+										<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.semContrato}" />
+										<br />
+										<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.semproduto']}</label>
+										<h:outputText value=" " />
+										<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.semProduto}" />
+									</div>
+								</div>	
+								
+								
 							</div>
-							
-							
+							 
 							<div class="col-sm-3">
-								<div class="form-group">
-									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.produto']}</label>
-									<h:selectOneMenu id="idProduto"
-										value="#{clienteController.clienteTO.clientePesquisa.produto.id}"
-										styleClass="form-control">
-										<f:selectItem itemLabel="#{resources['label.global.selecionar']}"/>
-										<f:selectItems value="#{combosBean.listaProduto}" var="produto"
-											itemLabel="#{produto.nome}" itemValue="#{produto.id}" />
-									</h:selectOneMenu>
-									
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.tags']}</label>
+										<h:selectManyListbox value="#{clienteController.clienteTO.clientePesquisa.tags}" styleClass="form-control" style="overflow-x: scroll;height:100px">
+											<f:selectItems value="#{combosBean.listaTag}" var="tag" itemValue="#{tag.nome}"  itemLabel="#{tag.nome}"/>
+										</h:selectManyListbox> 
+									</div>
 								</div>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.status']}</label>
+										<h:selectManyListbox value="#{clienteController.clienteTO.clientePesquisa.status}" styleClass="form-control" style="overflow-x: scroll;height:100px">
+											<f:selectItems value="#{combosBean.statusContrato}" var="tag" itemValue="#{tag}"  itemLabel="#{tag.name}"/>
+										</h:selectManyListbox> 
+									</div>
+								</div>
+								
 							</div>
-							
-							<div class="col-sm-3">
-								<div class="form-group">
-									<label for="idFormPesquisarCliente:cliente_grupo">#{resources['label.global.velocidade']}</label> 
-									<h:selectOneMenu id="idGrupo"
-										value="#{clienteController.clienteTO.clientePesquisa.grupo.id}"
-										styleClass="form-control">
-										<f:selectItem itemLabel="#{resources['label.global.selecionar']}"/>
-										<f:selectItems value="#{combosBean.listaGrupo}" var="grupo"
-											itemLabel="#{grupo.nome}" itemValue="#{grupo.id}" />
-									</h:selectOneMenu>
-								</div>
-							</div>
-							
-							<div class="col-sm-3">
-								<div class="form-group">
-									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.statuscontrato']}</label>
-									<h:selectOneMenu id="idStatusContrato"
-										value="#{clienteController.clienteTO.clientePesquisa.statusContrato}"
-										styleClass="form-control">
-										<f:selectItem itemLabel="#{resources['label.global.selecionar']}"/>
-										<f:selectItems value="#{combosBean.statusContrato}" var="statusContrato"
-											itemLabel="#{statusContrato.name}" itemValue="#{statusContrato}" />
-									</h:selectOneMenu>
-								</div>
-							</div>
-							
-							
-							<div class="col-sm-3">
-								<div class="form-group">
-									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.sempagamento']}</label>
-									<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.semPagamento}" />
-									<br />
-									<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.semtag']}</label>
-									<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.semTag}" />
-								</div>
-							</div>		
 							
 						</div>
 						<div class="row">
@@ -135,6 +176,9 @@
 											<i class="fa fa-user-plus" /> #{resources['label.global.novocliente']}
 										</a>
 									</ui:fragment>
+										<a href="#{request.contextPath}/cliente" class="btn btn-sm btn-info">
+											<i class="fa fa-eraser" /> #{resources['label.global.limpar']} 
+										</a>
 							</div>
 						</div>   			
 					</div>

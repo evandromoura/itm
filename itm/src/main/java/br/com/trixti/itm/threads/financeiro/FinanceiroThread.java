@@ -83,7 +83,7 @@ public class FinanceiroThread {
 	private @Inject ContratoNotificacaoService contratoNotificacaoService;
 	private @Inject RemessaService remessaService;
 	
-	private boolean ativo = true;
+	private boolean ativo = false;
 	
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)

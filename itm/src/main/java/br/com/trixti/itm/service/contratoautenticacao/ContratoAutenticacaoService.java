@@ -1,6 +1,8 @@
 package br.com.trixti.itm.service.contratoautenticacao;
 
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import br.com.trixti.itm.dao.AbstractDAO;
@@ -30,6 +32,7 @@ public class ContratoAutenticacaoService extends AbstractService<ContratoAutenti
 	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void excluir(ContratoAutenticacao entidade) {
 		freeRadiusService.excluirPorUsername(entidade.getUsername());
 		super.excluir(entidade);

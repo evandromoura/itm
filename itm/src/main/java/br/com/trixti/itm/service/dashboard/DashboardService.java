@@ -46,10 +46,10 @@ public class DashboardService {
 			Date primeiro = ud.ajustarPrimeiroDiaMes(dataAjustada);
 			Date ultimo = ud.ajustarUltimoDiaMes(dataAjustada);
 			dashboardWSTO.getNovosContratos().getMapaContratosNovos().put(ud.getAnoCorrente(primeiro)+" - "+ ud.obterNomeMes(Integer.valueOf(ud.getMesCorrente(primeiro))),
-					contratoService.qtdContratoCriadoPeriodo(new PeriodoTO(primeiro,ultimo)));
+					contratoService.qtdContratoCriadoPeriodoPagantes(new PeriodoTO(primeiro,ultimo)));
 			
 			dashboardWSTO.getNovosContratos().getMapaContratosCancelados().put(ud.getAnoCorrente(primeiro)+" - "+ ud.obterNomeMes(Integer.valueOf(ud.getMesCorrente(primeiro))),
-					contratoService.qtdContratoCanceladoPeriodo(new PeriodoTO(primeiro,ultimo)));
+					contratoService.qtdContratoCanceladoPeriodoPagantes(new PeriodoTO(primeiro,ultimo)));
 		}
 	}
 	

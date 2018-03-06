@@ -281,4 +281,13 @@ public class ContratoService extends AbstractService<Contrato> {
 		return contratoDAO.qtdContratoCanceladoPeriodo(periodoTO);
 	}
 	
+	
+	public Integer qtdContratoCriadoPeriodoPagantes(PeriodoTO periodoTO) {
+		return contratoDAO.qtdContratoCriadoPeriodoPagantes(periodoTO);
+	}
+	
+	public Integer qtdContratoCanceladoPeriodoPagantes(PeriodoTO periodoTO) {
+		return contratoDAO.qtdContratoCanceladoPeriodoPagantes(periodoTO);
+	}
+	
 }

@@ -9,6 +9,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.google.gson.Gson;
+
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteTag;
@@ -42,10 +44,14 @@ public class ClienteController extends AbstractController<Cliente> implements Se
 	@PostConstruct
 	
 	private void init(){
+//		BigDecimal big = BigDecimal.ZERO;
+//		big.intValue()
 		
 		String acao = getRequest().getParameter("acao");
 		String parametro =getRequest().getParameter("parametro"); 
-		
+		String filtro = getRequest().getParameter("filtro");
+		Cliente clientePesquisa = new Gson().fromJson(filtro,Cliente.class);
+		getClienteTO().setClientePesquisa(clientePesquisa);
 		if(acao != null && acao.equals("novo")){
 			inicializarIncluir();
 		}else if(acao != null && parametro != null && acao.equals("editar")){
@@ -77,6 +83,7 @@ public class ClienteController extends AbstractController<Cliente> implements Se
 	
 //	@Admin
 	public void pesquisar(){
+		System.out.println(new Gson().toJson(getClienteTO().getClientePesquisa()));
 		getClienteTO().setClientes(clienteService.pesquisar(getClienteTO().getClientePesquisa()));
 		if(getClienteTO().getClientes().isEmpty()){
 			String mensagem = getMessage("label.global.nenhumregistroencontrado");
@@ -179,6 +186,12 @@ public class ClienteController extends AbstractController<Cliente> implements Se
 	
 	public void excluirTag(ClienteTag clienteTag){
 		getClienteTO().getCliente().getClienteTags().remove(clienteTag);
+	}
+	
+	public static void main(String[] args) {
+		String valor = "{nome:Evandro,email:evandromoura@gmail.com,clienteTags:[ABERTO]}";
+		
+		new Gson().fromJson(valor, Object.class);
 	}
 	
 	

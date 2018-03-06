@@ -152,11 +152,11 @@
   		tr.appendChild(td);
 
   		var td = document.createElement('th');
-  		td.appendChild(document.createTextNode('Pagantes'))
+  		td.appendChild(document.createTextNode('Contratos Pagantes'))
   		tr.appendChild(td);
 
   		var td = document.createElement('th');
-  		td.appendChild(document.createTextNode('Nao Pagantes'))
+  		td.appendChild(document.createTextNode('Contratos Não Pagantes'))
   		tr.appendChild(td);
 
   		var td = document.createElement('th');
@@ -172,15 +172,23 @@
   			var tr = document.createElement('tr');
 
   	  		var td = document.createElement('td');
-  	  		td.appendChild(document.createTextNode(result.listaTags[index].nome))
+  	  		var a = document.createElement('a');
+  	  		a.setAttribute("href", "#{request.contextPath}/cliente?filtro={\"tags\":[\""+result.listaTags[index].nome+"\"],\"status\":[\"ATIVO\",\"BLOQUEADO\",\"SUSPENSO\"]}");
+  	  		a.appendChild(document.createTextNode(result.listaTags[index].nome))
+  	  		td.appendChild(a)
   	  		tr.appendChild(td);
 
   	  		var td = document.createElement('td');
-  	  		td.appendChild(document.createTextNode(result.listaTags[index].qtdClientesPagantes))
+  	  		var a = document.createElement('a');
+  	  		a.setAttribute("href", "#{request.contextPath}/cliente?filtro={\"tags\":[\""+result.listaTags[index].nome+"\"],\"comPagamento\":true,\"comContrato\":true}");
+  	  		a.appendChild(document.createTextNode(result.listaTags[index].qtdClientesPagantes))
+  	  		td.appendChild(a)
   	  		tr.appendChild(td);
-
   	  		var td = document.createElement('td');
-  	  		td.appendChild(document.createTextNode(result.listaTags[index].qtdClienteNaoPagantes))
+  	  		var a = document.createElement('a');	
+	  		a.setAttribute("href", "#{request.contextPath}/cliente?filtro={\"tags\":[\""+result.listaTags[index].nome+"\"],\"semPagamento\":true,\"comContrato\":true}");
+  	  		a.appendChild(document.createTextNode(result.listaTags[index].qtdClienteNaoPagantes))
+  	  		td.appendChild(a)
   	  		tr.appendChild(td);
 
   	  		var td = document.createElement('td');
