@@ -21,12 +21,51 @@
 		</navigation-case>
 	</navigation-rule>
 	
+	<navigation-rule>
+		<from-view-id>/pages/servico/servico_form.xhtml</from-view-id>
+		
+		<navigation-case>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/pages/servico/servico_list.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>cancelar</from-outcome>
+			<to-view-id>/pages/servico/servico_list.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
 	
 	 <navigation-rule>
 		<from-view-id>/pages/grupo/grupo_form.xhtml</from-view-id>
 		<navigation-case>
 			<from-outcome>sucesso</from-outcome>
 			<to-view-id>/pages/grupo/grupo_list.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/pages/centrocusto/centro_custo_form.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/pages/centrocusto/centro_custo_list.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pages/custofixo/custo_fixo_form.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/pages/custofixo/custo_fixo_list.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pages/movimentacaofinanceira/movimentacao_financeira_form.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/pages/movimentacaofinanceira/movimentacao_financeira_list.xhtml</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
@@ -51,6 +90,14 @@
 		</navigation-case>
 	</navigation-rule>
 	
+	 <navigation-rule>
+		<from-view-id>/pages/produto/produto_form.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/pages/produto/produto_list.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
 	  
 	  <application>
 		<locale-config>

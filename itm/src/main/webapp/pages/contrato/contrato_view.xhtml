@@ -149,7 +149,7 @@
 										<div class="col-sm-2">
 											<div class="form-group">
 												<label for="formContrato:contrato_email">#{resources['label.global.cidade']} / #{resources['label.global.uf']}:</label><br />
-												#{contratoViewController.contratoTO.contrato.cliente.cidade} / #{contratoViewController.contratoTO.contrato.cliente.uf} 
+												#{contratoViewController.contratoTO.contrato.cliente.cidade.nome} / #{contratoViewController.contratoTO.contrato.cliente.uf.sigla} 
 											</div>
 										</div>
 									</div>
@@ -182,9 +182,10 @@
 											
 												<thead>
 													<tr>
-													<th scope="col">#{resources['label.global.data']}</th>
+													<th class="visible-md visible-lg" scope="col">#{resources['label.global.data']}</th>
 													<th scope="col">#{resources['label.global.nome']}</th>
-													<th scope="col">#{resources['label.global.valorbase']}</th>
+													<th scope="col">#{resources['label.global.tecnologia']}</th>
+													<th scope="col" class="visible-md visible-lg">#{resources['label.global.valorbase']}</th>
 													<th scope="col">#{resources['label.global.valortotal']}</th>
 													<th scope="col">#{resources['label.global.datainicio']}</th>
 													<th scope="col">#{resources['label.global.datafim']}</th>
@@ -192,7 +193,7 @@
 												</thead>
 											<ui:repeat var="contratoProduto" value="#{contratoViewController.contratoTO.contrato.contratoProdutos}">
 												<tr class="#{contratoProduto.vigente?'card-success-clean':''}">
-													<td>
+													<td class="visible-md visible-lg">
 														<h:outputText value="#{contratoProduto.dataCriacao}">
 															<f:convertDateTime pattern="dd/MM/yyyy" />
 														</h:outputText>
@@ -200,7 +201,11 @@
 													<td>
 														<h:outputText value="#{contratoProduto.produto.nome}" />
 													</td>
+													
 													<td>
+														<h:outputText value="#{contratoProduto.tecnologia.descricao}" />
+													</td>
+													<td class="visible-md visible-lg">
 														<h:outputText value="#{contratoProduto.produto.valor}">
 															<f:convertNumber pattern="#,##0.00" /> 
 														</h:outputText>
@@ -539,6 +544,7 @@
 																</h:outputText>
 															</h:column>
 															<h:column>
+																<f:passThroughAttribute name="class" value="visible-md visible-lg" />
 																<f:facet name="header">#{resources['label.global.itens']}</f:facet>
 																<ul>
 																	<ui:repeat var="lancamento" value="#{boleto.lancamentos}">

@@ -240,8 +240,8 @@ public class IntegracaoFinanceiraItau {
 			transacaoTitulos.setValue("LogradouroSacado", formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getEndereco()), 40));
 			transacaoTitulos.setValue("BairroSacado", formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getBairro()), 12));
 			transacaoTitulos.setValue("CepSacado", utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getCep()));
-			transacaoTitulos.setValue("Cidade", formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getCidade()), 15));
-			transacaoTitulos.setValue("Estado", formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getUf()), 2));
+			transacaoTitulos.setValue("Cidade", formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getCidade().getNome()), 15));
+			transacaoTitulos.setValue("Estado", formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getUf().getSigla()), 2));
 			transacaoTitulos.setValue("SacadorAvalista", "");
 			transacaoTitulos.setValue("Brancos3", "    ");
 			transacaoTitulos.setValue("DataDeMora", "");

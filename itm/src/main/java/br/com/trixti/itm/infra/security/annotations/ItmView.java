@@ -6,6 +6,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 @URLMappings(mappings={
 		
 		  @URLMapping(id = "login", pattern = "/login", viewId = "/login.jsf"),
+		  @URLMapping(id = "esquecisenha", pattern = "/esquecisenha", viewId = "/pages/public/esquecisenha.jsf"),
 		  @URLMapping(id = "home", pattern = "/home", viewId = "/pages/home/home.jsf"),
 
 		  @URLMapping(id = "snmp",      pattern = "/snmp", viewId = "/pages/snmp/snmp.jsf"),
@@ -32,6 +33,23 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 		  @URLMapping(id = "produto_form", pattern = "/produto/#{acao}/#{parametro}", viewId = "/pages/produto/produto_form.jsf"),
 		  @URLMapping(id = "produto_list", pattern = "/produto", viewId = "/pages/produto/produto_list.jsf"),
 		  @URLMapping(id = "produto_form_view", pattern = "/produto/#{acao}", viewId = "/pages/produto/produto_form.jsf"),
+		  
+		  
+		  @URLMapping(id = "servico_form", pattern = "/servico/#{acao}/#{parametro}", viewId = "/pages/servico/servico_form.jsf"),
+		  @URLMapping(id = "servico_list", pattern = "/servico", viewId = "/pages/servico/servico_list.jsf"),
+		  @URLMapping(id = "servico_form_view", pattern = "/servico/#{acao}", viewId = "/pages/servico/servico_form.jsf"),
+		  
+		  @URLMapping(id = "centrocusto_form", pattern = "/centrocusto/#{acao}/#{parametro}", viewId = "/pages/centrocusto/centro_custo_form.jsf"),
+		  @URLMapping(id = "centrocusto_list", pattern = "/centrocusto", viewId = "/pages/centrocusto/centro_custo_list.jsf"),
+		  @URLMapping(id = "centrocusto_form_view", pattern = "/centrocusto/#{acao}", viewId = "/pages/centrocusto/centro_custo_form.jsf"),
+		  
+		  @URLMapping(id = "custofixo_form", pattern = "/custofixo/#{acao}/#{parametro}", viewId = "/pages/custofixo/custo_fixo_form.jsf"),
+		  @URLMapping(id = "custofixo_list", pattern = "/custofixo", viewId = "/pages/custofixo/custo_fixo_list.jsf"),
+		  @URLMapping(id = "custofixo_form_view", pattern = "/custofixo/#{acao}", viewId = "/pages/custofixo/custo_fixo_form.jsf"),
+
+		  @URLMapping(id = "movimentacaofinanceira_form", pattern = "/movimentacaofinanceira/#{acao}/#{parametro}", viewId = "/pages/movimentacaofinanceira/movimentacao_financeira_form.jsf"),
+		  @URLMapping(id = "movimentacaofinanceira_list", pattern = "/movimentacaofinanceira", viewId = "/pages/movimentacaofinanceira/movimentacao_financeira_list.jsf"),
+		  @URLMapping(id = "movimentacaofinanceira_form_view", pattern = "/movimentacaofinanceira/#{acao}", viewId = "/pages/movimentacaofinanceira/movimentacao_financeira_form.jsf"),
 		  
 		  @URLMapping(id = "tag_form", pattern = "/tag/#{acao}/#{parametro}", viewId = "/pages/tag/tag_form.jsf"),
 		  @URLMapping(id = "tag_list", pattern = "/tag", viewId = "/pages/tag/tag_list.jsf"),

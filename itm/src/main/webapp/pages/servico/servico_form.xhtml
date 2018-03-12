@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:param name="menu" value="servico" />
+	
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
+		<li class="breadcrumb-item"><a href="#{request.contextPath}/servico">#{resources['label.global.servico']}</a></li> 
+	</ui:define>
+	
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formServico">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.cadastroservico']}</strong> 
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formServico:nome_servico">#{resources['label.global.fistel']}</label> 
+									<h:inputText value="#{servicoController.servicoTO.servico.fistel}" id="fistel_servico" styleClass="form-control" />
+								</div>
+							</div>
+							<div class="col-sm-3">		
+								<div class="form-group">
+									<label for="formServico:valor_servico">#{resources['label.global.tipo']}</label> 
+									<h:selectOneMenu value="#{servicoController.servicoTO.servico.tipo}">
+											<f:selectItems value="#{combosBean.tipoServicos}" var="tipoServico" itemLabel="#{tipoServico.codigo} - #{tipoServico.descricao}" itemValue="#{tipoServico}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.adicionarlocal']}</strong> 
+					</div>
+					
+					<div class="card-block">
+						<div class="row">
+						
+							<div class="col-sm-1">
+								<div class="form-group">
+									<label for="formCliente:cliente_uf">#{resources['label.global.uf']}</label>
+									<h:selectOneMenu value="#{servicoController.servicoTO.servicoLocal.uf.sigla}" id="cliente_uf" styleClass="form-control">
+										<f:selectItem itemLabel="-------"/>
+										<f:selectItems value="#{combosBean.listaUf}" var="uf" itemValue="#{uf.sigla}" itemLabel="#{uf.sigla}" />	
+										<f:ajax event="change" render="formServico"  execute="formServico"/>									
+									</h:selectOneMenu>
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label for="formCliente:cliente_cidade">#{resources['label.global.cidade']}</label>  
+									<h:selectOneMenu value="#{servicoController.servicoTO.servicoLocal.cidade.id}" id="cliente_cidade" styleClass="form-control">
+										<f:selectItems value="#{combosBean.getListaCidadePorUf(servicoController.servicoTO.servicoLocal.uf)}" var="cidade" 
+										itemValue="#{cidade.id}" itemLabel="#{cidade.nome}" />										
+									</h:selectOneMenu>
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label for="formCliente:sede_servico">#{resources['label.global.sede']}</label>  
+									<h:selectBooleanCheckbox id="sede_servico" value="#{servicoController.servicoTO.servicoLocal.sede}" styleClass="form-control" />
+								</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label />
+									<h:commandButton  value="#{resources['label.global.adicionarlocal']}" styleClass="form-control">
+										<f:ajax event="click" render="formServico" listener="#{servicoController.adicionarServicoLocal()}" execute="formServico" />
+									</h:commandButton>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.locais']}</strong>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
+								<h:dataTable value="#{servicoController.servicoTO.servico.locais}" var="local" id="idDataTableLocais" styleClass="table">
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.nome']}
+										</f:facet>
+										#{local.cidade.nome}
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.uf']} 
+										</f:facet>
+										#{local.uf.sigla}
+									</h:column>
+									<h:column>
+										<f:facet name="header">
+											#{resources['label.global.sede']}
+										</f:facet>
+										#{local.sede?resources['label.global.sim']:resources['label.global.nao']}
+									</h:column>
+									<h:column>
+										<h:commandButton value="#{resources['label.global.excluir']}"  styleClass="btn btn-success">
+											<f:ajax event="click" render="formServico" listener="#{servicoController.removerServicoLocal(local)}" execute="formServico" />
+										</h:commandButton>
+									</h:column>
+								</h:dataTable>
+							</div>
+						</div>
+					</div>
+				</div>
+			 
+				
+ 				<div class="card">
+					<div class="card-block">
+							<div class="row">
+								<div class="col-sm-12">
+									
+
+								<div class="form-group">
+									<h:commandLink action="#{servicoController.gravar()}" styleClass="btn btn-sm btn-success">
+										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
+									</h:commandLink>	
+	
+								</div>
+
+
+
+
+
+
+								</div>
+							</div>
+					</div>	
+				</div>	
+
+			</h:form>
+
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+	</ui:define>
+
+
+</ui:composition>

@@ -8,19 +8,13 @@
 		<nav class="sidebar-nav">
 				<ul class="nav">
 				
-					<li class="nav-title text-center"><span>#{resources['label.global.menu']}</span></li>
-						<li class="nav-item">
-							<a class="nav-link #{menu eq 'home'?'active':''}" href="#{request.contextPath}/home">
-								<i class="icon-people"></i> #{resources['label.global.home']}
-							</a>
-						</li>
 			<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO') 
-										or securityBean.isPermissao('SUPORTE_NIVEL1') or securityBean.isPermissao('SUPORTE_NIVEL2')}">													
-					<li class="nav-title text-center"><span>#{resources['label.global.cadastro']}</span></li>
+										or securityBean.isPermissao('SUPORTE_NIVEL1') or securityBean.isPermissao('SUPORTE_NIVEL2')}">
+			            																		
 					
 					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO') 
 										or securityBean.isPermissao('SUPORTE_NIVEL1') or securityBean.isPermissao('SUPORTE_NIVEL2')}">
-										
+						<li class="nav-title text-center"><span>#{resources['label.global.menu']}</span></li>					
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'cliente'?'active':''}" href="#{request.contextPath}/cliente">
 								<i class="icon-people"></i> #{resources['label.global.cliente']}
@@ -57,22 +51,42 @@
 							</a>
 						</li>
 					</ui:fragment>
-					
-					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">	
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">										
 						<li class="nav-item">
-							<a class="nav-link #{menu eq 'parametro'?'active':''}" href="#{request.contextPath}/parametro/editar/1">
-								<i class="icon-list"></i> #{resources['label.global.parametros']} 
+							<a class="nav-link #{menu eq 'servico'?'active':''}" href="#{request.contextPath}/servico">
+								<i class="icon-tag"></i> #{resources['label.global.servico']} 
 							</a>
 						</li>
-					</ui:fragment>	
+					</ui:fragment>
+					
 					
 					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO')}">
 						<li class="nav-title text-center"><span>#{resources['label.global.financeiro']}</span></li>
+						
 						<li class="nav-item">
-							<a class="nav-link #{menu eq 'contacorrente'?'active':''}" href="#{request.contextPath}/contacorrente">
-								<i class="icon-envelope-open"></i> #{resources['label.global.contacorrente']} 
+							<a class="nav-link #{menu eq 'movimentacaofinanceira'?'active':''}" href="#{request.contextPath}/movimentacaofinanceira">
+								<i class="icon-directions"></i> #{resources['label.global.movimentacaofinanceira']} 
 							</a>
 						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link #{menu eq 'contacorrente'?'active':''}" href="#{request.contextPath}/contacorrente">
+								<i class="icon-drawer"></i> #{resources['label.global.contacorrente']} 
+							</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link #{menu eq 'centrocusto'?'active':''}" href="#{request.contextPath}/centrocusto">
+								<i class="icon-envelope-letter"></i> #{resources['label.global.centrocusto']} 
+							</a>
+						</li>
+						
+						<li class="nav-item">
+							<a class="nav-link #{menu eq 'custofixo'?'active':''}" href="#{request.contextPath}/custofixo">
+								<i class="icon-wallet"></i> #{resources['label.global.custofixo']} 
+							</a>
+						</li>
+						
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'remessa'?'active':''}" href="#{request.contextPath}/remessa">
 								<i class="icon-action-redo"></i> #{resources['label.global.remessa']} 
@@ -97,6 +111,13 @@
 									<i class="icon-shuffle"></i> #{resources['label.global.snmptools']} 
 								</a>
 							</li>
+							<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">	
+								<li class="nav-item">
+									<a class="nav-link #{menu eq 'parametro'?'active':''}" href="#{request.contextPath}/parametro/editar/1">
+										<i class="icon-list"></i> #{resources['label.global.parametros']} 
+									</a>
+								</li>
+							</ui:fragment>	
 					</ui:fragment>		
 					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">
 						<li class="nav-item">

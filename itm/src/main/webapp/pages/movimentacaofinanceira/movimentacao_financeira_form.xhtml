@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
+		<li class="breadcrumb-item">#{resources['label.global.movimentacaofinanceira']}</li>
+	</ui:define>
+	<ui:param name="menu" value="movimentacaofinanceira" />
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formMovimentacaoFinanceira">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.cadastromovimentacaofinanceira']}</strong>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formMovimentacaoFinanceira:centrocusto_movimentacaoFinanceira">#{resources['label.global.tipo']}</label>
+									<h:selectOneMenu value="#{movimentacaoFinanceiraController.movimentacaoFinanceiraTO.movimentacaoFinanceira.tipo}"  styleClass="form-control">
+											<f:selectItems value="#{combosBean.listaTipoMovimentacaoFinanceira}" var="tipoMovimentacao" itemValue="#{tipoMovimentacao}" itemLabel="#{tipoMovimentacao.name}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formMovimentacaoFinanceira:centrocusto_movimentacaoFinanceira">#{resources['label.global.centrocusto']}</label>
+									<h:selectOneMenu value="#{movimentacaoFinanceiraController.movimentacaoFinanceiraTO.movimentacaoFinanceira.centroCusto.id}"
+										id="centrocusto_movimentacaoFinanceira" styleClass="form-control">
+										<f:selectItems value="#{combosBean.listaCentroCusto}" var="centrocusto" itemValue="#{centrocusto.id}" itemLabel="#{centrocusto.codigo} - #{centrocusto.nome}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formMovimentacaoFinanceira:nome_movimentacaoFinanceira">#{resources['label.global.nome']}</label>
+									<h:inputText
+										value="#{movimentacaoFinanceiraController.movimentacaoFinanceiraTO.movimentacaoFinanceira.nome}"
+										id="nome_movimentacaoFinanceira" styleClass="form-control" />
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formMovimentacaoFinanceira:valor_movimentacaoFinanceira">#{resources['label.global.valor']}</label>
+									<itm:moeda
+										value="#{movimentacaoFinanceiraController.movimentacaoFinanceiraTO.movimentacaoFinanceira.valor}"
+										id="valor_movimentacaoFinanceira" styleClass="form-control" />
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<h:commandLink action="#{movimentacaoFinanceiraController.gravar()}"
+										styleClass="btn btn-sm btn-success">
+										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
+									</h:commandLink>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+
+
+</ui:composition>

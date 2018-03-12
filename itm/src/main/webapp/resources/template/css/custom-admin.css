@@ -146,3 +146,16 @@ body {
 form-control {
 	font-size: 1.175rem !important;
 }
+
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+    background-color: #20a8d8;
+    border-color: #337ab7;
+}
+
+
+.sidebar .nav-link:hover, .sidebar .navbar .dropdown-toggle:hover, .navbar .sidebar .dropdown-toggle:hover {
+/*     color: #2c3334;  */
+/*     background: #2c3334; */
+	background-color: #20a8d8;
+    border-color: #337ab7;
+}

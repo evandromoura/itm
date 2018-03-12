@@ -7,8 +7,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Produto;
+import br.com.trixti.itm.entity.Servico;
 import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.service.produto.ProdutoService;
 import br.com.trixti.itm.to.ProdutoTO;
@@ -49,24 +51,28 @@ public class ProdutoController extends AbstractController<Produto> implements Se
 	
 		
 	
-	public void gravar(){
+	public String gravar(){
 		if(getProdutoTO().getProduto().getId() == null){
 			produtoService.incluir(getProdutoTO().getProduto());
 		}else{
 			produtoService.alterar(getProdutoTO().getProduto());
 		}
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cadastrado com Sucesso", "O Registro foi incluido na base"));
+		return "sucesso";
 	}
 	
 	private void inicializarAlterar(Integer id){
 		getProdutoTO().setProduto(produtoService.recuperar(id));
+		if(getProdutoTO().getProduto().getServico() == null || 
+				getProdutoTO().getProduto().getServico().getId() == null){
+			getProdutoTO().getProduto().setServico(new Servico());
+		}
 	}
 	
 	private void inicializarIncluir(){
 		getProdutoTO().setProduto(new Produto());
+		getProdutoTO().getProduto().setServico(new Servico());
 	}
-	
-	
 	
 
 	public ProdutoTO getProdutoTO() {

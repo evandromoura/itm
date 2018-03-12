@@ -71,6 +71,9 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="porta_smtp")
 	private Integer portaSmtp;
 	
+	@Column(name="from_email")
+	private String fromEmail;
+	
 	@Column(name="login_email")
 	private String loginEmail;
 	
@@ -90,6 +93,15 @@ public class Parametro implements java.io.Serializable {
 	
 	@Column(name="chave_mestra")
 	private String chaveMestra;
+
+	
+	@Column(name="use_tls")
+	private boolean useTls;
+	
+	@Column(name="auth_email")
+	private boolean authEmail;
+	
+	
 	
 	public Integer getId() {
 		return id;
@@ -194,6 +206,14 @@ public class Parametro implements java.io.Serializable {
 	public void setSmtp(String smtp) {
 		this.smtp = smtp;
 	}
+	
+	public String getFromEmail() {
+		return fromEmail;
+	}
+
+	public void setFromEmail(String fromEmail) {
+		this.fromEmail = fromEmail;
+	}
 
 	public String getLoginEmail() {
 		return loginEmail;
@@ -265,6 +285,22 @@ public class Parametro implements java.io.Serializable {
 
 	public void setChaveMestra(String chaveMestra) {
 		this.chaveMestra = chaveMestra;
+	}
+
+	public boolean isUseTls() {
+		return useTls;
+	}
+
+	public void setUseTls(boolean useTls) {
+		this.useTls = useTls;
+	}
+
+	public boolean isAuthEmail() {
+		return authEmail;
+	}
+
+	public void setAuthEmail(boolean authEmail) {
+		this.authEmail = authEmail;
 	}
 
 }

@@ -193,8 +193,8 @@
 							<h:dataTable var="cliente" id="dataTableClientes"
 								value="#{clienteController.clienteTO.clientes}" style="width:100%" 
 								styleClass="table table-striped" binding="#{tabela}">
-								<h:column>
-									<f:attribute name="style" value="visible-md visible-lg" />
+								<h:column >
+									<f:passThroughAttribute name="class" value="visible-md visible-lg" />
 									<f:facet name="header">#</f:facet>
 									<h:outputText value="#{tabela.rowIndex + 1}" />
 								</h:column>
@@ -208,6 +208,7 @@
 									</a>
 								</h:column>
 								<h:column>
+									<f:passThroughAttribute name="class" value="visible-md visible-lg" /> 
 									<f:facet name="header">#{resources['label.global.cpfCnpj']}</f:facet>
 									<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.cpfCnpj}</a>
 								</h:column>
@@ -215,10 +216,14 @@
 								<h:column><f:facet name="header">#{resources['label.global.nome']}</f:facet>
 								<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.nome}</a></h:column>
 								
-								<h:column><f:facet name="header">#{resources['label.global.email']}</f:facet>
+								<h:column>
+								<f:passThroughAttribute name="class" value="visible-md visible-lg" />
+								<f:facet name="header">#{resources['label.global.email']}</f:facet>
 								<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.email}</a></h:column>
 								
-								<h:column><f:facet name="header">#{resources['label.global.celular']}</f:facet>
+								<h:column>
+								<f:passThroughAttribute name="class" value="visible-md visible-lg" />
+								<f:facet name="header">#{resources['label.global.celular']}</f:facet>
 								<a href="#{request.contextPath}/cliente/view/#{cliente.id}">#{cliente.telefoneCelular}</a></h:column>
 								
 								<h:column><f:facet name="header">#{resources['label.global.acoes']}</f:facet>

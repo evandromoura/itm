@@ -47,4 +47,75 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#pages#tag#tag_list.xhtml"
   PATH="/pages/tag/tag_list.xhtml" SHAPE="240,401,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#centrocusto#centro_custo_form.xhtml"
+  PATH="/pages/centrocusto/centro_custo_form.xhtml" SHAPE="32,497,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#centrocusto#centro_custo_form.xhtml:0"
+   NAME="item" PATH="/pages/centrocusto/centro_custo_form.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso::#pages#centrocusto#centro_custo_list.xhtml"
+    NAME="output" PATH="/pages/centrocusto/centro_custo_list.xhtml"
+    TARGET="rules:#pages#centrocusto#centro_custo_list.xhtml"
+    TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#centrocusto#centro_custo_list.xhtml"
+  PATH="/pages/centrocusto/centro_custo_list.xhtml" SHAPE="240,513,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#custofixo#custo_fixo_list.xhtml"
+  PATH="/pages/custofixo/custo_fixo_list.xhtml" SHAPE="240,625,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#custofixo#custo_fixo_form.xhtml"
+  PATH="/pages/custofixo/custo_fixo_form.xhtml" SHAPE="32,609,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#custofixo#custo_fixo_form.xhtml:0"
+   NAME="item" PATH="/pages/custofixo/custo_fixo_form.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso::#pages#custofixo#custo_fixo_list.xhtml" NAME="output"
+    PATH="/pages/custofixo/custo_fixo_list.xhtml"
+    TARGET="rules:#pages#custofixo#custo_fixo_list.xhtml"
+    TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#pages#movimentacaofinanceira#movimentacao_financeira_form.xhtml"
+  PATH="/pages/movimentacaofinanceira/movimentacao_financeira_form.xhtml"
+  SHAPE="32,721,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM
+   ID="rules:#pages#movimentacaofinanceira#movimentacao_financeira_form.xhtml:0"
+   NAME="item"
+   PATH="/pages/movimentacaofinanceira/movimentacao_financeira_form.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso::#pages#movimentacaofinanceira#movimentacao_financeira_list.xhtml"
+    NAME="output"
+    PATH="/pages/movimentacaofinanceira/movimentacao_financeira_list.xhtml"
+    TARGET="rules:#pages#movimentacaofinanceira#movimentacao_financeira_list.xhtml"
+    TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#pages#movimentacaofinanceira#movimentacao_financeira_list.xhtml"
+  PATH="/pages/movimentacaofinanceira/movimentacao_financeira_list.xhtml"
+  SHAPE="240,737,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#servico#servico_form.xhtml"
+  PATH="/pages/servico/servico_form.xhtml" SHAPE="32,833,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#servico#servico_form.xhtml:0"
+   NAME="item" PATH="/pages/servico/servico_form.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="sucesso::#pages#servico#servico_list.xhtml"
+    NAME="output" PATH="/pages/servico/servico_list.xhtml"
+    TARGET="rules:#pages#servico#servico_list.xhtml" TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="cancelar::#pages#servico#servico_list.xhtml"
+    NAME="output1" PATH="/pages/servico/servico_list.xhtml"
+    TARGET="rules:#pages#servico#servico_list.xhtml" TITLE="cancelar" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#servico#servico_list.xhtml"
+  PATH="/pages/servico/servico_list.xhtml" SHAPE="272,849,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#produto#produto_form.xhtml"
+  PATH="/pages/produto/produto_form.xhtml" SHAPE="32,977,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#produto#produto_form.xhtml:0"
+   NAME="item" PATH="/pages/produto/produto_form.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="sucesso::#pages#produto#produto_list.xhtml"
+    NAME="output" PATH="/pages/produto/produto_list.xhtml"
+    TARGET="rules:#pages#produto#produto_list.xhtml" TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#produto#produto_list.xhtml"
+  PATH="/pages/produto/produto_list.xhtml" SHAPE="240,993,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

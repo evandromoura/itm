@@ -3,6 +3,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
 	template="/WEB-INF/templates/default.xhtml">
 
 
@@ -20,37 +21,51 @@
 				
 						
 						<div class="row">
-							<div class="col-sm-3">
+							<div class="col-sm-4">
 								<div class="form-group">
 									<label for="formProduto:nome_produto">#{resources['label.global.nome']}</label> 
 									<h:inputText value="#{produtoController.produtoTO.produto.nome}" id="nome_produto" styleClass="form-control" />
 								</div>
 							</div>
 				
-				
-				
-				
-						
-			
-						
-							<div class="col-sm-3">		
+							
+							<div class="col-sm-6">		
 								<div class="form-group">
-									<label for="formProduto:valor_produto">#{resources['label.global.valor']}</label> 
-									<h:inputText value="#{produtoController.produtoTO.produto.valor}" id="valor_produto" styleClass="form-control" />
-									<!-- CRIAR MASCARA DE MOEDA -->
+									<label for="formProduto:servico_produto">#{resources['label.global.servico']}</label> 
+									<h:selectOneMenu value="#{produtoController.produtoTO.produto.servico.id}" styleClass="form-control" id="servico_produto">
+										<f:selectItems value="#{combosBean.listaServico}" var="servico" itemValue="#{servico.id}" itemLabel="#{servico.fistel} / #{servico.tipo.codigo} - #{servico.tipo.descricao}" > </f:selectItems>
+									</h:selectOneMenu>
 								</div>
 							</div>
-							
-							
-						    <div class="col-sm-3">		
+							<div class="col-sm-2">		
 								<div class="form-group">
 									<label for="formProduto:tipo_produto">#{resources['label.global.tipo']}</label> 
-									<h:inputText value="#{produtoController.produtoTO.produto.tipo}" id="tipo_produto" styleClass="form-control" />
+									<h:selectOneMenu value="#{produtoController.produtoTO.produto.tipo}" styleClass="form-control" id="tipo_produto">
+										<f:selectItems value="#{combosBean.tipoProdutos}" var="tipoProduto" itemLabel="#{tipoProduto.name}" itemValue="#{tipoProduto}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="col-sm-2">		
+								<div class="form-group">
+									<label for="formProduto:valor_produto">#{resources['label.global.valor']}</label> 
+									<itm:moeda value="#{produtoController.produtoTO.produto.valor}" id="valor_produto" styleClass="form-control" />
+								</div>
+							</div>
+						    
+							
+							<div class="col-sm-2">		
+								<div class="form-group">
+									<label for="formProduto:upload_produto">#{resources['label.global.upload']}</label> 
+									<itm:numero value="#{produtoController.produtoTO.produto.upload}" id="upload_produto" styleClass="form-control" />
 								</div>
 							</div>
 							
-							
-							
+							<div class="col-sm-2">		
+								<div class="form-group">
+									<label for="formProduto:download_produto">#{resources['label.global.download']}</label> 
+									<itm:numero value="#{produtoController.produtoTO.produto.download}" id="download_produto" styleClass="form-control" />
+								</div>
+							</div>
 							</div>
 			
 						

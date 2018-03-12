@@ -115,6 +115,7 @@
 							var="remessa" styleClass="table table-striped">
 	
 							<h:column>
+								<f:passThroughAttribute name="class" value="visible-md visible-lg" />
 								<f:facet name="header">
 									#{resources['label.global.id']}
 								</f:facet>
@@ -122,6 +123,7 @@
 							</h:column>
 							
 							<h:column>
+								<f:passThroughAttribute name="class" value="visible-md visible-lg" />
 								<f:facet name="header">
 									#{resources['label.global.data']}
 								</f:facet>
@@ -132,18 +134,21 @@
 								</h:outputText>
 							</h:column>
 							<h:column>
+								<f:passThroughAttribute name="class" value="visible-md visible-lg" />
 								<f:facet name="header">
 									#{resources['label.global.identificador']}
 								</f:facet>
 								<h:outputText value="#{remessa.codigo}" />
 							</h:column>
 							<h:column>
+								<f:passThroughAttribute name="class" value="visible-md visible-lg" />
 								<f:facet name="header">
 									#{resources['label.global.banco']}
 								</f:facet>
 								#{remessa.banco}
 							</h:column>
 							<h:column>
+								<f:passThroughAttribute name="class" value="visible-md visible-lg" />
 								<f:facet name="header">
 									#{resources['label.global.status']}
 								</f:facet>
@@ -169,6 +174,7 @@
 							</h:column>
 
 							<h:column>
+								<f:passThroughAttribute name="class" value="visible-md visible-lg" />
 								<f:facet name="header">
 									#{resources['label.global.dataenvio']}
 								</f:facet>
@@ -180,6 +186,7 @@
 							</h:column>
 
 							<h:column>
+								<f:passThroughAttribute name="class" value="visible-md visible-lg" />
 								<f:facet name="header">
 									#{resources['label.global.pagamento']}
 								</f:facet>

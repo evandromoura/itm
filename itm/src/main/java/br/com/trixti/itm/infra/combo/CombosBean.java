@@ -8,21 +8,33 @@ import javax.inject.Named;
 
 import org.jrimum.bopepo.BancosSuportados;
 
+import br.com.trixti.itm.entity.CentroCusto;
+import br.com.trixti.itm.entity.Cidade;
 import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
+import br.com.trixti.itm.entity.Servico;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.Tag;
+import br.com.trixti.itm.entity.TecnologiaEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
+import br.com.trixti.itm.entity.TipoMovimentacaoFinanceira;
+import br.com.trixti.itm.entity.TipoProduto;
+import br.com.trixti.itm.entity.TipoServico;
+import br.com.trixti.itm.entity.Uf;
 import br.com.trixti.itm.enums.PerfilEnum;
 import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
+import br.com.trixti.itm.service.centrocusto.CentroCustoService;
+import br.com.trixti.itm.service.cidade.CidadeService;
 import br.com.trixti.itm.service.contacorrente.ContaCorrenteService;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
 import br.com.trixti.itm.service.grupo.GrupoService;
 import br.com.trixti.itm.service.produto.ProdutoService;
+import br.com.trixti.itm.service.servico.ServicoService;
 import br.com.trixti.itm.service.tag.TagService;
+import br.com.trixti.itm.service.uf.UfService;
 
 @Named
 public class CombosBean {
@@ -32,6 +44,10 @@ public class CombosBean {
 	private @Inject GrupoService grupoService;
 	private @Inject ContaCorrenteService contaCorrenteService;
 	private @Inject TagService tagService;
+	private @Inject CentroCustoService centroCustoService;
+	private @Inject UfService ufService;
+	private @Inject CidadeService cidadeService;
+	private @Inject ServicoService servicoService;
 	
 	public TipoPessoaEnum[] getTipoPessoa(){
 		return TipoPessoaEnum.values();
@@ -39,6 +55,18 @@ public class CombosBean {
 
 	public PerfilEnum[] getPerfis(){
 		return PerfilEnum.values();
+	}
+	
+	public TipoServico[] getTipoServicos(){
+		return TipoServico.values();
+	}
+	
+	public TipoProduto[] getTipoProdutos(){
+		return TipoProduto.values();
+	}
+	
+	public TecnologiaEnum[] getTecnologias(){
+		return TecnologiaEnum.values();
 	}
 	
 	public PerfilEnum[] getPerfis(PerfilEnum perfil){
@@ -57,7 +85,12 @@ public class CombosBean {
 	
    public List<Produto> getListaProduto(){
 	   return produtoService.listar();
-   } 	
+   } 
+   
+   
+   public List<CentroCusto> getListaCentroCusto(){
+	   return centroCustoService.listar();
+   } 
    
    public List<Equipamento> getListaEquipamento(){
 	   return equipamentoService.listar();
@@ -65,6 +98,22 @@ public class CombosBean {
    
    public List<Grupo> getListaGrupo(){
 	   return grupoService.listar();
+   }
+   
+   public List<Servico> getListaServico(){
+	   return servicoService.listar();
+   }
+   
+   public List<Uf> getListaUf(){
+	   return ufService.listar();
+   }
+   
+   public List<Cidade> getListaCidadePorUf(Uf uf){
+	   try{
+		   return cidadeService.pesquisarPorUf(uf);
+	   }catch(Exception e){
+		   return null;
+	   }	   
    }
    
    public List<ContaCorrente> getListaContaCorrente(){
@@ -89,6 +138,10 @@ public class CombosBean {
    
    public List<Tag> getListaTag(){
 	   return tagService.listar();
+   }
+   
+   public TipoMovimentacaoFinanceira[] getListaTipoMovimentacaoFinanceira(){
+	   return TipoMovimentacaoFinanceira.values();
    }
 	
 }
