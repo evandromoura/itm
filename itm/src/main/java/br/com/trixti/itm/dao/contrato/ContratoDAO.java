@@ -125,7 +125,6 @@ public class ContratoDAO extends AbstractDAO<Contrato> {
 				getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("dataCriacao"), periodoTO.getDataFim()))).getResultList();
 	}
 	
-	
 	public Integer qtdContratoCriadoPeriodo(PeriodoTO periodoTO) {
 		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
 		Root<Contrato> root = criteria.from(Contrato.class);
