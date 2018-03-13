@@ -18,6 +18,7 @@ import br.com.trixti.itm.entity.Servico;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.Tag;
 import br.com.trixti.itm.entity.TecnologiaEnum;
+import br.com.trixti.itm.entity.TipoCentroCusto;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.entity.TipoMovimentacaoFinanceira;
 import br.com.trixti.itm.entity.TipoProduto;
@@ -67,6 +68,10 @@ public class CombosBean {
 	
 	public TecnologiaEnum[] getTecnologias(){
 		return TecnologiaEnum.values();
+	}
+	
+	public TipoCentroCusto[] getTipoCentroCustos(){
+		return TipoCentroCusto.values();
 	}
 	
 	public PerfilEnum[] getPerfis(PerfilEnum perfil){

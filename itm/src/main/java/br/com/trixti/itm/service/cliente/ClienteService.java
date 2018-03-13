@@ -1,6 +1,7 @@
 package br.com.trixti.itm.service.cliente;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,9 @@ import br.com.trixti.itm.dao.cliente.ClienteDAO;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
+import br.com.trixti.itm.entity.TecnologiaEnum;
+import br.com.trixti.itm.entity.Uf;
+import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.clientetag.ClienteTagService;
@@ -58,8 +62,6 @@ public class ClienteService extends AbstractService<Cliente> {
 		super.incluir(entidade);
 //		atualizarTags(entidade);
 	}
-	
-	
 	
 	
 	@Override
@@ -147,7 +149,32 @@ public class ClienteService extends AbstractService<Cliente> {
 		return clienteDAO.qtdClienteAtivo();
 	}
 	
+	public Integer qtdClienteUfTipoPessoaIntervaloDownload(Uf uf,TipoPessoaEnum tipoPessoa, Integer minimoDownload,Integer maximoDownload) {
+		return clienteDAO.qtdClienteUfTipoPessoaIntervaloDownload(uf, tipoPessoa, minimoDownload, maximoDownload);			
+	}
 	
+	public Integer qtdClientePorTecnologia(TecnologiaEnum tecnologiaEnum) {
+		return clienteDAO.qtdClientePorTecnologia(tecnologiaEnum);
+	}
 	
+	public Integer qtdClientePorTecnologiaIntervaloDownload(TecnologiaEnum tecnologiaEnum,Integer minimoDownload,Integer maximoDownload) {
+		return clienteDAO.qtdClientePorTecnologiaIntervaloDownload(tecnologiaEnum, minimoDownload, maximoDownload);
+	}
+	
+	public BigDecimal menorPrecoUfTipoPessoaIntervaloDownload(Uf uf,TipoPessoaEnum tipoPessoa, Integer minimoDownload,Integer maximoDownload,boolean dedicado) {
+		return clienteDAO.menorPrecoUfTipoPessoaIntervaloDownload(uf, tipoPessoa, minimoDownload, maximoDownload, dedicado);
+	}
+	
+	public BigDecimal maiorPrecoUfTipoPessoaIntervaloDownload(Uf uf,TipoPessoaEnum tipoPessoa, Integer minimoDownload,Integer maximoDownload,boolean dedicado) {
+		return clienteDAO.maiorPrecoUfTipoPessoaIntervaloDownload(uf, tipoPessoa, minimoDownload, maximoDownload, dedicado);
+	}
+	
+	public Integer qtdClienteTipoPessoa(TipoPessoaEnum tipoPessoa) {
+		return clienteDAO.qtdClienteTipoPessoa(tipoPessoa);
+	}
+	
+	public BigDecimal somarTodosContratos(){
+		return clienteDAO.somarTodosContratos();
+	}
 
 }

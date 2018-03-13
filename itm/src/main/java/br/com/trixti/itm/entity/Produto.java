@@ -62,6 +62,8 @@ public class Produto implements java.io.Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_servico")
 	private Servico servico;
+	
+	private boolean dedicado;
 
 	public Produto() {
 	}
@@ -161,6 +163,14 @@ public class Produto implements java.io.Serializable {
 
 	public void setServico(Servico servico) {
 		this.servico = servico;
+	}
+
+	public boolean isDedicado() {
+		return dedicado;
+	}
+
+	public void setDedicado(boolean dedicado) {
+		this.dedicado = dedicado;
 	}
 	
 

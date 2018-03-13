@@ -1,5 +1,7 @@
 package br.com.trixti.itm.service.custofixo;
 
+import java.math.BigDecimal;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -17,6 +19,10 @@ public class CustoFixoService extends AbstractService<CustoFixo> {
 	@Override
 	public AbstractDAO<CustoFixo> getDAO() {
 		return custoFixoDAO;
+	}
+
+	public BigDecimal somarTodos() {
+		return custoFixoDAO.somarTodos();
 	}
 
 }

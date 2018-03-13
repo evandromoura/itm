@@ -3,14 +3,12 @@ package br.com.trixti.itm.entity;
 // Generated 22/02/2017 14:34:07 by Hibernate Tools 4.3.4.Final
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -37,9 +35,6 @@ public class ArquivoSici implements java.io.Serializable {
 	
 	private String xml;
 	
-	@OneToMany(mappedBy="arquivoSici")
-	private List<MovimentacaoFinanceira> movimentacoes;
-
 	public Integer getId() {
 		return id;
 	}
@@ -62,14 +57,6 @@ public class ArquivoSici implements java.io.Serializable {
 
 	public void setData(Date data) {
 		this.data = data;
-	}
-
-	public List<MovimentacaoFinanceira> getMovimentacoes() {
-		return movimentacoes;
-	}
-
-	public void setMovimentacoes(List<MovimentacaoFinanceira> movimentacoes) {
-		this.movimentacoes = movimentacoes;
 	}
 
 	public String getXml() {

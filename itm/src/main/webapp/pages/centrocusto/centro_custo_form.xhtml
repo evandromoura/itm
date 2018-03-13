@@ -38,6 +38,15 @@
 										id="nome_centroCusto" styleClass="form-control" />
 								</div>
 							</div>
+							
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formCentroCusto:tipo_centroCusto">#{resources['label.global.tipo']}</label>
+									<h:selectOneMenu value="#{centroCustoController.centroCustoTO.centroCusto.tipo}" styleClass="form-control" id="tipo_centroCusto"> 
+										<f:selectItems value="#{combosBean.tipoCentroCustos}" var="tipoCentroCusto" itemValue="#{tipoCentroCusto}" itemLabel="#{tipoCentroCusto.name}" />									
+									</h:selectOneMenu>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

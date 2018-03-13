@@ -43,7 +43,6 @@ public class ContratoProduto implements java.io.Serializable {
 	@JoinColumn(name = "id_produto")
 	private Produto produto;
 	
-	
 	private BigDecimal valor;
 	
 	@Column(name="valor_base")

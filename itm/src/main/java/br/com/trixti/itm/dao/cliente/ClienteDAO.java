@@ -20,8 +20,13 @@ import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteTag;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoProduto;
+import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
+import br.com.trixti.itm.entity.TecnologiaEnum;
+import br.com.trixti.itm.entity.Uf;
+import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.to.ClienteWSTO;
+import br.com.trixti.itm.util.UtilData;
 
 
 @Stateless
@@ -222,6 +227,87 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		Root<Cliente> root = criteria.from(Cliente.class);
 		criteria.select(getCriteriaBuilder().count(root));
 		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+	
+	
+	public Integer qtdClienteTipoPessoa(TipoPessoaEnum tipoPessoa) {
+		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		criteria.select(getCriteriaBuilder().count(root)).where(getCriteriaBuilder().equal(root.get("tipoPessoa"), tipoPessoa));
+		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+	
+	
+	public Integer qtdClienteUfTipoPessoaIntervaloDownload(Uf uf,TipoPessoaEnum tipoPessoa, Integer minimoDownload,Integer maximoDownload) {
+		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		Join<ContratoProduto,Produto> join = root.join("contratos",JoinType.LEFT)
+				.join("contratoProdutos",JoinType.LEFT).join("produto",JoinType.LEFT);
+		criteria.select(getCriteriaBuilder().count(root)).where(
+				 getCriteriaBuilder().equal(root.get("tipoPessoa"), tipoPessoa),
+				 getCriteriaBuilder().equal(root.get("uf"), uf),
+				 getCriteriaBuilder().greaterThanOrEqualTo(join.<Integer>get("download"), minimoDownload)
+				,getCriteriaBuilder().lessThanOrEqualTo(join.<Integer>get("download"), maximoDownload));
+		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+	
+	
+	
+	public BigDecimal menorPrecoUfTipoPessoaIntervaloDownload(Uf uf,TipoPessoaEnum tipoPessoa, Integer minimoDownload,Integer maximoDownload,boolean dedicado) {
+		CriteriaQuery<BigDecimal> criteria = getCriteriaBuilder().createQuery(BigDecimal.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		Join<ContratoProduto,Produto> join = root.join("contratos",JoinType.LEFT)
+				.join("contratoProdutos",JoinType.LEFT).join("produto",JoinType.LEFT);
+		criteria.select(getCriteriaBuilder().min(root.join("contratos").join("contratoProdutos").<BigDecimal>get("valor"))).where(
+				getCriteriaBuilder().equal(root.get("tipoPessoa"), tipoPessoa),
+				getCriteriaBuilder().equal(root.get("uf"), uf),
+				getCriteriaBuilder().equal(join.get("dedicado"), dedicado),
+				getCriteriaBuilder().greaterThanOrEqualTo(join.<Integer>get("download"), minimoDownload)
+				,getCriteriaBuilder().lessThanOrEqualTo(join.<Integer>get("download"), maximoDownload));
+		return getManager().createQuery(criteria).getSingleResult();
+	}
+	
+	public BigDecimal maiorPrecoUfTipoPessoaIntervaloDownload(Uf uf,TipoPessoaEnum tipoPessoa, Integer minimoDownload,Integer maximoDownload,boolean dedicado) {
+		CriteriaQuery<BigDecimal> criteria = getCriteriaBuilder().createQuery(BigDecimal.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		Join<ContratoProduto,Produto> join = root.join("contratos",JoinType.LEFT)
+				.join("contratoProdutos",JoinType.LEFT).join("produto",JoinType.LEFT);
+		criteria.select(getCriteriaBuilder().max(root.join("contratos").join("contratoProdutos").<BigDecimal>get("valor"))).where(
+				 getCriteriaBuilder().equal(root.get("tipoPessoa"), tipoPessoa),
+				 getCriteriaBuilder().equal(root.get("uf"), uf),
+				 getCriteriaBuilder().equal(join.get("dedicado"), dedicado),
+				 getCriteriaBuilder().greaterThanOrEqualTo(join.<Integer>get("download"), minimoDownload)
+				,getCriteriaBuilder().lessThanOrEqualTo(join.<Integer>get("download"), maximoDownload));
+		return getManager().createQuery(criteria).getSingleResult();
+	}
+
+	public Integer qtdClientePorTecnologia(TecnologiaEnum tecnologiaEnum) {
+		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		criteria.select(getCriteriaBuilder().count(root)).where(getCriteriaBuilder().equal(root.join("contratos").join("contratoProdutos").get("tecnologia"), tecnologiaEnum));
+		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+	
+	public Integer qtdClientePorTecnologiaIntervaloDownload(TecnologiaEnum tecnologiaEnum,Integer minimoDownload,Integer maximoDownload) {
+		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		Join<ContratoProduto,Produto> join = root.join("contratos",JoinType.LEFT).join("contratoProdutos",JoinType.LEFT);
+		criteria.select(getCriteriaBuilder().count(root)).where(getCriteriaBuilder().equal(join.get("tecnologia"), tecnologiaEnum),
+				 getCriteriaBuilder().greaterThanOrEqualTo(join.join("produto",JoinType.LEFT).<Integer>get("download"), minimoDownload)
+					,getCriteriaBuilder().lessThanOrEqualTo(join.join("produto",JoinType.LEFT).<Integer>get("download"), maximoDownload));
+		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+
+	public BigDecimal somarTodosContratos() {
+		Date dataAtual = new Date();
+		UtilData utilData = new UtilData();
+		CriteriaQuery<BigDecimal> criteria = getCriteriaBuilder().createQuery(BigDecimal.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		Join<ContratoProduto,Produto> join = root.join("contratos",JoinType.LEFT).join("contratoProdutos",JoinType.LEFT);
+		criteria.select(getCriteriaBuilder().sum(join.<BigDecimal>get("valor"))).where(getCriteriaBuilder().isNull(join.get("dataExclusao")),
+				getCriteriaBuilder().greaterThanOrEqualTo(join.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
+				getCriteriaBuilder().lessThanOrEqualTo(join.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0)));
+		return getManager().createQuery(criteria).getSingleResult();
 	}
 	
 

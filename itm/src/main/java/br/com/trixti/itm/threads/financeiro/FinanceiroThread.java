@@ -347,7 +347,7 @@ public class FinanceiroThread {
 		}		 
 	}
 	
-	@Schedule(info = "Gerar-Arquivo-SICI", minute = "*", hour = "*", persistent = false)
+	@Schedule(info = "Gerar-Arquivo-SICI", minute = "*", hour = "*",second="*/10", persistent = false)
 	public void gerarArquivoSici() {
 		ArquivoSici arquivoSici = new ArquivoSici();
 		arquivoSici.setData(new Date());

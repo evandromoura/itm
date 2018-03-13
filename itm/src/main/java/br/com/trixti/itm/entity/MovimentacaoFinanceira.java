@@ -53,10 +53,6 @@ public class MovimentacaoFinanceira implements java.io.Serializable {
 	@Enumerated(EnumType.STRING)
 	private TipoMovimentacaoFinanceira tipo;
 	
-	@NotAudited
-	@ManyToOne
-	@JoinColumn(name="id_arquivo_sici")
-	private ArquivoSici arquivoSici;
 
 	public Integer getId() {
 		return id;
@@ -104,14 +100,6 @@ public class MovimentacaoFinanceira implements java.io.Serializable {
 
 	public void setTipo(TipoMovimentacaoFinanceira tipo) {
 		this.tipo = tipo;
-	}
-
-	public ArquivoSici getArquivoSici() {
-		return arquivoSici;
-	}
-
-	public void setArquivoSici(ArquivoSici arquivoSici) {
-		this.arquivoSici = arquivoSici;
 	}
 	
 

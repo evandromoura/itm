@@ -3,6 +3,8 @@ package br.com.trixti.itm.entity;
 // Generated 22/02/2017 14:34:07 by Hibernate Tools 4.3.4.Final
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,6 +27,10 @@ public class CentroCusto implements java.io.Serializable {
 	
 	private String codigo;
 	private String nome;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoCentroCusto tipo;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -42,6 +48,12 @@ public class CentroCusto implements java.io.Serializable {
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	public TipoCentroCusto getTipo() {
+		return tipo;
+	}
+	public void setTipo(TipoCentroCusto tipo) {
+		this.tipo = tipo;
 	}
 	
 	
