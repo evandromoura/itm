@@ -2,8 +2,11 @@ package br.com.trixti.itm.service.uploadarquivo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -17,6 +20,7 @@ import br.com.trixti.itm.entity.TipoCentroCusto;
 import br.com.trixti.itm.entity.TipoMovimentacaoFinanceira;
 import br.com.trixti.itm.entity.TipoServico;
 import br.com.trixti.itm.entity.Uf;
+import br.com.trixti.itm.enums.SiglaTemplateSiciEnum;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.jaxb.sici.Conteudo;
 import br.com.trixti.itm.jaxb.sici.Indicador;
@@ -29,6 +33,7 @@ import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.custofixo.CustoFixoService;
 import br.com.trixti.itm.service.movimentacaofinanceira.MovimentacaoFinanceiraService;
 import br.com.trixti.itm.service.servico.ServicoService;
+import br.com.trixti.itm.util.UtilData;
 import br.com.trixti.itm.util.UtilEnum;
 import br.com.trixti.itm.util.UtilJaxb;
 
@@ -39,13 +44,15 @@ public class UploadArquivoService {
 	private @Inject ClienteService clienteService;
 	private @Inject CustoFixoService custoFixoService;
 	private @Inject MovimentacaoFinanceiraService movimentacaoFinanceiraService;
+	private Map<Integer,List<SiglaTemplateSiciEnum>> mapaTemplates;
+	private @Inject ValidadorTemplateSici validador;
 
 	public String gerarXml(ArquivoSici arquivoSici) {
 		UtilJaxb utilJaxb = new UtilJaxb();
 		return utilJaxb.marshal(comporUploadArquivoSici());
 
 	}
-
+	
 	private UploadSICI comporUploadArquivoSici() {
 		UploadSICI uploadSICI = new UploadSICI();
 		uploadSICI.setAno(2018);
@@ -85,13 +92,36 @@ public class UploadArquivoService {
 
 	private List<Indicador> comporListIndicadores(Servico servico,List<Uf> listaUf,List<Cidade> listaCidade) {
 		List<Indicador> listaIndicadores = new ArrayList<Indicador>();
+		UtilData utilData = new UtilData();
+		String mes = utilData.getMesCorrente(utilData.subtrairMeses(new Date(), 1));
+		
 		if(servico.getTipo().equals(TipoServico._045)){
-			listaIndicadores.add(comporIndicadorIEM9(servico,listaUf));
-			listaIndicadores.add(comporIndicadorIEM10(servico,listaUf));
-			listaIndicadores.add(comporIndicadorIPL3(servico,listaCidade));
-			listaIndicadores.add(comporIndicadorIEM6());
-			listaIndicadores.add(comporIndicadorIEM7());
-			listaIndicadores.add(comporIndicadorIEM8());
+			
+			
+			
+			if(validador.validar(mes, SiglaTemplateSiciEnum.IEM4)){
+				System.out.println("Validou");
+				
+			}
+			if(validador.validar(mes, SiglaTemplateSiciEnum.IEM9)){
+				listaIndicadores.add(comporIndicadorIEM9(servico,listaUf));
+			}
+			if(validador.validar(mes, SiglaTemplateSiciEnum.IEM10)){
+				listaIndicadores.add(comporIndicadorIEM10(servico,listaUf));
+			}
+			if(validador.validar(mes, SiglaTemplateSiciEnum.IPL3)){
+				listaIndicadores.add(comporIndicadorIPL3(servico,listaCidade));
+			}
+			
+			if(validador.validar(mes, SiglaTemplateSiciEnum.IEM6)){
+				listaIndicadores.add(comporIndicadorIEM6());
+			}
+			if(validador.validar(mes, SiglaTemplateSiciEnum.IEM7)){
+				listaIndicadores.add(comporIndicadorIEM7());
+			}
+			if(validador.validar(mes, SiglaTemplateSiciEnum.IEM8)){
+				listaIndicadores.add(comporIndicadorIEM8());
+			}
 		}
 		return listaIndicadores;
 	}
