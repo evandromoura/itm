@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
+		<li class="breadcrumb-item">#{resources['label.global.custofixo']}</li>
+	</ui:define>
+	
+	<ui:param name="menu" value="custoFixo" />
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formCustoFixo">
+
+
+
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.pesquisar']}</strong> <small>#{resources['label.global.custofixos']}</small>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarCustoFixo:codigo_custoFixo">#{resources['label.global.nome']}</label>
+									<h:inputText
+										value="#{custoFixoController.custoFixoTO.custoFixoPesquisa.nome}"
+										id="codigo_custoFixo" styleClass="form-control" />
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarCustoFixo:nome_custoFixo">#{resources['label.global.valor']}</label>
+									<h:inputText
+										value="#{custoFixoController.custoFixoTO.custoFixoPesquisa.valor}"
+										id="nome_custoFixo" styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+
+								<h:commandLink action="#{custoFixoController.pesquisar()}"
+									styleClass="btn btn-sm btn-primary" id="idBotaoPesquisar">
+									<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
+							</h:commandLink>
+								<a href="#{request.contextPath}/custofixo/novo"
+									class="btn btn-sm btn-success"> <i class="fa fa-user-plus" />
+									#{resources['label.global.novocustofixo']}
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.resultadopesquisa']}</strong>
+					</div>
+					<div class="card-block">
+						<h:dataTable
+							value="#{custoFixoController.custoFixoTO.custoFixos}"
+							var="custoFixo" styleClass="table table-bordered table-striped">
+
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.nome']}
+								</f:facet>
+								#{custoFixo.nome}
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.valor']}
+								</f:facet>
+								<h:outputText value="#{custoFixo.valor}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.centrocusto']}
+								</f:facet>
+								#{custoFixo.centroCusto.codigo} - #{custoFixo.centroCusto.nome}
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.acoes']}
+								</f:facet>
+								<a
+									href="#{request.contextPath}/custofixo/editar/#{custoFixo.id}"
+									class="btn btn-info">#{resources['label.global.editar']}</a>
+								<h:outputText value=" " />
+								<h:commandLink
+									action="#{custoFixoController.excluir(custoFixo)}"
+									styleClass="btn btn-info"
+									value="#{resources['label.global.excluir']}" immediate="true" />
+							</h:column>
+						</h:dataTable>
+					</div>
+				</div>
+
+
+
+			</h:form>
+
+		</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</ui:define>
+
+
+</ui:composition>

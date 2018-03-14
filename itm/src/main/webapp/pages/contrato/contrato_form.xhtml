@@ -107,6 +107,12 @@
 												<h:outputText value="#{contratoProduto.produto.nome}" />
 											</h:column>
 
+											<h:column>
+												<f:facet name="header">#{resources['label.global.tecnologia']}</f:facet>
+												<h:selectOneMenu value="#{contratoProduto.tecnologia}" styleClass="form-control">
+													<f:selectItems value="#{combosBean.tecnologias}"  var="tecnologia" itemValue="#{tecnologia}" itemLabel="#{tecnologia.descricao}"/>
+												</h:selectOneMenu>
+											</h:column>
 
 											<h:column>
 												<f:facet name="header">#{resources['label.global.valorbase']}</f:facet>
@@ -129,6 +135,8 @@
 												<f:facet name="header">#{resources['label.global.datafim']}</f:facet>
 												<itm:data value="#{contratoProduto.dataFim}" styleClass="form-control"/>
 											</h:column>
+											
+											
 
 											<h:column
 												rendered="#{contratoController.contratoTO.contrato.id eq null}">

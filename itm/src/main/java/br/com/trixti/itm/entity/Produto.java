@@ -9,10 +9,14 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -35,7 +39,10 @@ public class Produto implements java.io.Serializable {
 	
 	
 	private String nome;
-	private String tipo;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoProduto tipo;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_inicio", length = 29)
 	private Date dataInicio;
@@ -46,8 +53,17 @@ public class Produto implements java.io.Serializable {
 	
 	private BigDecimal valor;
 	
+	private Integer upload;
+	private Integer download;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "produto")
 	private Set<ContratoProduto> contratoProdutos = new HashSet<ContratoProduto>(0);
+	
+	@ManyToOne
+	@JoinColumn(name="id_servico")
+	private Servico servico;
+	
+	private boolean dedicado;
 
 	public Produto() {
 	}
@@ -56,7 +72,7 @@ public class Produto implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public Produto(Integer id, String nome, String tipo, Date dataInicio, Date dataFim,
+	public Produto(Integer id, String nome, TipoProduto tipo, Date dataInicio, Date dataFim,
 			Set<ContratoProduto> contratoProdutos) {
 		this.id = id;
 		this.nome = nome;
@@ -82,11 +98,11 @@ public class Produto implements java.io.Serializable {
 		this.nome = nome;
 	}
 
-	public String getTipo() {
+	public TipoProduto getTipo() {
 		return this.tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(TipoProduto tipo) {
 		this.tipo = tipo;
 	}
 
@@ -124,5 +140,38 @@ public class Produto implements java.io.Serializable {
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
 	}
+
+	public Integer getUpload() {
+		return upload;
+	}
+
+	public void setUpload(Integer upload) {
+		this.upload = upload;
+	}
+
+	public Integer getDownload() {
+		return download;
+	}
+
+	public void setDownload(Integer download) {
+		this.download = download;
+	}
+
+	public Servico getServico() {
+		return servico;
+	}
+
+	public void setServico(Servico servico) {
+		this.servico = servico;
+	}
+
+	public boolean isDedicado() {
+		return dedicado;
+	}
+
+	public void setDedicado(boolean dedicado) {
+		this.dedicado = dedicado;
+	}
+	
 
 }

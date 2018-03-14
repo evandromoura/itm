@@ -34,7 +34,7 @@ public class ProdutoDAO extends AbstractDAO<Produto> {
 			predicados.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("nome")), "%"+produto.getNome().toLowerCase()+"%"));
 		}
 		if(produto.getTipo() != null){
-			predicados.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("tipo")), "%"+produto.getTipo().toLowerCase()+"%"));
+			predicados.add(getCriteriaBuilder().like(getCriteriaBuilder().lower(root.<String>get("tipo")), "%"+produto.getTipo().getName().toLowerCase()+"%"));
 		}
 		return (Predicate[]) predicados.toArray(new Predicate[predicados.size()]);
 	}

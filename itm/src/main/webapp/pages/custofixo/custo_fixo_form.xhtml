@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
+	template="/WEB-INF/templates/default.xhtml">
+
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
+		<li class="breadcrumb-item">#{resources['label.global.custofixo']}</li>
+	</ui:define>
+	
+	<ui:param name="menu" value="custofixo" />
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formCustoFixo">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.cadastrocustofixo']}</strong>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formCustoFixo:nome_custoFixo">#{resources['label.global.nome']}</label>
+									<h:inputText
+										value="#{custoFixoController.custoFixoTO.custoFixo.nome}"
+										id="nome_custoFixo" styleClass="form-control" />
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formCustoFixo:valor_custoFixo">#{resources['label.global.valor']}</label>
+									<itm:moeda
+										value="#{custoFixoController.custoFixoTO.custoFixo.valor}"
+										id="valor_custoFixo" styleClass="form-control" />
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formCustoFixo:datainicio_custoFixo">#{resources['label.global.datainicio']}</label>
+									<itm:data value="#{custoFixoController.custoFixoTO.custoFixo.dataInicio}" id="datainicio_custoFixo" styleClass="form-control"/>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formCustoFixo:datainicio_custoFixo">#{resources['label.global.datafim']}</label>
+									<itm:data value="#{custoFixoController.custoFixoTO.custoFixo.dataFim}" id="datafim_custoFixo" styleClass="form-control"/>
+								</div>
+							</div>
+								
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="formCustoFixo:centrocusto_custoFixo">#{resources['label.global.centrocusto']}</label>
+									<h:selectOneMenu value="#{custoFixoController.custoFixoTO.custoFixo.centroCusto.id}"
+										id="centrocusto_custoFixo" styleClass="form-control">
+										<f:selectItems value="#{combosBean.listaCentroCusto}" var="centrocusto" itemValue="#{centrocusto.id}" itemLabel="#{centrocusto.codigo} - #{centrocusto.nome}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<h:commandLink action="#{custoFixoController.gravar()}"
+										styleClass="btn btn-sm btn-success">
+										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
+									</h:commandLink>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+
+
+</ui:composition>

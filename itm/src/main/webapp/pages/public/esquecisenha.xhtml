@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
+	template="/WEB-INF/templates/public/default.xhtml">
+
+
+	<ui:define name="corpo">
+
+		<div></div>
+
+
+
+		<div class="container">
+
+			<h:form id="idFormPrimeiroAcesso">
+				<div class="modal-body">
+					​
+					<p class="h6">Para utilizar todos os serviços online do ITM é necessário confirmar os dados abaixo e criar sua senha.</p>
+
+					<h:messages showSummary="true" showDetail="false"
+						infoClass="alert alert-success" errorClass="alert alert-danger"
+						layout="list" style="width:96%" />
+
+					<h:inputText id="idEmailPrimeiroAcesso"
+						value="#{loginController.loginTO.cliente.email}"
+						styleClass="form-control">
+						<f:ajax event="blur"
+							listener="#{loginController.recuperarCliente}" execute="@this"
+							render="idFormPrimeiroAcesso" />
+						<f:passThroughAttribute name="placeholder"
+							value="#{resources['label.global.informeemail']}" />
+					</h:inputText>
+					<br />
+					<h:inputSecret value="#{loginController.loginTO.cliente.senha}"
+						styleClass="form-control">
+						<f:passThroughAttribute name="placeholder"
+							value="#{resources['label.global.informesenha']}" />
+					</h:inputSecret>
+
+
+
+
+				</div>
+				<div class="modal-footer">
+					<h:commandLink action="#{loginController.gravarCliente}"
+						value="Cadastrar" styleClass="btn btn-primary active mt-1" />
+				</div>
+			</h:form>
+		</div>
+
+		<br />
+		<div class="card">
+
+
+			<!-- publicidade -->
+			<div id="carouselExampleSlidesOnly" class="carousel slide"
+				data-ride="carousel">
+				<div class="carousel-inner" role="listbox">
+					<div class="carousel-item active">
+						<img class="d-block img-fluid"
+							src="#{request.contextPath}/resources/template/img/pub.png"
+							alt="First slide" />
+					</div>
+					<div class="carousel-item">
+						<img class="d-block img-fluid"
+							src="#{request.contextPath}/resources/template/img/Fotolia_186457545_Subscription_Monthly_M.jpg"
+							alt="Second slide" />
+					</div>
+
+				</div>
+			</div>
+
+
+		</div>
+
+
+	</ui:define>
+</ui:composition>

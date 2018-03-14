@@ -188,24 +188,27 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-2">
-								<div class="form-group">
-
-									<label for="formCliente:cliente_cidade">#{resources['label.global.cidade']}</label>  
-									<h:inputText
-										value="#{clienteController.clienteTO.cliente.cidade}"
-										id="cliente_cidade" styleClass="form-control" />
-
-								</div>
-							</div>
-							
 							<div class="col-sm-1">
 								<div class="form-group">
 									<label for="formCliente:cliente_uf">#{resources['label.global.uf']}</label>
-									<h:inputText value="#{clienteController.clienteTO.cliente.uf}"
-										id="cliente_uf" styleClass="form-control" />
+									<h:selectOneMenu value="#{clienteController.clienteTO.cliente.uf.sigla}" id="cliente_uf" styleClass="form-control">
+										<f:selectItems value="#{combosBean.listaUf}" var="uf" itemValue="#{uf.sigla}" itemLabel="#{uf.sigla}" />	
+										<f:ajax event="change" render="cliente_cidade"  execute="@this"/>									
+									</h:selectOneMenu>
 								</div>
 							</div>
+							
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label for="formCliente:cliente_cidade">#{resources['label.global.cidade']}</label>  
+									<h:selectOneMenu value="#{clienteController.clienteTO.cliente.cidade.id}" id="cliente_cidade" styleClass="form-control">
+										<f:selectItems value="#{combosBean.getListaCidadePorUf(clienteController.clienteTO.cliente.uf)}" var="cidade" 
+										itemValue="#{cidade.id}" itemLabel="#{cidade.nome}" />										
+									</h:selectOneMenu>
+								</div>
+							</div>
+							
+							
 						</div>
 
 					</div>

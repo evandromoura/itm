@@ -112,6 +112,24 @@
 								</div>
 								<div class="col-sm-3">		
 									<div class="form-group">
+										<label for="formParametro:email_from">#{resources['label.global.from']}</label>  
+										<h:inputText value="#{parametroController.parametroTO.parametro.fromEmail}" id="email_from" styleClass="form-control" />
+									</div>
+								</div>
+								<div class="col-sm-3">		
+									<div class="form-group">
+										<label for="formParametro:email_use_tls">#{resources['label.global.usetls']}</label>  
+										<h:selectBooleanCheckbox value="#{parametroController.parametroTO.parametro.useTls}" id="email_use_tls" styleClass="form-control" />
+									</div>
+								</div>
+								<div class="col-sm-3">		
+									<div class="form-group">
+										<label for="formParametro:email_use_auth">#{resources['label.global.useauth']}</label> 
+										<h:selectBooleanCheckbox value="#{parametroController.parametroTO.parametro.authEmail}" id="email_use_auth" styleClass="form-control" />
+									</div>
+								</div>
+								<div class="col-sm-3">		
+									<div class="form-group">
 										<label for="formParametro:email_conta">#{resources['label.global.email']}</label> 
 										<h:inputText value="#{parametroController.parametroTO.parametro.loginEmail}" id="email_conta" styleClass="form-control" />
 									</div>

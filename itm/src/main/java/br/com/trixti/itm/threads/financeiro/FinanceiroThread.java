@@ -24,6 +24,7 @@ import javax.inject.Named;
 
 import org.jrimum.bopepo.BancosSuportados;
 
+import br.com.trixti.itm.entity.ArquivoSici;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
@@ -45,6 +46,7 @@ import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.infra.financeiro.IntegracaoFinanceiraItau;
 import br.com.trixti.itm.infra.msg.MensagemFactory;
+import br.com.trixti.itm.service.arquivosici.ArquivoSiciService;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.contrato.ContratoService;
@@ -53,10 +55,12 @@ import br.com.trixti.itm.service.contratonotificacao.ContratoNotificacaoService;
 import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 import br.com.trixti.itm.service.mail.MailService;
+import br.com.trixti.itm.service.movimentacaofinanceira.MovimentacaoFinanceiraService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.service.retorno.RetornoService;
 import br.com.trixti.itm.service.sms.SMSService;
+import br.com.trixti.itm.service.uploadarquivo.UploadArquivoService;
 import br.com.trixti.itm.util.Base64Utils;
 import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilData;
@@ -82,6 +86,9 @@ public class FinanceiroThread {
 	private @Inject MensagemFactory mensagemFactory;
 	private @Inject ContratoNotificacaoService contratoNotificacaoService;
 	private @Inject RemessaService remessaService;
+	private @Inject MovimentacaoFinanceiraService movimentacaoFinanceiraService;
+	private @Inject ArquivoSiciService arquivoSiciService;
+	private @Inject UploadArquivoService uploadArquivoService;
 	
 	private boolean ativo = false;
 	
@@ -152,45 +159,49 @@ public class FinanceiroThread {
 	
 	@Schedule(info = "Enviar-Remessa", minute = "*/1", hour = "*", persistent = false)
 	public void processarEnvioRemessa() {
-		UtilString utilString = new UtilString();
-		UtilArquivo utilArquivo = new UtilArquivo();
-		try{
-			List<Remessa> listaRemessasNaoEnviadas = remessaService.listarNaoEnviadas();
-			for(Remessa remessa:listaRemessasNaoEnviadas){
-				Remessa remessaCompleta = remessaService.recuperarCompleto(remessa.getId());
-				String nomeArquivo = "CB"+utilString.completaComZerosAEsquerda(remessaCompleta.getId().toString(), 6)+".rem";
-				File arquivo = utilArquivo.getFileFromBytes(Base64Utils.base64Decode(remessaCompleta.getArquivo()), nomeArquivo);
-				String diretorio = System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/enviar";
-				arquivo.renameTo(new File(diretorio+"/"+nomeArquivo));
-				remessaCompleta.setStatus(StatusRemessaEnum.A_ENVIAR);
+		if(ativo){
+			UtilString utilString = new UtilString();
+			UtilArquivo utilArquivo = new UtilArquivo();
+			try{
+				List<Remessa> listaRemessasNaoEnviadas = remessaService.listarNaoEnviadas();
+				for(Remessa remessa:listaRemessasNaoEnviadas){
+					Remessa remessaCompleta = remessaService.recuperarCompleto(remessa.getId());
+					String nomeArquivo = "CB"+utilString.completaComZerosAEsquerda(remessaCompleta.getId().toString(), 6)+".rem";
+					File arquivo = utilArquivo.getFileFromBytes(Base64Utils.base64Decode(remessaCompleta.getArquivo()), nomeArquivo);
+					String diretorio = System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/enviar";
+					arquivo.renameTo(new File(diretorio+"/"+nomeArquivo));
+					remessaCompleta.setStatus(StatusRemessaEnum.A_ENVIAR);
+				}
+			}catch(Exception e){
+				e.printStackTrace();
 			}
-		}catch(Exception e){
-			e.printStackTrace();
 		}	
 	}
 	
 	
 	@Schedule(info = "Confirmar-Envio-Remessa", minute = "*/1", hour = "*", persistent = false)
 	public void processarConfirmacaoEnvioRemessa() {
-		UtilString utilString = new UtilString();
-		try{
-			List<Remessa> listaRemessasNaoEnviadas = remessaService.listarAEnviar();
-			for(Remessa remessa:listaRemessasNaoEnviadas){
-				String diretorio = System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/enviados";
-				File file = new File(diretorio);
-				File[] arquivos = file.listFiles();
-				GOTO:for (File fileTmp : arquivos) {
-					if(fileTmp.getName().equals("CB"+utilString.completaComZerosAEsquerda(remessa.getId().toString(), 6)+".rem")){
-						remessa.setDataEnvio(new Date());
-						remessa.setStatus(StatusRemessaEnum.ENVIADO);
-						remessaService.alterar(remessa);
-						break GOTO;
+		if(ativo){
+			UtilString utilString = new UtilString();
+			try{
+				List<Remessa> listaRemessasNaoEnviadas = remessaService.listarAEnviar();
+				for(Remessa remessa:listaRemessasNaoEnviadas){
+					String diretorio = System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/enviados";
+					File file = new File(diretorio);
+					File[] arquivos = file.listFiles();
+					GOTO:for (File fileTmp : arquivos) {
+						if(fileTmp.getName().equals("CB"+utilString.completaComZerosAEsquerda(remessa.getId().toString(), 6)+".rem")){
+							remessa.setDataEnvio(new Date());
+							remessa.setStatus(StatusRemessaEnum.ENVIADO);
+							remessaService.alterar(remessa);
+							break GOTO;
+						}
 					}
-				}
-			}	
-			
-		}catch(Exception e){
-			e.printStackTrace();
+				}	
+				
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}	
 	}
 	
@@ -309,7 +320,6 @@ public class FinanceiroThread {
 		if(ativo){
 			new IntegracaoItauThread().start(); 
 		}	
-		
 	}
 	
 	
@@ -335,7 +345,16 @@ public class FinanceiroThread {
 				e.printStackTrace();
 			}	
 		}		 
-		
+	}
+	
+	@Schedule(info = "Gerar-Arquivo-SICI", minute = "*", hour = "*",second="*/10", persistent = false)
+	public void gerarArquivoSici() {
+		ArquivoSici arquivoSici = new ArquivoSici();
+		arquivoSici.setData(new Date());
+		arquivoSici.setNomeArquivo("ARQUIVO001");
+		arquivoSici.setXml(uploadArquivoService.gerarXml(arquivoSici));
+		System.out.println(arquivoSici.getXml());
+//		arquivoSiciService.incluir(arquivoSici);
 	}
 	
 
@@ -421,81 +440,85 @@ public class FinanceiroThread {
 	}
 
 	private void gerarBoleto(BigDecimal valor, List<BoletoLancamento> lancamentosBoleto, Contrato contrato) {
-		if (contrato.isGeraBoleto()) {
-			List<ContratoLancamento> lancamentosEmAberto = contratoLancamentoService.pesquisarLancamentoAberto(contrato);
-			List<ContratoProduto> produtos = contratoProdutoService.pesquisarVigentePorContrato(contrato);
-			Boleto boleto = new Boleto();
-			UtilData utilData = new UtilData();
-			Date dataVencimento = utilData.ajustaData(new Date(),contrato.getDiaMesVencimento(), 23, 59, 59);
-			
-			Boleto boletoJaCriado = boletoService.recuperarBoletoContratoMes(contrato,new Date());
-			Boleto boletoJaCriadoProximoMes = boletoService.recuperarBoletoContratoMes(contrato,utilData.adicionarMeses(new Date(), 1));
-			Boleto boletoJaCriadoAnteriorMes = boletoService.recuperarBoletoContratoMes(contrato,utilData.subtrairMeses(new Date(), 1));
-			
-			if (boletoJaCriado == null && boletoJaCriadoProximoMes == null) {
+		try{
+			if (contrato.isGeraBoleto()) {
+				List<ContratoLancamento> lancamentosEmAberto = contratoLancamentoService.pesquisarLancamentoAberto(contrato);
+				List<ContratoProduto> produtos = contratoProdutoService.pesquisarVigentePorContrato(contrato);
+				Boleto boleto = new Boleto();
+				UtilData utilData = new UtilData();
+				Date dataVencimento = utilData.ajustaData(new Date(),contrato.getDiaMesVencimento(), 23, 59, 59);
 				
-				for (ContratoLancamento lancamentoAberto : lancamentosEmAberto) {
-					valor = lancamentoAberto.getTipoLancamento().equals(TipoLancamentoEnum.DEBITO)
-							? valor.add(lancamentoAberto.getValor()) : valor.subtract(lancamentoAberto.getValor());
-					lancamentosBoleto.add(new BoletoLancamento(boleto, lancamentoAberto));
-				}
+				Boleto boletoJaCriado = boletoService.recuperarBoletoContratoMes(contrato,new Date());
+				Boleto boletoJaCriadoProximoMes = boletoService.recuperarBoletoContratoMes(contrato,utilData.adicionarMeses(new Date(), 1));
+				Boleto boletoJaCriadoAnteriorMes = boletoService.recuperarBoletoContratoMes(contrato,utilData.subtrairMeses(new Date(), 1));
 				
-				if(!contrato.getStatus().equals(StatusContrato.CANCELADO) && 
-						!contrato.getStatus().equals(StatusContrato.BLOQUEADO) && 
-							!contrato.getStatus().equals(StatusContrato.INATIVO)){
+				if (boletoJaCriado == null && boletoJaCriadoProximoMes == null) {
 					
-					for (ContratoProduto produto : produtos) {
-						ContratoLancamento contratoLancamento = new ContratoLancamento();
-						contratoLancamento.setContrato(contrato);
-						contratoLancamento.setDataLancamento(new Date());
-						contratoLancamento.setDescricao(produto.getProduto().getNome());
-						contratoLancamento.setStatus(StatusLancamentoEnum.PENDENTE);
-						contratoLancamento.setTipoLancamento(TipoLancamentoEnum.DEBITO);
-						contratoLancamento.setValor(produto.getValor());
-						contratoLancamentoService.incluir(contratoLancamento);
-	
-						BoletoLancamento boletoLancamento = new BoletoLancamento();
-						boletoLancamento.setBoleto(boleto);
-						boletoLancamento.setContratoLancamento(contratoLancamento);
-	
-						lancamentosBoleto.add(boletoLancamento);
-						valor = valor.add(produto.getValor());
+					for (ContratoLancamento lancamentoAberto : lancamentosEmAberto) {
+						valor = lancamentoAberto.getTipoLancamento().equals(TipoLancamentoEnum.DEBITO)
+								? valor.add(lancamentoAberto.getValor()) : valor.subtract(lancamentoAberto.getValor());
+						lancamentosBoleto.add(new BoletoLancamento(boleto, lancamentoAberto));
 					}
-				
-					if (valor.intValue() > 0) {
-						boleto.setContrato(contrato);
-						boleto.setLancamentos(lancamentosBoleto);
-						boleto.setDataCriacao(new Date());
-						boleto.setStatus(StatusBoletoEnum.ABERTO);
-						boleto.setValor(valor);
-						if(boletoJaCriadoAnteriorMes == null){
-							boleto.setDataVencimento(utilData.adicionarMeses(dataVencimento, 1));
-						}else{
-							boleto.setDataVencimento(dataVencimento);
-						}	
-						comporNossoNumero(boleto);
-						boletoService.incluir(boleto);
-					} else {
-						boleto.setContrato(contrato);
-						boleto.setLancamentos(lancamentosBoleto);
-						boleto.setDataCriacao(new Date());
-						boleto.setStatus(StatusBoletoEnum.PAGO);
-						boleto.setValor(BigDecimal.ZERO);
-						boleto.setDataVencimento(dataVencimento);
-						if (boleto.getLancamentos() != null && !boleto.getLancamentos().isEmpty()) {
+					
+					if(!contrato.getStatus().equals(StatusContrato.CANCELADO) && 
+							!contrato.getStatus().equals(StatusContrato.BLOQUEADO) && 
+								!contrato.getStatus().equals(StatusContrato.INATIVO)){
+						
+						for (ContratoProduto produto : produtos) {
+							ContratoLancamento contratoLancamento = new ContratoLancamento();
+							contratoLancamento.setContrato(contrato);
+							contratoLancamento.setDataLancamento(new Date());
+							contratoLancamento.setDescricao(produto.getProduto().getNome());
+							contratoLancamento.setStatus(StatusLancamentoEnum.PENDENTE);
+							contratoLancamento.setTipoLancamento(TipoLancamentoEnum.DEBITO);
+							contratoLancamento.setValor(produto.getValor());
+							contratoLancamentoService.incluir(contratoLancamento);
+		
+							BoletoLancamento boletoLancamento = new BoletoLancamento();
+							boletoLancamento.setBoleto(boleto);
+							boletoLancamento.setContratoLancamento(contratoLancamento);
+		
+							lancamentosBoleto.add(boletoLancamento);
+							valor = valor.add(produto.getValor());
+						}
+					
+						if (valor.intValue() > 0) {
+							boleto.setContrato(contrato);
+							boleto.setLancamentos(lancamentosBoleto);
+							boleto.setDataCriacao(new Date());
+							boleto.setStatus(StatusBoletoEnum.ABERTO);
+							boleto.setValor(valor);
+							if(boletoJaCriadoAnteriorMes == null){
+								boleto.setDataVencimento(utilData.adicionarMeses(dataVencimento, 1));
+							}else{
+								boleto.setDataVencimento(dataVencimento);
+							}	
 							comporNossoNumero(boleto);
 							boletoService.incluir(boleto);
+						} else {
+							boleto.setContrato(contrato);
+							boleto.setLancamentos(lancamentosBoleto);
+							boleto.setDataCriacao(new Date());
+							boleto.setStatus(StatusBoletoEnum.PAGO);
+							boleto.setValor(BigDecimal.ZERO);
+							boleto.setDataVencimento(dataVencimento);
+							if (boleto.getLancamentos() != null && !boleto.getLancamentos().isEmpty()) {
+								comporNossoNumero(boleto);
+								boletoService.incluir(boleto);
+							}
+							// TODO: getResources
+							if (valor.abs().intValue() > 0) {
+								contratoLancamentoService.incluir(new ContratoLancamento("Credito em Conta", contrato,
+										valor.abs(), TipoLancamentoEnum.CREDITO, new Date(), StatusLancamentoEnum.PENDENTE));
+							}
+		
 						}
-						// TODO: getResources
-						if (valor.abs().intValue() > 0) {
-							contratoLancamentoService.incluir(new ContratoLancamento("Credito em Conta", contrato,
-									valor.abs(), TipoLancamentoEnum.CREDITO, new Date(), StatusLancamentoEnum.PENDENTE));
-						}
-	
-					}
-				}	
+					}	
+				}
 			}
-		}
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
 	}
 
 	private void comporNossoNumero(Boleto boleto) {

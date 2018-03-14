@@ -54,9 +54,9 @@ public class MailService {
 		titulo = (titulo == null || titulo.equals(""))?comporTitulo(boleto):titulo;
 		final Parametro parametro = parametroService.recuperarParametro();
 		Properties props = new Properties();
-		String from = "itrixcobranca@gmail.com";
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
+		String from = parametro.getFromEmail();
+		props.put("mail.smtp.auth", parametro.isAuthEmail());
+		props.put("mail.smtp.starttls.enable", parametro.isUseTls());
 		props.put("mail.smtp.host", parametro.getSmtp());
 		props.put("mail.smtp.port", parametro.getPortaSmtp().toString());
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {

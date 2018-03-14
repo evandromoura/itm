@@ -7,6 +7,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,7 +43,6 @@ public class ContratoProduto implements java.io.Serializable {
 	@JoinColumn(name = "id_produto")
 	private Produto produto;
 	
-	
 	private BigDecimal valor;
 	
 	@Column(name="valor_base")
@@ -65,6 +66,9 @@ public class ContratoProduto implements java.io.Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name="data_fim")
 	private Date dataFim;
+	
+	@Enumerated(EnumType.STRING)
+	private TecnologiaEnum tecnologia;
 	
 	public ContratoProduto() {
 	}
@@ -157,6 +161,14 @@ public class ContratoProduto implements java.io.Serializable {
 	
 	public boolean isVigente(){
 		return (getDataInicio() != null && getDataInicio().compareTo(new Date()) <= 0) && (getDataFim() != null && getDataFim().compareTo(new Date()) >= 0);
+	}
+
+	public TecnologiaEnum getTecnologia() {
+		return tecnologia;
+	}
+
+	public void setTecnologia(TecnologiaEnum tecnologia) {
+		this.tecnologia = tecnologia;
 	}
 
 }

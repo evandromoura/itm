@@ -65,7 +65,7 @@ public class GeradorBoletoService {
 
          // Informando o endereço do sacado. / Contrato
          Endereco enderecoSac = new Endereco();
-         enderecoSac.setUF(UnidadeFederativa.valueOfSigla(boleto.getContrato().getCliente().getUf()));
+         enderecoSac.setUF(UnidadeFederativa.valueOfSigla(boleto.getContrato().getCliente().getUf().getSigla()));
          enderecoSac.setLocalidade(boleto.getContrato().getCliente().getEndereco());
          enderecoSac.setCep(new CEP(boleto.getContrato().getCliente().getCep()));
          enderecoSac.setBairro(boleto.getContrato().getCliente().getCep());

@@ -12,6 +12,7 @@ import javax.inject.Named;
 import com.google.gson.Gson;
 
 import br.com.trixti.itm.controller.AbstractController;
+import br.com.trixti.itm.entity.Cidade;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteTag;
 import br.com.trixti.itm.entity.ContaCorrente;
@@ -19,6 +20,7 @@ import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.entity.Tag;
+import br.com.trixti.itm.entity.Uf;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
 import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
@@ -70,6 +72,8 @@ public class ClienteController extends AbstractController<Cliente> implements Se
 		getClienteTO().getContrato().setContaCorrente(new ContaCorrente());
 		getClienteTO().getContrato().setGeraBoleto(true);
 		getClienteTO().getCliente().setClienteTags(new ArrayList<ClienteTag>());
+		getClienteTO().getCliente().setUf(new Uf());
+		getClienteTO().getCliente().setCidade(new Cidade());
 		getClienteTO().setTags(tagService.listar());
 	}
 	

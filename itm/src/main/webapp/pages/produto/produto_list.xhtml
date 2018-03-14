@@ -60,6 +60,23 @@
 							
 							<h:column>
 								<f:facet name="header">
+									#{resources['label.global.tipo']}
+								</f:facet>
+								#{produto.tipo.name}
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.servicofistel']} 
+								</f:facet>
+								<ui:fragment rendered="#{produto.servico ne null and produto.servico.id ne null}">
+									 #{produto.servico.tipo.codigo}-#{produto.servico.tipo.descricao} / #{produto.servico.fistel}
+								</ui:fragment>
+								 
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
 									#{resources['label.global.acoes']}
 								</f:facet>
 								<a href="#{request.contextPath}/produto/editar/#{produto.id}" class="btn btn-info">#{resources['label.global.editar']}</a>

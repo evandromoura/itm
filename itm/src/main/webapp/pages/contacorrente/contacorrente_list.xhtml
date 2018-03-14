@@ -4,7 +4,12 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	template="/WEB-INF/templates/default.xhtml">
-
+	
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
+		<li class="breadcrumb-item">#{resources['label.global.contacorrente']}</li>
+	</ui:define>
+	
 	<ui:param name="menu" value="contacorrente" />
 	<ui:define name="corpo">
 		<div class="col-sm-12">

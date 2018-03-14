@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<UploadSICI ano="201x" mes="07">
+<Outorga fistel="xxxxxxxxxxx">
+<Indicador Sigla="IEM4">
+<Conteudo uf="" item="a" valor="" />
+</Indicador>
+<Indicador Sigla="IEM5">
+<Conteudo uf="" item="a" valor="" />
+</Indicador>
+<Indicador Sigla="IEM9">
+<Pessoa item="F">
+<Conteudo uf="xx" item="a" valor="x,xx" />
+<Conteudo uf="xx" item="b" valor="x,xx" />
+<Conteudo uf="xx" item="c" valor="x,xx" />
+<Conteudo uf="xx" item="d" valor="x,xx" />
+<Conteudo uf="xx" item="e" valor="x,xx" />
+</Pessoa>
+<Pessoa item="J">
+<Conteudo uf="xx" item="a" valor="x,xx" />
+<Conteudo uf="xx" item="b" valor="x,xx" />
+<Conteudo uf="xx" item="c" valor="x,xx" />
+<Conteudo uf="xx" item="d" valor="x,xx" />
+<Conteudo uf="xx" item="e" valor="x,xx" />
+</Pessoa>
+</Indicador>
+<Indicador Sigla="IEM10">
+<Pessoa item="F">
+<Conteudo uf="xx" item="a" valor="x,xx" />
+<Conteudo uf="xx" item="b" valor="x,xx" />
+<Conteudo uf="xx" item="c" valor="x,xx" />
+<Conteudo uf="xx" item="d" valor="x,xx" />
+</Pessoa>
+<Pessoa item="J">
+<Conteudo uf="xx" item="a" valor="x,xx" />
+<Conteudo uf="xx" item="b" valor="x,xx" />
+<Conteudo uf="xx" item="c" valor="x,xx" />
+<Conteudo uf="xx" item="d" valor="x,xx" />
+</Pessoa>
+</Indicador>
+<Indicador Sigla="IPL3">
+<Municipio codmunicipio="xxxxxxx">
+<Pessoa item="F">
+<Conteudo item="a" valor="xxx" />
+</Pessoa>
+<Pessoa item="J">
+<Conteudo item="a" valor="xxx" />
+</Pessoa>
+</Municipio>
+</Indicador>
+<Indicador Sigla="QAIPL4SM">
+<Municipio codmunicipio="xxxxxxx">
+<Tecnologia item="A">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xxx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="B">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="C">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="D">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="E">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="F">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="G">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="H">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="I">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="J">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="K">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="L">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="M">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="N">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+<Tecnologia item="O">
+<Conteudo nome="QAIPL5SM" valor="" />
+<Conteudo nome="total" valor="xx" />
+<Conteudo faixa="15" valor="xx" />
+<Conteudo faixa="16" valor="xx" />
+<Conteudo faixa="17" valor="xx" />
+<Conteudo faixa="18" valor="xx" />
+<Conteudo faixa="19" valor="xx" />
+</Tecnologia>
+</Municipio>
+</Indicador>
+<Indicador Sigla="IPL6IM">
+<Conteudo codmunicipio="" valor="" />
+</Indicador>
+<Indicador Sigla="IAU1">
+<Conteudo valor="" />
+</Indicador>
+<Indicador Sigla="IPL1">
+<Conteudo item="a" valor="" />
+<Conteudo item="b" valor="" />
+<Conteudo item="c" valor="" />
+<Conteudo item="d" valor="" />
+</Indicador>
+<Indicador Sigla="IPL2">
+<Conteudo item="a" valor="" />
+<Conteudo item="b" valor="" />
+<Conteudo item="c" valor="" />
+<Conteudo item="d" valor="" />
+</Indicador>
+<Indicador Sigla="IEM1">
+<Conteudo item="a" valor="" />
+<Conteudo item="g" valor="" />
+<Conteudo item="c" valor="" />
+<Conteudo item="d" valor="" />
+<Conteudo item="h" valor="" />
+<Conteudo item="f" valor="" />
+<Conteudo item="i" valor="" />
+</Indicador>
+<Indicador Sigla="IEM2">
+<Conteudo item="a" valor="" />
+<Conteudo item="b" valor="" />
+<Conteudo item="c" valor="" />
+</Indicador>
+<Indicador Sigla="IEM3">
+<Conteudo item="a" valor="" />
+</Indicador>
+<Indicador Sigla="IEM6">
+<Conteudo item="a" valor="x,xx" />
+</Indicador>
+<Indicador Sigla="IEM7">
+<Conteudo item="a" valor="x,xx" />
+</Indicador>
+<Indicador Sigla="IEM8">
+<Conteudo item="a" valor="x,xx" />
+<Conteudo item="b" valor="x,xx" />
+<Conteudo item="c" valor="x,xx" />
+<Conteudo item="d" valor="x,xx" />
+<Conteudo item="e" valor="x,xx" />
+</Indicador>
+</Outorga>
+</UploadSICI>
+</root>

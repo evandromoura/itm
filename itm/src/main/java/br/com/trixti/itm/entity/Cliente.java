@@ -71,9 +71,16 @@ public class Cliente implements java.io.Serializable {
 	
 	private String bairro;
 
-	private String uf;
+	@NotAudited
+	@ManyToOne
+	@JoinColumn(name="uf")
+	private Uf uf;
 	
-	private String cidade;
+	
+	@NotAudited
+	@ManyToOne
+	@JoinColumn(name="id_cidade")
+	private Cidade cidade;
 	
 	@Column(name = "numero_endereco")
 	private String numeroEndereco;
@@ -85,8 +92,6 @@ public class Cliente implements java.io.Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_exclusao", length = 29)
 	private Date dataExclusao;
-	
-	
 	
 	@NotAudited
 	@OneToMany(mappedBy="cliente")
@@ -257,11 +262,11 @@ public class Cliente implements java.io.Serializable {
 		this.numeroEndereco = numeroEndereco;
 	}
 
-	public String getUf() {
+	public Uf getUf() {
 		return uf;
 	}
 
-	public void setUf(String uf) {
+	public void setUf(Uf uf) {
 		this.uf = uf;
 	}
 
@@ -273,11 +278,11 @@ public class Cliente implements java.io.Serializable {
 		this.contratos = contratos;
 	}
 
-	public String getCidade() {
+	public Cidade getCidade() {
 		return cidade;
 	}
 
-	public void setCidade(String cidade) {
+	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
 
