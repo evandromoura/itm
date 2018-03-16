@@ -47,7 +47,6 @@ import javax.xml.bind.annotation.XmlType;
  * 
  * 
  */
-@XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UploadSICI", propOrder = {
     "outorga"
@@ -56,10 +55,12 @@ public class UploadSICI {
 
     @XmlElement(name = "Outorga")
     protected List<Outorga> outorga;
-    @XmlAttribute(name = "ano")
-    protected Integer ano;
+    
     @XmlAttribute(name = "mes")
     protected Integer mes;
+    
+    @XmlAttribute(name = "ano")
+    protected Integer ano;
 
     /**
      * Gets the value of the outorga property.

@@ -101,7 +101,39 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="auth_email")
 	private boolean authEmail;
 	
+	@Column(name="qtd_empregado_contratado")
+	private Integer qtdEmpregadoContratado;
+
+	@Column(name="qtd_empregado_terceirizado")
+	private Integer qtdEmpregadoTerceirizado;
 	
+	@Column(name="numero_atendimento_telefonico")
+	private String numeroAtendimentoTelefonico;
+	
+	
+	@Column(name="total_fibra_km")
+	private BigDecimal totalFibraKM;
+	
+	@Column(name="total_fibra_terceiro_km")
+	private BigDecimal totalFibraTerceiroKM;
+	
+	@Column(name="total_fibra_prevista_km")
+	private BigDecimal totalFibraPrevistaKM;
+	
+	@Column(name="total_fibra_terceiro_prevista_km")
+	private BigDecimal totalFibraTerceiroPrevistaKM;
+	
+	@Column(name="total_fibra_implantada_km")
+	private BigDecimal totalFibraImplantadaKM;
+	
+	@Column(name="total_fibra_implantada_terceiro_km")
+	private BigDecimal totalFibraImplantadaTerceiroKM;
+	
+	@Column(name="total_fibra_implantada_prevista_km")
+	private BigDecimal totalFibraImplantadaPrevistaKM;
+	
+	@Column(name="total_fibra_implantada_terceiro_prevista_km")
+	private BigDecimal totalFibraImplantadaTerceiroPrevistaKM;
 	
 	public Integer getId() {
 		return id;
@@ -301,6 +333,94 @@ public class Parametro implements java.io.Serializable {
 
 	public void setAuthEmail(boolean authEmail) {
 		this.authEmail = authEmail;
+	}
+
+	public Integer getQtdEmpregadoContratado() {
+		return qtdEmpregadoContratado;
+	}
+
+	public void setQtdEmpregadoContratado(Integer qtdEmpregadoContratado) {
+		this.qtdEmpregadoContratado = qtdEmpregadoContratado;
+	}
+
+	public Integer getQtdEmpregadoTerceirizado() {
+		return qtdEmpregadoTerceirizado;
+	}
+
+	public void setQtdEmpregadoTerceirizado(Integer qtdEmpregadoTerceirizado) {
+		this.qtdEmpregadoTerceirizado = qtdEmpregadoTerceirizado;
+	}
+
+	public String getNumeroAtendimentoTelefonico() {
+		return numeroAtendimentoTelefonico;
+	}
+
+	public void setNumeroAtendimentoTelefonico(String numeroAtendimentoTelefonico) {
+		this.numeroAtendimentoTelefonico = numeroAtendimentoTelefonico;
+	}
+
+	public BigDecimal getTotalFibraKM() {
+		return totalFibraKM;
+	}
+
+	public void setTotalFibraKM(BigDecimal totalFibraKM) {
+		this.totalFibraKM = totalFibraKM;
+	}
+
+	public BigDecimal getTotalFibraTerceiroKM() {
+		return totalFibraTerceiroKM;
+	}
+
+	public void setTotalFibraTerceiroKM(BigDecimal totalFibraTerceiroKM) {
+		this.totalFibraTerceiroKM = totalFibraTerceiroKM;
+	}
+
+	public BigDecimal getTotalFibraPrevistaKM() {
+		return totalFibraPrevistaKM;
+	}
+
+	public void setTotalFibraPrevistaKM(BigDecimal totalFibraPrevistaKM) {
+		this.totalFibraPrevistaKM = totalFibraPrevistaKM;
+	}
+
+	public BigDecimal getTotalFibraTerceiroPrevistaKM() {
+		return totalFibraTerceiroPrevistaKM;
+	}
+
+	public void setTotalFibraTerceiroPrevistaKM(BigDecimal totalFibraTerceiroPrevistaKM) {
+		this.totalFibraTerceiroPrevistaKM = totalFibraTerceiroPrevistaKM;
+	}
+
+	public BigDecimal getTotalFibraImplantadaKM() {
+		return totalFibraImplantadaKM;
+	}
+
+	public void setTotalFibraImplantadaKM(BigDecimal totalFibraImplantadaKM) {
+		this.totalFibraImplantadaKM = totalFibraImplantadaKM;
+	}
+
+	public BigDecimal getTotalFibraImplantadaTerceiroKM() {
+		return totalFibraImplantadaTerceiroKM;
+	}
+
+	public void setTotalFibraImplantadaTerceiroKM(BigDecimal totalFibraImplantadaTerceiroKM) {
+		this.totalFibraImplantadaTerceiroKM = totalFibraImplantadaTerceiroKM;
+	}
+
+	public BigDecimal getTotalFibraImplantadaPrevistaKM() {
+		return totalFibraImplantadaPrevistaKM;
+	}
+
+	public void setTotalFibraImplantadaPrevistaKM(BigDecimal totalFibraImplantadaPrevistaKM) {
+		this.totalFibraImplantadaPrevistaKM = totalFibraImplantadaPrevistaKM;
+	}
+
+	public BigDecimal getTotalFibraImplantadaTerceiroPrevistaKM() {
+		return totalFibraImplantadaTerceiroPrevistaKM;
+	}
+
+	public void setTotalFibraImplantadaTerceiroPrevistaKM(BigDecimal totalFibraImplantadaTerceiroPrevistaKM) {
+		this.totalFibraImplantadaTerceiroPrevistaKM = totalFibraImplantadaTerceiroPrevistaKM;
 	}
 
 }

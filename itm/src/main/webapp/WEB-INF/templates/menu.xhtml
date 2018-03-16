@@ -59,6 +59,14 @@
 						</li>
 					</ui:fragment>
 					
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">										
+						<li class="nav-item">
+							<a class="nav-link #{menu eq 'arquivisici'?'active':''}" href="#{request.contextPath}/arquivosici">
+								<i class="icon-tag"></i> #{resources['label.global.arquivosici']}
+							</a>
+						</li>
+					</ui:fragment>
+					
 					
 					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO')}">
 						<li class="nav-title text-center"><span>#{resources['label.global.financeiro']}</span></li>

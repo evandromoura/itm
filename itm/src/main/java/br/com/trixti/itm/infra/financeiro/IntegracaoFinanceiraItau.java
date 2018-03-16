@@ -24,6 +24,7 @@ import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusRetorno;
 import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.service.boleto.BoletoService;
+import br.com.trixti.itm.service.movimentacaofinanceira.MovimentacaoFinanceiraService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.service.retorno.RetornoService;
@@ -41,6 +42,7 @@ public class IntegracaoFinanceiraItau {
 	private @Inject RemessaService remessaService;
 	private @Inject RetornoService retornoService;
 	private @Inject BoletoService boletoService;
+	private @Inject MovimentacaoFinanceiraService movimentacaoFinanceiraService;
 
 	@PostConstruct
 	private void init() {
@@ -130,6 +132,7 @@ public class IntegracaoFinanceiraItau {
 								boleto.setValorPago(valorPago);
 								boletoService.alterar(boleto);
 								remessaService.alterar(boleto.getRemessa());
+								movimentacaoFinanceiraService.incluir(boleto);
 							}
 						}	
 					}

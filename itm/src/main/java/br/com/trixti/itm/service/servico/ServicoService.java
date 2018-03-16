@@ -11,7 +11,6 @@ import br.com.trixti.itm.service.AbstractService;
 
 @Stateless
 public class ServicoService extends AbstractService<Servico> {
-
 	private @Inject ServicoDAO servicoDAO;
 	
 	@Override

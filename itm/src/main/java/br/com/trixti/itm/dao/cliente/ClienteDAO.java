@@ -19,10 +19,13 @@ import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteTag;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
+import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.TecnologiaEnum;
+import br.com.trixti.itm.entity.TipoProduto;
 import br.com.trixti.itm.entity.Uf;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.to.ClienteWSTO;
@@ -78,6 +81,10 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		
 		if(clientePesquisa.getStatusContrato() != null){
 			predicateList.add(getCriteriaBuilder().equal(root.join("contratos", JoinType.LEFT).get("status"),clientePesquisa.getStatusContrato()));
+		}
+		
+		if(clientePesquisa.getTipoPessoa() != null){
+			predicateList.add(getCriteriaBuilder().equal(root.get("tipoPessoa"),clientePesquisa.getTipoPessoa()));
 		}
 		
 		if(clientePesquisa.getTags() != null && clientePesquisa.getTags().length > 0){
@@ -230,25 +237,31 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 	}
 	
 	
-	public Integer qtdClienteTipoPessoa(TipoPessoaEnum tipoPessoa) {
-		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
-		Root<Cliente> root = criteria.from(Cliente.class);
-		criteria.select(getCriteriaBuilder().count(root)).where(getCriteriaBuilder().equal(root.get("tipoPessoa"), tipoPessoa));
-		return getManager().createQuery(criteria).getSingleResult().intValue();
-	}
+	
 	
 	
 	public Integer qtdClienteUfTipoPessoaIntervaloDownload(Uf uf,TipoPessoaEnum tipoPessoa, Integer minimoDownload,Integer maximoDownload) {
 		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
 		Root<Cliente> root = criteria.from(Cliente.class);
-		Join<ContratoProduto,Produto> join = root.join("contratos",JoinType.LEFT)
-				.join("contratoProdutos",JoinType.LEFT).join("produto",JoinType.LEFT);
+		Join<ContratoProduto,Produto> join = root.join("contratos").join("contratoProdutos").join("produto");
 		criteria.select(getCriteriaBuilder().count(root)).where(
 				 getCriteriaBuilder().equal(root.get("tipoPessoa"), tipoPessoa),
 				 getCriteriaBuilder().equal(root.get("uf"), uf),
-				 getCriteriaBuilder().greaterThanOrEqualTo(join.<Integer>get("download"), minimoDownload)
+				 getCriteriaBuilder().greaterThan(join.<Integer>get("download"), minimoDownload)
 				,getCriteriaBuilder().lessThanOrEqualTo(join.<Integer>get("download"), maximoDownload));
 		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+	
+	public BigDecimal somaClienteUfTipoPessoaIntervaloDownload(Uf uf,TipoPessoaEnum tipoPessoa, Integer minimoDownload,Integer maximoDownload) {
+		CriteriaQuery<BigDecimal> criteria = getCriteriaBuilder().createQuery(BigDecimal.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		Join<ContratoProduto,Produto> join = root.join("contratos").join("contratoProdutos");
+		criteria.select(getCriteriaBuilder().sum(join.<BigDecimal>get("valor"))).where(
+				 getCriteriaBuilder().equal(root.get("tipoPessoa"), tipoPessoa),
+				 getCriteriaBuilder().equal(root.get("uf"), uf),
+				 getCriteriaBuilder().greaterThan(join.get("produto").<Integer>get("download"), minimoDownload)
+				,getCriteriaBuilder().lessThanOrEqualTo(join.get("produto").<Integer>get("download"), maximoDownload));
+		return getManager().createQuery(criteria).getSingleResult();
 	}
 	
 	
@@ -262,7 +275,7 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 				getCriteriaBuilder().equal(root.get("tipoPessoa"), tipoPessoa),
 				getCriteriaBuilder().equal(root.get("uf"), uf),
 				getCriteriaBuilder().equal(join.get("dedicado"), dedicado),
-				getCriteriaBuilder().greaterThanOrEqualTo(join.<Integer>get("download"), minimoDownload)
+				getCriteriaBuilder().greaterThan(join.<Integer>get("download"), minimoDownload)
 				,getCriteriaBuilder().lessThanOrEqualTo(join.<Integer>get("download"), maximoDownload));
 		return getManager().createQuery(criteria).getSingleResult();
 	}
@@ -276,25 +289,89 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 				 getCriteriaBuilder().equal(root.get("tipoPessoa"), tipoPessoa),
 				 getCriteriaBuilder().equal(root.get("uf"), uf),
 				 getCriteriaBuilder().equal(join.get("dedicado"), dedicado),
-				 getCriteriaBuilder().greaterThanOrEqualTo(join.<Integer>get("download"), minimoDownload)
+				 getCriteriaBuilder().greaterThan(join.<Integer>get("download"), minimoDownload)
 				,getCriteriaBuilder().lessThanOrEqualTo(join.<Integer>get("download"), maximoDownload));
 		return getManager().createQuery(criteria).getSingleResult();
 	}
 
 	public Integer qtdClientePorTecnologia(TecnologiaEnum tecnologiaEnum) {
+		UtilData utilData = new UtilData();
+		Date dataAtual = new Date();
 		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
 		Root<Cliente> root = criteria.from(Cliente.class);
-		criteria.select(getCriteriaBuilder().count(root)).where(getCriteriaBuilder().equal(root.join("contratos").join("contratoProdutos").get("tecnologia"), tecnologiaEnum));
+		Join<Contrato,ContratoProduto> join = root.join("contratos").join("contratoProdutos");
+		criteria.select(getCriteriaBuilder().count(root)).where(
+				getCriteriaBuilder().equal(join.get("tecnologia"), tecnologiaEnum),
+				
+				getCriteriaBuilder().equal(join.join("produto").get("tipo"),TipoProduto.INTERNET),
+				
+				getCriteriaBuilder().isNull(join.get("dataExclusao")),
+				getCriteriaBuilder().greaterThanOrEqualTo(join.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
+				getCriteriaBuilder().lessThanOrEqualTo(join.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0))
+				
+				);
 		return getManager().createQuery(criteria).getSingleResult().intValue();
 	}
 	
-	public Integer qtdClientePorTecnologiaIntervaloDownload(TecnologiaEnum tecnologiaEnum,Integer minimoDownload,Integer maximoDownload) {
+	
+	public Integer qtdClienteTipoPessoa(TipoPessoaEnum tipoPessoa) {
+//		UtilData utilData = new UtilData();
+//		Date dataAtual = new Date();
+//		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+//		Root<Cliente> root = criteria.from(Cliente.class);
+//		Join<Cliente,Contrato> join =  root.join("contratos");
+//		Join<Contrato,ContratoProduto> joinC = join.join("contratoProdutos");
+//		
+//		criteria.select(getCriteriaBuilder().count(root))
+//			.where(
+//					getCriteriaBuilder().equal(root.get("tipoPessoa"), tipoPessoa)
+////					,getCriteriaBuilder().equal(join.join("contratoProdutos").get("produto").get("tipo"),TipoProduto.INTERNET)
+//					,getCriteriaBuilder().isNull(joinC.get("dataExclusao"))
+//					,getCriteriaBuilder().greaterThanOrEqualTo(joinC.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59))
+//					,getCriteriaBuilder().lessThanOrEqualTo(joinC.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0))
+//					,join.get("status").in(StatusContrato.ATIVO,StatusContrato.SUSPENSO,StatusContrato.BLOQUEADO)
+//					,getCriteriaBuilder().isNotEmpty(root.join("contratos").<List<ContratoAutenticacao>>get("autenticacoes"))
+//					);
+//		return getManager().createQuery(criteria).getSingleResult().intValue();
+		
+		
+		UtilData utilData = new UtilData();
+		Date dataAtual = new Date();
 		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
 		Root<Cliente> root = criteria.from(Cliente.class);
-		Join<ContratoProduto,Produto> join = root.join("contratos",JoinType.LEFT).join("contratoProdutos",JoinType.LEFT);
+		Join<Contrato,ContratoProduto> join = root.join("contratos").join("contratoProdutos");
+		Join<ContratoProduto,Produto>  joinProduto = join.join("produto");
+		criteria.select(getCriteriaBuilder().count(root)).where(
+				getCriteriaBuilder().equal(root.get("tipoPessoa"), tipoPessoa),
+				getCriteriaBuilder().isNull(join.get("dataExclusao")),
+				getCriteriaBuilder().greaterThanOrEqualTo(join.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
+				getCriteriaBuilder().lessThanOrEqualTo(join.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0)),
+				
+				getCriteriaBuilder().equal(joinProduto.get("tipo"),TipoProduto.INTERNET));
+		
+		return getManager().createQuery(criteria).getSingleResult().intValue();
+	}
+	
+	
+	
+	public Integer qtdClientePorTecnologiaIntervaloDownload(TecnologiaEnum tecnologiaEnum,Integer minimoDownload,Integer maximoDownload) {
+		UtilData utilData = new UtilData();
+		Date dataAtual = new Date();
+		CriteriaQuery<Long> criteria = getCriteriaBuilder().createQuery(Long.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		Join<Contrato,ContratoProduto> join = root.join("contratos").join("contratoProdutos");
+		Join<ContratoProduto,Produto>  joinProduto = join.join("produto");
 		criteria.select(getCriteriaBuilder().count(root)).where(getCriteriaBuilder().equal(join.get("tecnologia"), tecnologiaEnum),
-				 getCriteriaBuilder().greaterThanOrEqualTo(join.join("produto",JoinType.LEFT).<Integer>get("download"), minimoDownload)
-					,getCriteriaBuilder().lessThanOrEqualTo(join.join("produto",JoinType.LEFT).<Integer>get("download"), maximoDownload));
+				
+				getCriteriaBuilder().isNull(join.get("dataExclusao")),
+				getCriteriaBuilder().greaterThanOrEqualTo(join.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
+				getCriteriaBuilder().lessThanOrEqualTo(join.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0)),
+				
+				getCriteriaBuilder().equal(joinProduto.get("tipo"),TipoProduto.INTERNET),
+				
+				 getCriteriaBuilder().greaterThan(joinProduto.<Integer>get("download"), minimoDownload)
+					,getCriteriaBuilder().lessThanOrEqualTo(joinProduto.<Integer>get("download"), maximoDownload));
+		
 		return getManager().createQuery(criteria).getSingleResult().intValue();
 	}
 
@@ -308,6 +385,34 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 				getCriteriaBuilder().greaterThanOrEqualTo(join.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
 				getCriteriaBuilder().lessThanOrEqualTo(join.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0)));
 		return getManager().createQuery(criteria).getSingleResult();
+	}
+	
+	public Integer somarTodosDownloadContratos() {
+		Date dataAtual = new Date();
+		UtilData utilData = new UtilData();
+		CriteriaQuery<Integer> criteria = getCriteriaBuilder().createQuery(Integer.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		Join<ContratoProduto,Produto> join = root.join("contratos",JoinType.LEFT).join("contratoProdutos",JoinType.LEFT);
+		criteria.select(getCriteriaBuilder().sum(join.get("produto").<Integer>get("download"))).where(getCriteriaBuilder().isNull(join.get("dataExclusao")),
+				getCriteriaBuilder().greaterThanOrEqualTo(join.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
+				getCriteriaBuilder().lessThanOrEqualTo(join.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0)));
+		return getManager().createQuery(criteria).getSingleResult();
+	}
+
+	public Integer qtdDownloadPorTecnologia(TecnologiaEnum tecnologiaEnum) {
+		UtilData utilData = new UtilData();
+		Date dataAtual = new Date();
+		CriteriaQuery<Integer> criteria = getCriteriaBuilder().createQuery(Integer.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		Join<ContratoProduto,Produto> join = root.join("contratos",JoinType.LEFT).join("contratoProdutos",JoinType.LEFT);
+		criteria.select(getCriteriaBuilder().sum(join.get("produto").<Integer>get("download"))).where(
+				getCriteriaBuilder().equal(join.get("tecnologia"), tecnologiaEnum),
+				getCriteriaBuilder().isNull(join.get("dataExclusao")),
+				getCriteriaBuilder().greaterThanOrEqualTo(join.<Date>get("dataFim"), utilData.ajustaData(dataAtual, 23, 59, 59)),
+				getCriteriaBuilder().lessThanOrEqualTo(join.<Date>get("dataInicio"), utilData.ajustaData(dataAtual, 0, 0, 0))
+				);
+		Integer resultado = getManager().createQuery(criteria).getSingleResult();
+		return resultado != null?resultado:0;
 	}
 	
 

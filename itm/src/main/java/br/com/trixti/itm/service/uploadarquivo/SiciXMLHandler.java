@@ -9,25 +9,13 @@ public class SiciXMLHandler extends DefaultHandler {
 
    public boolean existe = false;
    public SiglaTemplateSiciEnum sigla;
-   private String valorAnterior;
    private String siglaAnterior;
 
    @Override
    public void startElement(String uri,  String localName, String qName, Attributes attributes) throws SAXException {
-//	   System.out.println("VALOR ANTERIOR = "+valorAnterior);
-//	   System.out.println("SIGLA ANTERIOR = "+siglaAnterior);
-	   
-      if (qName.equalsIgnoreCase("Indicador")) {
-         String rollNo = attributes.getValue("Sigla");
-         if(rollNo.equals(sigla.name())){
-        	 if(sigla.equals(SiglaTemplateSiciEnum.IEM4)){
-        		 System.out.println("Entrou");
-        	 }
-        	 System.out.println("Sigla = "+rollNo); 
-        	 existe = true;
-         } 
+      if (siglaAnterior != null && siglaAnterior.equals(sigla.name()) && !qName.equalsIgnoreCase("Indicador")) {
+          existe = true;
       }
-      valorAnterior = qName;
       siglaAnterior = attributes.getValue("Sigla");
    }
    

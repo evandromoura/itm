@@ -1500,6 +1500,25 @@ public class UtilData {
 		}
 		return data;
 	}
+	public  Date ajustaData(Date data, int dia,int mes,int ano, int horas, int minutos, int segundos) {
+		Calendar calendar = null;
+		try {
+			if (data != null) {
+				calendar = Calendar.getInstance();
+				calendar.setTime(data);
+				calendar.set(Calendar.DAY_OF_MONTH, dia);
+				calendar.set(Calendar.MONTH, mes);
+				calendar.set(Calendar.YEAR, ano);
+				calendar.set(Calendar.HOUR_OF_DAY, horas);
+				calendar.set(Calendar.MINUTE, minutos);
+				calendar.set(Calendar.SECOND, segundos);
+				data = calendar.getTime();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
 	
 	public Date ajustarPrimeiroDiaMes(Date date){
 		Calendar calendar = Calendar.getInstance();
@@ -1511,6 +1530,15 @@ public class UtilData {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
 		return ajustaData(date, calendar.getActualMaximum(Calendar.DAY_OF_MONTH), 23, 59, 59);
+	}
+	
+	
+	public Date ajustarPrimeiroDiaAno(Date date){
+		return ajustaData(date, 1, 1, 0, 0, 0);
+	}
+	
+	public Date ajustarUltimoDiaAno(Date date){
+		return ajustaData(date, 31, 12, 23, 59, 59);
 	}
 	
 	public String getAnoCorrente(Date mes) {

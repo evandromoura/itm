@@ -33,6 +33,9 @@ public class ArquivoSici implements java.io.Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data;
 	
+	private String mes;
+	private String ano;
+	
 	private String xml;
 	
 	public Integer getId() {
@@ -65,6 +68,22 @@ public class ArquivoSici implements java.io.Serializable {
 
 	public void setXml(String xml) {
 		this.xml = xml;
+	}
+
+	public String getMes() {
+		return mes;
+	}
+
+	public void setMes(String mes) {
+		this.mes = mes;
+	}
+
+	public String getAno() {
+		return ano;
+	}
+
+	public void setAno(String ano) {
+		this.ano = ano;
 	}
 
 }

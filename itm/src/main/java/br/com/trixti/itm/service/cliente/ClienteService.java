@@ -150,11 +150,21 @@ public class ClienteService extends AbstractService<Cliente> {
 	}
 	
 	public Integer qtdClienteUfTipoPessoaIntervaloDownload(Uf uf,TipoPessoaEnum tipoPessoa, Integer minimoDownload,Integer maximoDownload) {
-		return clienteDAO.qtdClienteUfTipoPessoaIntervaloDownload(uf, tipoPessoa, minimoDownload, maximoDownload);			
+		Integer retorno = clienteDAO.qtdClienteUfTipoPessoaIntervaloDownload(uf, tipoPessoa, minimoDownload, maximoDownload);
+		return retorno != null?retorno:0;
+	}
+	
+	public BigDecimal somaClienteUfTipoPessoaIntervaloDownload(Uf uf,TipoPessoaEnum tipoPessoa, Integer minimoDownload,Integer maximoDownload) {
+		BigDecimal retorno = clienteDAO.somaClienteUfTipoPessoaIntervaloDownload(uf, tipoPessoa, minimoDownload, maximoDownload);
+		return retorno != null?retorno:BigDecimal.ZERO;
 	}
 	
 	public Integer qtdClientePorTecnologia(TecnologiaEnum tecnologiaEnum) {
 		return clienteDAO.qtdClientePorTecnologia(tecnologiaEnum);
+	}
+	
+	public Integer qtdDownloadPorTecnologia(TecnologiaEnum tecnologiaEnum) {
+		return clienteDAO.qtdDownloadPorTecnologia(tecnologiaEnum);
 	}
 	
 	public Integer qtdClientePorTecnologiaIntervaloDownload(TecnologiaEnum tecnologiaEnum,Integer minimoDownload,Integer maximoDownload) {
@@ -175,6 +185,10 @@ public class ClienteService extends AbstractService<Cliente> {
 	
 	public BigDecimal somarTodosContratos(){
 		return clienteDAO.somarTodosContratos();
+	}
+	
+	public Integer somarTodosDownloadContratos() {
+		return clienteDAO.somarTodosDownloadContratos();
 	}
 
 }

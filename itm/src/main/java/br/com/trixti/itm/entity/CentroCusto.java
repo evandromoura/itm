@@ -27,6 +27,7 @@ public class CentroCusto implements java.io.Serializable {
 	
 	private String codigo;
 	private String nome;
+	private boolean principal;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoCentroCusto tipo;
@@ -54,6 +55,12 @@ public class CentroCusto implements java.io.Serializable {
 	}
 	public void setTipo(TipoCentroCusto tipo) {
 		this.tipo = tipo;
+	}
+	public boolean isPrincipal() {
+		return principal;
+	}
+	public void setPrincipal(boolean principal) {
+		this.principal = principal;
 	}
 	
 	

@@ -55,7 +55,6 @@ import br.com.trixti.itm.service.contratonotificacao.ContratoNotificacaoService;
 import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 import br.com.trixti.itm.service.mail.MailService;
-import br.com.trixti.itm.service.movimentacaofinanceira.MovimentacaoFinanceiraService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.service.retorno.RetornoService;
@@ -86,12 +85,10 @@ public class FinanceiroThread {
 	private @Inject MensagemFactory mensagemFactory;
 	private @Inject ContratoNotificacaoService contratoNotificacaoService;
 	private @Inject RemessaService remessaService;
-	private @Inject MovimentacaoFinanceiraService movimentacaoFinanceiraService;
 	private @Inject ArquivoSiciService arquivoSiciService;
 	private @Inject UploadArquivoService uploadArquivoService;
 	
-	private boolean ativo = false;
-	
+	private boolean ativo = true;
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
@@ -349,12 +346,18 @@ public class FinanceiroThread {
 	
 	@Schedule(info = "Gerar-Arquivo-SICI", minute = "*", hour = "*",second="*/10", persistent = false)
 	public void gerarArquivoSici() {
-		ArquivoSici arquivoSici = new ArquivoSici();
-		arquivoSici.setData(new Date());
-		arquivoSici.setNomeArquivo("ARQUIVO001");
-		arquivoSici.setXml(uploadArquivoService.gerarXml(arquivoSici));
-		System.out.println(arquivoSici.getXml());
-//		arquivoSiciService.incluir(arquivoSici);
+		Date data= new Date();
+		UtilData utilData  = new UtilData();
+		ArquivoSici arquivoSiciRetorno = arquivoSiciService.recuperarPorMesAno(utilData.getMesCorrente(data), String.valueOf(utilData.getAno(data)));
+		if(arquivoSiciRetorno == null){
+			ArquivoSici arquivoSici = new ArquivoSici();
+			arquivoSici.setData(data);
+			arquivoSici.setNomeArquivo("SICI_"+utilData.getMesCorrente(data)+"_"+utilData.getAno(data)+".xml");
+			arquivoSici.setXml(uploadArquivoService.gerarXml(data));
+			arquivoSici.setMes(utilData.getMesCorrente(data));
+			arquivoSici.setAno(String.valueOf(utilData.getAno(data)));
+			arquivoSiciService.incluir(arquivoSici);
+		}	
 	}
 	
 

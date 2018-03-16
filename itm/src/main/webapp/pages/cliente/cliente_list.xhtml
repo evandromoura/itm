@@ -37,6 +37,14 @@
 									<h:inputText value="#{clienteController.clienteTO.clientePesquisa.cpfCnpj}"  id="cliente_cpfcnpj" styleClass="form-control" />
 								</div>
 							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarCliente:cliente_cpfcnpj">#{resources['label.global.tipopessoa']}</label>
+									<h:selectOneRadio value="#{clienteController.clienteTO.clientePesquisa.tipoPessoa}">
+										<f:selectItems value="#{combosBean.tipoPessoa}" var="tipoPessoa" itemValue="#{tipoPessoa}" itemLabel="#{resources[tipoPessoa.key]}" />
+									</h:selectOneRadio>
+								</div>
+							</div>
 							
 							<div class="col-sm-4">
 								<div class="form-group">

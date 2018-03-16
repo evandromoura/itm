@@ -25,15 +25,21 @@ public class MovimentacaoFinanceiraDAO extends AbstractDAO<MovimentacaoFinanceir
 				.getResultList();
 	}
 
-	public BigDecimal somar(TipoMovimentacaoFinanceira tipo,TipoCentroCusto tipoCentroCusto, Date data) {
+	public BigDecimal somar(TipoMovimentacaoFinanceira tipo, Date data, boolean anual,TipoCentroCusto... tipoCentroCusto) {
 			Date dataAtual = new Date();
 			UtilData utilData = new UtilData();
 			CriteriaQuery<BigDecimal> criteria = getCriteriaBuilder().createQuery(BigDecimal.class);
 			Root<MovimentacaoFinanceira> root = criteria.from(MovimentacaoFinanceira.class);
-			Date dataInicio = utilData.ajustarPrimeiroDiaMes(dataAtual);
-			Date dataFim = utilData.ajustarUltimoDiaMes(dataAtual);
-			criteria.select(getCriteriaBuilder().sum(root.<BigDecimal>get("valor"))).where(
-					getCriteriaBuilder().equal(root.join("centroCusto").get("tipo"), tipoCentroCusto),
+			Date dataInicio = null;
+			Date dataFim = null;
+			if(anual){
+				dataInicio = utilData.ajustarPrimeiroDiaAno(dataAtual);
+				dataFim = utilData.ajustarUltimoDiaAno(dataAtual);
+			}else{
+				dataInicio = utilData.ajustarPrimeiroDiaMes(dataAtual);
+				dataFim = utilData.ajustarUltimoDiaMes(dataAtual);
+			}
+			criteria.select(getCriteriaBuilder().sum(root.<BigDecimal>get("valor"))).where(root.join("centroCusto").get("tipo").in(tipoCentroCusto),
 					getCriteriaBuilder().greaterThanOrEqualTo(root.<Date>get("data"), dataInicio),
 					getCriteriaBuilder().lessThanOrEqualTo(root.<Date>get("data"), dataFim));
 			return getManager().createQuery(criteria).getSingleResult();

@@ -148,6 +148,17 @@ public class CombosBean {
    public TipoMovimentacaoFinanceira[] getListaTipoMovimentacaoFinanceira(){
 	   return TipoMovimentacaoFinanceira.values();
    }
+   
+//   public List<SelectItem> getListYears(){
+//		UtilData utilData = new UtilData();
+//		int yearFirst = utilData.getAno(queueLog.getCallDate());
+//		int year = utilData.getAno(new Date());
+//		int diff = year - yearFirst;
+//		for(int i = 0;i<=diff;i++){
+//			listYear.add(new SelectItem(String.valueOf(yearFirst + i),String.valueOf(yearFirst + i)));
+//		}
+//		return listYear;
+//	}
 	
 }
  

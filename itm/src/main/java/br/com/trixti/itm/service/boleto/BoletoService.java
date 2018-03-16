@@ -30,6 +30,7 @@ import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boletolancamento.BoletoLancamentoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
+import br.com.trixti.itm.service.movimentacaofinanceira.MovimentacaoFinanceiraService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.remessa.RemessaService;
 
@@ -42,6 +43,7 @@ public class BoletoService extends AbstractService<Boleto>{
 	private @Inject BoletoLancamentoService boletoLancamentoService;
 	private @Inject ParametroService parametroService;
 	private @Inject RemessaService remessaService;
+	private @Inject MovimentacaoFinanceiraService movimentacaoFinanceiraService;
 	
 	public void criarBoleto()throws Exception{
 		Date dataAtual = new Date();
@@ -180,6 +182,7 @@ public class BoletoService extends AbstractService<Boleto>{
 			}
 			alterar(boleto);
 			remessaService.alterar(boleto.getRemessa());
+			movimentacaoFinanceiraService.incluir(boleto);
 			
 		}else{
 			throw new Exception("CHAVE MESTRA INVALIDA");

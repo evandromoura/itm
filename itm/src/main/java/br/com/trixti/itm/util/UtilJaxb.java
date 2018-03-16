@@ -20,19 +20,20 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+import br.com.trixti.itm.jaxb.sici.Root;
 import br.com.trixti.itm.jaxb.sici.UploadSICI;
 
 public class UtilJaxb {
 
-	public String marshal(UploadSICI uploadSICI) {
+	public String marshal(Root root) {
         final StringWriter out = new StringWriter();
         JAXBContext context = null;
         try {
-            context = JAXBContext.newInstance(uploadSICI.getClass());
+            context = JAXBContext.newInstance(root.getClass());
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.setProperty(Marshaller.JAXB_ENCODING, "ISO-8859-1");
-            marshaller.marshal(uploadSICI, new StreamResult(out));
+            marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+            marshaller.marshal(root, new StreamResult(out));
         } catch (Exception e) {
             e.printStackTrace();
         }
