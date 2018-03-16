@@ -3,17 +3,26 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
-
+	<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">
 	<div class="sidebar">
 		<nav class="sidebar-nav">
 				<ul class="nav">
 				
+					<li class="nav-title text-center"><span>#{resources['label.global.menu']}</span></li>
+						<li class="nav-item">
+							<a class="nav-link #{menu eq 'home'?'active':''}" href="#{request.contextPath}/home">
+								<i class="icon-people"></i> #{resources['label.global.home']}
+							</a>
+						</li>
 			<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO') 
+										or securityBean.isPermissao('SUPORTE_NIVEL1') or securityBean.isPermissao('SUPORTE_NIVEL2')}">													
+					<li class="nav-title text-center"><span>#{resources['label.global.cadastro']}</span></li>
 										or securityBean.isPermissao('SUPORTE_NIVEL1') or securityBean.isPermissao('SUPORTE_NIVEL2')}">
 			            																		
 					
 					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('FINANCEIRO') 
 										or securityBean.isPermissao('SUPORTE_NIVEL1') or securityBean.isPermissao('SUPORTE_NIVEL2')}">
+										
 						<li class="nav-title text-center"><span>#{resources['label.global.menu']}</span></li>					
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'cliente'?'active':''}" href="#{request.contextPath}/cliente">
@@ -51,12 +60,17 @@
 							</a>
 						</li>
 					</ui:fragment>
+					
+					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">	
 					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">										
 						<li class="nav-item">
+							<a class="nav-link #{menu eq 'parametro'?'active':''}" href="#{request.contextPath}/parametro/editar/1">
+								<i class="icon-list"></i> #{resources['label.global.parametros']} 
 							<a class="nav-link #{menu eq 'servico'?'active':''}" href="#{request.contextPath}/servico">
 								<i class="icon-tag"></i> #{resources['label.global.servico']} 
 							</a>
 						</li>
+					</ui:fragment>	
 					</ui:fragment>
 					
 					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">										
@@ -79,6 +93,7 @@
 						
 						<li class="nav-item">
 							<a class="nav-link #{menu eq 'contacorrente'?'active':''}" href="#{request.contextPath}/contacorrente">
+								<i class="icon-envelope-open"></i> #{resources['label.global.contacorrente']} 
 								<i class="icon-drawer"></i> #{resources['label.global.contacorrente']} 
 							</a>
 						</li>
@@ -163,6 +178,6 @@
 			</ul>		
 		</nav>
 	</div>
-
+</ui:fragment>
 
 </ui:composition>

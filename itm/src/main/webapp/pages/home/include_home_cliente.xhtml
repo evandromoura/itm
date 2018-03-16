@@ -14,14 +14,30 @@
 	
 		
 		<!-- DADOS DO USUARIO  -->
+
+	<div class="row ">
 	
-	<p></p>	
-	<div class="row">
+		<div class="col-md-4 site font">
+				 Bem Vindo(a)  <strong>#{homeController.homeTO.cliente.nome}</strong>   
+		</div>
+		<div class="col-md-4">
+             <h:form>
+				<h:commandLink action="#{simpleAuthenticator.logout()}" immediate="true" styleClass="">
+					<i class="icon-logout"> </i> <b>#{resources['label.global.sair']}</b>
+				</h:commandLink>
+			</h:form>
+		</div>
+	</div>
+						
+	<p></p>					
+						
+
+	<div class="row site">
 		<div class="col-md-12">
               <div class="card">
                 <div class="card-body p-0 clearfix">
                   <i class="fa fa-laptop bg-warning p-4 px-5 font-2xl mr-3 float-left"></i>
-                  <div class="h5 mb-0 pt-3 text-center">#{resources['label.global.minhasinformacoes']}</div>
+                  <h2 class="mb-0 text-center pt-3" style="text-transform: uppercase">#{resources['label.global.minhasinformacoes']}</h2>
                 </div>
               </div>
 		</div>
@@ -29,9 +45,9 @@
 	
 	<div class="row">
 			<div class="col-sm-4">
-			    <div class="card" style="height: 16rem; ">
-			      <div class="card-block ">
-			      		<h5 class="mb-0 " style="text-transform: uppercase">DADOS GERAIS</h5>
+			    <div class="card" style="height: 18rem; ">
+			      <div class="card-block site ">
+			      		<h4 class="mb-0 " style="text-transform: uppercase">DADOS GERAIS</h4>
 					    <hr class="mb-4"></hr>	          
 	
 	
@@ -52,22 +68,27 @@
 			</div>
 			
 			<div class="col-sm-4">
-			    <div class="card" style="height: 16rem; ">
+			    <div class="card" style="height: 18rem; ">
 			    <div class="card-block ">
-			      <h5 class="mb-0 " style="text-transform: uppercase">ENDEREÇO</h5>
+			      <h4 class="mb-0 " style="text-transform: uppercase">ENDEREÇO</h4>
 					    <hr class="mb-4"></hr>	          
 				          <p><strong>#{resources['label.global.endereco']}: </strong>#{homeController.homeTO.cliente.endereco}</p>
 				          <p><strong>#{resources['label.global.numero']}: </strong>#{homeController.homeTO.cliente.numeroEndereco}</p>
 				          <p><strong>#{resources['label.global.bairro']}: </strong>#{homeController.homeTO.cliente.bairro}</p>
+<<<<<<< HEAD
+				          <p><strong>#{resources['label.global.cidade']}: </strong>#{homeController.homeTO.cliente.cidade}</p>
+				          <p></p>
+=======
 				          <p><strong>#{resources['label.global.cidade']}: </strong>#{homeController.homeTO.cliente.cidade.nome}</p>
+>>>>>>> 3bf11996ca1ee3f4c72c5e55e098cd5fb7284554
 				</div>
 			    </div>
 			</div>
 			
 			<div class="col-sm-4">
-			    <div class="card" style="height: 16rem;">
+			    <div class="card" style="height: 18rem;">
 			    <div class="card-block ">
-			    <h5 class="mb-0 " style="text-transform: uppercase">CONTATO</h5>
+			    <h4 class="mb-0 " style="text-transform: uppercase">CONTATO</h4>
 					    <hr class="mb-4"></hr>	          
 	
 				          	<p><strong>#{resources['label.global.celular']}: </strong>#{homeController.homeTO.cliente.telefoneCelular}</p>
@@ -86,19 +107,19 @@
 	
 	
 	<!-- DADOS CONTRATOS -->
-	<div class="row">
+	<div class="row ">
 	
-			<div class="col-md-12">		       	
+			<div class="col-md-12 site">		       	
 		       	<div class="card">
                 <div class="card-body p-0 clearfix">
                   <i class="fa icon-speedometer bg-warning p-4 px-5 font-2xl mr-3 float-left"></i>
-                  <div class="h5 mb-0 pt-3 text-center">#{resources['label.global.contratos']}</div>
+                   <h2 class="mb-0 text-center pt-3" style="text-transform: uppercase">#{resources['label.global.contratos']}</h2>
                 </div>
               </div>
 		    </div>
 	</div>
 			<!-- TABS CONTRATOS -->
-	 <div class="row">      	
+	 <div class="row ">      	
 	       	<ui:repeat var="contrato" value="#{customIdentity.cliente.contratos}" varStatus="status">
 	       	
 	       	
@@ -108,31 +129,31 @@
        		  	<div class="col-md-12">
 <!--        		  	<div id="accordion" role="tablist" aria-multiselectable="true">
  -->	       			
- 					<div class="card">
+ 					<div class="card site">
 
 				        <div class="card-block">
-				        		<h4 class="mb-0 font-weight-bold" style="text-transform: uppercase">#{contrato.identificador}</h4>
-				        		<div class="small text-muted">#{contrato.status.name}</div>
+				        		<h4 class="mb-0 font-weight-bold font" style="text-transform: uppercase">#{contrato.identificador}</h4>
+				        		<div class="small text-muted fontx1">#{contrato.status.name}</div>
 				        		<hr class="mb-4"></hr>
 				  
-				          	<ul class="nav nav-tabs" role="tablist">
+				          	<ul class="nav nav-tabs" id="contrato" role="tablist">
 				          		
-								<li class="nav-item ">
-								    <a class="nav-link active" data-toggle="tab" href="#home4_#{contrato.id}" role="tab" aria-controls="home" >
+								<li class="nav-item font ">
+								    <a class="nav-link" data-toggle="tab" href="#home4_#{contrato.id}" role="tab" aria-controls="home" >
 								    <i class="icon-user"></i>
 								    Dados Gerais
 								    </a>
 								</li>
 								
 								<li class="nav-item">
-									<a class="nav-link" data-toggle="tab" href="#profile4_#{contrato.id}" role="tab" aria-controls="profile">
+									<a class="nav-link font" data-toggle="tab" href="#profile4_#{contrato.id}" role="tab" aria-controls="profile">
 										<i class="icon-wallet"></i>  Boletos em aberto
 										<!-- <span class="badge badge-pill badge-danger">#{homeController.calcularQtdBoletoAberto(contrato)}</span> -->
 									</a>
 								</li>
 								
 								<ui:fragment rendered="#{homeController.calcularQtdBoletoAberto(contrato) > 0}">	
-								<li class="nav-item">
+								<li class="nav-item font">
 									<a class="nav-link" data-toggle="tab" href="#messages4_#{contrato.id}" role="tab" aria-controls="messages">
 									<i class="icon-pie-chart"></i>  #{resources['label.global.promessapagamento']}
 									</a>
@@ -140,14 +161,14 @@
 								</ui:fragment>	
 									 
 								<ui:fragment rendered="#{contrato.autenticacoes ne null and not empty contrato.autenticacoes}">	
-									<li class="nav-item">
+									<li class="nav-item font">
 										<a class="nav-link" data-toggle="tab" href="#medidor4_#{contrato.id}" role="tab" aria-controls="messages">
 										<i class="fa fa-bar-chart"></i>  #{resources['label.global.medidordetrafego']}
 										</a>
 									</li>
 								</ui:fragment>		 
 								
-								<li class="nav-item">
+								<li class="nav-item font">
 								    <a class="nav-link" data-toggle="tab" href="#fechar_#{contrato.id}" role="tab" aria-controls="fechar">
 								    <i class="icon-arrow-up"></i>
 								    </a>
@@ -165,26 +186,26 @@
 			     		
 						<div class="tab-pane active" id="home4_#{contrato.id}" role="tabpanel">
 	
-							<div class="card">
-								<div class="card-header">
+							<div class="card site">
+								<div class="card-header font">
 									<i class="fa fa-user" /> <strong>#{resources['label.global.informacoes']}</strong>
 								</div>
 								<div class="card-block">
 									<div class="row">
 										<div class="col-sm-4">
-											<div class="form-group">
+											<div class="form-group fontlight">
 												<label for="formContrato:contrato_nome">#{resources['label.global.identificador']}:</label>
 												#{contrato.identificador}
 											</div>
 										</div>
 										<div class="col-sm-4">
-											<div class="form-group">
+											<div class="form-group fontlight">
 												<label for="formContrato:contrato_diamesvencimento">#{resources['label.global.diamesvencimento']}:</label>
 												#{contrato.diaMesVencimento}
 											</div>
 										</div>
 										<div class="col-sm-4">
-											<div class="form-group">
+											<div class="form-group fontlight">
 												<label for="formContrato:contrato_status">#{resources['label.global.status']}:</label>
 												#{contrato.status.name}
 												<ui:fragment rendered="#{contrato.dataParaBloqueio ne null}">
@@ -196,7 +217,7 @@
 								</div>
 							</div>
 							<div class="card">
-								<div class="card-header">
+								<div class="card-header font">
 									<i class="fa fa-user" /> <strong>#{resources['label.global.produtos']}</strong>
 								</div>
 								<div class="card-block">
@@ -604,6 +625,12 @@
 		      
 		//]]>
 		</script>
+		<script>
+		  $(function () {
+		    $('#contrato a:first').tab('show')
+		  })
+		</script>
+
 			
 	       	</ui:repeat>
 	    </div>

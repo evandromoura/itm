@@ -9,158 +9,57 @@
 
 	<ui:define name="corpo">
 	
-		<div>
-			
-		</div>
-	
-	
-	
-		<div class="container">
-		<div class="wpb_wrapper">
-			<h1 class="caps delay-200ms" style="animation-delay: 200ms;"><strong>Minha iTrix</strong>
-			<em>Resolva o que precisar de forma rápida e prática.</em></h1>
-		</div>
-		
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-          		<div class="text-center">
-          		<!-- <img src="resources/template/img/logo_itrix.png" /> -->
-          		</div>
-                <div class="card-group mw-100">
-                    <div class="card p-2" style="height: 32rem;">
-                        <div class="card-block">
-                        	<h:form method="POST" prependId="false">
-	                            <h1>Acesse sua conta</h1>
-	                            <p class="text-muted">Os seus serviços a qualquer hora. É rápido e seguro.</p>
-	                            <div class="input-group mb-1">
-	                                <span class="input-group-addon"><i class="icon-user"></i>
-	                                </span>
-									<h:inputText id="j_username"  styleClass="form-control col-form-label-lg" required="true" label="#{resources['label.global.usuario']}">
+	<body class="app flex-row align-items-center">
+	  <div class="container">
+	    <div class="row justify-content-center">
+	      <div class="col-md-8">
+	        <div class="card-group">
+	          <div class="card p-4">
+	            <div class="card-body site-titulos">
+	            <h:form method="POST" prependId="false">
+	              <h1 class="plan caps">Minha <b>iTrix</b></h1>
+	              <h4 class="light">Os seus serviços a qualquer hora. É rápido e seguro.</h4>
+	              <div class="input-group mb-3">
+	                <div class="input-group-prepend">
+	                  <span class="input-group-text"><i class="icon-user"></i></span>
+	                </div>
+	                <h:inputText id="j_username"  styleClass="form-control col-form-label-lg" required="true" label="#{resources['label.global.usuario']}">
 										<f:passThroughAttribute name="placeholder" value="CPF ou E-mail"  />
 										<f:passThroughAttribute name="required" value="required"  />
 									</h:inputText>
-	                            </div>
-	                            <div class="input-group mb-2">
-	                                <span class="input-group-addon"><i class="icon-lock"></i>
-	                                </span>
-	                                
-	                                <h:inputSecret id="j_password"  styleClass="form-control col-form-label-lg" required="true" label="#{resources['label.global.senha']}" redisplay="true">
+	              </div>
+	              <div class="input-group mb-4">
+	                <div class="input-group-prepend">
+	                  <span class="input-group-text"><i class="icon-lock"></i></span>
+	                </div>
+	                <h:inputSecret id="j_password"  styleClass="form-control col-form-label-lg" required="true" label="#{resources['label.global.senha']}" redisplay="true">
 										<f:passThroughAttribute name="placeholder" value="#{resources['label.global.senha']}" />
 										<f:passThroughAttribute name="required" value="required"  />
 									</h:inputSecret>
-									<div class="col-2 text-right">
-	                                    <button type="button" class="btn btn-link px-0">Esqueceu?</button>
-	                                </div>
-	                            </div>
-	                            <div class="row">
-	                                <div class="col-12">
-	                                   <h:commandButton id="login" value="#{resources['label.global.entrar']}" action="#{identity.login}" styleClass="btn btn-primary btn-lg btn-block" />
-
-	                                </div>
-	                            </div>
-	                            <br />
-	                           
-	                         </h:form>   
-	                          <div class="row py-3" >
-	                              <div class="col-12">
-	                              		<h4>Ainda não tem cadastro? </h4>
-	                  					<p class="text-muted">Crie seu usuário</p>
-	 
-	                                 	<button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#exampleModalLong">Cadastre-se Agora</button>
-
-	                              </div>
-	                          </div>
-						
-							<!-- Modal -->
-							<div class="modal fade" id="exampleModalLong" tabindex="9999" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-							  <div class="modal-dialog" role="document">
-							    <div class="modal-content">
-							      <div class="modal-header">
-							        <h5 class="modal-title" id="exampleModalLongTitle">Meu primeiro acesso</h5>
-							        <button type="button" class="close" data-dismiss="modal" aria-label="">
-							          <span aria-hidden="true"><i class="fa fa-close"></i></span>
-							        </button>
-							      </div>
-							      <h:form id="idFormPrimeiroAcesso">
-							      <div class="modal-body">
-​									<p class="h6">Para utilizar todos os serviços online do ITM é necessário confirmar os dados abaixo e criar sua senha.</p>
-	                                 
-	                                 		<h:messages showSummary="true" showDetail="false" infoClass="alert alert-success" errorClass="alert alert-danger" layout="list" style="width:96%"/>
-			                                
-			                                	<h:inputText id="idEmailPrimeiroAcesso" value="#{loginController.loginTO.cliente.email}" styleClass="form-control">
-			                                		<f:ajax  event="blur" listener="#{loginController.recuperarCliente}" execute="@this" render="idFormPrimeiroAcesso"/>
-			                                		<f:passThroughAttribute name="placeholder" value="#{resources['label.global.informeemail']}"  />
-			                                	</h:inputText>
-			                                	<br />
-			                                	<h:inputSecret value="#{loginController.loginTO.cliente.senha}" styleClass="form-control">
-			                                		<f:passThroughAttribute name="placeholder" value="#{resources['label.global.informesenha']}"  />
-			                                	</h:inputSecret>
-			                                	
-			                                
-			                                
-	                               
-							      </div>
-							      <div class="modal-footer">
-							        	<h:commandLink action="#{loginController.gravarCliente}" value="Cadastrar" styleClass="btn btn-primary active mt-1"  />
-							      </div>
-							       </h:form>
-							    </div>
-							  </div>
-							</div>
-							
-							<!-- fim modal -->
-
-                        </div>
-                         
-    
-                    </div>
-                       
-	                 <!-- <div class="card card-blank p-2"> -->
-                        <!-- <div class="card-block">     -->
-                        <!-- <h1>Auto Atendimento</h1>
-                        
-	                    
-					      <div class="card">
-					        <div class="card-body p-0 clearfix">
-					          <i class="fa fa-barcode  p-5 px-2 font-2xl mr-3 float-left"></i>
-					          <ul class="text-muted " style="list-style-type:none">
-					          	<li>Código de Barras</li>
-							  	<li>2ª via de conta	</li>  
-							  	<li>Conta Online</li>
-							  	<li>Religar Serviços</li>
-					          </ul>
-		
-					        </div>
-					      </div>
-					      
-					      <br /> -->
-					      <div class="card">
-					      
-					       
-					          <!-- publicidade -->
-							 	<div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-								  <div class="carousel-inner" role="listbox">
-								    <div class="carousel-item active">
-								      <img class="d-block img-fluid" src="#{request.contextPath}/resources/template/img/pub.png" alt="First slide" />
-								    </div>
-								    <div class="carousel-item">
-								      <img class="d-block img-fluid" src="#{request.contextPath}/resources/template/img/Fotolia_186457545_Subscription_Monthly_M.jpg" alt="Second slide" />
-								    </div>
-	
-								  </div>
-								</div>
-							  
-	
-					      </div>
-					      
-					    
-					 <!-- </div> -->   
-                    </div>
-                    
-                    
-                <!-- </div> -->
-            </div>
-        </div>
-    </div>
-</ui:define>
+	              </div>
+	              <div class="row">
+	                <div class="col-6">
+	                  <h:commandButton id="login" value="#{resources['label.global.entrar']}" action="#{identity.login}" styleClass="btn btn-primary btn-lg btn-block" />
+	                </div>
+	                <div class="col-6 text-right">
+	                  <button type="button" class="btn btn-link px-0">Esqueceu a senha?</button>
+	                </div>
+	              </div>
+	            </h:form> 
+	            </div>
+	          
+	          <!--  -->
+	          </div>
+	          
+	          <div class="card text-white bg-login py-5 d-md-down-none" style="width:44%; background-image: url(resources/template/img/login.png) ">
+	            <div class="card-body text-center">
+	              
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	  </body>
+	</ui:define>
 </ui:composition>

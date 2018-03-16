@@ -29,69 +29,13 @@
 		<h:outputStylesheet name="template/css/simple-line-icons.css" />
 		<h:outputStylesheet name="template/css/style1.8.css" />
 		<h:outputStylesheet name="template/css/custom.css" />
-		<h:outputStylesheet name="template/css/custom/arkahost.css" />
-		<h:outputStylesheet name="template/css/custom/menu.css" />
+		<link href="http://192.168.15.25:8888/itrix/wp-content/themes/arkahost/assets/css/reset.css" rel="stylesheet" type="text/css"/>		
+		<link href="http://192.168.15.25:8888/itrix/wp-content/themes/arkahost/assets/css/arkahost.css" rel="stylesheet" type="text/css"/>
 	</h:head>
-
 	<!-- <h:body styleClass="app flex-row align-items-center"> -->
 	<h:body>
-		<div class="top_nav">
-			<div class="container">
-			    <div class="left">
-				   	<ul class="topsocial">			
-				   	<li class="social faceboox delay-000ms" style="animation-delay: 0ms;">
-						<a href="http://itrixti" target="_blank">
-							<i class="fa fa-facebook"></i>
-						</a>
-					</li>
-					</ul>				    
-				</div><!-- end left -->
+	<ui:insert name="corpo" />
 		
-			    <div class="right nologin">
-		
-			    					    				        <ul class="tplinks">
-				        	            <li>
-			            	<strong>
-			            		<i class="fa fa-phone"></i> +55 61 3403 5393	            	</strong>
-			            </li>
-			            	            <li>
-			            	<a href="mailto:comercial@itrixti.com.br">
-				            	<img src="http://localhost:8888/itrix/wp-content/themes/arkahost/assets/images/site-icon1.png" alt=""></img>
-				            	WebMail		            </a>
-				        </li>
-				        	        </ul>
-			    </div><!-- end right -->
-			</div>
-		</div>
-		
-		<header class="header">
-			<div class="container">
-			    <!-- Logo -->
-			    <div class="logo">
-					<h:graphicImage value="/resources/template/img/logo_itrix.png" height="60">
-					</h:graphicImage>
-			    </div>
-			    
-				<!-- Navigation Menu -->
-			    <div class="menu">
-
-				            	<ul class="menu" >
-					            	<li><a href="http://localhost:8888/itrix/">Principal</a></li>
-								<li ><a href="#">Internet</a></li>
-								<li ><a href="http://localhost:8888/itrix/telefonia/">Telefonia</a></li>
-								<li ><a href="http://localhost:8888/itrix/seguranca/">Segurança</a></li>
-								<li ><a href="http://localhost:8888/itrix/contato/">Contato</a></li>
-							</ul>
-				</div>
-			</div>
-
-		</header>
-		<div class="clearfix"></div>
-
-		
-		<div class="app flex-row align-items-center">
-			<ui:insert name="corpo" />
-		</div>
 		
 		
 		
