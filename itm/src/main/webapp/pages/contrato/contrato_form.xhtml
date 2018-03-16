@@ -95,6 +95,11 @@
 											var="contratoProduto" styleClass="table">
 
 											<h:column>
+												<f:facet name="header">#{resources['label.global.qtd']}</f:facet>
+												<itm:numero value="#{contratoProduto.qtd}" styleClass="form-control" />
+											</h:column>
+											
+											<h:column>
 												<f:facet name="header">#{resources['label.global.data']}</f:facet>
 												<h:outputText value="#{contratoProduto.dataCriacao}">
 													<f:convertDateTime pattern="dd/MM/yyyy" />

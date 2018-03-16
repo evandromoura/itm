@@ -69,8 +69,7 @@ public class MailService {
 			
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(boleto.getContrato().getCliente().getEmail()
-					+",boletos@trixti.com.br"));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(boleto.getContrato().getCliente().getEmail()));
 			message.setSubject(titulo);
 			BodyPart messageBodyPart = new MimeBodyPart();
 			messageBodyPart.setContent(UtilEmail.corpo.replace("@@TEXTO", texto),"text/html");

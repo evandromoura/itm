@@ -19,12 +19,11 @@
 		<link rel="shortcut icon" href="img/favicon.png" />
 		<title>ITM</title>
 		<h:outputStylesheet name="template/css/bootstrap.min.css" />
-		<h:outputStylesheet name="template/css/style1.8.css" />
+		<h:outputStylesheet name="template/css/style.css" />
 		<h:outputStylesheet name="template/css/font-awesome.min.css" />
 		<h:outputStylesheet name="template/css/simple-line-icons.css" />
 		<h:outputStylesheet name="datatables/jquery.dataTables.min.css" />
 		<h:outputStylesheet name="template/css/custom-admin.css" />
-		<h:outputStylesheet name="template/css/custom.css" />
 		
 		<h:outputScript name="template/js/mascaras.js" />
 		<h:outputScript name="template/js/libs/jquery.min.js" />
@@ -56,31 +55,10 @@
 			</main>
 		</div>
 			<ui:include src="rodape.xhtml" />
-
-		<ui:include src="rodape.xhtml" />
-		<h:outputScript name="template/js/app.js" />
+			<h:outputScript name="template/js/app.js" />
 	</h:body>
 	</ui:fragment>
 	
-	
-	<ui:fragment rendered="#{securityBean.isPermissao('CLIENTE')}">
-		<h:body styleClass="app header-hidden aside-menu-hidden">
-
-		<div class="app-body site">
-			<main class="main">
-				<ol class="breadcrumb mb-0">
-					<ui:insert name="breadcrumb" />
-				</ol>
-				<h:messages globalOnly="true" showSummary="true" showDetail="false" infoClass="alert alert-success" errorClass="alert alert-danger" layout="list" style="width:96%"/>
-				<div class="container-fluid">
-					<ui:insert name="corpo" />
-				</div>
-			</main>
-		</div>
-
-
-	</h:body>
-	</ui:fragment>
 	
 
 </f:view>

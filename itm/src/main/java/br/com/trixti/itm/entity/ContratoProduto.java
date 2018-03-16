@@ -67,6 +67,8 @@ public class ContratoProduto implements java.io.Serializable {
 	@Column(name="data_fim")
 	private Date dataFim;
 	
+	private Integer qtd;
+	
 	@Enumerated(EnumType.STRING)
 	private TecnologiaEnum tecnologia;
 	
@@ -169,6 +171,14 @@ public class ContratoProduto implements java.io.Serializable {
 
 	public void setTecnologia(TecnologiaEnum tecnologia) {
 		this.tecnologia = tecnologia;
+	}
+
+	public Integer getQtd() {
+		return qtd;
+	}
+
+	public void setQtd(Integer qtd) {
+		this.qtd = qtd;
 	}
 
 }

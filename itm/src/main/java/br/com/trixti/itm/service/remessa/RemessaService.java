@@ -68,6 +68,7 @@ public class RemessaService extends AbstractService<Remessa>{
 		for (Boleto boleto : listaBoletoAberto) {
 			Integer qtdDiferenca = Long.valueOf(utilData.getDiferencaDias(new Date(), boleto.getDataVencimento())).intValue();
 			if(qtdDiferenca > 0){
+				boleto.setDataVencimento(utilData.adicionaDias(new Date(), 2));
 				String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.mensagemreevioatraso");
 				String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.mensagemreevioatrasosms");
 				mailService.enviarEmail(boleto,"ITRIX - Aviso - Negativação", texto);

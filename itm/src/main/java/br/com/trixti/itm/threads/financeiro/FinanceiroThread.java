@@ -93,7 +93,8 @@ public class FinanceiroThread {
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
 		if(ativo){
-			parametro = parametroService.recuperarParametro();
+			parametro = parametroService.recuperarParametro
+					();
 			List<Cliente> clientes = clienteService.listarAtivo();
 			for (Cliente cliente : clientes) {
 				BigDecimal valor = BigDecimal.ZERO;
@@ -344,7 +345,7 @@ public class FinanceiroThread {
 		}		 
 	}
 	
-	@Schedule(info = "Gerar-Arquivo-SICI", minute = "*", hour = "*",second="*/10", persistent = false)
+	@Schedule(info = "Gerar-Arquivo-SICI", minute = "*/10", hour = "*",second="*", persistent = false)
 	public void gerarArquivoSici() {
 		Date data= new Date();
 		UtilData utilData  = new UtilData();

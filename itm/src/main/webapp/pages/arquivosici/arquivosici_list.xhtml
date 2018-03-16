@@ -61,7 +61,7 @@
 								<f:facet name="header">
 									#{resources['label.global.acoes']}
 								</f:facet>
-								<a href="#{request.contextPath}/arquivoSici/editar/#{arquivoSici.id}" class="btn btn-info">#{resources['label.global.editar']}</a>
+								<a href="#{request.contextPath}/arquivosici/editar/#{arquivoSici.id}" class="btn btn-info">#{resources['label.global.editar']}</a>
 								<h:outputText value=" " />
 								<h:commandLink action="#{arquivoSiciController.excluir(arquivoSici)}"  styleClass="btn btn-info"
 									value="#{resources['label.global.excluir']}" immediate="true" />
