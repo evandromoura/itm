@@ -36,28 +36,24 @@
 		<h:outputScript name="datatables/jquery.dataTables.js" />
 	</h:head>
 
-	<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN')}">
 	<h:body styleClass="app header-fixed aside-menu-fixed aside-menu-hidden #{!customIdentity.menuAberto?'sidebar-hidden':'sidebar-fixed'}">
 		<ui:include  src="header.xhtml" />
 
-		<div class="app-body">
-			
-				<ui:include src="menu.xhtml" />
-
-			<main class="main">
-				<ol class="breadcrumb mb-0">
-					<ui:insert name="breadcrumb" />
-				</ol>
-				<h:messages globalOnly="true" showSummary="true" showDetail="false" infoClass="alert alert-success" errorClass="alert alert-danger" layout="list" style="width:96%"/>
-				<div class="container-fluid">
-					<ui:insert name="corpo" />
-				</div>
-			</main>
-		</div>
+			<div class="app-body">
+					<ui:include src="menu.xhtml" />
+					<main class="main">
+						<ol class="breadcrumb mb-0">
+							<ui:insert name="breadcrumb" />
+						</ol>
+						<h:messages globalOnly="true" showSummary="true" showDetail="false" infoClass="alert alert-success" errorClass="alert alert-danger" layout="list" style="width:96%"/>
+						<div class="container-fluid">
+							<ui:insert name="corpo" />
+						</div>
+					</main>
+			</div>
 			<ui:include src="rodape.xhtml" />
 			<h:outputScript name="template/js/app.js" />
 	</h:body>
-	</ui:fragment>
 	
 	
 
