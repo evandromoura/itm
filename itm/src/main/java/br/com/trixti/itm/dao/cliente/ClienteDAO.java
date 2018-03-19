@@ -22,8 +22,8 @@ import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.Produto;
+import br.com.trixti.itm.entity.Radacct;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
-import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.TecnologiaEnum;
 import br.com.trixti.itm.entity.TipoProduto;
 import br.com.trixti.itm.entity.Uf;
@@ -82,6 +82,21 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		if(clientePesquisa.getStatusContrato() != null){
 			predicateList.add(getCriteriaBuilder().equal(root.join("contratos", JoinType.LEFT).get("status"),clientePesquisa.getStatusContrato()));
 		}
+		
+//		if(true){
+//			CriteriaQuery<Radacct> criteriaRadacct = getCriteriaBuilder().createQuery(Radacct.class);
+//			Root<Radacct> rootRadacct = criteriaRadacct.from(Radacct.class);
+//			
+//			predicateList.add(getCriteriaBuilder().equal(root.join("contratos",JoinType.LEFT).join("autenticacoes",JoinType.LEFT).get("username"),
+//					rootRadacct.get("username")));
+//			
+//			
+//			Join<Booking, UsersProjects> userProjectsJoin = booking.join(Booking_.userProject, JoinType.INNER);
+//			Join<UsersProjects, User> userJoin = userProjectsJoin.join(UserProjects_.user);
+//			createQuery.where(cb.equal(userJoin.get(User_.id), userId)
+//					
+//					
+//		}
 		
 		if(clientePesquisa.getTipoPessoa() != null){
 			predicateList.add(getCriteriaBuilder().equal(root.get("tipoPessoa"),clientePesquisa.getTipoPessoa()));

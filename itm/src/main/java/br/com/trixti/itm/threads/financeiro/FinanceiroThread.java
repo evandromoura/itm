@@ -88,7 +88,7 @@ public class FinanceiroThread {
 	private @Inject ArquivoSiciService arquivoSiciService;
 	private @Inject UploadArquivoService uploadArquivoService;
 	
-	private boolean ativo = true;
+	private boolean ativo = false;
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
@@ -345,19 +345,21 @@ public class FinanceiroThread {
 		}		 
 	}
 	
-	@Schedule(info = "Gerar-Arquivo-SICI", minute = "*/10", hour = "*",second="*", persistent = false)
+	@Schedule(info = "Gerar-Arquivo-SICI", minute = "*/10", hour = "*", persistent = false)
 	public void gerarArquivoSici() {
-		Date data= new Date();
-		UtilData utilData  = new UtilData();
-		ArquivoSici arquivoSiciRetorno = arquivoSiciService.recuperarPorMesAno(utilData.getMesCorrente(data), String.valueOf(utilData.getAno(data)));
-		if(arquivoSiciRetorno == null){
-			ArquivoSici arquivoSici = new ArquivoSici();
-			arquivoSici.setData(data);
-			arquivoSici.setNomeArquivo("SICI_"+utilData.getMesCorrente(data)+"_"+utilData.getAno(data)+".xml");
-			arquivoSici.setXml(uploadArquivoService.gerarXml(data));
-			arquivoSici.setMes(utilData.getMesCorrente(data));
-			arquivoSici.setAno(String.valueOf(utilData.getAno(data)));
-			arquivoSiciService.incluir(arquivoSici);
+		if(ativo){
+			Date data= new Date();
+			UtilData utilData  = new UtilData();
+			ArquivoSici arquivoSiciRetorno = arquivoSiciService.recuperarPorMesAno(utilData.getMesCorrente(data), String.valueOf(utilData.getAno(data)));
+			if(arquivoSiciRetorno == null){
+				ArquivoSici arquivoSici = new ArquivoSici();
+				arquivoSici.setData(data);
+				arquivoSici.setNomeArquivo("SICI_"+utilData.getMesCorrente(data)+"_"+utilData.getAno(data)+".xml");
+				arquivoSici.setXml(uploadArquivoService.gerarXml(data));
+				arquivoSici.setMes(utilData.getMesCorrente(data));
+				arquivoSici.setAno(String.valueOf(utilData.getAno(data)));
+				arquivoSiciService.incluir(arquivoSici);
+			}	
 		}	
 	}
 	

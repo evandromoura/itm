@@ -12,10 +12,12 @@ import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.GrupoParametro;
+import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.Radcheck;
 import br.com.trixti.itm.entity.Radgroupreply;
 import br.com.trixti.itm.entity.Radreply;
 import br.com.trixti.itm.entity.Radusergroup;
+import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.radcheck.RadcheckService;
 import br.com.trixti.itm.service.radgroupreply.RadgroupreplyService;
 import br.com.trixti.itm.service.radreply.RadreplyService;
@@ -28,6 +30,7 @@ public class FreeRadiusService {
 	private @Inject RadcheckService radcheckService;
 	private @Inject RadusergroupService radusergroupService;
 	private @Inject RadgroupreplyService radgroupreplyService;
+	private @Inject ParametroService parametroService;
 	
 	public void sincronizarContrato(Contrato contrato){
 		if(contrato.getAutenticacoes() != null 
@@ -125,12 +128,13 @@ public class FreeRadiusService {
 	
 	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void suspenderContrato(Contrato contrato) {
+		Parametro parametro = parametroService.recuperarParametro();
 		if(contrato.getAutenticacoes() != null && !contrato.getAutenticacoes().isEmpty()){
 			for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
 				Radreply radreply = new Radreply();
 				radreply.setAttribute("Mikrotik-Rate-Limit");
 				radreply.setOp(":=");
-				radreply.setValue("512k/512k");
+				radreply.setValue(parametro.getUploadSuspensao().toString()+"k/"+parametro.getDownloadSuspensao().toString()+"k");
 				radreply.setUsername(contratoAutenticacao.getUsername());
 				radreplyService.incluir(radreply);
 			}	

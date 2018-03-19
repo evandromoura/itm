@@ -19,9 +19,6 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "radacct", schema = "public", uniqueConstraints = @UniqueConstraint(columnNames = "acctuniqueid"))
 public class Radacct implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6639390359357192409L;
 	private Long radacctid;
 //	private String acctsessionid;

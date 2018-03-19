@@ -135,6 +135,12 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="total_fibra_implantada_terceiro_prevista_km")
 	private BigDecimal totalFibraImplantadaTerceiroPrevistaKM;
 	
+	@Column(name="upload_suspensao")
+	private Integer uploadSuspensao;
+
+	@Column(name="download_suspensao")
+	private Integer downloadSuspensao;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -421,6 +427,22 @@ public class Parametro implements java.io.Serializable {
 
 	public void setTotalFibraImplantadaTerceiroPrevistaKM(BigDecimal totalFibraImplantadaTerceiroPrevistaKM) {
 		this.totalFibraImplantadaTerceiroPrevistaKM = totalFibraImplantadaTerceiroPrevistaKM;
+	}
+
+	public Integer getUploadSuspensao() {
+		return uploadSuspensao;
+	}
+
+	public void setUploadSuspensao(Integer uploadSuspensao) {
+		this.uploadSuspensao = uploadSuspensao;
+	}
+
+	public Integer getDownloadSuspensao() {
+		return downloadSuspensao;
+	}
+
+	public void setDownloadSuspensao(Integer downloadSuspensao) {
+		this.downloadSuspensao = downloadSuspensao;
 	}
 
 }
