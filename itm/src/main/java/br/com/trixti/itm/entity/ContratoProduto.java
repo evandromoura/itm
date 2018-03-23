@@ -180,5 +180,10 @@ public class ContratoProduto implements java.io.Serializable {
 	public void setQtd(Integer qtd) {
 		this.qtd = qtd;
 	}
+	
+	@Transient
+	public BigDecimal getValorTotal(){
+		return getValor().multiply(new BigDecimal(getQtd()));
+	}
 
 }

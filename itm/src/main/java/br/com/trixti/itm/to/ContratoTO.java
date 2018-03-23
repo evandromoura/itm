@@ -20,6 +20,7 @@ public class ContratoTO {
 	private Contrato contrato;
 	private String chaveMestra;
 	private Boleto boleto;
+	private boolean exibeSnmp;
 	
 	/**
 	 * Produto a ser Manipulado no Form
@@ -222,7 +223,13 @@ public class ContratoTO {
 		this.boleto = boleto;
 	}
 
+	public boolean isExibeSnmp() {
+		return exibeSnmp;
+	}
 
+	public void setExibeSnmp(boolean exibeSnmp) {
+		this.exibeSnmp = exibeSnmp;
+	}
 	
 
 }

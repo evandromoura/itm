@@ -49,6 +49,8 @@ public class ContratoAutenticacao implements java.io.Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "data_criacao", length = 29)
 	private Date dataCriacao;
+	
+	
 
 	public Integer getId() {
 		return id;
@@ -105,7 +107,5 @@ public class ContratoAutenticacao implements java.io.Serializable {
 	public void setGrupo(String grupo) {
 		this.grupo = grupo;
 	}
-	
-	
 
 }

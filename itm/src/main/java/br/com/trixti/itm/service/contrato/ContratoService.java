@@ -23,6 +23,7 @@ import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.ContratoProduto;
+import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
@@ -36,6 +37,7 @@ import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.contratonotificacao.ContratoNotificacaoService;
 import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
+import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.to.PeriodoTO;
 import br.com.trixti.itm.util.UtilData;
 
@@ -51,6 +53,7 @@ public class ContratoService extends AbstractService<Contrato> {
 	private @Inject ContratoNotificacaoService contratoNotificacaoService;
 	private @Inject FreeRadiusService freeRadiusService;
 	private @Inject BoletoService boletoService;
+	private @Inject ParametroService parametroService;
 	
 	
 	@Override
@@ -88,7 +91,7 @@ public class ContratoService extends AbstractService<Contrato> {
 			Integer dia = new Long(utilData.getDia(contrato.getDataCriacao())).intValue();
 			BigDecimal totalContrato = BigDecimal.ZERO;
 			for(ContratoProduto produto:contrato.getContratoProdutos()){
-				totalContrato = totalContrato.add(produto.getValor());
+				totalContrato = totalContrato.add(produto.getValor().multiply(new BigDecimal(produto.getQtd())));
 			}
 			BigDecimal totalCredito = new BigDecimal(totalContrato.doubleValue() - (BigDecimal.valueOf(totalContrato.doubleValue()).doubleValue()*(30-dia))/30).setScale(2,BigDecimal.ROUND_HALF_UP);
 			if(totalCredito.intValue() > 0){
@@ -193,7 +196,7 @@ public class ContratoService extends AbstractService<Contrato> {
 
 		BigDecimal totalProdutos = BigDecimal.ZERO;
 		for(ContratoProduto contratoProduto:contrato.getContratoProdutos()){
-			totalProdutos = totalProdutos.add(contratoProduto.getValor());
+			totalProdutos = totalProdutos.add(contratoProduto.getValor().multiply(new BigDecimal(contratoProduto.getQtd())));
 		}
 		
 		Double total = totalProdutos.doubleValue() * (12 -utilData.getDiferencaMes(new Date(), contrato.getDataCriacao()));
@@ -257,20 +260,16 @@ public class ContratoService extends AbstractService<Contrato> {
 		List<ContratoProduto> listaContratoProduto = contratoProdutoService.listarAtivos();
 		for(ContratoProduto contratoProduto:listaContratoProduto){
 			if(contratoProduto.getValor() != null){
-				total = total.add(contratoProduto.getValor());
+				total = total.add(contratoProduto.getValor().multiply(new BigDecimal(contratoProduto.getQtd())));
 			}	
 		}
 		return total;
 	}
 	
-	
 	public BigDecimal valorTotalAtrasado(){
-		BigDecimal total = BigDecimal.ZERO;
-		List<Boleto> boletos = boletoService.listarBoletoEmAtraso();
-		for(Boleto boleto:boletos){
-			total = total.add(boleto.getValor());
-		}
-		return total;
+		BigDecimal total = boletoService.somarBoletoEmAtraso();
+		System.out.println("VALOR = "+total);
+		return total!=null?total:BigDecimal.ZERO;
 	}
 	
 	public Integer qtdContratoCriadoPeriodo(PeriodoTO periodoTO) {
@@ -288,6 +287,13 @@ public class ContratoService extends AbstractService<Contrato> {
 	
 	public Integer qtdContratoCanceladoPeriodoPagantes(PeriodoTO periodoTO) {
 		return contratoDAO.qtdContratoCanceladoPeriodoPagantes(periodoTO);
+	}
+	
+	public void desbloquearContratoTemporariamente(Contrato contrato){
+		UtilData utilData = new UtilData();
+		Parametro parametro = parametroService.recuperarParametro();
+		contrato.setDataParaBloqueio(utilData.adicionaDias(new Date(), parametro.getQtdDiasDesbloqueioTemporario()));
+		desbloquear(contrato);
 	}
 	
 }

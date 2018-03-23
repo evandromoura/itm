@@ -68,7 +68,7 @@ public class DashboardService {
 				if(contratoProduto.getValor() == null || contratoProduto.getValor().compareTo(BigDecimal.ZERO)==0){
 					qtdNaoPagantes++;
 				}else{
-					valorDosValores= valorDosValores.add(contratoProduto.getValor());
+					valorDosValores= valorDosValores.add(contratoProduto.getValor().multiply(new BigDecimal(contratoProduto.getQtd())));
 					valorTotal = valorTotal.add(contratoProduto.getValor());
 					qtdPagantes++;
 				}

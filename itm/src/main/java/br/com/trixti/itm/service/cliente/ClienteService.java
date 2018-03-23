@@ -15,6 +15,7 @@ import br.com.trixti.itm.dao.cliente.ClienteDAO;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
+import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.TecnologiaEnum;
 import br.com.trixti.itm.entity.Uf;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
@@ -189,6 +190,16 @@ public class ClienteService extends AbstractService<Cliente> {
 	
 	public Integer somarTodosDownloadContratos() {
 		return clienteDAO.somarTodosDownloadContratos();
+	}
+	
+	public void desbloquearClienteTemporariamente(Cliente cliente){
+		if(cliente.getContratos() != null){
+			for(Contrato contrato:cliente.getContratos()){
+				if(contrato.getStatus().equals(StatusContrato.BLOQUEADO)){
+					contratoService.desbloquearContratoTemporariamente(contrato);
+				}
+			}
+		}
 	}
 
 }

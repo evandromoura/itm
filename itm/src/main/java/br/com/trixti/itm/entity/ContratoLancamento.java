@@ -66,6 +66,9 @@ public class ContratoLancamento implements java.io.Serializable {
 	@Transient
 	private boolean selecionado;
 	
+	@Transient
+	private Date dataBoleto;
+	
 	public ContratoLancamento(){}
 	
 	public ContratoLancamento(String descricao,Contrato contrato,
@@ -162,6 +165,14 @@ public class ContratoLancamento implements java.io.Serializable {
 	@Transient
 	public String getUid(){
 		return UUID.randomUUID().toString();
+	}
+
+	public Date getDataBoleto() {
+		return dataBoleto;
+	}
+
+	public void setDataBoleto(Date dataBoleto) {
+		this.dataBoleto = dataBoleto;
 	}
 	
 	

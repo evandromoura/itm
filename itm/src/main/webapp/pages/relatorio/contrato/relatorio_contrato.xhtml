@@ -83,7 +83,7 @@
 							</f:facet>
 							<ul>
 								<ui:repeat var="contratoProduto" value="#{contrato.contratoProdutos}">
-									<li><h:outputText value="#{contratoProduto.produto.nome}" />: <h:outputText value="#{contratoProduto.valor}" /></li>
+									<li><h:outputText value="#{contratoProduto.produto.nome}" />: <h:outputText value="#{contratoProduto.valor}" /> x <h:outputText value="#{contratoProduto.qtd}" /></li>
 								</ui:repeat>
 							</ul>
 						</h:column>

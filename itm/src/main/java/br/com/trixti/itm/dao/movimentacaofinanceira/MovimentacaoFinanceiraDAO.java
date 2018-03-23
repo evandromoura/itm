@@ -45,4 +45,14 @@ public class MovimentacaoFinanceiraDAO extends AbstractDAO<MovimentacaoFinanceir
 			return getManager().createQuery(criteria).getSingleResult();
 	}
 
+	@Override
+	public List<MovimentacaoFinanceira> listar() {
+		CriteriaQuery<MovimentacaoFinanceira> criteria = getCriteriaBuilder().createQuery(MovimentacaoFinanceira.class);
+		Root<MovimentacaoFinanceira> root = criteria.from(MovimentacaoFinanceira.class);
+		return getManager().createQuery(criteria.select(root).orderBy(getCriteriaBuilder().desc(root.get("data")))).getResultList();
+	
+	}
+	
+	
+
 }

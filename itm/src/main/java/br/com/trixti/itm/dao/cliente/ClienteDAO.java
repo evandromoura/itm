@@ -114,7 +114,7 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		}
 		
 		if(clientePesquisa.isComPagamento()){
-			Join<Contrato,ContratoProduto> join =  root.join("contratos",JoinType.LEFT).join("contratoProdutos",JoinType.LEFT);
+			Join<Contrato,ContratoProduto> join =  root.join("contratos",JoinType.LEFT).join("contratoProdutos");
 			predicateList.add(getCriteriaBuilder().or(getCriteriaBuilder().isNull(join.get("valor")),getCriteriaBuilder().greaterThan(join.<BigDecimal>get("valor"), BigDecimal.ZERO)));
 		}
 		

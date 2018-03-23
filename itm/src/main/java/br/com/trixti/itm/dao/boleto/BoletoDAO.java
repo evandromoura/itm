@@ -1,5 +1,6 @@
 package br.com.trixti.itm.dao.boleto;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,7 +19,6 @@ import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.Remessa;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
-import br.com.trixti.itm.to.PeriodoTO;
 import br.com.trixti.itm.util.UtilData;
 
 public class BoletoDAO extends AbstractDAO<Boleto> {
@@ -160,13 +160,13 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 	public List<Boleto> pesquisarBoletoEmAbertoContratoComAviso(Contrato contrato) {
 		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
 		Root<Boleto> root = criteria.from(Boleto.class);
-		return getManager()
+		return inicializarBoletos(getManager()
 				.createQuery(criteria.select(root).where(
 						getCriteriaBuilder().equal(root.get("contrato"), contrato),
 						getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO),
 						getCriteriaBuilder().isNotNull(root.<Date>get("dataNotificacao")))
 						)
-				.getResultList();
+				.getResultList());
 	}
 
 	public List<Boleto> pesquisarBoletoRemessa(Remessa remessa) {
@@ -185,6 +185,17 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 						getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO))
 					.orderBy(getCriteriaBuilder().asc(root.get("contrato").get("cliente").get("nome"))))
 				.getResultList();
+	}
+	
+	
+	
+	public BigDecimal somarBoletoEmAtraso() {
+		CriteriaQuery<BigDecimal> criteria = getCriteriaBuilder().createQuery(BigDecimal.class);
+		Root<Boleto> root = criteria.from(Boleto.class);
+		criteria.select(getCriteriaBuilder().sum(root.<BigDecimal>get("valor"))).where(
+				getCriteriaBuilder().lessThan(root.<Date>get("dataVencimento"), new Date()),
+				getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO));
+		return getManager().createQuery(criteria).getSingleResult();
 	}
 
 }

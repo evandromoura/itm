@@ -88,13 +88,12 @@ public class FinanceiroThread {
 	private @Inject ArquivoSiciService arquivoSiciService;
 	private @Inject UploadArquivoService uploadArquivoService;
 	
-	private boolean ativo = false;
+	private boolean ativo = true;
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
 		if(ativo){
-			parametro = parametroService.recuperarParametro
-					();
+			parametro = parametroService.recuperarParametro();
 			List<Cliente> clientes = clienteService.listarAtivo();
 			for (Cliente cliente : clientes) {
 				BigDecimal valor = BigDecimal.ZERO;
@@ -477,7 +476,7 @@ public class FinanceiroThread {
 							contratoLancamento.setDescricao(produto.getProduto().getNome());
 							contratoLancamento.setStatus(StatusLancamentoEnum.PENDENTE);
 							contratoLancamento.setTipoLancamento(TipoLancamentoEnum.DEBITO);
-							contratoLancamento.setValor(produto.getValor());
+							contratoLancamento.setValor(produto.getValor().multiply(new BigDecimal(produto.getQtd())));
 							contratoLancamentoService.incluir(contratoLancamento);
 		
 							BoletoLancamento boletoLancamento = new BoletoLancamento();
@@ -485,7 +484,7 @@ public class FinanceiroThread {
 							boletoLancamento.setContratoLancamento(contratoLancamento);
 		
 							lancamentosBoleto.add(boletoLancamento);
-							valor = valor.add(produto.getValor());
+							valor = valor.add(produto.getValor().multiply(new BigDecimal(produto.getQtd())));
 						}
 					
 						if (valor.intValue() > 0) {

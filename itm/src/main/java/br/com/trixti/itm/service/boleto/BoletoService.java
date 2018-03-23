@@ -30,9 +30,12 @@ import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boletolancamento.BoletoLancamentoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
+import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.movimentacaofinanceira.MovimentacaoFinanceiraService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.remessa.RemessaService;
+import br.com.trixti.itm.service.sms.SMSService;
+import br.com.trixti.itm.util.UtilData;
 
 @Stateless
 public class BoletoService extends AbstractService<Boleto>{
@@ -44,6 +47,8 @@ public class BoletoService extends AbstractService<Boleto>{
 	private @Inject ParametroService parametroService;
 	private @Inject RemessaService remessaService;
 	private @Inject MovimentacaoFinanceiraService movimentacaoFinanceiraService;
+	private @Inject MailService mailService;
+	private @Inject SMSService smsService;
 	
 	public void criarBoleto()throws Exception{
 		Date dataAtual = new Date();
@@ -168,6 +173,10 @@ public class BoletoService extends AbstractService<Boleto>{
 	public List<Boleto> listarBoletoEmAtraso() {
 		return boletoDAO.listarBoletoEmAtraso();
 	}
+	
+	public BigDecimal somarBoletoEmAtraso(){
+		return boletoDAO.somarBoletoEmAtraso();
+	}
 
 	public void pagar(Boleto boleto,String chaveMestra) throws Exception{
 		Parametro parametro = parametroService.recuperarParametro();
@@ -192,4 +201,21 @@ public class BoletoService extends AbstractService<Boleto>{
 	public static void main(String[] args) {
 		System.out.println(DigestUtils.md5Hex("pagamentoitrix@!"));
 	}
+	
+	
+	public void enviarEmail(Boleto boleto){
+		mailService.enviarEmail(boleto,null,"Sua fatura está disponível");
+	}
+
+	public void enviarSMS(Boleto boleto){
+		smsService.enviarSMS(boleto);
+	}
+	
+	public void enviarSegundaVia(Boleto boleto){
+		UtilData utilData = new UtilData();
+		boleto.setDataVencimento(utilData.adicionaDias(new Date(), 1));
+		enviarEmail(boleto);
+		enviarSMS(boleto);
+	}
+	
 }

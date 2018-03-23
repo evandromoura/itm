@@ -169,23 +169,19 @@
 									<i class="fa fa-tags" />
 									<strong>#{resources['label.global.produtos']}</strong>
 								</div>
-
 								<div class="card-block">
-
 									<h:panelGroup id="idGroupProduto">
-
 										<div class="row">
 											<div class="col-sm-12">
-											
-											
 											<table id="idDataTableContratoProduto" class="table table-bordered">
-											
 												<thead>
 													<tr>
 													<th class="visible-md visible-lg" scope="col">#{resources['label.global.data']}</th>
+													<th scope="col">#{resources['label.global.qtd']}</th>
 													<th scope="col">#{resources['label.global.nome']}</th>
 													<th scope="col">#{resources['label.global.tecnologia']}</th>
 													<th scope="col" class="visible-md visible-lg">#{resources['label.global.valorbase']}</th>
+													<th scope="col">#{resources['label.global.unid']}</th>
 													<th scope="col">#{resources['label.global.valortotal']}</th>
 													<th scope="col">#{resources['label.global.datainicio']}</th>
 													<th scope="col">#{resources['label.global.datafim']}</th>
@@ -197,6 +193,9 @@
 														<h:outputText value="#{contratoProduto.dataCriacao}">
 															<f:convertDateTime pattern="dd/MM/yyyy" />
 														</h:outputText>
+													</td>
+													<td>
+														<h:outputText value="#{contratoProduto.qtd}x" />
 													</td>
 													<td>
 														<h:outputText value="#{contratoProduto.produto.nome}" />
@@ -217,29 +216,28 @@
 													
 													</td>
 													<td>
+														<h:outputText value="#{contratoProduto.valorTotal}">
+															<f:convertNumber pattern="#,##0.00" /> 
+														</h:outputText>
+													</td>
+													<td>
 														<h:outputText value="#{contratoProduto.dataInicio}">
 															<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
 														</h:outputText>
-													
 													</td>
 													<td>
 														<h:outputText value="#{contratoProduto.dataFim}">
 															<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
 														</h:outputText>
-													
 													</td>
 												</tr>
 											</ui:repeat>
-											
 											</table>
-												
 											</div>
 										</div>
 									</h:panelGroup>
-
 								</div>
 							</div>
-
 
 							<div class="card card-accent-success">
 								<div class="card-header">
@@ -365,11 +363,28 @@
 						</div>
 					</div>
 
-
-					<ui:fragment rendered="#{not empty contratoViewController.contratoTO.contrato.autenticacoes}">
+					
+					<ui:fragment rendered="#{contratoViewController.contratoTO.exibeSnmp and not empty contratoViewController.contratoTO.contrato.autenticacoes}">
 						<ui:repeat var="autenticacao" value="#{contratoViewController.contratoTO.contrato.autenticacoes}">
 							<itm:snmp username="#{autenticacao.username}" />
 						</ui:repeat>	
+					</ui:fragment>
+					<ui:fragment rendered="#{!contratoViewController.contratoTO.exibeSnmp and not empty contratoViewController.contratoTO.contrato.autenticacoes}">
+							<div class="card card-accent-success">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="card-block">
+											<div class="row">
+												<div class="col-sm-12 text-center">
+													<h:commandButton value="#{resources['label.global.exibirmedidordetrafego']}" styleClass="btn btn-success btn-lg text-center">
+														<f:setPropertyActionListener value="true" target="#{contratoViewController.contratoTO.exibeSnmp}" />
+													</h:commandButton>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 					</ui:fragment>		
 
 
@@ -402,8 +417,19 @@
 													<h:outputText value="#{resources['label.global.geraboleto']}:" />
 												</div> 
 												<div class="col-md-10">
-													 <h:selectBooleanCheckbox value="#{contratoViewController.contratoTO.contratoLancamento.geraBoleto}" label="#{resources['label.global.geraboleto']}" />
+													 <h:selectBooleanCheckbox value="#{contratoViewController.contratoTO.contratoLancamento.geraBoleto}" label="#{resources['label.global.geraboleto']}">
+													 	<f:ajax event="click" render="idFormContratoView"  execute="idFormContratoView" />
+													 </h:selectBooleanCheckbox>
 												</div>
+												
+												<ui:fragment rendered="#{contratoViewController.contratoTO.contratoLancamento.geraBoleto}">
+													<div class="col-md-2">
+														<h:outputText value="#{resources['label.global.databoleto']}:" />
+													</div>
+													<div class="col-md-10">
+														 <itm:data value="#{contratoViewController.contratoTO.contratoLancamento.dataBoleto}" label="#{resources['label.global.databoleto']}" />
+													</div>
+												</ui:fragment>
 												
 												<div class="col-md-2">
 													<h:outputText value="#{resources['label.global.tipolancamento']}:" />

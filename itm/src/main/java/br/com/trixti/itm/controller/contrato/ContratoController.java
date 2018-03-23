@@ -54,6 +54,7 @@ public class ContratoController extends AbstractController<Contrato> implements 
 		getContratoTO().setContrato(contratoService.recuperarCompleto(Integer.valueOf(id)));
 		getContratoTO().getContratoAutenticacao().setSenha(new UtilRandomString(6).nextString());
 		getContratoTO().getContrato().setCriarLancamentoCredito(true);
+		getContratoTO().setExibeSnmp(false);
 	}
 	
 	
@@ -64,7 +65,7 @@ public class ContratoController extends AbstractController<Contrato> implements 
 		contratoProduto.setValor(produto.getValor());
 		contratoProduto.setValorBase(produto.getValor());
 		contratoProduto.setProduto(produto);
-		
+		contratoProduto.setQtd(1);
 		Date dataLocal = new Date();
 		contratoProduto.setDataCriacao(dataLocal);
 		contratoProduto.setDataInicio(dataLocal);

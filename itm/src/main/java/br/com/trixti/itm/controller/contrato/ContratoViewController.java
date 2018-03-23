@@ -32,6 +32,7 @@ import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.remessa.RemessaService;
+import br.com.trixti.itm.service.sms.SMSService;
 //import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilArquivo;
@@ -49,7 +50,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject BoletoService boletoService;
 	private @Inject ParametroService parametroService;
 	private @Inject MailService mailService;
-//	private @Inject SMSService smsService;
+	private @Inject SMSService smsService;
 	private @Inject RemessaService remessaService;
 	
 
@@ -92,7 +93,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	}
 
 	public void enviarSMS(Boleto boleto){
-//		smsService.enviarSMS(boleto);
+		smsService.enviarSMS(boleto);
 		getFacesContext().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "SMS enviado com sucesso!", "SMS enviado com sucesso!"));
 	}
 	
@@ -105,7 +106,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			Boleto boleto = new Boleto();
 			boleto.setContrato(getContratoTO().getContrato());
 			boleto.setDataCriacao(new Date());
-			boleto.setDataVencimento(new Date());
+			boleto.setDataVencimento(getContratoTO().getContratoLancamento().getDataBoleto() != null?getContratoTO().getContratoLancamento().getDataBoleto():new Date());
 			boleto.setValor(getContratoTO().getContratoLancamento().getValor());
 			List<BoletoLancamento> listaBoletoLancamento = new ArrayList<BoletoLancamento>();
 			BoletoLancamento boletoLancamento = new BoletoLancamento();
@@ -194,12 +195,8 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	}
 	
 	public void desbloquearContratoTemporariamente(){
-		UtilData utilData = new UtilData();
-		getContratoTO().getContrato().setStatus(StatusContrato.ATIVO);
-		getContratoTO().getContrato().setDataParaBloqueio(utilData.adicionaDias(new Date(), getContratoTO().getParametro().getQtdDiasDesbloqueioTemporario()));
-		contratoService.alterar(getContratoTO().getContrato());
+		contratoService.desbloquearContratoTemporariamente(getContratoTO().getContrato());
 	}
-	
 	
 	public void atribuirBoletoSegundaVia(Boleto boleto){
 		getContratoTO().setBoletoSegundaVia(boleto);
