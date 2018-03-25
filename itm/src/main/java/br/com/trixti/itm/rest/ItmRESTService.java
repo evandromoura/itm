@@ -25,6 +25,7 @@ import br.com.trixti.itm.service.dashboard.DashboardService;
 import br.com.trixti.itm.to.BoletoLancamentoWS;
 import br.com.trixti.itm.to.BoletoWS;
 import br.com.trixti.itm.to.ClienteWSTO;
+import br.com.trixti.itm.to.ContratoWSTO;
 import br.com.trixti.itm.to.DashboardWSTO;
 import br.com.trixti.itm.to.TagWS;
 
@@ -89,11 +90,13 @@ public class ItmRESTService {
 		cliente1.setPromessa(true);
 		List<BoletoWS> listaBoleto = new ArrayList<BoletoWS>();
 		if(cliente != null && cliente.getContratos() != null){
+			List<ContratoWSTO> contratosWSTO = new ArrayList<ContratoWSTO>();
 			for(Contrato contrato:cliente.getContratos()){
 				if(contrato.getDataParaBloqueio() != null){
 					cliente1.setPromessa(false);
 				}
-				List<Boleto> boletosEmAbertos = boletoService.pesquisarBoletoEmAbertoContratoComAviso(contrato);
+				contratosWSTO.add(new ContratoWSTO(contrato));
+				List<Boleto> boletosEmAbertos = boletoService.pesquisarBoletoEmAtraso(contrato);
 				if(boletosEmAbertos != null){
 					for(Boleto boleto:boletosEmAbertos){
 						List<BoletoLancamentoWS> lancamentosWs = new ArrayList<BoletoLancamentoWS>();
@@ -106,6 +109,7 @@ public class ItmRESTService {
 					}
 				}	
 			}
+			cliente1.setContratos(contratosWSTO);
 		}	
 		if(cliente != null && cliente.getClienteTags() != null){
 			List<TagWS> tags = new ArrayList<TagWS>();

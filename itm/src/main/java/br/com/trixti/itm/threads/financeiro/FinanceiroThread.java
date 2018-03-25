@@ -377,7 +377,7 @@ public class FinanceiroThread {
 		UtilData utilData = new UtilData();
 		List<Boleto> boletos = boletoService.pesquisarBoletoEmAbertoContrato(contrato);
 		for (Boleto boleto : boletos) {
-			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasAviso()) {
+			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasAviso() && contrato.getDataParaBloqueio() == null) {
 				if (contrato.getStatus().equals(StatusContrato.ATIVO)) {
 					contrato.setStatus(StatusContrato.SUSPENSO);
 					contratoService.alterar(contrato);
@@ -385,7 +385,7 @@ public class FinanceiroThread {
 					boleto.setDataVencimento(new Date());
 					String texto = "Sua velocidade foi reduzida, pague seu boleto e evite bloqueio.";
 					mailService.enviarEmail(boleto,null,texto);
-					smsService.enviarSMS(boleto, texto);
+					smsService.enviarSMSSemData(boleto, texto);
 					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto, MeioEnvioContratoNotificacao.EMAIL, TipoContratoNotificacao.ENVIO_BOLETO, texto));
 				}
 			}

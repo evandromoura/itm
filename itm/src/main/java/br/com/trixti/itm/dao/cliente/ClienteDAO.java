@@ -211,7 +211,7 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 	public ClienteWSTO recuperarPorCpfWS(String cpf) {
 		try{
 			Query query = getManager()
-					.createNativeQuery("select * from itm_cliente where ( UPPER(TRANSLATE( cpf_cnpj,'.-','' ) ) like '%" + cpf + "%')",
+					.createNativeQuery("select * from itm_cliente where ( UPPER(TRANSLATE( cpf_cnpj,'./-','' ) ) like '%" + cpf + "%')",
 							Cliente.class);
 			Cliente cliente = (Cliente)query.getSingleResult();
 			ClienteWSTO clienteRetorno = new ClienteWSTO(cliente.getId(),cliente.getCpfCnpj(),cliente.getNome());

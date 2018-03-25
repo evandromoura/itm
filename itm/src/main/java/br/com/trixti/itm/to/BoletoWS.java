@@ -6,18 +6,21 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import br.com.trixti.itm.util.UtilData;
+
 @XmlRootElement
 public class BoletoWS {
 
 	private Integer id;
-//	private Date dataVencimento;
+	private Date dataVencimento;
 	private BigDecimal valor;
 	private Integer qtdLancamentos;
 	private List<BoletoLancamentoWS> lancamentos;
 	
+	
 	public BoletoWS(Integer id, Date data, BigDecimal valor,List<BoletoLancamentoWS> lancamentos){
 		setValor(valor);
-//		setDataVencimento(data);
+		setDataVencimento(data);
 		setLancamentos(lancamentos);
 		setId(id);
 		if(lancamentos != null){
@@ -25,12 +28,15 @@ public class BoletoWS {
 		}
 	}
 	
-//	public Date getDataVencimento() {
-//		return dataVencimento;
-//	}
-//	public void setDataVencimento(Date dataVencimento) {
-//		this.dataVencimento = dataVencimento;
-//	}
+	public String getDataVencimento() {
+		UtilData utilData = new UtilData();
+		return utilData.formatDate(this.dataVencimento, "dd/MM/yyyy");
+	}
+	
+	
+	public void setDataVencimento(Date dataVencimento) {
+		this.dataVencimento = dataVencimento;
+	}
 	public BigDecimal getValor() {
 		return valor;
 	}

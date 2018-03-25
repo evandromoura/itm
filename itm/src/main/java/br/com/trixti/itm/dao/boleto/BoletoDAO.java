@@ -62,10 +62,11 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 	public List<Boleto> pesquisarBoletoEmAbertoContrato(Contrato contrato) {
 		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
 		Root<Boleto> root = criteria.from(Boleto.class);
-		return getManager()
+		root.fetch("lancamentos", JoinType.LEFT).fetch("contratoLancamento",JoinType.LEFT);
+		return inicializarBoletos(getManager()
 				.createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("contrato"), contrato),
 						getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO)))
-				.getResultList();
+				.getResultList());
 	}
 	
 	public List<Boleto> pesquisarBoletoEmAberto() {
@@ -99,6 +100,7 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 	public List<Boleto> pesquisarUltimosBoletosCliente(Cliente cliente){
 		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
 		Root<Boleto> root = criteria.from(Boleto.class);
+		root.fetch("lancamentos", JoinType.LEFT).fetch("contratoLancamento",JoinType.LEFT);
 		return inicializarBoletos(getManager().createQuery(criteria.select(root).
 				where(
 						getCriteriaBuilder().equal(root.join("contrato",JoinType.LEFT).get("cliente"),cliente),
@@ -160,9 +162,24 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 	public List<Boleto> pesquisarBoletoEmAbertoContratoComAviso(Contrato contrato) {
 		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
 		Root<Boleto> root = criteria.from(Boleto.class);
+		root.fetch("lancamentos", JoinType.LEFT).fetch("contratoLancamento",JoinType.LEFT);
 		return inicializarBoletos(getManager()
 				.createQuery(criteria.select(root).where(
 						getCriteriaBuilder().equal(root.get("contrato"), contrato),
+						getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO),
+						getCriteriaBuilder().isNotNull(root.<Date>get("dataNotificacao")))
+						)
+				.getResultList());
+	}
+	
+	public List<Boleto> pesquisarBoletoEmAtraso(Contrato contrato) {
+		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
+		Root<Boleto> root = criteria.from(Boleto.class);
+		root.fetch("lancamentos", JoinType.LEFT).fetch("contratoLancamento",JoinType.LEFT);
+		return inicializarBoletos(getManager()
+				.createQuery(criteria.select(root).where(
+						getCriteriaBuilder().equal(root.get("contrato"), contrato),
+						getCriteriaBuilder().lessThan(root.<Date>get("dataVencimento"), new Date()),
 						getCriteriaBuilder().equal(root.get("status"), StatusBoletoEnum.ABERTO),
 						getCriteriaBuilder().isNotNull(root.<Date>get("dataNotificacao")))
 						)

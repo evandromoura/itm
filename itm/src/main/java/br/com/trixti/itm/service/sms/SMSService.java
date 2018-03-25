@@ -84,6 +84,19 @@ public class SMSService extends AbstractService<SMS> {
 		}
 	}
 	
+	
+	@Asynchronous
+	public void enviarSMSSemData(Boleto boleto,String msg){
+		try {
+			SMS sms = new SMSBuilder().dddTelefone("").numeroTelefone(boleto.getContrato().getCliente().getTelefoneCelular()).mensagem(comporTextoSMS(boleto,msg)).build();
+			sms.setDataCriacao(LocalDateTime.now());
+			smsDAO.incluir(sms);
+			envioSMSZenviaService.enviar(sms);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private String comporTextoSMS(Boleto boleto){
 		UtilData utilData = new UtilData();
 		UtilString utilString = new UtilString();

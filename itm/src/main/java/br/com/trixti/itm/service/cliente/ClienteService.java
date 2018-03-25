@@ -193,10 +193,10 @@ public class ClienteService extends AbstractService<Cliente> {
 	}
 	
 	public void desbloquearClienteTemporariamente(Cliente cliente){
-		if(cliente.getContratos() != null){
+		if(cliente != null && cliente.getContratos() != null){
 			for(Contrato contrato:cliente.getContratos()){
 				if(contrato.getStatus().equals(StatusContrato.BLOQUEADO)){
-					contratoService.desbloquearContratoTemporariamente(contrato);
+					contratoService.desbloquearContratoTemporariamente(contratoService.recuperarCompleto(contrato.getId()));
 				}
 			}
 		}

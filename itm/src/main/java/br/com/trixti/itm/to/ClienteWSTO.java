@@ -13,6 +13,7 @@ public class ClienteWSTO {
 	private List<BoletoWS> boletos;
 	private boolean resultado;
 	private boolean promessa;
+	private List<ContratoWSTO> contratos;
 	
 	public ClienteWSTO(Integer id, String cpf,String nome){
 		setId(id);
@@ -91,6 +92,14 @@ public class ClienteWSTO {
 
 	public void setPromessa(boolean promessa) {
 		this.promessa = promessa;
+	}
+
+	public List<ContratoWSTO> getContratos() {
+		return contratos;
+	}
+
+	public void setContratos(List<ContratoWSTO> contratos) {
+		this.contratos = contratos;
 	}
 	
 }
