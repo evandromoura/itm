@@ -1,9 +1,12 @@
 package br.com.trixti.itm.entity;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -25,6 +28,9 @@ public class Tag implements java.io.Serializable {
 	
 	@Transient
 	private boolean selecionado;
+	
+	@OneToMany(mappedBy="tag")
+	private List<NotificacaoTag> notificacoes;
 
 	public Integer getId() {
 		return id;
@@ -56,6 +62,14 @@ public class Tag implements java.io.Serializable {
 
 	public void setSelecionado(boolean selecionado) {
 		this.selecionado = selecionado;
+	}
+
+	public List<NotificacaoTag> getNotificacoes() {
+		return notificacoes;
+	}
+
+	public void setNotificacoes(List<NotificacaoTag> notificacoes) {
+		this.notificacoes = notificacoes;
 	}
 
 }

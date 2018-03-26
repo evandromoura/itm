@@ -4,6 +4,7 @@ import java.util.Date;
 
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.StatusContrato;
+import br.com.trixti.itm.util.UtilData;
 
 public class ContratoWSTO {
 	
@@ -35,8 +36,9 @@ public class ContratoWSTO {
 		this.identificador = identificador;
 	}
 
-	public Date getDataCadastro() {
-		return dataCadastro;
+	public String getDataCadastro() {
+		UtilData utilData = new UtilData();
+		return utilData.formatDate(this.dataCadastro, "dd/MM/yyyy");
 	}
 
 	public void setDataCadastro(Date dataCadastro) {

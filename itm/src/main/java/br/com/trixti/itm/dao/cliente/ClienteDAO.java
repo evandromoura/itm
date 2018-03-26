@@ -130,6 +130,10 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 			predicateList.add(getCriteriaBuilder().not(getCriteriaBuilder().isEmpty(root.<List<Contrato>>get("contratos"))));
 		}
 		
+		if(clientePesquisa.isComPromessa()){
+			predicateList.add(getCriteriaBuilder().isNotNull(root.join("contratos").get("dataParaBloqueio")));
+		}
+		
 		if(clientePesquisa.isSemProduto()){
 			predicateList.add(getCriteriaBuilder().isEmpty(root.join("contratos").<List<ContratoProduto>>get("contratoProdutos")));
 		}
@@ -171,11 +175,11 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 			if(cliente.getClienteTags() != null){
 				for(ClienteTag clienteTag:cliente.getClienteTags()){
 					clienteTag.getTag().getId();
+					if(clienteTag.getTag().getNotificacoes() != null){
+						clienteTag.getTag().getNotificacoes().size();
+					}
 				}
-				
 			}
-			
-			
 		}	
 		return cliente;
 	}

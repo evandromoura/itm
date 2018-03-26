@@ -10,6 +10,10 @@
 	<ui:param name="menu" value="arquivoSici" />
 	
 	<ui:define name="corpo">
+		<h:outputStylesheet name="highlight/default.min.css" />
+		<h:outputScript name="highlight/highlight.min.js" />
+		<script>hljs.initHighlightingOnLoad();</script>
+		
 		<div class="col-sm-12">
 			<h:form id="formArquivoSici">
 				<div class="card card-accent-info">
@@ -20,7 +24,7 @@
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="form-group">
-									<h:inputTextarea disabled="true" value="#{arquivoSiciController.arquivoSiciTO.arquivoSici.xml}" styleClass="form-control" rows="300"/>
+									<pre><code class="xml">#{arquivoSiciController.arquivoSiciTO.arquivoSici.xml}</code></pre>
 									 
 								</div>
 							</div>

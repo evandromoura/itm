@@ -144,6 +144,9 @@ public class Cliente implements java.io.Serializable {
 	private boolean semTag;
 	
 	@Transient
+	private boolean comPromessa;
+	
+	@Transient
 	private PeriodoTO periodoCadastroContrato;
 	
 	public Cliente() {
@@ -415,6 +418,14 @@ public class Cliente implements java.io.Serializable {
 
 	public void setSemProduto(boolean semProduto) {
 		this.semProduto = semProduto;
+	}
+
+	public boolean isComPromessa() {
+		return comPromessa;
+	}
+
+	public void setComPromessa(boolean comPromessa) {
+		this.comPromessa = comPromessa;
 	}
 	
 }

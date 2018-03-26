@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:param name="menu" value="notificacao" />
+	
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formNotificacao">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.cadastronotificacao']}</strong> 
+					</div>
+					<div class="card-block">
+						
+						<div class="row">
+							<div class="col-sm-7">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label for="formNotificacao:nome_notificacao">#{resources['label.global.nome']}</label> 
+											<h:inputText value="#{notificacaoController.notificacaoTO.notificacao.nome}" id="nome_notificacao" styleClass="form-control" />
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<label for="formNotificacao:data_inicio_notificacao">#{resources['label.global.datainicio']}</label>
+										<itm:datahora value="#{notificacaoController.notificacaoTO.notificacao.dataInicio}" id="data_inicio_notificacao" styleClass="form-control" />
+									</div>
+									<div class="col-sm-6">
+										<label for="formNotificacao:data_inicio_notificacao">#{resources['label.global.datafim']}</label>
+										<itm:datahora value="#{notificacaoController.notificacaoTO.notificacao.dataFim}" id="data_fim_notificacao" styleClass="form-control" />
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-5">
+									<h:panelGroup id="idPanelTags">
+										<div class="card card-accent-info">
+										
+											<div class="card-header">
+												<strong>#{resources['label.global.tags']}</strong>
+												<a class="badge badge-success float-right" data-toggle="modal" data-target="#idSelecionarTag">
+													<i class="fa fa-plus"></i>
+											    </a>
+											</div>
+											<div class="card-block">
+												<ui:repeat var="notificacaoTag" value="#{notificacaoController.notificacaoTO.notificacao.tags}">
+														<span class="a badge badge-#{notificacaoTag.tag.style}">
+															#{notificacaoTag.tag.nome} 
+														</span>
+														<h:commandLink action="#{notificacaoController.excluirTag(notificacaoTag)}">
+															<i class="fa fa-times"></i>
+															<f:ajax execute="@this" render="formNotificacao:idPanelTags"/>	
+														</h:commandLink>
+														<br />
+												</ui:repeat>
+											</div>
+										</div>
+									</h:panelGroup>	
+							</div>
+							
+							
+							<div class="col-sm-12">		
+								<div class="form-group">
+									<label for="formNotificacao:mensagem_notificacao">#{resources['label.global.mensagem']}</label> 
+									<h:inputTextarea value="#{notificacaoController.notificacaoTO.notificacao.mensagem}" styleClass="form-control" rows="10"/>
+								</div>
+							</div>
+							
+							
+							</div>
+			
+						
+					</div>
+				</div>
+ 				<div class="card">
+					<div class="card-block">
+							<div class="row">
+								<div class="col-sm-12">
+								<div class="form-group">
+									<h:commandLink action="#{notificacaoController.gravar()}" styleClass="btn btn-sm btn-success">
+										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
+									</h:commandLink>	
+								</div>
+								</div>
+							</div>
+					</div>	
+				</div>	
+				<itm:modal id="idSelecionarTag" titulo="#{resources['label.global.selecionetags']}">
+					<h:dataTable var="tag" value="#{notificacaoController.notificacaoTO.tags}">
+						<h:column>
+							<f:facet name="header">
+								#
+							</f:facet>
+							<h:selectBooleanCheckbox value="#{tag.selecionado}">
+								<f:ajax execute="@this"/>
+							</h:selectBooleanCheckbox>
+						</h:column>
+						
+						<h:column>	
+							<f:facet name="header">
+									#{resources['label.global.tag']}
+							</f:facet>
+							<span class="badge badge-#{tag.style}" style="cursor:auto;">
+									#{tag.nome}
+							</span>
+						</h:column>
+						
+					</h:dataTable>
+					<br />
+					<h:commandLink action="#{notificacaoController.adicionarTag}" value="#{resources['label.global.adicionar']}">
+						<f:ajax render="formNotificacao:idPanelTags" execute="idSelecionarTag"/>
+						<f:passThroughAttribute name="data-dismiss" value="modal" />
+					</h:commandLink>
+				</itm:modal>
+
+			</h:form>
+
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+	</ui:define>
+
+
+</ui:composition>

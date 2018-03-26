@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import br.com.trixti.itm.util.UtilData;
 
 @XmlRootElement
-public class BoletoWS {
+public class BoletoWSTO {
 
 	private Integer id;
 	private Date dataVencimento;
@@ -18,7 +18,7 @@ public class BoletoWS {
 	private List<BoletoLancamentoWS> lancamentos;
 	
 	
-	public BoletoWS(Integer id, Date data, BigDecimal valor,List<BoletoLancamentoWS> lancamentos){
+	public BoletoWSTO(Integer id, Date data, BigDecimal valor,List<BoletoLancamentoWS> lancamentos){
 		setValor(valor);
 		setDataVencimento(data);
 		setLancamentos(lancamentos);

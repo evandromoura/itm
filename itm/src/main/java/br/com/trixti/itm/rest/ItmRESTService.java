@@ -19,14 +19,17 @@ import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteTag;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.Notificacao;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.dashboard.DashboardService;
+import br.com.trixti.itm.service.notificacao.NotificacaoService;
 import br.com.trixti.itm.to.BoletoLancamentoWS;
-import br.com.trixti.itm.to.BoletoWS;
+import br.com.trixti.itm.to.BoletoWSTO;
 import br.com.trixti.itm.to.ClienteWSTO;
 import br.com.trixti.itm.to.ContratoWSTO;
 import br.com.trixti.itm.to.DashboardWSTO;
+import br.com.trixti.itm.to.NotificacaoWSTO;
 import br.com.trixti.itm.to.TagWS;
 
 
@@ -38,6 +41,7 @@ public class ItmRESTService {
 	private @Inject ClienteService clienteService;
 	private @Inject BoletoService boletoService;
 	private @Inject DashboardService dashboardService;
+	private @Inject NotificacaoService notificacaoService;
 	
 	@GET
 	@Path("/cliente")
@@ -88,7 +92,7 @@ public class ItmRESTService {
 		ClienteWSTO cliente1 = clienteService.recuperarPorCpfWS(cpf);
 		Cliente cliente = clienteService.recuperar(cliente1.getId());
 		cliente1.setPromessa(true);
-		List<BoletoWS> listaBoleto = new ArrayList<BoletoWS>();
+		List<BoletoWSTO> listaBoleto = new ArrayList<BoletoWSTO>();
 		if(cliente != null && cliente.getContratos() != null){
 			List<ContratoWSTO> contratosWSTO = new ArrayList<ContratoWSTO>();
 			for(Contrato contrato:cliente.getContratos()){
@@ -105,16 +109,27 @@ public class ItmRESTService {
 								lancamentosWs.add(new BoletoLancamentoWS(boletoLancamento.getContratoLancamento().getDescricao()));
 							}
 						}
-						listaBoleto.add(new BoletoWS(boleto.getId(),boleto.getDataVencimento(), boleto.getValor(),lancamentosWs));
+						listaBoleto.add(new BoletoWSTO(boleto.getId(),boleto.getDataVencimento(), boleto.getValor(),lancamentosWs));
 					}
 				}	
 			}
+			cliente1.setQtdContrato(contratosWSTO.size());
 			cliente1.setContratos(contratosWSTO);
 		}	
 		if(cliente != null && cliente.getClienteTags() != null){
 			List<TagWS> tags = new ArrayList<TagWS>();
 			for(ClienteTag clienteTag:cliente.getClienteTags()){
-				tags.add(new TagWS(clienteTag.getTag().getNome()));
+				List<Notificacao> notificacoes = notificacaoService.pesquisarVigentePorTag(clienteTag.getTag());
+				List<NotificacaoWSTO> notificacoesWS = new ArrayList<NotificacaoWSTO>();
+				if(notificacoes != null){
+					for(Notificacao notificacao:notificacoes){
+						notificacoesWS.add(new NotificacaoWSTO(notificacao));
+					}
+				}
+				TagWS tagWS = new TagWS(clienteTag.getTag().getNome());
+				tagWS.setQtdNotificacao(notificacoesWS.size());
+				tagWS.setNotificacoes(notificacoesWS);
+				tags.add(tagWS);
 			}
 			cliente1.setQtdTag(tags.size());
 			cliente1.setTags(tags);

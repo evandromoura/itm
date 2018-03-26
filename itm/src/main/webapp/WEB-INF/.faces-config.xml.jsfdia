@@ -118,4 +118,17 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#pages#produto#produto_list.xhtml"
   PATH="/pages/produto/produto_list.xhtml" SHAPE="240,993,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#notificacao#notificacao_form.xhtml"
+  PATH="/pages/notificacao/notificacao_form.xhtml" SHAPE="32,1089,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#notificacao#notificacao_form.xhtml:0"
+   NAME="item" PATH="/pages/notificacao/notificacao_form.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso::#pages#notificacao#notificacao_list.xhtml"
+    NAME="output" PATH="/pages/notificacao/notificacao_list.xhtml"
+    TARGET="rules:#pages#notificacao#notificacao_list.xhtml"
+    TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#notificacao#notificacao_list.xhtml"
+  PATH="/pages/notificacao/notificacao_list.xhtml" SHAPE="240,1105,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

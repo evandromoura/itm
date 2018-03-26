@@ -46,9 +46,6 @@ public class ClienteController extends AbstractController<Cliente> implements Se
 	@PostConstruct
 	
 	private void init(){
-//		BigDecimal big = BigDecimal.ZERO;
-//		big.intValue()
-		
 		String acao = getRequest().getParameter("acao");
 		String parametro =getRequest().getParameter("parametro"); 
 		String filtro = getRequest().getParameter("filtro");

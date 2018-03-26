@@ -107,6 +107,16 @@ function data(v){
     return v.substring(0,10);
 }
 
+function datahora(v){
+	v = v.replace(/\D/g,""); 						//Remove tudo o que n�o � d�gito
+	v = v.replace(/^(\d{12})/gi,"$1:");		//Coloca : entre o segundo e o terceiro d�gito
+	v = v.replace(/^(\d{10})/gi,"$1:");		//Coloca : entre o segundo e o terceiro d�gito
+	v = v.replace(/^(\d{8})/gi,"$1 ");		//Coloca : entre o segundo e o terceiro d�gito
+	v = v.replace(/^(\d{4})/gi,"$1/"); 				//Coloca uma barra entre o quarto e o quinto d�gito
+	v = v.replace(/^(\d{2})/gi,"$1/");				//Coloca uma barra entre o segundo e o terceiro d�gito
+    return v.substring(0,19);
+}
+
 function hora(v){
 	v = v.replace(/\D/g,""); 				//Remove tudo o que n�o � d�gito
 	v = v.replace(/^(\d{2})/gi,"$1:");		//Coloca : entre o segundo e o terceiro d�gito

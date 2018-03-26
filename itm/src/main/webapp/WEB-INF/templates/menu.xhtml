@@ -20,6 +20,11 @@
 								<i class="icon-people"></i> #{resources['label.global.cliente']}
 							</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link #{menu eq 'notificacao'?'active':''}" href="#{request.contextPath}/notificacao">
+								<i class="icon-briefcase"></i> #{resources['label.global.notificacao']} 
+							</a>
+						</li>
 					</ui:fragment>
 					<ui:fragment rendered="#{securityBean.isPermissao('SUPER_ADMIN') or securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPORTE_NIVEL2')}">	
 						<li class="nav-item">

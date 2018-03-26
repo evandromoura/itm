@@ -9,8 +9,9 @@ public class ClienteWSTO {
 	private String nome;
 	private Integer qtdBoletoEmAtraso;
 	private Integer qtdTag;
+	private Integer qtdContrato;
 	private List<TagWS> tags;
-	private List<BoletoWS> boletos;
+	private List<BoletoWSTO> boletos;
 	private boolean resultado;
 	private boolean promessa;
 	private List<ContratoWSTO> contratos;
@@ -54,11 +55,11 @@ public class ClienteWSTO {
 		this.id = id;
 	}
 
-	public List<BoletoWS> getBoletos() {
+	public List<BoletoWSTO> getBoletos() {
 		return boletos;
 	}
 
-	public void setBoletos(List<BoletoWS> boletos) {
+	public void setBoletos(List<BoletoWSTO> boletos) {
 		this.boletos = boletos;
 	}
 
@@ -100,6 +101,14 @@ public class ClienteWSTO {
 
 	public void setContratos(List<ContratoWSTO> contratos) {
 		this.contratos = contratos;
+	}
+
+	public Integer getQtdContrato() {
+		return qtdContrato;
+	}
+
+	public void setQtdContrato(Integer qtdContrato) {
+		this.qtdContrato = qtdContrato;
 	}
 	
 }
