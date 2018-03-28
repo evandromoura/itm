@@ -24,6 +24,7 @@ import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.clientetag.ClienteTagService;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
+import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.to.ClienteWSTO;
 
 /**
@@ -41,6 +42,7 @@ public class ClienteService extends AbstractService<Cliente> {
 	private @Inject FreeRadiusService freeRadiusService;
 	private @Inject BoletoService boletoService;
 	private @Inject ClienteTagService clienteTagService;
+	private @Inject MailService mailService;
 	
 	@Override
 	public AbstractDAO<Cliente> getDAO() {
@@ -128,6 +130,15 @@ public class ClienteService extends AbstractService<Cliente> {
 	}
 	
 	
+	public Cliente recuperarPorEmailCpf(String email,String cpf){
+		try{
+			return clienteDAO.recuperarPorEmailCpf(email,cpf);
+		}catch(Exception e){
+			return null;
+		}	
+	}
+	
+	
 	public ClienteWSTO recuperarPorCpfWS(String cpf){
 		try{
 			return clienteDAO.recuperarPorCpfWS(cpf);
@@ -195,11 +206,18 @@ public class ClienteService extends AbstractService<Cliente> {
 	public void desbloquearClienteTemporariamente(Cliente cliente){
 		if(cliente != null && cliente.getContratos() != null){
 			for(Contrato contrato:cliente.getContratos()){
-				if(contrato.getStatus().equals(StatusContrato.BLOQUEADO)){
+				if(contrato.getStatus().equals(StatusContrato.BLOQUEADO) || contrato.getStatus().equals(StatusContrato.SUSPENSO)){
 					contratoService.desbloquearContratoTemporariamente(contratoService.recuperarCompleto(contrato.getId()));
 				}
 			}
 		}
+	}
+	
+	public void esqueciSenha(String email){
+		Cliente cliente = clienteDAO.recuperarPorEmail(email);
+		if(cliente != null && cliente.getEmail() != null){
+			mailService.esqueciSenha(cliente);
+		}	
 	}
 
 }

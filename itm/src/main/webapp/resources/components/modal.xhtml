@@ -9,6 +9,8 @@
 	<cc:attribute name="id" />
 	<cc:attribute name="titulo" />
 	<cc:attribute name="mensagem" />
+	<cc:facet 	  name="botao"/>
+	
 </cc:interface>
 
 <cc:implementation>
@@ -25,6 +27,7 @@
 					<cc:insertChildren />
 				</div>
 				<div class="modal-footer">
+					<cc:renderFacet name="botao" />
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">#{resources['label.global.fechar']}</button>
 				</div>
 			</div>

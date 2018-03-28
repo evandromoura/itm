@@ -34,11 +34,15 @@ public class Notificacao implements java.io.Serializable {
 	private String nome;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_inicio", length = 29)
+	@Column(name = "data_cadastro")
+	private Date dataCadastro;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_inicio")
 	private Date dataInicio;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "data_fim", length = 29)
+	@Column(name = "data_fim")
 	private Date dataFim;
 	
 	private String mensagem;
@@ -103,6 +107,16 @@ public class Notificacao implements java.io.Serializable {
 
 	public void setTags(List<NotificacaoTag> tags) {
 		this.tags = tags;
+	}
+
+
+	public Date getDataCadastro() {
+		return dataCadastro;
+	}
+
+
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 	
 

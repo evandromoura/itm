@@ -21,6 +21,7 @@ public class HttpSecurityConfiguration {
 			.forPath("/img/*").unprotected()
 			.forPath("/pages/public/*").unprotected()
 			.forPath("/esquecisenha").unprotected()
+			.forPath("/novoacesso").unprotected()
 		    .forPath("/logout").logout().redirectTo("/index");
 				
 	}

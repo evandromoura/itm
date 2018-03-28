@@ -131,4 +131,28 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#pages#notificacao#notificacao_list.xhtml"
   PATH="/pages/notificacao/notificacao_list.xhtml" SHAPE="240,1105,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#public#esquecisenha.xhtml"
+  PATH="/pages/public/esquecisenha.xhtml" SHAPE="32,1201,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#public#esquecisenha.xhtml:0"
+   NAME="item" PATH="/pages/public/esquecisenha.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="sucesso::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="erro::#pages#public#esquecisenha.xhtml"
+    NAME="output1" PATH="/pages/public/esquecisenha.xhtml"
+    TARGET="rules:#pages#public#esquecisenha.xhtml" TITLE="erro" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
+  SHAPE="240,1217,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#public#novoacesso.xhtml"
+  PATH="/pages/public/novoacesso.xhtml" SHAPE="48,1345,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#public#novoacesso.xhtml:0" NAME="item"
+   PATH="/pages/public/novoacesso.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="sucesso::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="erro::#pages#public#esquecisenha.xhtml"
+    NAME="output1" PATH="/pages/public/esquecisenha.xhtml"
+    TARGET="rules:#pages#public#esquecisenha.xhtml" TITLE="erro" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
 </PROCESS>

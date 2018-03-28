@@ -50,6 +50,35 @@ public class LoginController extends AbstractController<Object>{
 		getLoginTO().setCliente(null);
 		getLoginTO().setPrimeiroAcesso(false);
 	}
+	
+	public String esqueciSenha(){
+		try{
+			clienteService.esqueciSenha(getLoginTO().getCliente().getEmail());
+			String messageText = getMessage("label.global.senhaenviadasucesso");
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, messageText, messageText));
+			return "sucesso";
+		}catch(Exception e){
+			String messageText = getMessage("label.global.erro");
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, messageText, messageText));
+			return "erro";
+		}	
+	}
+	
+	public String recuperarNovoAcesso(){
+		String senha = getLoginTO().getCliente().getSenha();
+		Cliente cliente = clienteService.recuperarPorEmailCpf(getLoginTO().getCliente().getEmail(), getLoginTO().getCliente().getCpfCnpj());
+		if(cliente != null){
+			getLoginTO().setCliente(cliente);
+			cliente.setSenha(senha);
+			gravarCliente();
+			return "sucesso";
+		}else{
+			String messageText = getMessage("label.global.clientenaoencontrado");
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, messageText, messageText));
+			return "erro";
+		}	
+				
+	}
 
 	public LoginTO getLoginTO() {
 		if (loginTO == null) {

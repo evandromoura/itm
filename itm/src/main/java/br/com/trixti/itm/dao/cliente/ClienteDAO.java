@@ -212,6 +212,14 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 					).setMaxResults(1).getSingleResult());
 	}
 	
+	public Cliente recuperarPorEmailCpf(String email,String cpf) {
+		CriteriaQuery<Cliente> criteria = getCriteriaBuilder().createQuery(Cliente.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		return inicializarCliente(getManager().createQuery(criteria.select(root)
+				.where(getCriteriaBuilder().equal(root.get("email"),email),getCriteriaBuilder().equal(root.get("cpfCnpj"),cpf))
+				).setMaxResults(1).getSingleResult());
+}
+	
 	public ClienteWSTO recuperarPorCpfWS(String cpf) {
 		try{
 			Query query = getManager()

@@ -1,6 +1,7 @@
 package br.com.trixti.itm.to;
 
 import java.util.Date;
+import java.util.List;
 
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.StatusContrato;
@@ -12,6 +13,8 @@ public class ContratoWSTO {
 	private String identificador;
 	private Date dataCadastro;
 	private StatusContrato status;
+	private Integer qtdAutenticacao;
+	private List<AutenticacaoWSTO> autenticacoes;
 	
 	public ContratoWSTO(Contrato contrato){
 		setId(contrato.getId());
@@ -51,6 +54,22 @@ public class ContratoWSTO {
 
 	public void setStatus(StatusContrato status) {
 		this.status = status;
+	}
+
+	public List<AutenticacaoWSTO> getAutenticacoes() {
+		return autenticacoes;
+	}
+
+	public void setAutenticacoes(List<AutenticacaoWSTO> autenticacoes) {
+		this.autenticacoes = autenticacoes;
+	}
+
+	public Integer getQtdAutenticacao() {
+		return qtdAutenticacao;
+	}
+
+	public void setQtdAutenticacao(Integer qtdAutenticacao) {
+		this.qtdAutenticacao = qtdAutenticacao;
 	}
 	
 

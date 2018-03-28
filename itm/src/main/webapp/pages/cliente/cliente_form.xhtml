@@ -401,32 +401,26 @@
 				</itm:modal>
 				
 				
+				
 				<itm:modal id="idSelecionarTag" titulo="#{resources['label.global.selecionetags']}">
-					<h:dataTable var="tag" value="#{clienteController.clienteTO.tags}">
-						<h:column>
-							<f:facet name="header">
-								#
-							</f:facet>
-							<h:selectBooleanCheckbox value="#{tag.selecionado}">
-								<f:ajax execute="@this"/>
-							</h:selectBooleanCheckbox>
-						</h:column>
-						
-						<h:column>	
-							<f:facet name="header">
-									#{resources['label.global.tag']}
-							</f:facet>
-							<span class="badge badge-#{tag.style}" style="cursor:auto;">
+					<div class="row">
+						<ui:repeat var="tag" value="#{clienteController.clienteTO.tags}">
+							<div class="col-sm-6">
+								<h:selectBooleanCheckbox value="#{tag.selecionado}">
+									<f:ajax execute="@this"/>
+								</h:selectBooleanCheckbox>
+								<span class="badge badge-#{tag.style}" style="cursor:auto;">
 									#{tag.nome}
-							</span>
-						</h:column>
-						
-					</h:dataTable>
-					<br />
-					<h:commandLink action="#{clienteController.adicionarTag}" value="#{resources['label.global.adicionar']}">
-						<f:ajax render="formCliente:idPanelTags" execute="idSelecionarTag"/>
-						<f:passThroughAttribute name="data-dismiss" value="modal" />
-					</h:commandLink>
+								</span>
+							</div>
+						</ui:repeat>
+					</div>
+						<f:facet name="botao">					
+							<h:commandLink action="#{clienteController.adicionarTag}" value="#{resources['label.global.adicionar']}" styleClass="btn btn-info">
+								<f:ajax render="formCliente:idPanelTags" execute="idSelecionarTag"/>
+								<f:passThroughAttribute name="data-dismiss" value="modal" />
+							</h:commandLink>
+						</f:facet>	
 				</itm:modal>
 
 			</h:form>

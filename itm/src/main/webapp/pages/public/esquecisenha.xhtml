@@ -5,11 +5,50 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:itm="http://java.sun.com/jsf/composite/components"
 	template="/WEB-INF/templates/public/default.xhtml">
-
+	
 
 	<ui:define name="corpo">
-		ESQUECI
+	
+	<body class="app flex-row align-items-center">
+	  <div class="container">
+	    <div class="row justify-content-center">
+	      <div class="col-md-8">
+	        <div class="card-group">
+	          <div class="card p-4">
+	            <div class="card-body site-titulos">
+	            <h:messages globalOnly="true" showSummary="true" showDetail="false" infoClass="alert alert-success" errorClass="alert alert-danger" layout="list" style="width:96%"/>
+	            <h:form method="POST" prependId="false">
+	              <h1 class="plan caps">Minha <b>iTrix</b></h1>
+	              <h4 class="light">Informe seu email que enviaremos sua senha.</h4>
+	              <div class="input-group mb-3">
+	                <div class="input-group-prepend">
+	                  <span class="input-group-text"><i class="icon-user"></i></span>
+	                </div>
+	                <h:inputText id="email" value="#{loginController.loginTO.cliente.email}"  styleClass="form-control col-form-label-lg" required="true" label="#{resources['label.global.usuario']}">
+						<f:passThroughAttribute name="placeholder" value="E-mail"  />
+						<f:passThroughAttribute name="required" value="required"  />
+					</h:inputText>
+	              </div>
+	              
+	              <div class="row">
+	                <div class="col-12">
+	                  <h:commandButton id="login" value="#{resources['label.global.receberporemail']}" action="#{loginController.esqueciSenha}" styleClass="btn btn-primary btn-sm" />
+	                  <h:outputText value=" " />
+	                  <a href="#{request.contextPath}/esquecisenha" class="btn btn-primary btn-sm">Esqueceu a senha?</a>
+	                </div>
+	              </div>
+	            </h:form> 
+	            </div>
+	          </div>
+	          <div class="card text-white bg-login py-5 d-md-down-none" style="width:44%; background-image: url(resources/template/img/login.png) ">
+	            <div class="card-body text-center">
+	              
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	  </body>
 	</ui:define>
-	
-	
 </ui:composition>

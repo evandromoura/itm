@@ -16,6 +16,7 @@
 	        <div class="card-group">
 	          <div class="card p-4">
 	            <div class="card-body site-titulos">
+	            <h:messages globalOnly="true" showSummary="true" showDetail="false" infoClass="alert alert-success" errorClass="alert alert-danger" layout="list" style="width:96%"/>
 	            <h:form method="POST" prependId="false">
 	              <h1 class="plan caps">Minha <b>iTrix</b></h1>
 	              <h4 class="light">Os seus serviços a qualquer hora. É rápido e seguro.</h4>
@@ -38,11 +39,12 @@
 									</h:inputSecret>
 	              </div>
 	              <div class="row">
-	                <div class="col-6">
-	                  <h:commandButton id="login" value="#{resources['label.global.entrar']}" action="#{identity.login}" styleClass="btn btn-primary btn-lg btn-block" />
-	                </div>
-	                <div class="col-6 text-right">
-	                  <button type="button" class="btn btn-link px-0">Esqueceu a senha?</button>
+	                <div class="col-12">
+	                  <h:commandButton id="login" value="#{resources['label.global.entrar']}" action="#{identity.login}" styleClass="btn btn-primary btn-sm" />
+	                 <h:outputText value=" " />	
+	                  <a href="#{request.contextPath}/novoacesso" class="btn btn-primary btn-sm ">Novo acesso</a>
+	                  <h:outputText value=" " />
+	                  <a href="#{request.contextPath}/esquecisenha" class="btn btn-primary btn-sm ">Esqueceu a senha?</a>
 	                </div>
 	              </div>
 	            </h:form> 

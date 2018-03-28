@@ -19,11 +19,13 @@ import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteTag;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.Notificacao;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.cliente.ClienteService;
 import br.com.trixti.itm.service.dashboard.DashboardService;
 import br.com.trixti.itm.service.notificacao.NotificacaoService;
+import br.com.trixti.itm.to.AutenticacaoWSTO;
 import br.com.trixti.itm.to.BoletoLancamentoWS;
 import br.com.trixti.itm.to.BoletoWSTO;
 import br.com.trixti.itm.to.ClienteWSTO;
@@ -99,7 +101,20 @@ public class ItmRESTService {
 				if(contrato.getDataParaBloqueio() != null){
 					cliente1.setPromessa(false);
 				}
-				contratosWSTO.add(new ContratoWSTO(contrato));
+				
+				List<AutenticacaoWSTO> autenticacoes = new ArrayList<AutenticacaoWSTO>();
+				
+				if(contrato.getAutenticacoes() != null){
+					
+					for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
+						autenticacoes.add(new AutenticacaoWSTO(contratoAutenticacao));
+						
+					}
+				}
+				ContratoWSTO contratoWSTO = new ContratoWSTO(contrato);
+				contratoWSTO.setQtdAutenticacao(autenticacoes.size());
+				contratoWSTO.setAutenticacoes(autenticacoes);
+				contratosWSTO.add(contratoWSTO);
 				List<Boleto> boletosEmAbertos = boletoService.pesquisarBoletoEmAtraso(contrato);
 				if(boletosEmAbertos != null){
 					for(Boleto boleto:boletosEmAbertos){

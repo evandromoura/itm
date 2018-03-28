@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -377,7 +378,10 @@ public class FinanceiroThread {
 		UtilData utilData = new UtilData();
 		List<Boleto> boletos = boletoService.pesquisarBoletoEmAbertoContrato(contrato);
 		for (Boleto boleto : boletos) {
-			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasAviso() && contrato.getDataParaBloqueio() == null) {
+			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasAviso() 
+					&& utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) < parametro.getQtdDiasBloqueio()
+					&& (contrato.getDataParaBloqueio() == null || utilData.data1MaiorIgualData2(new Date(), contrato.getDataParaBloqueio()))) {
+				
 				if (contrato.getStatus().equals(StatusContrato.ATIVO)) {
 					contrato.setStatus(StatusContrato.SUSPENSO);
 					contratoService.alterar(contrato);
@@ -568,8 +572,10 @@ public class FinanceiroThread {
 	}
 
 	public static void main(String[] args) {
-		UtilData utilData = new UtilData();
-		String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(new Date())));
-		System.out.println(texto);
+//		UtilData utilData = new UtilData();
+//		String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(new Date())));
+//		System.out.println(texto);
+		
+		System.out.println(UUID.randomUUID().toString());
 	}
 }

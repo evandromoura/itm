@@ -2,6 +2,7 @@ package br.com.trixti.itm.controller.notificacao;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -13,18 +14,18 @@ import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Notificacao;
 import br.com.trixti.itm.entity.NotificacaoTag;
 import br.com.trixti.itm.entity.Tag;
-import br.com.trixti.itm.infra.security.annotations.Admin;
+import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
 import br.com.trixti.itm.service.notificacao.NotificacaoService;
 import br.com.trixti.itm.service.tag.TagService;
 import br.com.trixti.itm.to.NotificacaoTO;
+import br.com.trixti.itm.util.UtilData;
 
 
 
 @Named
 @ViewScoped
-@Admin
+@SuporteNivel1
 public class NotificacaoController extends AbstractController<Notificacao> implements Serializable {
-	
 	
 	private static final long serialVersionUID = -3430900005102330317L;
 	private @Inject NotificacaoService notificacaoService;
@@ -48,10 +49,8 @@ public class NotificacaoController extends AbstractController<Notificacao> imple
 	}
 	
 	public void pesquisar(){
-		getNotificacaoTO().setNotificacoes(notificacaoService.listar());
+		getNotificacaoTO().setNotificacoes(notificacaoService.pesquisar(getNotificacaoTO().getNotificacaoPesquisa()));
 	}
-	
-		
 	
 	public String gravar(){
 		if(getNotificacaoTO().getNotificacao().getId() == null){
@@ -72,6 +71,9 @@ public class NotificacaoController extends AbstractController<Notificacao> imple
 		getNotificacaoTO().setNotificacao(new Notificacao());
 		getNotificacaoTO().setTags(tagService.listar());
 		getNotificacaoTO().getNotificacao().setTags(new ArrayList<NotificacaoTag>());
+		UtilData utilData = new UtilData();
+		getNotificacaoTO().getNotificacao().setDataInicio(new Date());
+		getNotificacaoTO().getNotificacao().setDataFim(utilData.adicionaDias(new Date(), 2));
 	}
 	
 

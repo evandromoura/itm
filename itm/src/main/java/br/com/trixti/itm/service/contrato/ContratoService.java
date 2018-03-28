@@ -246,6 +246,7 @@ public class ContratoService extends AbstractService<Contrato> {
 		entidade.setDataCancelamento(null);
 		
 		if(entidade.getAutenticacoes() != null && !entidade.getAutenticacoes().isEmpty()){
+			freeRadiusService.removerSuspensaoContrato(entidade);
 			freeRadiusService.sincronizarContrato(entidade);
 		}
 		contratoDAO.alterar(entidade);

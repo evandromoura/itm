@@ -145,7 +145,7 @@ public class FreeRadiusService {
 	public void removerSuspensaoContrato(Contrato contrato){
 		if(contrato.getAutenticacoes() != null && !contrato.getAutenticacoes().isEmpty()){
 			for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
-				radreplyService.excluirPorUsernameAttributeValue(contratoAutenticacao.getUsername(),"Mikrotik-Rate-Limit","512k/512k");
+				radreplyService.excluirPorUsernameAttribute(contratoAutenticacao.getUsername(),"Mikrotik-Rate-Limit");
 			}	
 		}	
 	}

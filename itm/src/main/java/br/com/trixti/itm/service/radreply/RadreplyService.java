@@ -24,5 +24,9 @@ public class RadreplyService extends AbstractService<Radreply> {
 	public void excluirPorUsernameAttributeValue(String username, String attribute, String value) {
 		radcheckDAO.excluirPorUsernameAttributeValue(username,attribute,value);
 	}
+	
+	public void excluirPorUsernameAttribute(String username, String attribute) {
+		radcheckDAO.excluirPorUsernameAttribute(username,attribute);
+	}
 
 }

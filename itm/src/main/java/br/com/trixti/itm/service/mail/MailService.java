@@ -23,6 +23,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import br.com.trixti.itm.entity.Boleto;
+import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
@@ -103,6 +104,40 @@ public class MailService {
 		UtilString utilString = new UtilString();
 		String titulo = "ITRIX - "+boleto.getContrato().getCliente().getNome()+" sua fatura do mês "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utildata.getMes(boleto.getDataVencimento())), 2))+" chegou!";
 		return titulo;
+	}
+	
+	@Asynchronous
+	public void esqueciSenha(Cliente cliente){
+		String titulo = "ITM - Esqueci a senha";
+		final Parametro parametro = parametroService.recuperarParametro();
+		Properties props = new Properties();
+		String from = parametro.getFromEmail();
+		props.put("mail.smtp.auth", parametro.isAuthEmail());
+		props.put("mail.smtp.starttls.enable", parametro.isUseTls());
+		props.put("mail.smtp.host", parametro.getSmtp());
+		props.put("mail.smtp.port", parametro.getPortaSmtp().toString());
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(parametro.getLoginEmail(), parametro.getSenhaEmail());
+			}
+		});
+		try {
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(from));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(cliente.getEmail()));
+			message.setSubject(titulo);
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setContent(UtilEmail.corpo.replace("@@TEXTO", "Sua senha: "+cliente.getSenha()),"text/html");
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(messageBodyPart);
+			message.setContent(multipart);
+			Transport.send(message);
+			
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }

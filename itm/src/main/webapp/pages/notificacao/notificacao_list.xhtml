@@ -55,6 +55,37 @@
 								</f:facet>
 								#{notificacao.nome}
 							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.datainicio']}
+								</f:facet>
+								<h:outputText value="#{notificacao.dataInicio}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo"/>
+								</h:outputText>
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.datafim']}
+								</f:facet>
+								<h:outputText value="#{notificacao.dataFim}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo"/>
+								</h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.tags']}
+								</f:facet>
+								
+								<ui:repeat var="tag" value="#{notificacao.tags}">
+								<span class="btn btn-sm btn-#{tag.tag.style}" style="cursor:auto;">
+										#{tag.tag.nome} 
+									</span>
+								</ui:repeat>
+							</h:column>
+							
+							
 							<h:column>
 								<f:facet name="header">
 									#{resources['label.global.acoes']}

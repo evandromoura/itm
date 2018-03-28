@@ -7,6 +7,37 @@
         http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
         
       
+      
+      <navigation-rule>
+		<from-view-id>/pages/public/esquecisenha.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>erro</from-outcome>
+			<to-view-id>/pages/public/esquecisenha.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/pages/public/novoacesso.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/login.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>erro</from-outcome>
+			<to-view-id>/pages/public/esquecisenha.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	
       <navigation-rule>
 		<from-view-id>/pages/cliente/cliente_form.xhtml</from-view-id>
 		

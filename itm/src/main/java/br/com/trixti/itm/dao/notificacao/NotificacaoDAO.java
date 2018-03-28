@@ -36,5 +36,13 @@ public class NotificacaoDAO extends AbstractDAO<Notificacao> {
 				getCriteriaBuilder().equal(root.join("tags",JoinType.LEFT).get("tag"), tag))).getResultList();
 	}
 	
+	
+	public List<Notificacao> pesquisar(Notificacao notificacao){
+		CriteriaQuery<Notificacao> criteria = getCriteriaBuilder().createQuery(Notificacao.class);
+		Root<Notificacao> root = criteria.from(Notificacao.class);
+		root.fetch("tags",JoinType.LEFT);
+		return getManager().createQuery(criteria.select(root).distinct(true)).getResultList();
+	}
+	
 }
 

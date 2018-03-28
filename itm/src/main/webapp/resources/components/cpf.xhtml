@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://java.sun.com/jsf/composite" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:cc="http://java.sun.com/jsf/composite"  xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html">
 
 <cc:interface>
 	<cc:attribute name="id"/>
@@ -14,7 +14,9 @@
 	<h:inputText id="#{cc.attrs.id}" value="#{cc.attrs.value}" onkeypress="mascara(this,cpf);" 
 		styleClass="#{cc.attrs.styleClass}" maxlength="14"
 		label="#{cc.attrs.label}" 
-		validator="CPFValidator" required="#{cc.attrs.required}"/> 
+		validator="CPFValidator" required="#{cc.attrs.required}">
+		<f:passThroughAttribute name="placeholder" value="Cpf"  />
+	</h:inputText>	 
 		
 </cc:implementation>
 
