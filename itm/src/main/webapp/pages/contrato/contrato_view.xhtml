@@ -320,6 +320,10 @@
 														<f:facet name="header">#{resources['label.global.numeroserie']}</f:facet>
 														<h:outputText value="#{contratoEquipamento.numeroSerie}" />
 													</h:column>
+													<h:column>
+														<h:commandLink action="#{contratoViewController.gerarComodato(contratoEquipamento)}" value="Gerar comodato" />
+													</h:column>
+													
 
 												</h:dataTable>
 											</div>

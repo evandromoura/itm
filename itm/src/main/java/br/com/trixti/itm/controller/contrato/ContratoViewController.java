@@ -18,9 +18,9 @@ import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
-import br.com.trixti.itm.entity.StatusContrato;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
@@ -36,7 +36,6 @@ import br.com.trixti.itm.service.sms.SMSService;
 //import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilArquivo;
-import br.com.trixti.itm.util.UtilData;
 
 @ViewScoped
 @ManagedBean
@@ -228,6 +227,12 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		}catch(Exception e){
 			adicionarMensagem("label.global.chavemestrainvalida",FacesMessage.SEVERITY_ERROR);
 		}	
+	}
+	
+	public void gerarComodato(ContratoEquipamento contratoEquipamento){
+		List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
+		listaContratoEquipamento.add(contratoEquipamento);
+		gerarRelatorioPDF("relatorios/teste.jasper", null, listaContratoEquipamento);
 	}
 
 	public ContratoTO getContratoTO() {

@@ -2,6 +2,8 @@ package br.com.trixti.itm.controller;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
@@ -12,6 +14,10 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperRunManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 public class AbstractController<T> {
 
@@ -62,6 +68,18 @@ public class AbstractController<T> {
         	e.printStackTrace();
         }    
     }
+	
+	public byte[] gerarRelatorioPDF(String nome, HashMap<String, Object> parametros, List listaDeObjetos){
+		try {
+			JRBeanCollectionDataSource colecao = new JRBeanCollectionDataSource(listaDeObjetos);
+			return JasperRunManager.runReportToPdf(nome, parametros, colecao);
+		} catch (JRException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+		
+	
 	
 	 public String getStackTrace() {
 	        Throwable throwable = (Throwable)  FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get("javax.servlet.error.exception");
