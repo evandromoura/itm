@@ -149,6 +149,9 @@ public class Cliente implements java.io.Serializable {
 	@Transient
 	private PeriodoTO periodoCadastroContrato;
 	
+	@Transient
+	private PeriodoTO periodoCancelamentoContrato;
+	
 	public Cliente() {
 	}
 
@@ -387,6 +390,18 @@ public class Cliente implements java.io.Serializable {
 
 	public void setPeriodoCadastroContrato(PeriodoTO periodoCadastroContrato) {
 		this.periodoCadastroContrato = periodoCadastroContrato;
+	}
+	
+	
+	public PeriodoTO getPeriodoCancelamentoContrato() {
+		if (periodoCancelamentoContrato == null) {
+			periodoCancelamentoContrato = new PeriodoTO();
+		}
+		return periodoCancelamentoContrato;
+	}
+
+	public void setPeriodoCancelamentoContrato(PeriodoTO periodoCancelamentoContrato) {
+		this.periodoCancelamentoContrato = periodoCancelamentoContrato;
 	}
 
 	public boolean isComPagamento() {
