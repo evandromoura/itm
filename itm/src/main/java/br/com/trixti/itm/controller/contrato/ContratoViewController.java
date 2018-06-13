@@ -232,7 +232,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	public void gerarComodato(ContratoEquipamento contratoEquipamento){
 		List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
 		listaContratoEquipamento.add(contratoEquipamento);
-		gerarRelatorioPDF("relatorios/teste.jasper", null, listaContratoEquipamento);
+		gerarRelatorioPDF("relatorios/relatorio.jasper", null, listaContratoEquipamento);
 	}
 
 	public ContratoTO getContratoTO() {
