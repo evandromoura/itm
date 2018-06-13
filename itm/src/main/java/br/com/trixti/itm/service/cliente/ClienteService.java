@@ -26,6 +26,7 @@ import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.to.ClienteWSTO;
+import br.com.trixti.itm.to.FiltroTO;
 
 /**
  * Classe que aplica a regra de negocio do caso de uso (Cliente)
@@ -218,6 +219,10 @@ public class ClienteService extends AbstractService<Cliente> {
 		if(cliente != null && cliente.getEmail() != null){
 			mailService.esqueciSenha(cliente);
 		}	
+	}
+	
+	public void paginar(FiltroTO<Cliente> filtro) throws Exception {
+		clienteDAO.paginar(filtro);
 	}
 
 }

@@ -11,7 +11,7 @@ import javax.inject.Named;
 
 import com.google.gson.Gson;
 
-import br.com.trixti.itm.controller.AbstractController;
+import br.com.trixti.itm.controller.PaginacaoController;
 import br.com.trixti.itm.entity.Cidade;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteTag;
@@ -32,7 +32,7 @@ import br.com.trixti.itm.to.ClienteTO;
 @Named
 @ViewScoped
 @SuporteNivel1
-public class ClienteController extends AbstractController<Cliente> implements Serializable{
+public class ClienteController extends PaginacaoController<Cliente> implements Serializable{
 	
 	private static final long serialVersionUID = -5045680464698139930L;
 
@@ -42,10 +42,10 @@ public class ClienteController extends AbstractController<Cliente> implements Se
 	private @Inject ContratoService contratoService;
 	private @Inject CustomIdentity customIdentity;
 	private @Inject TagService tagService;
+	private Integer totalRegistro = 50;
 	
 	@PostConstruct
-	
-	private void init(){
+	public void init(){
 		String acao = getRequest().getParameter("acao");
 		String parametro =getRequest().getParameter("parametro"); 
 		String filtro = getRequest().getParameter("filtro");
@@ -57,9 +57,42 @@ public class ClienteController extends AbstractController<Cliente> implements Se
 			inicializarAlterar(Integer.valueOf(parametro));
 		}
 		else{
-			getClienteTO().getClientePesquisa().setGrupo(new Grupo());
-			getClienteTO().getClientePesquisa().setProduto(new Produto());
-			getClienteTO().setClientes(clienteService.pesquisar(getClienteTO().getClientePesquisa()));
+			try{
+				getFiltroTO().setPagina(1);
+				getClienteTO().getClientePesquisa().setGrupo(new Grupo());
+				getClienteTO().getClientePesquisa().setProduto(new Produto());
+				getFiltroTO().setObjeto(getClienteTO().getClientePesquisa());
+				getFiltroTO().setTamanho(totalRegistro);
+				getFiltroTO().setInicio(0);
+				getFiltroTO().setCampoOrdenacao("dataCriacao");
+				getFiltroTO().setOrdenacao("desc");
+				clienteService.paginar(getFiltroTO());
+				getClienteTO().setClientes(getFiltroTO().getLista());
+			}catch(Exception e){
+				e.printStackTrace();
+			}	
+		}	
+	}
+	
+	public void carregarMais(){
+		try{
+			getFiltroTO().setTamanho(totalRegistro);
+			getFiltroTO().setInicio((getFiltroTO().getPagina() * totalRegistro));
+			getFiltroTO().setPagina(getFiltroTO().getPagina() + 1);
+			clienteService.paginar(getFiltroTO());
+			getClienteTO().getClientes().addAll(getFiltroTO().getLista());
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
+	}
+	
+	public void paginar(){
+		try{
+			getFiltroTO().setObjeto(getClienteTO().getClientePesquisa());
+			clienteService.paginar(getFiltroTO());
+			getClienteTO().setClientes(getFiltroTO().getLista());
+		}catch(Exception e){
+			
 		}	
 	}
 	
@@ -84,13 +117,22 @@ public class ClienteController extends AbstractController<Cliente> implements Se
 	
 //	@Admin
 	public void pesquisar(){
-		System.out.println(new Gson().toJson(getClienteTO().getClientePesquisa()));
-		getClienteTO().setClientes(clienteService.pesquisar(getClienteTO().getClientePesquisa()));
-		if(getClienteTO().getClientes().isEmpty()){
-			String mensagem = getMessage("label.global.nenhumregistroencontrado");
-			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensagem, mensagem));
-		}
+		try{
+			getFiltroTO().setPagina(1);
+			getFiltroTO().setObjeto(getClienteTO().getClientePesquisa());
+			getFiltroTO().setTamanho(50);
+			getFiltroTO().setInicio(0);
+			clienteService.paginar(getFiltroTO());
+			getClienteTO().setClientes(getFiltroTO().getLista());
+			if(getClienteTO().getClientes().isEmpty()){
+				String mensagem = getMessage("label.global.nenhumregistroencontrado");
+				getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, mensagem, mensagem));
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}	
 	}
+	
 	
 	public String gravar(){
 		getClienteTO().getCliente().setUsuarioUltimaAtualizacao(customIdentity.getUsuario());

@@ -106,7 +106,7 @@
 
   		Highcharts.chart('container', {
   		    chart: {
-  		        type: 'line'
+  		        type: 'column'
   		    },
   		    title: {
   		        text: 'Venda de contratos'
@@ -122,14 +122,24 @@
   		            text: 'Contratos'
   		        }
   		    },
-  		    plotOptions: {
-  		        line: {
-  		            dataLabels: {
-  		                enabled: true
-  		            },
-  		            enableMouseTracking: false
-  		        }
-  		    },
+  		    
+	  		tooltip: {
+	  	        valueSuffix: '°C'
+	  	    },
+	  	    
+	  	  legend: {
+	          enabled: false
+	      },
+	      plotOptions: {
+	          series: {
+	              borderWidth: 0,
+	              dataLabels: {
+	                  enabled: true,
+	                  format: '{point.y}'
+	              }
+	          }
+	      },
+
   		    series: [{
   		        name: 'Adesão',
   		        data: result.novosContratos.qtdContratosNovos

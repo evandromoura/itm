@@ -48,6 +48,14 @@ public class ContratoEquipamento implements java.io.Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="data_exclusao")
 	private Date dateExclusao;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="data_instalacao")
+	private Date dataInstalacao;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="data_retirada")
+	private Date dataRetirada;
 	
 	
 	@Column(name="numero_serie")
@@ -108,6 +116,22 @@ public class ContratoEquipamento implements java.io.Serializable {
 
 	public void setNumeroSerie(String numeroSerie) {
 		this.numeroSerie = numeroSerie;
+	}
+
+	public Date getDataInstalacao() {
+		return dataInstalacao;
+	}
+
+	public void setDataInstalacao(Date dataInstalacao) {
+		this.dataInstalacao = dataInstalacao;
+	}
+
+	public Date getDataRetirada() {
+		return dataRetirada;
+	}
+
+	public void setDataRetirada(Date dataRetirada) {
+		this.dataRetirada = dataRetirada;
 	}
 
 }

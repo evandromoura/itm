@@ -34,6 +34,7 @@ import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.ContratoNotificacao;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.MeioEnvioContratoNotificacao;
+import br.com.trixti.itm.entity.Nfe;
 import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.Remessa;
 import br.com.trixti.itm.entity.Retorno;
@@ -56,6 +57,7 @@ import br.com.trixti.itm.service.contratonotificacao.ContratoNotificacaoService;
 import br.com.trixti.itm.service.contratoproduto.ContratoProdutoService;
 import br.com.trixti.itm.service.freeradius.FreeRadiusService;
 import br.com.trixti.itm.service.mail.MailService;
+import br.com.trixti.itm.service.nfe.NfeService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.service.retorno.RetornoService;
@@ -87,9 +89,10 @@ public class FinanceiroThread {
 	private @Inject ContratoNotificacaoService contratoNotificacaoService;
 	private @Inject RemessaService remessaService;
 	private @Inject ArquivoSiciService arquivoSiciService;
+	private @Inject NfeService nfeService;
 	private @Inject UploadArquivoService uploadArquivoService;
 	
-	private boolean ativo = true;
+	private boolean ativo = false;
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
@@ -361,6 +364,28 @@ public class FinanceiroThread {
 				arquivoSiciService.incluir(arquivoSici);
 			}	
 		}	
+	}
+	
+	
+	@Schedule(info = "Gerar-Arquivo-NFE", minute = "*/1", hour = "*", persistent = false)
+	public void gerarNfe() {
+//		if(ativo){
+			Date data= new Date();
+			UtilData utilData  = new UtilData();
+			Nfe nfeRetorno = nfeService.recuperarPorMesAno(utilData.getMesCorrente(data), String.valueOf(utilData.getAno(data)));
+			if(nfeRetorno == null){
+				Nfe nfe = new Nfe();
+				nfe.setData(data);
+				nfe.setNome("Nfe_"+utilData.getMesCorrente(data)+"_"+utilData.getAno(data)+".xml");
+				nfe.setMes(utilData.getMesCorrente(data));
+				nfe.setAno(String.valueOf(utilData.getAno(data)));
+				List<Boleto> boletos = new ArrayList<Boleto>();
+				boletos.add(new Boleto());
+				boletos.add(new Boleto());
+ 				nfe.setArquivos(nfeService.gerarNfeArquivo(boletos, nfe));
+				nfeService.incluir(nfe);
+			}	
+//		}	
 	}
 	
 

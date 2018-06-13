@@ -347,6 +347,7 @@ public class UtilEmail {
 			"																		</div>\n" + 
 			"																		<h2 style=\"text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px; font-weight: 900; margin-bottom:10px;color:#205478;line-height:135%; padding: 30px 0 0 0;\">ITRIX</h2>\n" + 
 			"																		<div style=\"text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;\">@@TEXTO</div>\n" + 
+			"																		<div style=\"text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;\">61 3403-5393</div>\n" + 
 			"																	</td>\n" + 
 			"																</tr>\n" + 
 			"															</table>\n" + 

@@ -237,8 +237,17 @@
 												<f:facet name="header">#{resources['label.global.numeroserie']}</f:facet>
 												<h:inputText value="#{contratoEquipamento.numeroSerie}" />
 											</h:column>
-
-
+											
+											<h:column>
+												<f:facet name="header">#{resources['label.global.datainstalacao']}</f:facet>
+												<itm:data value="#{contratoEquipamento.dataInstalacao}" />
+											</h:column>
+											
+											<h:column>
+												<f:facet name="header">#{resources['label.global.dataretirada']}</f:facet>
+												<itm:data value="#{contratoEquipamento.dataRetirada}" />
+											</h:column>
+											
 											<h:column
 												rendered="#{contratoController.contratoTO.contrato.id eq null}">
 												<f:facet name="header">#{resources['label.global.acoes']}</f:facet>

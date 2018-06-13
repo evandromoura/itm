@@ -160,6 +160,15 @@ public class Cliente implements java.io.Serializable {
 		this.id = id;
 	}
 	
+	public Cliente(int id,String nome,String email,Date dataCriacao, String cpfCnpj, String telefoneCelular) {
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.dataCriacao = dataCriacao;
+		this.cpfCnpj = cpfCnpj;
+		this.telefoneCelular = telefoneCelular;
+	}
+	
 	public Integer getId() {
 		return this.id;
 	}

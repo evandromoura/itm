@@ -286,4 +286,17 @@ public class UtilString {
 	public String getPrimeiraPalavra(String valor){
 		return valor.substring(0,valor.indexOf(" "));
 	}
+	
+	public static boolean isNumerico(String string) {
+		if (new UtilString().vazio(string)) {
+			return false;
+	    }
+	    int sz = string.length();
+	    for (int i = 0; i < sz; i++) {
+	        if (Character.isDigit(string.charAt(i)) == false) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
 }

@@ -4,7 +4,6 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
 <cc:interface>
-	<cc:attribute name="id"/>
 	<cc:attribute name="value" required="true"/>
 	<cc:attribute name="styleClass" />
 	<cc:attribute name="disabled" default="false" />
@@ -13,7 +12,7 @@
 </cc:interface>
 
 <cc:implementation>
-	<h:inputText value="#{cc.attrs.value}" onkeypress="mascara(this,data);" styleClass="#{cc.attrs.styleClass}" maxlength="10" disabled="#{cc.attrs.disabled}">
+	<h:inputText id="#{cc.attrs.id}" value="#{cc.attrs.value}" onkeypress="mascara(this,data);" styleClass="#{cc.attrs.styleClass}" maxlength="10" disabled="#{cc.attrs.disabled}">
 		<f:convertDateTime pattern="dd/MM/yyyy" timeZone="#{cc.attrs.timeZone}"/>
 		<cc:insertChildren />
 	</h:inputText> 

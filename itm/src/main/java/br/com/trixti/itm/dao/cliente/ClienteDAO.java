@@ -9,8 +9,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -19,16 +21,15 @@ import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.ClienteTag;
 import br.com.trixti.itm.entity.Contrato;
-import br.com.trixti.itm.entity.ContratoAutenticacao;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.Produto;
-import br.com.trixti.itm.entity.Radacct;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.TecnologiaEnum;
 import br.com.trixti.itm.entity.TipoProduto;
 import br.com.trixti.itm.entity.Uf;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
 import br.com.trixti.itm.to.ClienteWSTO;
+import br.com.trixti.itm.to.FiltroTO;
 import br.com.trixti.itm.util.UtilData;
 
 
@@ -442,6 +443,47 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 		return resultado != null?resultado:0;
 	}
 	
+	
+	public void paginar(FiltroTO<Cliente> filtro) throws Exception {
+		CriteriaQuery<Cliente> criteria = getCriteriaBuilder().createQuery(Cliente.class);
+		Root<Cliente> root = criteria.from(Cliente.class);
+		Predicate[] listaPredicate  = comporFiltroPesquisa(root, filtro.getObjeto());
+		Order ordenacao = comporOrdenacao(criteria, root, filtro.getCampoOrdenacao(), filtro.getOrdenacao());
+		filtro.setLista(getManager().createQuery(criteria.multiselect(
+				root.get("id"),
+				root.get("nome"),
+				root.get("email"),
+				root.get("dataCriacao"),
+				root.get("cpfCnpj"),
+				root.get("telefoneCelular")
+				).where(
+				listaPredicate).orderBy(ordenacao)).setFirstResult(
+						filtro.getInicio()).setMaxResults(filtro.getTamanho()).getResultList());
+		filtro.setTotalRegistros(realizarCount(filtro.getObjeto()));
+	}
+	
+	private Order comporOrdenacao(CriteriaQuery<Cliente> criteria, Root<Cliente> root, String campoOrdenacao, String ordenacao) {
+		Expression<Cliente> expression = null;
+		if (campoOrdenacao != null) {
+			expression = root.get(campoOrdenacao);
+		} else {
+			expression = root.get("id");
+		}
+		if (ordenacao != null && ordenacao.equals("desc")) {
+			return getCriteriaBuilder().desc(expression);
+		} else {
+			return getCriteriaBuilder().asc(expression);
+		}
+	}
+	
+	
+	private Integer realizarCount(Cliente cliente) throws Exception {
+		CriteriaQuery<Long> criteriaLong = getCriteriaBuilder().createQuery(Long.class);
+		Root<Cliente> root = criteriaLong.from(Cliente.class);
+		Predicate[] listaPredicate  = comporFiltroPesquisa(root,cliente);
+		criteriaLong.select(getCriteriaBuilder().count(root)).where(listaPredicate);
+		return getManager().createQuery(criteriaLong).getSingleResult().intValue();
+	}
 
 }
 

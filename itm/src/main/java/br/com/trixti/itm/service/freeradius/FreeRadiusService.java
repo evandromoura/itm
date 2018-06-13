@@ -60,6 +60,7 @@ public class FreeRadiusService {
 	private void sincronizarRadCheck(Contrato contrato) {
 		for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
 			radcheckService.excluirPorUsername(contratoAutenticacao.getUsername());
+			radreplyService.excluirPorUsername(contratoAutenticacao.getUsername());
 			List<Radcheck> listaRadCheck = new ArrayList<Radcheck>();
 			Radcheck radcheckLogin = new Radcheck();
 			radcheckLogin.setAttribute("Cleartext-Password");
@@ -74,14 +75,12 @@ public class FreeRadiusService {
 			radcheckLoginSimultaneo.setUsername(contratoAutenticacao.getUsername());
 			listaRadCheck.add(radcheckLoginSimultaneo);
 			if(contratoAutenticacao.getIp() != null && !contratoAutenticacao.getIp().equals("")){
-				//TODO Alterar para RadReply
-				
-	//			Radcheck radcheckIP = new Radcheck();
-	//			radcheckIP.setAttribute("Framed-IP-Address");
-	//			radcheckIP.setOp("=");
-	//			radcheckIP.setValue(contratoAutenticacao.getIp());
-	//			radcheckIP.setUsername(contratoAutenticacao.getUsername());
-	//			listaRadCheck.add(radcheckIP);
+				Radreply radreply = new Radreply();
+				radreply.setAttribute("Framed-IP-Address");
+				radreply.setOp("=");
+				radreply.setValue(contratoAutenticacao.getIp());
+				radreply.setUsername(contratoAutenticacao.getUsername());
+				radreplyService.incluir(radreply);
 			}
 			radcheckService.incluirLista(listaRadCheck);
 		}	

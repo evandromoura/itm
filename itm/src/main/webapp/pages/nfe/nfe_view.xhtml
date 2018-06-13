@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:param name="menu" value="nfe" />
+	
+	<ui:define name="corpo">
+		<h:outputStylesheet name="highlight/default.min.css" />
+		<h:outputScript name="highlight/highlight.min.js" />
+		<script>hljs.initHighlightingOnLoad();</script>
+		
+		<div class="col-sm-12">
+			<h:form id="formNfe">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.nfe']}</strong>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<pre><code class="xml">#{nfeController.nfeTO.nfe.nome}</code></pre>
+									 
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+	</ui:define>
+
+
+</ui:composition>

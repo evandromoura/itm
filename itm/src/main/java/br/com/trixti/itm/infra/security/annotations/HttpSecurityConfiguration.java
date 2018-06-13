@@ -11,7 +11,6 @@ public class HttpSecurityConfiguration {
 	public void onInit(@Observes SecurityConfigurationEvent event) {
 
 		SecurityConfigurationBuilder builder = event.getBuilder();
-
 		builder.http().allPaths()
 	    	.authenticateWith().form()
 	    		.authenticationUri("/login").loginPage("/login").errorPage("/login").restoreOriginalRequest()
@@ -23,6 +22,9 @@ public class HttpSecurityConfiguration {
 			.forPath("/esquecisenha").unprotected()
 			.forPath("/novoacesso").unprotected()
 		    .forPath("/logout").logout().redirectTo("/index");
+		
+		
+//		builder.http().allPaths().unprotected();
 				
 	}
 	

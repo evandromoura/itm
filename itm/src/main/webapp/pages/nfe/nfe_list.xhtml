@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:param name="menu" value="nfe" />
+
+	<ui:define name="corpo">
+		<div class="col-sm-12">
+			<h:form id="formNfe">
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.pesquisar']}</strong> <small>#{resources['label.global.nfes']}</small>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="idFormPesquisarNfe:nome_nfe">#{resources['label.global.nome']}</label>
+									<h:inputText value="#{nfeController.nfeTO.nfePesquisa.nome}"
+										id="nome_nfe" styleClass="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<h:commandLink action="#{nfeController.pesquisar()}"
+									styleClass="btn btn-sm btn-primary" id="idBotaoPesquisar">
+									<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
+							</h:commandLink>
+								<a href="#{request.contextPath}/nfe/novo/1"
+									class="btn btn-sm btn-success"> <i class="fa fa-user-plus" />
+									#{resources['label.global.novonfe']}
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header">
+						<strong>#{resources['label.global.resultadopesquisa']}</strong>
+					</div>
+					<div class="card-block">
+						<h:dataTable value="#{nfeController.nfeTO.nfes}" var="nfe" styleClass="table table-bordered table-striped">
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.nome']}
+								</f:facet>
+								<a href="#{request.contextPath}/nfe/view/#{nfe.id}">
+									#{nfe.nome} </a>
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.acoes']}
+								</f:facet>
+								<a href="#{request.contextPath}/nfe/editar/#{nfe.id}"
+									class="btn btn-info">#{resources['label.global.editar']}</a>
+								<h:outputText value=" " />
+								<h:commandLink action="#{nfeController.excluir(nfe)}"
+									styleClass="btn btn-info"
+									value="#{resources['label.global.excluir']}" immediate="true" />
+
+								<h:outputText value=" " />
+								<h:commandLink action="#{nfeController.download(nfe)}"
+									styleClass="btn btn-info"
+									value="#{resources['label.global.download']}" immediate="true" />
+							</h:column>
+						</h:dataTable>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

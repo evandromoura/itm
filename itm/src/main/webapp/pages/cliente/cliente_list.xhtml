@@ -15,9 +15,9 @@
 	<ui:param name="menu" value="cliente" />
 	
 
-	<ui:define name="corpo">
+	<ui:define name="corpo"> 
 		<div class="col-sm-12">
-			<h:form id="idFormPesquisarCliente">
+			<h:form id="idFormPesquisarCliente"> 
 				<div class="card card-accent-info">
 					<div class="card-header">
 						<strong>#{resources['label.global.pesquisar']}</strong> <small>#{resources['label.global.clientes']}</small>
@@ -183,6 +183,7 @@
 									<h:commandLink action="#{clienteController.pesquisar()}" styleClass="btn btn-sm btn-primary" id="idBotaoPesquisar">
 										<i class="fa fa-search-plus" /> #{resources['label.global.pesquisar']}
 									</h:commandLink>
+									
 									<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPER_ADMIN')}">
 										<a href="#{request.contextPath}/cliente/novo" class="btn btn-sm btn-success">
 											<i class="fa fa-user-plus" /> #{resources['label.global.novocliente']}
@@ -196,7 +197,7 @@
 					</div>
 				</div>
 
-				<ui:fragment>
+				<h:panelGroup id="idFragmentoResultado">
 					<div class="card">
 						<div class="card-header">
 							<i class="fa fa-align-justify"></i> #{resources['label.global.resultadopesquisa']}
@@ -257,9 +258,14 @@
 									</div>
 								</h:column>
 							</h:dataTable>
+							<div class="text-center">
+								<h:commandButton id="idBotaoMais" value="..." style="display:none;" >
+									<f:ajax event="click" render="idFragmentoResultado" execute="@this"  listener="#{clienteController.carregarMais}" />
+								</h:commandButton>
+							</div>
 						</div>
 					</div>
-				</ui:fragment>	
+				</h:panelGroup>	
 				
 				<script>
 				//<![CDATA[
@@ -274,31 +280,6 @@
 					document.getElementById('idFormPesquisarCliente:cliente_nome').focus();
 
 
-					$(document).ready(function() {
-						$("table[id$='dataTableClientes']").DataTable({
-							"bFilter":false,
-					    	"processing": false,
-						    "serverSide": false,
-						    "bServerSide": false,
-						    "search":true,
-						    "iDisplayLength":50
-						    /* ,
-							"ajax": {
-								"url": "#{request.contextPath}/rest/data/cliente"
-							},
-							"columns":[
-								{"data": "id","bSortable": false},
-								{"data": "nome"},
-								{"data": "email","bSortable": false},
-								{"data": "endereco","bSortable": false},
-								{"data": "telefoneCelular","bSortable": false},
-								{"data": "cpfCnpj","bSortable": false},
-								{"data": "tipoPessoa","bSortable": false}
-							  ] */
-							});
-					});
-
-					
 				//]]>
 
 				</script>
@@ -312,6 +293,14 @@
 			</h:form>
 
 		</div>
+		
+		<script>
+			$(window).scroll(function() {
+			    if($(window).scrollTop() == $(document).height() - $(window).height()) {
+					document.getElementById('idFormPesquisarCliente:idBotaoMais').click();
+			    }
+			});
+		</script>
 		
 	</ui:define>
 

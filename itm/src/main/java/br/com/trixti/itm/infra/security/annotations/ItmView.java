@@ -43,7 +43,10 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 		  @URLMapping(id = "arquivosici_view", pattern = "/arquivosici/view/#{parametro}", viewId = "/pages/arquivosici/arquivosici_view.jsf"),
 		  @URLMapping(id = "arquivosici_form", pattern = "/arquivosici/#{acao}/#{parametro}", viewId = "/pages/arquivosici/arquivosici_form.jsf"),
 		  @URLMapping(id = "arquivosici_list", pattern = "/arquivosici", viewId = "/pages/arquivosici/arquivosici_list.jsf"),
-		  
+
+		  @URLMapping(id = "nfe_view", pattern = "/nfe/view/#{parametro}", viewId = "/pages/nfe/nfe_view.jsf"),
+		  @URLMapping(id = "nfe_form", pattern = "/nfe/#{acao}/#{parametro}", viewId = "/pages/nfe/nfe_form.jsf"),
+		  @URLMapping(id = "nfe_list", pattern = "/nfe", viewId = "/pages/nfe/nfe_list.jsf"),
 		  
 		  @URLMapping(id = "servico_form", pattern = "/servico/#{acao}/#{parametro}", viewId = "/pages/servico/servico_form.jsf"),
 		  @URLMapping(id = "servico_list", pattern = "/servico", viewId = "/pages/servico/servico_list.jsf"),

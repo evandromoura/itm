@@ -1,5 +1,6 @@
 package br.com.trixti.itm.rest;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +53,6 @@ public class ItmRESTService {
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		return gson.toJson(clienteService.listar());
 	}
-	
 	
 	
 	@GET
