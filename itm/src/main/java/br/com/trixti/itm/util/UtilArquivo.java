@@ -69,7 +69,12 @@ public class UtilArquivo {
 		return sb.toString();
 	}
 	
-	
+	public static ByteArrayOutputStream converterBytesEmByteArrayOutputStream(byte[] bytes) throws Exception {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(bytes.length);
+		baos.write(bytes, 0, bytes.length);
+		baos.close();
+		return baos;
+	}
 	
 	private static String getExtension(File file) {
 	    String nomeArq = file.getName();

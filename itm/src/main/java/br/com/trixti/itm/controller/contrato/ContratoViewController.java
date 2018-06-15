@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,6 +14,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Boleto;
@@ -232,7 +234,51 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	public void gerarComodato(ContratoEquipamento contratoEquipamento){
 		List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
 		listaContratoEquipamento.add(contratoEquipamento);
-		gerarRelatorioPDF("relatorios/relatorio.jasper", null, listaContratoEquipamento);
+		try {
+			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorio(contratoEquipamento), getParametros(contratoEquipamento), listaContratoEquipamento);
+			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_comodato_equipamentos.pdf");
+		} catch (Exception e) {
+		}
+		
+	}
+	
+	public void gerarRetirada(ContratoEquipamento contratoEquipamento){
+		List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
+		listaContratoEquipamento.add(contratoEquipamento);
+		try {
+			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioRetirada(contratoEquipamento), getParametros(contratoEquipamento), listaContratoEquipamento);
+			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_retirada_equipamentos.pdf");
+		} catch (Exception e) {	
+		}
+	}
+	
+	
+	private String getNomeRelatorio(ContratoEquipamento contratoEquipamento) {
+		return recuperarDiretorio()+"/relatorios/contrato/relatorio_comandato.jasper";
+	}
+	
+	private String getNomeRelatorioRetirada(ContratoEquipamento contratoEquipamento){
+		return recuperarDiretorio()+"/relatorios/contrato/relatorio_retirada_equipamento.jasper";
+	}
+
+	private HashMap<String, Object> getParametros(ContratoEquipamento contratoEquipamento) {
+		HashMap<String, Object> parametros = new HashMap<>();
+			parametros.put("P_PATH_IMAGEM", recuperarDiretorio()+"/resources/template/img/logo_itrix.png");
+			parametros.put("P_RAZAO_SOCIAL", getContratoTO().getParametro().getNomeEmpresa());
+			parametros.put("P_CNPJ", getContratoTO().getParametro().getCnpj());
+			parametros.put("P_ENDERECO", getContratoTO().getParametro().getLogradouro());
+			parametros.put("P_BAIRRO", getContratoTO().getParametro().getBairro());
+			parametros.put("P_CIDADE", getContratoTO().getParametro().getCidade());
+			parametros.put("P_CEP", getContratoTO().getParametro().getCep());
+			parametros.put("P_UF", getContratoTO().getParametro().getUf());
+			parametros.put("P_TELEFONE", getContratoTO().getParametro().getTelefone());
+			parametros.put("P_EMAIL", getContratoTO().getParametro().getFromEmail());
+		return parametros;
+	}
+	
+	private String recuperarDiretorio() {
+		ServletContext servletContext = getServletContext();
+		return servletContext.getRealPath("/");
 	}
 
 	public ContratoTO getContratoTO() {

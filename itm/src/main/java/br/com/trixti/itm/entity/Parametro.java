@@ -141,6 +141,8 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="download_suspensao")
 	private Integer downloadSuspensao;
 	
+	private String telefone;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -443,6 +445,14 @@ public class Parametro implements java.io.Serializable {
 
 	public void setDownloadSuspensao(Integer downloadSuspensao) {
 		this.downloadSuspensao = downloadSuspensao;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
 	}
 
 }

@@ -321,10 +321,14 @@
 														<h:outputText value="#{contratoEquipamento.numeroSerie}" />
 													</h:column>
 													<h:column>
-														<h:commandLink action="#{contratoViewController.gerarComodato(contratoEquipamento)}" value="Gerar comodato" />
+														<f:facet name="header">#{resources['label.global.comodato']}</f:facet>
+														<h:commandLink action="#{contratoViewController.gerarComodato(contratoEquipamento)}" class="fa fa-print" value="   #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarComodato']}" />
+													</h:column>
+													<h:column>
+													<f:facet name="header">#{resources['label.global.retirada']}</f:facet>
+														<h:commandLink action="#{contratoViewController.gerarRetirada(contratoEquipamento)}" class="fa fa-print" value="  #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarRetirada']}" />
 													</h:column>
 													
-
 												</h:dataTable>
 											</div>
 										</div>
