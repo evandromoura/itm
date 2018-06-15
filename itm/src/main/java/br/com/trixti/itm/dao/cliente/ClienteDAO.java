@@ -80,6 +80,13 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 			predicateList.add(getCriteriaBuilder().lessThanOrEqualTo(root.join("contratos",JoinType.LEFT).<Date>get("dataCriacao"), clientePesquisa.getPeriodoCadastroContrato().getDataFim()));
 		}
 		
+		if(clientePesquisa.getPeriodoCancelamentoContrato().getDataInicio() != null){
+			predicateList.add(getCriteriaBuilder().greaterThanOrEqualTo(root.join("contratos",JoinType.LEFT).<Date>get("dataCancelamento"), clientePesquisa.getPeriodoCancelamentoContrato().getDataInicio()));
+		}
+		if(clientePesquisa.getPeriodoCancelamentoContrato().getDataFim() != null){
+			predicateList.add(getCriteriaBuilder().lessThanOrEqualTo(root.join("contratos",JoinType.LEFT).<Date>get("dataCancelamento"), clientePesquisa.getPeriodoCancelamentoContrato().getDataFim()));
+		}
+		
 		if(clientePesquisa.getStatusContrato() != null){
 			predicateList.add(getCriteriaBuilder().equal(root.join("contratos", JoinType.LEFT).get("status"),clientePesquisa.getStatusContrato()));
 		}
