@@ -7,6 +7,7 @@ import java.util.List;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
+import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.Grupo;
@@ -21,6 +22,8 @@ public class ContratoTO {
 	private String chaveMestra;
 	private Boleto boleto;
 	private boolean exibeSnmp;
+	private String protocolo;
+	private ContratoEquipamento contratoEquipamento;
 	
 	/**
 	 * Produto a ser Manipulado no Form
@@ -229,6 +232,25 @@ public class ContratoTO {
 
 	public void setExibeSnmp(boolean exibeSnmp) {
 		this.exibeSnmp = exibeSnmp;
+	}
+
+	public String getProtocolo() {
+		return protocolo;
+	}
+
+	public void setProtocolo(String protocolo) {
+		this.protocolo = protocolo;
+	}
+
+	public ContratoEquipamento getContratoEquipamento() {
+		if (contratoEquipamento == null) {
+			contratoEquipamento = new ContratoEquipamento();
+		}
+		return contratoEquipamento;
+	}
+
+	public void setContratoEquipamento(ContratoEquipamento contratoEquipamento) {
+		this.contratoEquipamento = contratoEquipamento;
 	}
 	
 

@@ -57,10 +57,17 @@ public class ContratoEquipamento implements java.io.Serializable {
 	@Column(name="data_retirada")
 	private Date dataRetirada;
 	
-	
 	@Column(name="numero_serie")
 	private String numeroSerie;
 	
+	@Column(name="patrimonio")
+	private String patrimonio;
+	
+	@Column(name="protocolo_instalacao")
+	private String protocoloInstalacao;
+	
+	@Column(name="protocolo_retirada")
+	private String protocoloRetirada;
 
 	public ContratoEquipamento() {
 	}
@@ -132,6 +139,30 @@ public class ContratoEquipamento implements java.io.Serializable {
 
 	public void setDataRetirada(Date dataRetirada) {
 		this.dataRetirada = dataRetirada;
+	}
+
+	public String getPatrimonio() {
+		return patrimonio;
+	}
+
+	public void setPatrimonio(String patrimonio) {
+		this.patrimonio = patrimonio;
+	}
+
+	public String getProtocoloInstalacao() {
+		return protocoloInstalacao;
+	}
+
+	public void setProtocoloInstalacao(String protocoloInstalacao) {
+		this.protocoloInstalacao = protocoloInstalacao;
+	}
+
+	public String getProtocoloRetirada() {
+		return protocoloRetirada;
+	}
+
+	public void setProtocoloRetirada(String protocoloRetirada) {
+		this.protocoloRetirada = protocoloRetirada;
 	}
 
 }

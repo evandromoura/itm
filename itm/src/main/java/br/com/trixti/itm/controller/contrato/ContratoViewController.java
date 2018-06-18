@@ -30,6 +30,7 @@ import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
+import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.parametro.ParametroService;
@@ -53,6 +54,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject MailService mailService;
 	private @Inject SMSService smsService;
 	private @Inject RemessaService remessaService;
+	private @Inject ContratoEquipamentoService contratoEquipamentoService;
 	
 
 	@PostConstruct
@@ -231,25 +233,28 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		}	
 	}
 	
-	public void gerarComodato(ContratoEquipamento contratoEquipamento){
-		List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
-		listaContratoEquipamento.add(contratoEquipamento);
-		try {
-			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorio(contratoEquipamento), getParametros(contratoEquipamento), listaContratoEquipamento);
-			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_comodato_equipamentos.pdf");
-		} catch (Exception e) {
-		}
-		
+	public void gerarComodato(){
+			String via;
+			List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
+			listaContratoEquipamento.add(getContratoTO().getContratoEquipamento());
+			try {
+				via = "Via Cliente";
+				byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorio(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento(),via), listaContratoEquipamento);
+				download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_comodato_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
+			} catch (Exception e) {
+			}
+		contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
 	}
 	
-	public void gerarRetirada(ContratoEquipamento contratoEquipamento){
+	public void gerarRetirada(){
 		List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
-		listaContratoEquipamento.add(contratoEquipamento);
+		listaContratoEquipamento.add(getContratoTO().getContratoEquipamento());
 		try {
-			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioRetirada(contratoEquipamento), getParametros(contratoEquipamento), listaContratoEquipamento);
-			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_retirada_equipamentos.pdf");
+			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioRetirada(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento(),""), listaContratoEquipamento);
+			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_retirada_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
 		} catch (Exception e) {	
 		}
+		contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
 	}
 	
 	
@@ -261,7 +266,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		return recuperarDiretorio()+"/relatorios/contrato/relatorio_retirada_equipamento.jasper";
 	}
 
-	private HashMap<String, Object> getParametros(ContratoEquipamento contratoEquipamento) {
+	private HashMap<String, Object> getParametros(ContratoEquipamento contratoEquipamento,String via) {
 		HashMap<String, Object> parametros = new HashMap<>();
 			parametros.put("P_PATH_IMAGEM", recuperarDiretorio()+"/resources/template/img/logo_itrix.png");
 			parametros.put("P_RAZAO_SOCIAL", getContratoTO().getParametro().getNomeEmpresa());
@@ -273,6 +278,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			parametros.put("P_UF", getContratoTO().getParametro().getUf());
 			parametros.put("P_TELEFONE", getContratoTO().getParametro().getTelefone());
 			parametros.put("P_EMAIL", getContratoTO().getParametro().getFromEmail());
+			parametros.put("P_VIA", via);
 		return parametros;
 	}
 	
