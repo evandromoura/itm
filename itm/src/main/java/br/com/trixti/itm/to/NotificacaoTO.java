@@ -1,6 +1,7 @@
 package br.com.trixti.itm.to;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.com.trixti.itm.entity.Notificacao;
@@ -11,8 +12,8 @@ public class NotificacaoTO {
 	private Notificacao notificacao;
 	private List<Notificacao> notificacoes;
 	private Notificacao notificacaoPesquisa;
-	
 	private List<Tag> tags;
+	private Date dataAtual;
 	
 	
 	public Notificacao getNotificacao() {
@@ -58,6 +59,14 @@ public class NotificacaoTO {
 
 	public void setTags(List<Tag> tags) {
 		this.tags = tags;
+	}
+
+	public Date getDataAtual() {
+		return dataAtual;
+	}
+
+	public void setDataAtual(Date dataAtual) {
+		this.dataAtual = dataAtual;
 	}
 
 }

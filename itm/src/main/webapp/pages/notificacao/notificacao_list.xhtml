@@ -54,7 +54,10 @@
 								<f:facet name="header">
 									#{resources['label.global.nome']}
 								</f:facet>
-								#{notificacao.nome}
+								<span class="#{(notificacao.dataInicio le notificacaoController.notificacaoTO.dataAtual) and
+									(notificacao.dataFim ge notificacaoController.notificacaoTO.dataAtual) ?'btn btn-sm btn-success':''}" style="cursor:auto;">
+									#{notificacao.nome}
+								</span>	
 							</h:column>
 							
 							<h:column>
