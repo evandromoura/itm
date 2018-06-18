@@ -84,7 +84,7 @@ public class FiltroTO<T> {
 
 	public List<T> getLista() {
 		if (lista == null) {
-			lista = new ArrayList<>();
+			lista = new ArrayList<T>();
 		}
 		return lista;
 	}

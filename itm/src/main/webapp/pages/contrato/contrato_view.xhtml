@@ -322,20 +322,30 @@
 													</h:column>
 													<h:column>
 														<f:facet name="header">#{resources['label.global.comodato']}</f:facet>
-														<h:commandLink action="#{contratoViewController.gerarComodato(contratoEquipamento)}" class="fa fa-print" value="   #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarComodato']}" />
+														<h:commandLink>
+															#{resources['label.global.gerarcomodato']}
+													        <f:setPropertyActionListener target="#{contratoViewController.contratoTO.contratoEquipamento}" value="#{contratoEquipamento}" />
+													        <f:ajax />
+													       	<f:passThroughAttribute name="data-toggle" value="modal" />
+															<f:passThroughAttribute name="data-target" value="#idGerarComodato" />
+													    </h:commandLink>
 													</h:column>
 													<h:column>
 													<f:facet name="header">#{resources['label.global.retirada']}</f:facet>
-														<h:commandLink action="#{contratoViewController.gerarRetirada(contratoEquipamento)}" class="fa fa-print" value="  #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarRetirada']}" />
+														<h:commandLink>
+															#{resources['label.global.gerarretirada']}
+													        <f:setPropertyActionListener target="#{contratoViewController.contratoTO.contratoEquipamento}" value="#{contratoEquipamento}" />
+													        <f:ajax />
+													       	<f:passThroughAttribute name="data-toggle" value="modal" />
+															<f:passThroughAttribute name="data-target" value="#idGerarRetirada" />
+													    </h:commandLink>
+														<h:commandLink action="#{contratoViewController.gerarRetirada}" class="fa fa-print" value="  #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarRetirada']}" />
 													</h:column>
-													
 												</h:dataTable>
 											</div>
 										</div>
 									</h:panelGroup>
-
 								</div>
-								
 							</div>
 							<div class="card card-accent-success">
 						<div class="card-header">
@@ -806,6 +816,42 @@
 						<div class="col-sm-9">
 							<h:commandLink styleClass="btn btn-secondary" action="#{contratoViewController.pagarBoleto}">
 								<i class="fa fa-download"></i> #{resources['label.global.pagarboleto']} 
+							</h:commandLink>
+						</div>
+					</div>
+				</itm:modal>
+				
+				
+				<itm:modal id="idGerarComodato" titulo="#{resources['label.global.gerarcomodato']}">
+					<div class="row">
+					
+						<div class="col-sm-3">
+							<h:outputText value="#{resources['label.global.protocolo']}" /> 
+						</div>
+						<div class="col-sm-9">
+							<h:inputText value="#{contratoViewController.contratoTO.contratoEquipamento.protocoloInstalacao}" />
+						</div>
+						
+						<div class="col-sm-9">
+							<h:commandLink action="#{contratoViewController.gerarComodato}" class="fa fa-print" value="   #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarcomodato']}" />
+						</div>
+					</div>
+				</itm:modal>
+				
+				
+				<itm:modal id="idGerarRetirada" titulo="#{resources['label.global.gerarretirada']}">
+					<div class="row">
+					
+						<div class="col-sm-3">
+							<h:outputText value="#{resources['label.global.protocolo']}" /> 
+						</div>
+						<div class="col-sm-9">
+							<h:inputText value="#{contratoViewController.contratoTO.contratoEquipamento.protocoloRetirada}" />
+						</div>
+						
+						<div class="col-sm-9">
+							<h:commandLink action="#{contratoViewController.gerarRetirada}" class="fa fa-print" value="   #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarretirada']}">
+									<f:ajax execute="complete" ></f:ajax>																					
 							</h:commandLink>
 						</div>
 					</div>
