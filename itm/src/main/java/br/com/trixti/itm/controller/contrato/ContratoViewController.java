@@ -234,13 +234,15 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	}
 	
 	public void gerarComodato(){
-		List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
-		listaContratoEquipamento.add(getContratoTO().getContratoEquipamento());
-		try {
-			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorio(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento()), listaContratoEquipamento);
-			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_comodato_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
-		} catch (Exception e) {
-		}
+			String via;
+			List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
+			listaContratoEquipamento.add(getContratoTO().getContratoEquipamento());
+			try {
+				via = "Via Cliente";
+				byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorio(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento(),via), listaContratoEquipamento);
+				download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_comodato_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
+			} catch (Exception e) {
+			}
 		contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
 	}
 	
@@ -248,7 +250,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
 		listaContratoEquipamento.add(getContratoTO().getContratoEquipamento());
 		try {
-			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioRetirada(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento()), listaContratoEquipamento);
+			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioRetirada(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento(),""), listaContratoEquipamento);
 			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_retirada_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
 		} catch (Exception e) {	
 		}
@@ -264,7 +266,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		return recuperarDiretorio()+"/relatorios/contrato/relatorio_retirada_equipamento.jasper";
 	}
 
-	private HashMap<String, Object> getParametros(ContratoEquipamento contratoEquipamento) {
+	private HashMap<String, Object> getParametros(ContratoEquipamento contratoEquipamento,String via) {
 		HashMap<String, Object> parametros = new HashMap<>();
 			parametros.put("P_PATH_IMAGEM", recuperarDiretorio()+"/resources/template/img/logo_itrix.png");
 			parametros.put("P_RAZAO_SOCIAL", getContratoTO().getParametro().getNomeEmpresa());
@@ -276,6 +278,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			parametros.put("P_UF", getContratoTO().getParametro().getUf());
 			parametros.put("P_TELEFONE", getContratoTO().getParametro().getTelefone());
 			parametros.put("P_EMAIL", getContratoTO().getParametro().getFromEmail());
+			parametros.put("P_VIA", via);
 		return parametros;
 	}
 	

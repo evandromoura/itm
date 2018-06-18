@@ -339,7 +339,6 @@
 													       	<f:passThroughAttribute name="data-toggle" value="modal" />
 															<f:passThroughAttribute name="data-target" value="#idGerarRetirada" />
 													    </h:commandLink>
-														<h:commandLink action="#{contratoViewController.gerarRetirada}" class="fa fa-print" value="  #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarRetirada']}" />
 													</h:column>
 												</h:dataTable>
 											</div>
@@ -824,16 +823,16 @@
 				
 				<itm:modal id="idGerarComodato" titulo="#{resources['label.global.gerarcomodato']}">
 					<div class="row">
-					
 						<div class="col-sm-3">
 							<h:outputText value="#{resources['label.global.protocolo']}" /> 
 						</div>
 						<div class="col-sm-9">
 							<h:inputText value="#{contratoViewController.contratoTO.contratoEquipamento.protocoloInstalacao}" />
 						</div>
-						
 						<div class="col-sm-9">
-							<h:commandLink action="#{contratoViewController.gerarComodato}" class="fa fa-print" value="   #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarcomodato']}" />
+							<h:commandLink action="#{contratoViewController.gerarComodato}" class="fa fa-print" value="   #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarcomodato']}" >
+								 <f:ajax event="blur" onevent="function(data) { if (data.status == 'success') {fecharModal();} }" />
+							 </h:commandLink>
 						</div>
 					</div>
 				</itm:modal>
@@ -851,7 +850,7 @@
 						
 						<div class="col-sm-9">
 							<h:commandLink action="#{contratoViewController.gerarRetirada}" class="fa fa-print" value="   #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarretirada']}">
-									<f:ajax execute="complete" ></f:ajax>																					
+								 <f:ajax event="blur" onevent="function(data) { if (data.status == 'success') {fecharModal();} }" />																				
 							</h:commandLink>
 						</div>
 					</div>
@@ -868,6 +867,17 @@
 	<ui:fragment rendered="#{not empty contratoViewController.contratoTO.contrato.autenticacoes}">
 			
 		</ui:fragment>	
+		
+					
+	<script type="text/javascript">
+		//<![CDATA[
+		
+			function fecharModal() {
+				$('#idGerarComodato').modal('hide');
+				$('#idGerarRetirada').modal('hide');
+			}
+		//]]>
+	</script>
 	</ui:define>
 
 </ui:composition>

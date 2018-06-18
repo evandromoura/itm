@@ -38,6 +38,7 @@
 	<parameter name="P_UF" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="P_CIDADE" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="P_TELEFONE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="P_VIA" isForPrompting="false" class="java.lang.String"/>
 
 	<field name="numeroSerie" class="java.lang.String"/>
 	<field name="contrato.cliente.nome" class="java.lang.String"/>
@@ -53,6 +54,8 @@
 	<field name="equipamento.nome" class="java.lang.String"/>
 	<field name="equipamento.modelo" class="java.lang.String"/>
 	<field name="equipamento.marca" class="java.lang.String"/>
+	<field name="patrimonio" class="java.lang.String"/>
+	<field name="protocoloInstalacao" class="java.lang.String"/>
 
 
 		<group  name="relatorio" >
@@ -103,27 +106,19 @@
 					</textElement>
 				<text><![CDATA[Formulário de Comodato de Equipamentos de Internet]]></text>
 				</staticText>
-				<staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						mode="Opaque"
-						x="442"
-						y="3"
-						width="82"
+						x="447"
+						y="7"
+						width="78"
 						height="12"
-						forecolor="#000000"
-						key="staticText-59"
-						isRemoveLineWhenBlank="true"
-						printWhenGroupChanges="relatorio"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
+						key="textField"/>
+					<box></box>
 					<textElement>
-						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+						<font/>
 					</textElement>
-				<text><![CDATA[Via Cliente]]></text>
-				</staticText>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_VIA}]]></textFieldExpression>
+				</textField>
 			</band>
 		</title>
 		<pageHeader>
@@ -131,7 +126,7 @@
 				<rectangle>
 					<reportElement
 						x="2"
-						y="272"
+						y="276"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -143,7 +138,7 @@
 				<rectangle>
 					<reportElement
 						x="2"
-						y="290"
+						y="294"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -152,32 +147,10 @@
 						printWhenGroupChanges="relatorio"/>
 					<graphicElement stretchType="NoStretch"/>
 				</rectangle>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="173"
-						y="294"
-						width="53"
-						height="12"
-						forecolor="#000000"
-						key="staticText-47"
-						positionType="FixRelativeToBottom"
-						isRemoveLineWhenBlank="true"
-						printWhenGroupChanges="relatorio"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
-					</textElement>
-				<text><![CDATA[MARCA]]></text>
-				</staticText>
 				<rectangle>
 					<reportElement
 						x="2"
-						y="343"
+						y="347"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -189,7 +162,7 @@
 				<rectangle>
 					<reportElement
 						x="2"
-						y="326"
+						y="330"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -201,7 +174,7 @@
 				<rectangle>
 					<reportElement
 						x="2"
-						y="361"
+						y="365"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -210,72 +183,6 @@
 						printWhenGroupChanges="relatorio"/>
 					<graphicElement stretchType="NoStretch"/>
 				</rectangle>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="266"
-						y="294"
-						width="57"
-						height="12"
-						forecolor="#000000"
-						key="staticText-47"
-						positionType="FixRelativeToBottom"
-						isRemoveLineWhenBlank="true"
-						printWhenGroupChanges="relatorio"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
-					</textElement>
-				<text><![CDATA[MODELO]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="380"
-						y="294"
-						width="127"
-						height="12"
-						forecolor="#000000"
-						key="staticText-47"
-						positionType="FixRelativeToBottom"
-						isRemoveLineWhenBlank="true"
-						printWhenGroupChanges="relatorio"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
-					</textElement>
-				<text><![CDATA[SERIAL NUMBER]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="28"
-						y="294"
-						width="89"
-						height="12"
-						forecolor="#000000"
-						key="staticText-46"
-						positionType="FixRelativeToBottom"
-						isRemoveLineWhenBlank="true"
-						printWhenGroupChanges="relatorio"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
-					</textElement>
-				<text><![CDATA[EQUIPAMENTO]]></text>
-				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
@@ -297,33 +204,10 @@
 					</textElement>
 				<text><![CDATA[O CLIENTE declara ciente das condições sob o regime de COMODATO do (os) aparelho (os) fornecido pela CONTRATADA, não podendo comercializá-lo, ceder, alugar, sublocar, compartilhar ou disponibilizá-lo a terceiro a qualquer titulo, sem prejuízo do disposto nos Artigos 579 e seguintes do Código Civil. ]]></text>
 				</staticText>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="3"
-						y="274"
-						width="521"
-						height="14"
-						forecolor="#000000"
-						backcolor="#CCCCCC"
-						key="staticText-45"
-						positionType="FixRelativeToBottom"
-						isRemoveLineWhenBlank="true"
-						printWhenGroupChanges="relatorio"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
-					</textElement>
-				<text><![CDATA[III - EQUIPAMENTOS(s)]]></text>
-				</staticText>
 				<rectangle>
 					<reportElement
 						x="2"
-						y="308"
+						y="312"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -896,9 +780,9 @@
 				<rectangle>
 					<reportElement
 						x="2"
-						y="379"
+						y="383"
 						width="523"
-						height="45"
+						height="18"
 						backcolor="#FFFFFF"
 						key="rectangle-92"
 						positionType="FixRelativeToBottom"
@@ -907,14 +791,14 @@
 				</rectangle>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="390"
-						y="313"
+						x="339"
+						y="317"
 						width="99"
 						height="12"
 						key="textField"
 						positionType="FixRelativeToBottom"/>
 					<box></box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Left">
 						<font size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{numeroSerie}]]></textFieldExpression>
@@ -958,7 +842,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{contrato.cliente.endereco}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="44"
 						y="87"
@@ -1082,14 +966,14 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="19"
-						y="312"
+						x="5"
+						y="316"
 						width="124"
 						height="12"
 						key="textField"
 						positionType="FixRelativeToBottom"/>
 					<box></box>
-					<textElement>
+					<textElement textAlignment="Left">
 						<font size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.nome}]]></textFieldExpression>
@@ -1108,7 +992,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_RAZAO_SOCIAL}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="35"
 						y="191"
@@ -1122,7 +1006,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_CNPJ}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="65"
 						y="208"
@@ -1136,7 +1020,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_ENDERECO}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="45"
 						y="227"
@@ -1150,7 +1034,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_BAIRRO}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="45"
 						y="245"
@@ -1164,7 +1048,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_CEP}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="393"
 						y="209"
@@ -1200,7 +1084,7 @@
 					</textElement>
 				<text><![CDATA[Cidade:]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="266"
 						y="209"
@@ -1227,28 +1111,28 @@
 				</line>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="253"
-						y="313"
+						x="230"
+						y="317"
 						width="105"
 						height="12"
 						key="textField"
 						positionType="FixRelativeToBottom"/>
 					<box></box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Left">
 						<font size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.modelo}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="153"
-						y="312"
+						x="134"
+						y="316"
 						width="92"
 						height="12"
 						key="textField"
 						positionType="FixRelativeToBottom"/>
 					<box></box>
-					<textElement textAlignment="Center">
+					<textElement textAlignment="Left">
 						<font size="10"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.marca}]]></textFieldExpression>
@@ -1271,8 +1155,8 @@
 					<reportElement
 						mode="Opaque"
 						x="4"
-						y="382"
-						width="87"
+						y="386"
+						width="126"
 						height="12"
 						forecolor="#000000"
 						key="staticText-53"
@@ -1287,12 +1171,12 @@
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Chamado:]]></text>
+				<text><![CDATA[Protocolo Instalação:]]></text>
 				</staticText>
 				<rectangle>
 					<reportElement
 						x="1"
-						y="438"
+						y="411"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -1304,7 +1188,7 @@
 				<rectangle>
 					<reportElement
 						x="1"
-						y="456"
+						y="429"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -1316,7 +1200,7 @@
 				<rectangle>
 					<reportElement
 						x="1"
-						y="492"
+						y="465"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -1329,7 +1213,7 @@
 					<reportElement
 						mode="Opaque"
 						x="2"
-						y="460"
+						y="433"
 						width="166"
 						height="12"
 						forecolor="#000000"
@@ -1351,7 +1235,7 @@
 					<reportElement
 						mode="Opaque"
 						x="2"
-						y="441"
+						y="414"
 						width="521"
 						height="14"
 						forecolor="#000000"
@@ -1373,7 +1257,7 @@
 				<rectangle>
 					<reportElement
 						x="1"
-						y="474"
+						y="447"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -1386,7 +1270,7 @@
 					<reportElement
 						mode="Opaque"
 						x="3"
-						y="478"
+						y="451"
 						width="165"
 						height="12"
 						forecolor="#000000"
@@ -1406,32 +1290,10 @@
 				</staticText>
 				<line direction="TopDown">
 					<reportElement
-						x="147"
-						y="291"
+						x="132"
+						y="295"
 						width="1"
-						height="89"
-						key="line-10"
-						positionType="FixRelativeToBottom"
-						printWhenGroupChanges="relatorio"/>
-					<graphicElement stretchType="NoStretch"/>
-				</line>
-				<line direction="TopDown">
-					<reportElement
-						x="247"
-						y="290"
-						width="1"
-						height="89"
-						key="line-10"
-						positionType="FixRelativeToBottom"
-						printWhenGroupChanges="relatorio"/>
-					<graphicElement stretchType="NoStretch"/>
-				</line>
-				<line direction="TopDown">
-					<reportElement
-						x="365"
-						y="290"
-						width="1"
-						height="89"
+						height="106"
 						key="line-10"
 						positionType="FixRelativeToBottom"
 						printWhenGroupChanges="relatorio"/>
@@ -1440,7 +1302,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="169"
-						y="456"
+						y="429"
 						width="1"
 						height="54"
 						key="line-24"
@@ -1482,6 +1344,198 @@
 						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<text><![CDATA[II - CONTRATADA]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="446"
+						y="317"
+						width="76"
+						height="12"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{patrimonio}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="135"
+						y="387"
+						width="85"
+						height="12"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{protocoloInstalacao}]]></textFieldExpression>
+				</textField>
+				<line direction="TopDown">
+					<reportElement
+						x="227"
+						y="295"
+						width="1"
+						height="106"
+						key="line-26"
+						positionType="FixRelativeToBottom"
+						printWhenGroupChanges="relatorio"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="336"
+						y="295"
+						width="1"
+						height="106"
+						key="line-27"
+						positionType="FixRelativeToBottom"
+						printWhenGroupChanges="relatorio"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<line direction="TopDown">
+					<reportElement
+						x="442"
+						y="295"
+						width="1"
+						height="106"
+						key="line-28"
+						positionType="FixRelativeToBottom"
+						printWhenGroupChanges="relatorio"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="4"
+						y="298"
+						width="89"
+						height="12"
+						forecolor="#000000"
+						key="staticText-46"
+						positionType="FixRelativeToBottom"
+						isRemoveLineWhenBlank="true"
+						printWhenGroupChanges="relatorio"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[EQUIPAMENTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="134"
+						y="298"
+						width="53"
+						height="12"
+						forecolor="#000000"
+						key="staticText-47"
+						positionType="FixRelativeToBottom"
+						isRemoveLineWhenBlank="true"
+						printWhenGroupChanges="relatorio"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[MARCA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="230"
+						y="298"
+						width="57"
+						height="12"
+						forecolor="#000000"
+						key="staticText-47"
+						positionType="FixRelativeToBottom"
+						isRemoveLineWhenBlank="true"
+						printWhenGroupChanges="relatorio"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[MODELO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="339"
+						y="298"
+						width="102"
+						height="12"
+						forecolor="#000000"
+						key="staticText-47"
+						positionType="FixRelativeToBottom"
+						isRemoveLineWhenBlank="true"
+						printWhenGroupChanges="relatorio"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[SERIAL NUMBER]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="447"
+						y="298"
+						width="73"
+						height="12"
+						forecolor="#000000"
+						key="staticText-60"
+						positionType="FixRelativeToBottom"
+						isRemoveLineWhenBlank="true"
+						printWhenGroupChanges="relatorio"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[PATRIMÔNIO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="3"
+						y="278"
+						width="521"
+						height="14"
+						forecolor="#000000"
+						backcolor="#CCCCCC"
+						key="staticText-45"
+						positionType="FixRelativeToBottom"
+						isRemoveLineWhenBlank="true"
+						printWhenGroupChanges="relatorio"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[III - EQUIPAMENTOS(s)]]></text>
 				</staticText>
 			</band>
 		</pageHeader>
