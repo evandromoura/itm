@@ -334,10 +334,18 @@
 														<h:commandLink>
 															#{resources['label.global.gerarcomodato']}
 													        <f:setPropertyActionListener target="#{contratoViewController.contratoTO.contratoEquipamento}" value="#{contratoEquipamento}" />
-													        <f:ajax />
+													        <f:ajax  />
 													       	<f:passThroughAttribute name="data-toggle" value="modal" />
 															<f:passThroughAttribute name="data-target" value="#idGerarComodato" />
 													    </h:commandLink>
+													    <h:outputText value="  " />
+													    <ui:fragment rendered="#{(contratoViewController.contratoTO.parametro.urlChamado ne null and contratoViewController.contratoTO.parametro.urlChamado ne '') and (contratoEquipamento.protocoloInstalacao ne null and contratoEquipamento.protocoloInstalacao ne '')}">
+													    	<a href="#{contratoViewController.contratoTO.parametro.urlChamado.replaceAll('protocolo',contratoEquipamento.protocoloInstalacao)}" 
+													    		target="blank" title="#{resources['label.global.verchamado']}"> 
+													    		<i class="fa fa-external-link"></i>
+													    	</a>
+													    </ui:fragment>
+													    
 													</h:column>
 													<h:column>
 													<f:facet name="header">#{resources['label.global.retirada']}</f:facet>
@@ -348,10 +356,13 @@
 													       	<f:passThroughAttribute name="data-toggle" value="modal" />
 															<f:passThroughAttribute name="data-target" value="#idGerarRetirada" />
 													    </h:commandLink>
-<<<<<<< HEAD
-														
-=======
->>>>>>> branch 'master' of https://github.com/evandromoura/itm.git
+													    <h:outputText value="  " />
+													    <ui:fragment rendered="#{(contratoViewController.contratoTO.parametro.urlChamado ne null and contratoViewController.contratoTO.parametro.urlChamado ne '') and (contratoEquipamento.protocoloRetirada ne null and contratoEquipamento.protocoloRetirada ne '')}">
+													    	<a href="#{contratoViewController.contratoTO.parametro.urlChamado.replaceAll('protocolo',contratoEquipamento.protocoloRetirada)}" 
+													    		target="blank" title="#{resources['label.global.verchamado']}"> 
+													    		<i class="fa fa-external-link"></i>
+													    	</a>
+													    </ui:fragment>
 													</h:column>
 												</h:dataTable>
 											</div>
@@ -629,7 +640,7 @@
 																		<ui:fragment rendered="#{boleto.dataVencimento ge contratoViewController.contratoTO.dataAtual}">
 																			<li>
 																			<h:commandLink  action="#{contratoViewController.downloadBoleto(boleto)}">
-																				<i class="fa fa-download"></i> #{resources['label.global.download']}
+																				<i class="fa fa-download"></i> #{resources['label.global.download']} 2
 																			</h:commandLink>
 																			</li>
 																			<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPER_ADMIN')}">
@@ -840,71 +851,35 @@
 				
 				<itm:modal id="idGerarComodato" titulo="#{resources['label.global.gerarcomodato']}">
 					<div class="row">
-<<<<<<< HEAD
-					
+
 						<div class="col-sm-3">
 							<h:outputText value="#{resources['label.global.protocolo']}" /> 
 						</div>
 						<div class="col-sm-9">
-							<h:inputText value="#{contratoViewController.contratoTO.contratoEquipamento.protocoloInstalacao}" />
-						</div>
-						
-						<div class="col-sm-9">
-							<h:commandLink action="#{contratoViewController.gerarComodato}" class="fa fa-print" value="   #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarcomodato']}" />
-						</div>
-					</div>
-				</itm:modal>
-				
-				
-				<itm:modal id="idGerarRetirada" titulo="#{resources['label.global.gerarretirada']}">
-					<div class="row">
-					
-						<div class="col-sm-3">
-							<h:outputText value="#{resources['label.global.protocolo']}" /> 
-						</div>
-						<div class="col-sm-9">
-							<h:inputText value="#{contratoViewController.contratoTO.contratoEquipamento.protocoloRetirada}" />
-						</div>
-						
-						<div class="col-sm-9">
-							<h:commandLink action="#{contratoViewController.gerarRetirada}" class="fa fa-print" value="   #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarretirada']}">
-									<f:ajax execute="complete" ></f:ajax>																					
-=======
-						<div class="col-sm-3">
-							<h:outputText value="#{resources['label.global.protocolo']}" /> 
-						</div>
-						<div class="col-sm-9">
-							<h:inputText value="#{contratoViewController.contratoTO.contratoEquipamento.protocoloInstalacao}" />
+							<h:inputText value="#{contratoViewController.contratoTO.protocoloInstalacao}" />
 						</div>
 						<div class="col-sm-9">
 							<h:commandLink action="#{contratoViewController.gerarComodato}" class="fa fa-print" value="   #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarcomodato']}" >
-								 <f:ajax event="blur" onevent="function(data) { if (data.status == 'success') {fecharModal();} }" />
+								 <f:ajax event="blur" onevent="function(data) { if (data.status == 'success') {fecharModal();} }"  />
 							 </h:commandLink>
 						</div>
 					</div>
 				</itm:modal>
-				
-				
 				<itm:modal id="idGerarRetirada" titulo="#{resources['label.global.gerarretirada']}">
 					<div class="row">
-					
 						<div class="col-sm-3">
 							<h:outputText value="#{resources['label.global.protocolo']}" /> 
 						</div>
 						<div class="col-sm-9">
-							<h:inputText value="#{contratoViewController.contratoTO.contratoEquipamento.protocoloRetirada}" />
+							<h:inputText value="#{contratoViewController.contratoTO.protocoloRetirada}" />
 						</div>
-						
 						<div class="col-sm-9">
 							<h:commandLink action="#{contratoViewController.gerarRetirada}" class="fa fa-print" value="   #{resources['label.global.imprimir']}" title="#{resources['label.global.gerarretirada']}">
 								 <f:ajax event="blur" onevent="function(data) { if (data.status == 'success') {fecharModal();} }" />																				
->>>>>>> branch 'master' of https://github.com/evandromoura/itm.git
 							</h:commandLink>
 						</div>
 					</div>
 				</itm:modal>
-				
-				
 	</h:form>
 	
 	<div id="rate">

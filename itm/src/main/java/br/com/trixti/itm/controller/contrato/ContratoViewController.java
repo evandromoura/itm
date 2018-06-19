@@ -39,6 +39,7 @@ import br.com.trixti.itm.service.sms.SMSService;
 //import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.to.ContratoTO;
 import br.com.trixti.itm.util.UtilArquivo;
+import br.com.trixti.itm.util.UtilString;
 
 @ViewScoped
 @ManagedBean
@@ -234,6 +235,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	}
 	
 	public void gerarComodato(){
+			UtilString utilString = new UtilString();
 			String via;
 			List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
 			listaContratoEquipamento.add(getContratoTO().getContratoEquipamento());
@@ -243,10 +245,14 @@ public class ContratoViewController extends AbstractController<Contrato> {
 				download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_comodato_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
 			} catch (Exception e) {
 			}
-		contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
+			if(!utilString.vazio(getContratoTO().getProtocoloInstalacao())){
+				getContratoTO().getContratoEquipamento().setProtocoloInstalacao(getContratoTO().getProtocoloInstalacao());	
+				contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
+			}
 	}
 	
 	public void gerarRetirada(){
+		UtilString utilString = new UtilString();
 		List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
 		listaContratoEquipamento.add(getContratoTO().getContratoEquipamento());
 		try {
@@ -254,7 +260,10 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_retirada_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
 		} catch (Exception e) {	
 		}
-		contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
+		if(!utilString.vazio(getContratoTO().getProtocoloRetirada())){
+			getContratoTO().getContratoEquipamento().setProtocoloRetirada(getContratoTO().getProtocoloRetirada());
+			contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
+		}	
 	}
 	
 	

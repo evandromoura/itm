@@ -363,7 +363,7 @@ public class FinanceiroThread {
 				arquivoSici.setAno(String.valueOf(utilData.getAno(data)));
 				arquivoSiciService.incluir(arquivoSici);
 			}	
-		}	
+		}		
 	}
 	
 	
@@ -379,9 +379,7 @@ public class FinanceiroThread {
 				nfe.setNome("Nfe_"+utilData.getMesCorrente(data)+"_"+utilData.getAno(data)+".xml");
 				nfe.setMes(utilData.getMesCorrente(data));
 				nfe.setAno(String.valueOf(utilData.getAno(data)));
-				List<Boleto> boletos = new ArrayList<Boleto>();
-				boletos.add(new Boleto());
-				boletos.add(new Boleto());
+				List<Boleto> boletos = boletoService.listarBoletoEmAtraso();
  				nfe.setArquivos(nfeService.gerarNfeArquivo(boletos, nfe));
 				nfeService.incluir(nfe);
 			}	

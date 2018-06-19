@@ -22,7 +22,8 @@ public class ContratoTO {
 	private String chaveMestra;
 	private Boleto boleto;
 	private boolean exibeSnmp;
-	private String protocolo;
+	private String protocoloInstalacao;
+	private String protocoloRetirada;
 	private ContratoEquipamento contratoEquipamento;
 	
 	/**
@@ -234,12 +235,20 @@ public class ContratoTO {
 		this.exibeSnmp = exibeSnmp;
 	}
 
-	public String getProtocolo() {
-		return protocolo;
+	public String getProtocoloInstalacao() {
+		return protocoloInstalacao;
 	}
 
-	public void setProtocolo(String protocolo) {
-		this.protocolo = protocolo;
+	public void setProtocoloInstalacao(String protocoloInstalacao) {
+		this.protocoloInstalacao = protocoloInstalacao;
+	}
+
+	public String getProtocoloRetirada() {
+		return protocoloRetirada;
+	}
+
+	public void setProtocoloRetirada(String protocoloRetirada) {
+		this.protocoloRetirada = protocoloRetirada;
 	}
 
 	public ContratoEquipamento getContratoEquipamento() {
