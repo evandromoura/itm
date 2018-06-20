@@ -1498,7 +1498,7 @@
 						<subreportParameterExpression><![CDATA[$F{patrimonio}]]></subreportParameterExpression>
 					</subreportParameter>
 					<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{listaContratoEquipamento})]]></dataSourceExpression>
-					<subreportExpression  class="java.lang.String"><![CDATA["/home/trixti/git/itm/itm/src/main/webapp/relatorios/contrato/sub_relatorio_comondato.jasper"]]></subreportExpression>
+					<subreportExpression  class="java.lang.String"><![CDATA[$P{REPORT_PATH}+"/relatorios/contrato/sub_relatorio_comondato.jasper"]]></subreportExpression>
 				</subreport>
 				<line direction="BottomUp">
 					<reportElement
