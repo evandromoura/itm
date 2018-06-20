@@ -20,16 +20,20 @@ import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoAnexo;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoLancamento;
+import br.com.trixti.itm.entity.Retorno;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
+import br.com.trixti.itm.entity.StatusRetorno;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
+import br.com.trixti.itm.service.contratoanexo.ContratoAnexoService;
 import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.mail.MailService;
@@ -38,7 +42,9 @@ import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.service.sms.SMSService;
 //import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.to.ContratoTO;
+import br.com.trixti.itm.util.Base64Utils;
 import br.com.trixti.itm.util.UtilArquivo;
+import br.com.trixti.itm.util.UtilString;
 
 @ViewScoped
 @ManagedBean
@@ -234,41 +240,52 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	}
 	
 	public void gerarComodato(){
-			String via;
-			List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
-			listaContratoEquipamento.add(getContratoTO().getContratoEquipamento());
+			UtilString utilString = new UtilString();
+			getContratoTO().setListaContratoEquipamento(new ArrayList<ContratoEquipamento>());
+			getContratoTO().getContratoEquipamento().setListaContratoEquipamento(new ArrayList<ContratoEquipamento>());
+			
+			getContratoTO().getListaContratoEquipamento().add(getContratoTO().getContratoEquipamento());
+			getContratoTO().getContratoEquipamento().setListaContratoEquipamento(getContratoTO().getListaContratoEquipamento());
+		
 			try {
-				via = "Via Cliente";
-				byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorio(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento(),via), listaContratoEquipamento);
+				byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorio(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento(),getContratoTO().getListaContratoEquipamento()), getContratoTO().getListaContratoEquipamento());
 				download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_comodato_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
 			} catch (Exception e) {
 			}
-		contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
+			if(!utilString.vazio(getContratoTO().getProtocoloInstalacao())){
+				getContratoTO().getContratoEquipamento().setProtocoloInstalacao(getContratoTO().getProtocoloInstalacao());	
+				contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
+			}
 	}
 	
 	public void gerarRetirada(){
+		UtilString utilString = new UtilString();
 		List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
 		listaContratoEquipamento.add(getContratoTO().getContratoEquipamento());
 		try {
-			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioRetirada(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento(),""), listaContratoEquipamento);
+			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioRetirada(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento(),listaContratoEquipamento), listaContratoEquipamento);
 			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_retirada_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
 		} catch (Exception e) {	
 		}
-		contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
+		if(!utilString.vazio(getContratoTO().getProtocoloRetirada())){
+			getContratoTO().getContratoEquipamento().setProtocoloRetirada(getContratoTO().getProtocoloRetirada());
+			contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
+		}	
 	}
 	
 	
 	private String getNomeRelatorio(ContratoEquipamento contratoEquipamento) {
-		return recuperarDiretorio()+"/relatorios/contrato/relatorio_comandato.jasper";
+		return recuperarDiretorio()+"/relatorios/contrato/relatorio_comondato.jasper";
 	}
 	
 	private String getNomeRelatorioRetirada(ContratoEquipamento contratoEquipamento){
 		return recuperarDiretorio()+"/relatorios/contrato/relatorio_retirada_equipamento.jasper";
 	}
 
-	private HashMap<String, Object> getParametros(ContratoEquipamento contratoEquipamento,String via) {
+	private HashMap<String, Object> getParametros(ContratoEquipamento contratoEquipamento, List<ContratoEquipamento> listaContratoEquipamento) {
 		HashMap<String, Object> parametros = new HashMap<>();
 			parametros.put("P_PATH_IMAGEM", recuperarDiretorio()+"/resources/template/img/logo_itrix.png");
+			parametros.put("REPORT_PATH",recuperarDiretorio());
 			parametros.put("P_RAZAO_SOCIAL", getContratoTO().getParametro().getNomeEmpresa());
 			parametros.put("P_CNPJ", getContratoTO().getParametro().getCnpj());
 			parametros.put("P_ENDERECO", getContratoTO().getParametro().getLogradouro());
@@ -278,13 +295,51 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			parametros.put("P_UF", getContratoTO().getParametro().getUf());
 			parametros.put("P_TELEFONE", getContratoTO().getParametro().getTelefone());
 			parametros.put("P_EMAIL", getContratoTO().getParametro().getFromEmail());
-			parametros.put("P_VIA", via);
+			parametros.put("P_LISTA_CONTRATO_EQUIPAMENTO", listaContratoEquipamento);
 		return parametros;
 	}
 	
 	private String recuperarDiretorio() {
 		ServletContext servletContext = getServletContext();
 		return servletContext.getRealPath("/");
+	}
+	
+	public void enviarArquivo(){
+		try{
+			ContratoAnexo contratoAnexo = new ContratoAnexo();
+			contratoAnexo.setConteudo(Base64Utils.base64Encode(UtilArquivo.converteInputStreamEmBytes(getContratoTO().getUpload().getInputStream())));
+			contratoAnexo.setContrato(getContratoTO().getContrato());
+			contratoAnexo.setNome(getContratoTO().getUpload().getSubmittedFileName());
+			contratoAnexo.setDataCriacao(new Date());
+			contratoAnexoService.incluir(contratoAnexo);
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Anexo enviado com sucesso!!", "O Registro foi incluido na base"));
+			setContratoTO(null);
+			init();
+		}catch(Exception e){
+			e.printStackTrace();
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao enviar Remessa", "ERRO"));
+		}	
+		
+	}
+	
+	public void download(ContratoAnexo contratoAnexo){
+		File arquivo =null;
+		try{
+			ContratoAnexo retornoCompleta = contratoAnexoService.recuperar(contratoAnexo.getId());
+			UtilArquivo utilArquivo = new UtilArquivo();
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			String nomeArquivo = retornoCompleta.getNome();
+			arquivo = utilArquivo.getFileFromBytes(Base64Utils.base64Decode(retornoCompleta.getConteudo()), nomeArquivo);
+			utilArquivo.convertFileToByteArrayOutputStream(arquivo,
+					byteArrayOutputStream);
+			download(byteArrayOutputStream, nomeArquivo);
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			if(arquivo != null){
+				arquivo.delete();
+			}	
+		}	
 	}
 
 	public ContratoTO getContratoTO() {

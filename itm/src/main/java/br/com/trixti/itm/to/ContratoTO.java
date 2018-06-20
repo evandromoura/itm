@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.Part;
+
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
@@ -15,54 +17,50 @@ import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.Produto;
 
 public class ContratoTO {
-	
+
 	private List<Contrato> contratos;
-	
+
 	private Contrato contrato;
 	private String chaveMestra;
 	private Boleto boleto;
 	private boolean exibeSnmp;
-	private String protocolo;
+	private String protocoloInstalacao;
+	private String protocoloRetirada;
 	private ContratoEquipamento contratoEquipamento;
-	
+	private Part upload;
+	private List<ContratoEquipamento> listaContratoEquipamento;
+
 	/**
 	 * Produto a ser Manipulado no Form
 	 */
 	private Produto produto;
-	
-	
+
 	/**
 	 * Equipamento a ser Manipulado no Form
 	 */
 	private Equipamento equipamento;
-	
-	
-	
+
 	/**
 	 * Grupo a ser Manipulado no Form
 	 */
 	private Grupo grupo;
-	
-	
-	
+
 	private ContratoLancamento contratoLancamento;
-	
-	
+
 	private Date dataVencimentoBoleto;
-	
-	
+
 	private String abaAtiva;
-	
+
 	private ContratoAutenticacao contratoAutenticacao;
 
 	private Parametro parametro;
-	
+
 	private List<String> listaSnmp;
-	
+
 	private String oid;
-	
+
 	private Date dataSegundaViaBoleto;
-	
+
 	private Boleto boletoSegundaVia;
 
 	public Contrato getContrato() {
@@ -75,8 +73,7 @@ public class ContratoTO {
 	public void setContrato(Contrato contrato) {
 		this.contrato = contrato;
 	}
-	
-	
+
 	public Produto getProduto() {
 		if (produto == null) {
 			produto = new Produto();
@@ -175,8 +172,8 @@ public class ContratoTO {
 	public void setOid(String oid) {
 		this.oid = oid;
 	}
-	
-	public Date getDataAtual(){
+
+	public Date getDataAtual() {
 		return new Date();
 	}
 
@@ -234,12 +231,20 @@ public class ContratoTO {
 		this.exibeSnmp = exibeSnmp;
 	}
 
-	public String getProtocolo() {
-		return protocolo;
+	public String getProtocoloInstalacao() {
+		return protocoloInstalacao;
 	}
 
-	public void setProtocolo(String protocolo) {
-		this.protocolo = protocolo;
+	public void setProtocoloInstalacao(String protocoloInstalacao) {
+		this.protocoloInstalacao = protocoloInstalacao;
+	}
+
+	public String getProtocoloRetirada() {
+		return protocoloRetirada;
+	}
+
+	public void setProtocoloRetirada(String protocoloRetirada) {
+		this.protocoloRetirada = protocoloRetirada;
 	}
 
 	public ContratoEquipamento getContratoEquipamento() {
@@ -252,6 +257,25 @@ public class ContratoTO {
 	public void setContratoEquipamento(ContratoEquipamento contratoEquipamento) {
 		this.contratoEquipamento = contratoEquipamento;
 	}
-	
+
+	public Part getUpload() {
+		return upload;
+	}
+
+	public void setUpload(Part upload) {
+		this.upload = upload;
+	}
+
+	public List<ContratoEquipamento> getListaContratoEquipamento() {
+		if (listaContratoEquipamento == null) {
+			listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
+
+		}
+		return listaContratoEquipamento;
+	}
+
+	public void setListaContratoEquipamento(List<ContratoEquipamento> listaContratoEquipamento) {
+		this.listaContratoEquipamento = listaContratoEquipamento;
+	}
 
 }
