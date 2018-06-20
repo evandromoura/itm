@@ -20,16 +20,20 @@ import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Contrato;
+import br.com.trixti.itm.entity.ContratoAnexo;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoLancamento;
+import br.com.trixti.itm.entity.Retorno;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
+import br.com.trixti.itm.entity.StatusRetorno;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
 import br.com.trixti.itm.service.contrato.ContratoService;
+import br.com.trixti.itm.service.contratoanexo.ContratoAnexoService;
 import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.mail.MailService;
@@ -38,6 +42,7 @@ import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.service.sms.SMSService;
 //import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.to.ContratoTO;
+import br.com.trixti.itm.util.Base64Utils;
 import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilString;
 
@@ -56,6 +61,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject SMSService smsService;
 	private @Inject RemessaService remessaService;
 	private @Inject ContratoEquipamentoService contratoEquipamentoService;
+	private @Inject ContratoAnexoService contratoAnexoService;
 	
 
 	@PostConstruct
@@ -294,6 +300,44 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private String recuperarDiretorio() {
 		ServletContext servletContext = getServletContext();
 		return servletContext.getRealPath("/");
+	}
+	
+	public void enviarArquivo(){
+		try{
+			ContratoAnexo contratoAnexo = new ContratoAnexo();
+			contratoAnexo.setConteudo(Base64Utils.base64Encode(UtilArquivo.converteInputStreamEmBytes(getContratoTO().getUpload().getInputStream())));
+			contratoAnexo.setContrato(getContratoTO().getContrato());
+			contratoAnexo.setNome(getContratoTO().getUpload().getSubmittedFileName());
+			contratoAnexo.setDataCriacao(new Date());
+			contratoAnexoService.incluir(contratoAnexo);
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Anexo enviado com sucesso!!", "O Registro foi incluido na base"));
+			setContratoTO(null);
+			init();
+		}catch(Exception e){
+			e.printStackTrace();
+			getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao enviar Remessa", "ERRO"));
+		}	
+		
+	}
+	
+	public void download(ContratoAnexo contratoAnexo){
+		File arquivo =null;
+		try{
+			ContratoAnexo retornoCompleta = contratoAnexoService.recuperar(contratoAnexo.getId());
+			UtilArquivo utilArquivo = new UtilArquivo();
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			String nomeArquivo = retornoCompleta.getNome();
+			arquivo = utilArquivo.getFileFromBytes(Base64Utils.base64Decode(retornoCompleta.getConteudo()), nomeArquivo);
+			utilArquivo.convertFileToByteArrayOutputStream(arquivo,
+					byteArrayOutputStream);
+			download(byteArrayOutputStream, nomeArquivo);
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			if(arquivo != null){
+				arquivo.delete();
+			}	
+		}	
 	}
 
 	public ContratoTO getContratoTO() {

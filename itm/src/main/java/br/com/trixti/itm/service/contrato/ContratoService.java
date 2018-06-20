@@ -31,6 +31,7 @@ import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boleto.BoletoService;
+import br.com.trixti.itm.service.contratoanexo.ContratoAnexoService;
 import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
 import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
@@ -54,6 +55,7 @@ public class ContratoService extends AbstractService<Contrato> {
 	private @Inject FreeRadiusService freeRadiusService;
 	private @Inject BoletoService boletoService;
 	private @Inject ParametroService parametroService;
+	private @Inject ContratoAnexoService contratoAnexoService;
 	
 	
 	@Override
@@ -66,10 +68,9 @@ public class ContratoService extends AbstractService<Contrato> {
 		Contrato contrato =  contratoDAO.recuperarCompleto(id);
 		contrato.setLancamentos(contratoLancamentoService.pesquisarLancamentoAberto(contrato));
 		contrato.setNotificacoes(contratoNotificacaoService.pesquisarUltimasNotificacoes(contrato));
+		contrato.setAnexos(contratoAnexoService.pesquisarPorContrato(contrato));
 		return contrato;
 	}
-
-	
 	
 	@Override
 	public void incluir(Contrato entidade) {

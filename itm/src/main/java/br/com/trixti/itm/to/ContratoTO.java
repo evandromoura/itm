@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.Part;
+
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
@@ -25,6 +27,7 @@ public class ContratoTO {
 	private String protocoloInstalacao;
 	private String protocoloRetirada;
 	private ContratoEquipamento contratoEquipamento;
+	private Part upload;
 	
 	/**
 	 * Produto a ser Manipulado no Form
@@ -260,6 +263,14 @@ public class ContratoTO {
 
 	public void setContratoEquipamento(ContratoEquipamento contratoEquipamento) {
 		this.contratoEquipamento = contratoEquipamento;
+	}
+
+	public Part getUpload() {
+		return upload;
+	}
+
+	public void setUpload(Part upload) {
+		this.upload = upload;
 	}
 	
 

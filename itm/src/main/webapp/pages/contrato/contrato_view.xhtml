@@ -22,7 +22,7 @@
 			<script src="https://code.highcharts.com/modules/exporting.js"></script>
 		</ui:fragment>	
 		
-		<h:form id="idFormContratoView">
+		<h:form id="idFormContratoView" enctype="multipart/form-data">
 		<div class="row">
 			<br />
 		</div>
@@ -774,7 +774,52 @@
 						</ui:fragment>	
 						
 						<div class="#{contratoViewController.contratoTO.abaAtiva eq 'anexos'?'active':''} tab-pane" id="anexos">
-						
+										<div class="card-header">
+											<i class="fa fa-folder-open-o" />
+											<strong>#{resources['label.global.enviararquivo']}</strong>
+										</div>
+										<div class="card-block">
+		
+											<div class="row">
+												<div class="col-sm-4">
+													<h:inputFile id="idInputFile" class="file" type="file" value="#{contratoViewController.contratoTO.upload}" label="Arquivo"  />
+												</div>
+												<div class="col-sm-6">
+													<h:commandLink action="#{contratoViewController.enviarArquivo()}" value="#{resources['label.global.enviar']}" styleClass="btn btn-info" />												
+												</div>
+											</div>
+										</div>
+										
+										<div class="card-header">
+											<i class="fa fa-folder-open-o" />
+											<strong>#{resources['label.global.anexos']}</strong>
+										</div>
+										<div class="card-block">
+		
+											<div class="row">
+												<div class="col-sm-12">
+														<h:dataTable var="anexo" value="#{contratoViewController.contratoTO.contrato.anexos}" styleClass="table table-bordered table-striped">
+															<h:column>
+																<f:facet name="header">
+																	#{resources['label.global.nomearquivo']}
+																</f:facet>
+																<h:outputText value="#{anexo.nome}" />
+															</h:column>
+															<h:column>
+																<f:facet name="header">
+																	#{resources['label.global.dataenvio']}
+																</f:facet>
+																<h:outputText value="#{anexo.dataCriacao}">
+																	<f:convertDateTime  pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3"/>
+																</h:outputText>
+															</h:column>
+															<h:column>
+																<h:commandLink action="#{contratoViewController.download(anexo)}" value="#{resources['label.global.download']}" />
+															</h:column>
+														</h:dataTable>												
+												</div>
+											</div>
+										</div>
 						</div>
 					</div>
 				</div>
@@ -884,12 +929,11 @@
 	
 	<div id="rate">
 	
-	
 	</div>
 	
 	<ui:fragment rendered="#{not empty contratoViewController.contratoTO.contrato.autenticacoes}">
 			
-		</ui:fragment>	
+	</ui:fragment>	
 		
 					
 	<script type="text/javascript">

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<txg:Texgit xmlns:txg="http://jrimum.org/texgit"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://jrimum.org/texgit http://jrimum.org/texgit/chrome/site/TexgitSchema.xsd"
+            version="1.0-academic">
+
+	<FlatFile>
+		<layout>
+			<name>Arquivo Nfe Mod 21</name>
+			<version>Version 01, Published: 2018/06/13</version>
+			<description>
+				Layout de geração da Nfe Mod 21
+			</description>
+		</layout>
+		<GroupOfRecords>
+			<Record name="notas" description="Notas" >
+				<GroupOfFields>
+					<IdType name="cpf_cnpj"       		  	 length="14" position="1" />
+					<Field name="ie" 		      		  	 length="14"  />
+					<Field name="razao_social"   		  	 length="35"  />
+					<Field name="uf"  			  		  	 length="2"  />
+					<Field name="classe_consumo" 	      	 length="1"  />
+					<Field name="fase_tipo_utilizacao"   	 length="1"  />
+					<Field name="grupo_tensao" 		  	 	 length="2"  />
+					<Field name="cod_id_consumidor" 	  	 length="12" />
+					<Field name="data_emissao" 		  	 	 length="8"  />
+					<Field name="modelo" 				   	 length="2"  />
+					<Field name="serie" 				  	 length="3"  />
+					<Field name="numero" 				  	 length="9"  />
+					<Field name="cod_aut_dig_doc_fiscal" 	 length="32" />
+					<Field name="valor_total" 			  	 length="12" />
+					<Field name="bc_icms" 			  	  	 length="12" />
+					<Field name="icms_destacado" 	  	  	 length="12" />
+					<Field name="operacoes_isentas" 	  	 length="12" />
+					<Field name="outro_valores" 	  	  	 length="12" />
+					<Field name="situacao_documento"  	  	 length="1"  />
+					<Field name="ano_mes_referencia"  	  	 length="4"  />
+					<Field name="referencia_item_nf"  	  	 length="9"  />
+					<Field name="numero_terminal_tel"    	 length="12" />
+					<Field name="ind_tipo_inf_campo1"    	 length="1"  />
+					<Field name="tipo_cliente"    		  	 length="2"  />
+					<Field name="subclasse_consumo"  	  	 length="2"  />
+					<Field name="num_termi_tel_princ"        length="12" />
+					<Field name="cnpj_emitente"    	     	 length="14" />
+					<Field name="num_cod_fat_comercial"      length="20" />
+					<Field name="valor_total_fat_comercial"  length="12" />
+					<Field name="data_leitura_anterior" 	 length="8"  />
+					<Field name="data_leitura_atual" 	 	 length="8"  />
+					<Field name="brancos1" 					 length="50" blankAccepted="true"  />
+					<Field name="brancos2" 					 length="8"  blankAccepted="true"  />
+					<Field name="informacoes_adicionais" 	 length="30" />
+					<Field name="brancos3" 					 length="5"  blankAccepted="true"  />
+					<Field name="cod_aut_dig_registro" 	 	 length="32" />
+				</GroupOfFields>
+			</Record>
+		</GroupOfRecords>
+	</FlatFile>
+
+</txg:Texgit>
