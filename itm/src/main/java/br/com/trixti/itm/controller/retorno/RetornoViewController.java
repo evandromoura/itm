@@ -40,7 +40,6 @@ public class RetornoViewController  extends AbstractController<Retorno> implemen
 		getRetornoTO().setRecords(integracaoFinanceiraItau.comporRetorno(getRetornoTO().getRetorno()));
 	}
 	
-	
 	public void download(Retorno retorno){
 		File arquivo =null;
 		try{

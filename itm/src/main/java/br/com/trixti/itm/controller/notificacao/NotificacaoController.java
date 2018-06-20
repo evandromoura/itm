@@ -34,6 +34,7 @@ public class NotificacaoController extends AbstractController<Notificacao> imple
 	
 	@PostConstruct
 	private void init(){
+		getNotificacaoTO().setDataAtual(new Date());
 		String acao = getRequest().getParameter("acao");
 		String parametro = getRequest().getParameter("parametro");
 		

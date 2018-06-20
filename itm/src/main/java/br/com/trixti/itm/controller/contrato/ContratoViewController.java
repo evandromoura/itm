@@ -61,6 +61,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject SMSService smsService;
 	private @Inject RemessaService remessaService;
 	private @Inject ContratoEquipamentoService contratoEquipamentoService;
+	private @Inject ContratoAnexoService contratoAnexoService;
 	
 
 	@PostConstruct
@@ -241,6 +242,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	
 	public void gerarComodato(){
 			UtilString utilString = new UtilString();
+
 			getContratoTO().setListaContratoEquipamento(new ArrayList<ContratoEquipamento>());
 			getContratoTO().getContratoEquipamento().setListaContratoEquipamento(new ArrayList<ContratoEquipamento>());
 			

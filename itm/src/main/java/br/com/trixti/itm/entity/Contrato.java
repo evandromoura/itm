@@ -84,7 +84,6 @@ public class Contrato implements java.io.Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade={CascadeType.ALL},orphanRemoval=true)
 	private List<ContratoGrupo> contratoGrupos;
 	
-	
 	@NotAudited
 	@OrderBy("dataVencimento desc")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
@@ -98,6 +97,9 @@ public class Contrato implements java.io.Serializable {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
 	private List<ContratoNotificacao> notificacoes;
 	
+	@NotAudited
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
+	private List<ContratoAnexo> anexos;
 	
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -305,6 +307,14 @@ public class Contrato implements java.io.Serializable {
 
 	public void setGeraMultaCancelamento(boolean geraMultaCancelamento) {
 		this.geraMultaCancelamento = geraMultaCancelamento;
+	}
+
+	public List<ContratoAnexo> getAnexos() {
+		return anexos;
+	}
+
+	public void setAnexos(List<ContratoAnexo> anexos) {
+		this.anexos = anexos;
 	}
 	
 }
