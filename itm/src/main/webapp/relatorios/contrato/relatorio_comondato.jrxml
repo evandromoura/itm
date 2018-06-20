@@ -91,7 +91,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
 					<textElement>
-						<font size="13" isBold="true"/>
+						<font pdfFontName="Helvetica-Bold" size="13" isBold="true"/>
 					</textElement>
 				<text><![CDATA[Contrato de Comodato de Equipamentos de Internet]]></text>
 				</staticText>
@@ -1447,13 +1447,13 @@
 			</band>
 		</pageFooter>
 		<summary>
-			<band height="94"  isSplitAllowed="true" >
+			<band height="97"  isSplitAllowed="true" >
 				<subreport  isUsingCache="true">
 					<reportElement
 						x="-17"
-						y="70"
+						y="89"
 						width="532"
-						height="22"
+						height="7"
 						key="subreport-1"/>
 					<subreportParameter  name="P_RAZAO_SOCIAL">
 						<subreportParameterExpression><![CDATA[$P{P_RAZAO_SOCIAL}]]></subreportParameterExpression>
@@ -1503,7 +1503,7 @@
 				<line direction="BottomUp">
 					<reportElement
 						x="265"
-						y="68"
+						y="76"
 						width="210"
 						height="1"
 						key="line-11"
@@ -1514,7 +1514,7 @@
 					<reportElement
 						mode="Opaque"
 						x="277"
-						y="75"
+						y="83"
 						width="165"
 						height="14"
 						forecolor="#000000"
@@ -1535,7 +1535,7 @@
 					<reportElement
 						mode="Opaque"
 						x="452"
-						y="29"
+						y="21"
 						width="76"
 						height="16"
 						forecolor="#000000"
@@ -1556,7 +1556,7 @@
 					<reportElement
 						mode="Opaque"
 						x="46"
-						y="76"
+						y="83"
 						width="185"
 						height="14"
 						forecolor="#000000"
@@ -1576,7 +1576,7 @@
 				<line direction="BottomUp">
 					<reportElement
 						x="33"
-						y="69"
+						y="77"
 						width="210"
 						height="1"
 						key="line-16"
@@ -1586,7 +1586,7 @@
 				<line direction="BottomUp">
 					<reportElement
 						x="335"
-						y="22"
+						y="14"
 						width="6"
 						height="16"
 						key="line-19"
@@ -1596,7 +1596,7 @@
 				<line direction="BottomUp">
 					<reportElement
 						x="362"
-						y="22"
+						y="14"
 						width="6"
 						height="16"
 						key="line-20"
@@ -1606,7 +1606,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="314"
-						y="38"
+						y="30"
 						width="85"
 						height="0"
 						key="line-21"
@@ -1616,7 +1616,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="407"
-						y="38"
+						y="30"
 						width="20"
 						height="0"
 						key="line-22"
@@ -1627,7 +1627,7 @@
 					<reportElement
 						mode="Opaque"
 						x="427"
-						y="27"
+						y="19"
 						width="8"
 						height="12"
 						forecolor="#000000"
@@ -1647,7 +1647,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="432"
-						y="38"
+						y="30"
 						width="20"
 						height="0"
 						key="line-23"
@@ -1657,7 +1657,7 @@
 				<break>
 					<reportElement
 						x="0"
-						y="69"
+						y="88"
 						width="535"
 						height="0"
 						key="element-1"/>

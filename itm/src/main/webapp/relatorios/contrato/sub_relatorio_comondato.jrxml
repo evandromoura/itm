@@ -102,7 +102,7 @@
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 </box>
 					<textElement>
-						<font size="13" isBold="true"/>
+						<font pdfFontName="Helvetica-Bold" size="13" isBold="true"/>
 					</textElement>
 				<text><![CDATA[Contrato de Comodato de Equipamentos de Internet]]></text>
 				</staticText>
@@ -1520,11 +1520,15 @@
 			</band>
 		</columnFooter>
 		<pageFooter>
-			<band height="120"  isSplitAllowed="true" >
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="97"  isSplitAllowed="true" >
 				<line direction="BottomUp">
 					<reportElement
 						x="260"
-						y="97"
+						y="75"
 						width="210"
 						height="1"
 						key="line-11"
@@ -1535,7 +1539,7 @@
 					<reportElement
 						mode="Opaque"
 						x="272"
-						y="102"
+						y="80"
 						width="165"
 						height="14"
 						forecolor="#000000"
@@ -1556,7 +1560,7 @@
 					<reportElement
 						mode="Opaque"
 						x="459"
-						y="45"
+						y="23"
 						width="76"
 						height="16"
 						forecolor="#000000"
@@ -1577,7 +1581,7 @@
 					<reportElement
 						mode="Opaque"
 						x="41"
-						y="103"
+						y="81"
 						width="185"
 						height="14"
 						forecolor="#000000"
@@ -1597,7 +1601,7 @@
 				<line direction="BottomUp">
 					<reportElement
 						x="28"
-						y="98"
+						y="76"
 						width="210"
 						height="1"
 						key="line-16"
@@ -1607,7 +1611,7 @@
 				<line direction="BottomUp">
 					<reportElement
 						x="342"
-						y="38"
+						y="16"
 						width="6"
 						height="16"
 						key="line-19"/>
@@ -1616,7 +1620,7 @@
 				<line direction="BottomUp">
 					<reportElement
 						x="369"
-						y="38"
+						y="16"
 						width="6"
 						height="16"
 						key="line-20"/>
@@ -1625,7 +1629,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="321"
-						y="54"
+						y="32"
 						width="85"
 						height="0"
 						key="line-21"/>
@@ -1634,7 +1638,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="414"
-						y="54"
+						y="32"
 						width="20"
 						height="0"
 						key="line-22"/>
@@ -1644,7 +1648,7 @@
 					<reportElement
 						mode="Opaque"
 						x="434"
-						y="43"
+						y="21"
 						width="8"
 						height="12"
 						forecolor="#000000"
@@ -1664,16 +1668,12 @@
 				<line direction="TopDown">
 					<reportElement
 						x="439"
-						y="54"
+						y="32"
 						width="20"
 						height="0"
 						key="line-23"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
-			</band>
-		</pageFooter>
-		<summary>
-			<band height="0"  isSplitAllowed="true" >
 			</band>
 		</summary>
 </jasperReport>
