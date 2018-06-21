@@ -22,7 +22,6 @@ import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
 import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
 import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
-import br.com.trixti.itm.service.contratogrupo.ContratoGrupoService;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
 import br.com.trixti.itm.service.grupo.GrupoService;
 import br.com.trixti.itm.service.produto.ProdutoService;
@@ -43,7 +42,6 @@ public class ContratoController extends AbstractController<Contrato> implements 
 	private @Inject GrupoService grupoService;
 	private @Inject ContratoAutenticacaoService contratoAutenticacaoService;
 	private @Inject CustomIdentity customIdentity;
-	private @Inject ContratoGrupoService contratoGrupoService;
 	
 	private ContratoTO contratoTO;
 	

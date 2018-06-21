@@ -33,7 +33,14 @@ public class Equipamento implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "equipamento")
 	private List<ContratoEquipamento> contratoEquipamentos;
+	
+	@Column(name="numero_serie")
+	private String numeroSerie;
+	
+	@Column(name="patrimonio")
+	private String patrimonio;
 
+	
 	public Equipamento() {
 	}
 
