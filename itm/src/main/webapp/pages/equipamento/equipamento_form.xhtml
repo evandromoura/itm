@@ -26,27 +26,30 @@
 								</div>
 							</div>
 							
-							<div class="col-sm-4">
-								<div class="form-group">
-									<label for="formEquipamento:nome_equipamento">#{resources['label.global.marca']}</label> 
-									<h:selectOneMenu value="#{equipamentoController.equipamentoTO.equipamento.marca}">
-										<f:selectItem itemLabel="#{resources['label.global.selecione']}" />
-										<f:ajax event="change"  render="formEquipamento"/>
-										<f:selectItems value="#{combosBean.listaEquipamentoMarca}" var="marca" itemLabel="#{marca.nome}" itemValue="#{marca}" />
-									</h:selectOneMenu>
-								</div>
-							</div>
-							<ui:fragment rendered="#{equipamentoController.equipamentoTO.equipamento.marca.id ne null and equipamentoController.equipamentoTO.equipamento.marca.id ne 0}">
-								<div class="col-sm-4">
-									<div class="form-group">
-										<label for="formEquipamento:nome_equipamento">#{resources['label.global.modelo']}</label> 
-										<h:selectOneMenu value="#{equipamentoController.equipamentoTO.equipamento.modelo}">
-											<f:selectItems value="#{combosBean.getListaEquipamentoMarcaModelo(equipamentoController.equipamentoTO.equipamento.marca)}"
-											 var="modelo" itemLabel="#{modelo.nome}" itemValue="#{modelo}" />
+							<div class="col-sm-8">
+								<div class="row">
+									<div class="form-group col-sm-6">
+										<label for="formEquipamento:nome_equipamento">#{resources['label.global.marca']}</label> 
+										<h:selectOneMenu value="#{equipamentoController.equipamentoTO.equipamento.marca.id}" styleClass="form-control">
+											<f:selectItem itemLabel="#{resources['label.global.selecione']}" />
+											<f:ajax event="change"  render="formEquipamento"/>
+											<f:selectItems value="#{combosBean.listaEquipamentoMarca}" var="marca" itemLabel="#{marca.nome}" itemValue="#{marca.id}" />
 										</h:selectOneMenu>
 									</div>
-								</div>
-							</ui:fragment>	
+									<ui:fragment rendered="#{equipamentoController.equipamentoTO.equipamento.marca.id ne null and equipamentoController.equipamentoTO.equipamento.marca.id ne 0}">
+										<div class="form-group col-sm-6">
+											<label for="formEquipamento:nome_equipamento">#{resources['label.global.modelo']}</label> 
+											<h:selectOneMenu value="#{equipamentoController.equipamentoTO.equipamento.modelo.id}" styleClass="form-control">
+												<f:selectItems value="#{combosBean.getListaEquipamentoMarcaModelo(equipamentoController.equipamentoTO.equipamento.marca)}"
+												 var="modelo" itemLabel="#{modelo.nome}" itemValue="#{modelo.id}" />
+											</h:selectOneMenu>
+										</div>
+								</ui:fragment>
+							 </div>	
+							</div>
+							
+							
+								
 						</div>
 						
 					</div>
