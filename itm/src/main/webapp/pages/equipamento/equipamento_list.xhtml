@@ -27,6 +27,7 @@
 								</div>
 							</div>
 						</div>
+						
 						<div class="row">
 							<div class="col-sm-6">
 							
@@ -62,27 +63,14 @@
 								<f:facet name="header">
 									#{resources['label.global.marca']}
 								</f:facet>
-								#{equipamento.marca}
+								#{equipamento.marca.nome}
 							</h:column>
 							<h:column>
 								<f:facet name="header">
 									#{resources['label.global.modelo']}
 								</f:facet>
-								#{equipamento.modelo}
+								#{equipamento.modelo.nome}
 							</h:column>
-							<h:column>
-								<f:facet name="header">
-									#{resources['label.global.marca']}
-								</f:facet>
-								#{equipamento.marca}
-							</h:column>
-							<h:column>
-								<f:facet name="header">
-									#{resources['label.global.marca']}
-								</f:facet>
-								#{equipamento.marca}
-							</h:column>
-							
 							
 							<h:column>
 								<f:facet name="header">
