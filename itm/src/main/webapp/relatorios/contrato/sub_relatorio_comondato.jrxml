@@ -40,7 +40,7 @@
 	<parameter name="P_TELEFONE" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="P_VIA" isForPrompting="false" class="java.lang.String"/>
 
-	<field name="numeroSerie" class="java.lang.String"/>
+	<field name="equipamento.numeroSerie" class="java.lang.String"/>
 	<field name="contrato.cliente.nome" class="java.lang.String"/>
 	<field name="contrato.cliente.endereco" class="java.lang.String"/>
 	<field name="contrato.cliente.bairro" class="java.lang.String"/>
@@ -54,7 +54,7 @@
 	<field name="equipamento.nome" class="java.lang.String"/>
 	<field name="equipamento.modelo.nome" class="java.lang.String"/>
 	<field name="equipamento.marca.nome" class="java.lang.String"/>
-	<field name="patrimonio" class="java.lang.String"/>
+	<field name="equipamento.patrimonio" class="java.lang.String"/>
 	<field name="protocoloInstalacao" class="java.lang.String"/>
 
 
@@ -790,7 +790,7 @@
 					<textElement textAlignment="Left">
 						<font size="10"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{numeroSerie}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.numeroSerie}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1329,7 +1329,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{patrimonio}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.patrimonio}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
