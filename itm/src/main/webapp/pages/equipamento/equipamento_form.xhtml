@@ -48,9 +48,29 @@
 							 </div>	
 							</div>
 							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="formEquipamento:nome_equipamento">#{resources['label.global.numeroserie']}</label> 
+									<h:inputText value="#{equipamentoController.equipamentoTO.equipamento.numeroSerie}" id="numero_serie_equipamento" styleClass="form-control" />
+								</div>
+							</div>
+							
+							
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="formEquipamento:nome_equipamento">#{resources['label.global.patrimonio']}</label> 
+									<h:inputText value="#{equipamentoController.equipamentoTO.equipamento.patrimonio}" id="numero_serie_equipamento" styleClass="form-control" />
+								</div>
+							</div>
 							
 								
 						</div>
+						<div class="row">
+							<div class="col-sm-4">
+								<h:commandLink action="#{equipamentoController.gravar}" value="#{resources['label.global.gravar']}" styleClass="btn btn-success" />
+							</div>
+						</div>
+						
 						
 					</div>
 				</div>
