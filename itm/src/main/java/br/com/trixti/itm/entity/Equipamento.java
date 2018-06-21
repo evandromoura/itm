@@ -41,6 +41,22 @@ public class Equipamento implements java.io.Serializable {
 	private String patrimonio;
 
 	
+	public String getNumeroSerie() {
+		return numeroSerie;
+	}
+
+	public void setNumeroSerie(String numeroSerie) {
+		this.numeroSerie = numeroSerie;
+	}
+
+	public String getPatrimonio() {
+		return patrimonio;
+	}
+
+	public void setPatrimonio(String patrimonio) {
+		this.patrimonio = patrimonio;
+	}
+
 	public Equipamento() {
 	}
 
