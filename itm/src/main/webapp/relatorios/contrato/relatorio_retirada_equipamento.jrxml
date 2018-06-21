@@ -38,10 +38,8 @@
 	<parameter name="P_UF" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="P_CIDADE" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="P_TELEFONE" isForPrompting="false" class="java.lang.String"/>
-	<parameter name="P_CARGO" isForPrompting="false" class="java.lang.String"/>
-	<parameter name="P_REPRESENTADO" isForPrompting="false" class="java.lang.String"/>
 
-	<field name="numeroSerie" class="java.lang.String"/>
+	<field name="equipamento.numeroSerie" class="java.lang.String"/>
 	<field name="contrato.cliente.nome" class="java.lang.String"/>
 	<field name="contrato.cliente.endereco" class="java.lang.String"/>
 	<field name="contrato.cliente.bairro" class="java.lang.String"/>
@@ -57,7 +55,7 @@
 	<field name="equipamento.marca.nome" class="java.lang.String"/>
 	<field name="dataRetirada" class="java.util.Date"/>
 	<field name="dataInstalacao" class="java.util.Date"/>
-	<field name="patrimonio" class="java.lang.String"/>
+	<field name="equipamento.patrimonio" class="java.lang.String"/>
 
 
 		<group  name="relatorio" >
@@ -119,11 +117,11 @@
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="483"  isSplitAllowed="true" >
+			<band height="451"  isSplitAllowed="true" >
 				<rectangle>
 					<reportElement
 						x="3"
-						y="437"
+						y="405"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -135,7 +133,7 @@
 				<rectangle>
 					<reportElement
 						x="3"
-						y="420"
+						y="388"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -147,7 +145,7 @@
 				<rectangle>
 					<reportElement
 						x="3"
-						y="371"
+						y="339"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -678,7 +676,7 @@
 				<rectangle>
 					<reportElement
 						x="3"
-						y="403"
+						y="371"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -975,7 +973,7 @@
 				<rectangle>
 					<reportElement
 						x="3"
-						y="303"
+						y="271"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -986,7 +984,7 @@
 				<rectangle>
 					<reportElement
 						x="3"
-						y="320"
+						y="288"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -997,7 +995,7 @@
 				<rectangle>
 					<reportElement
 						x="3"
-						y="354"
+						y="322"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -1009,7 +1007,7 @@
 					<reportElement
 						mode="Opaque"
 						x="4"
-						y="305"
+						y="273"
 						width="521"
 						height="14"
 						forecolor="#000000"
@@ -1030,7 +1028,7 @@
 				<rectangle>
 					<reportElement
 						x="3"
-						y="337"
+						y="305"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -1041,7 +1039,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="241"
-						y="320"
+						y="288"
 						width="1"
 						height="70"
 						key="line-21"
@@ -1052,7 +1050,7 @@
 					<reportElement
 						mode="Opaque"
 						x="7"
-						y="324"
+						y="292"
 						width="232"
 						height="12"
 						forecolor="#000000"
@@ -1074,7 +1072,7 @@
 					<reportElement
 						mode="Opaque"
 						x="6"
-						y="341"
+						y="309"
 						width="232"
 						height="12"
 						forecolor="#000000"
@@ -1096,7 +1094,7 @@
 					<reportElement
 						mode="Opaque"
 						x="6"
-						y="358"
+						y="326"
 						width="232"
 						height="12"
 						forecolor="#000000"
@@ -1118,7 +1116,7 @@
 					<reportElement
 						mode="Opaque"
 						x="6"
-						y="376"
+						y="344"
 						width="232"
 						height="12"
 						forecolor="#000000"
@@ -1140,7 +1138,7 @@
 					<reportElement
 						mode="Opaque"
 						x="6"
-						y="407"
+						y="375"
 						width="234"
 						height="12"
 						forecolor="#000000"
@@ -1162,7 +1160,7 @@
 					<reportElement
 						mode="Opaque"
 						x="6"
-						y="424"
+						y="392"
 						width="234"
 						height="12"
 						forecolor="#000000"
@@ -1183,7 +1181,7 @@
 				<rectangle>
 					<reportElement
 						x="3"
-						y="454"
+						y="422"
 						width="523"
 						height="18"
 						backcolor="#FFFFFF"
@@ -1196,7 +1194,7 @@
 					<reportElement
 						mode="Opaque"
 						x="5"
-						y="440"
+						y="408"
 						width="234"
 						height="12"
 						forecolor="#000000"
@@ -1218,7 +1216,7 @@
 					<reportElement
 						mode="Opaque"
 						x="6"
-						y="459"
+						y="427"
 						width="234"
 						height="12"
 						forecolor="#000000"
@@ -1239,7 +1237,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="242"
-						y="403"
+						y="371"
 						width="1"
 						height="70"
 						key="line-22"
@@ -1362,92 +1360,10 @@
 					</textElement>
 				<text><![CDATA[Tel. Celular:]]></text>
 				</staticText>
-				<rectangle>
-					<reportElement
-						x="2"
-						y="257"
-						width="523"
-						height="18"
-						backcolor="#FFFFFF"
-						key="rectangle-102"
-						positionType="Float"
-						printWhenGroupChanges="relatorio"/>
-					<graphicElement stretchType="NoStretch"/>
-				</rectangle>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="4"
-						y="262"
-						width="111"
-						height="12"
-						forecolor="#000000"
-						key="staticText-68"
-						positionType="FixRelativeToBottom"
-						isRemoveLineWhenBlank="true"
-						printWhenGroupChanges="relatorio"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement>
-						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
-					</textElement>
-				<text><![CDATA[Representado por:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						mode="Opaque"
-						x="346"
-						y="261"
-						width="47"
-						height="12"
-						forecolor="#000000"
-						key="staticText-69"
-						positionType="FixRelativeToBottom"
-						isRemoveLineWhenBlank="true"
-						printWhenGroupChanges="relatorio"/>
-					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="0.0" lineColor="#000000"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-</box>
-					<textElement>
-						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
-					</textElement>
-				<text><![CDATA[Cargo:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="393"
-						y="261"
-						width="112"
-						height="12"
-						key="textField"/>
-					<box></box>
-					<textElement>
-						<font size="10"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_CARGO}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="115"
-						y="262"
-						width="224"
-						height="12"
-						key="textField"/>
-					<box></box>
-					<textElement>
-						<font size="10"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_REPRESENTADO}]]></textFieldExpression>
-				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
-						y="376"
+						y="344"
 						width="187"
 						height="12"
 						key="textField"/>
@@ -1457,10 +1373,10 @@
 					</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[$F{dataRetirada}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
-						y="459"
+						y="427"
 						width="187"
 						height="12"
 						key="textField"/>
@@ -1473,7 +1389,7 @@
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
-						y="359"
+						y="327"
 						width="187"
 						height="12"
 						key="textField"/>
@@ -1481,12 +1397,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{patrimonio}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.patrimonio}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
-						y="441"
+						y="409"
 						width="187"
 						height="12"
 						key="textField-1"/>
@@ -1494,12 +1410,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{patrimonio}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.patrimonio}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
-						y="342"
+						y="310"
 						width="187"
 						height="12"
 						key="textField"/>
@@ -1507,12 +1423,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{numeroSerie}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.numeroSerie}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
-						y="424"
+						y="392"
 						width="187"
 						height="12"
 						key="textField-2"/>
@@ -1520,12 +1436,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{numeroSerie}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.numeroSerie}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
-						y="407"
+						y="375"
 						width="187"
 						height="12"
 						key="textField"/>
@@ -1538,7 +1454,7 @@
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
-						y="324"
+						y="292"
 						width="187"
 						height="12"
 						key="textField-3"/>

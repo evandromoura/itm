@@ -297,8 +297,6 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			parametros.put("P_UF", getContratoTO().getParametro().getUf());
 			parametros.put("P_TELEFONE", getContratoTO().getParametro().getTelefone());
 			parametros.put("P_EMAIL", getContratoTO().getParametro().getFromEmail());
-			parametros.put("P_REPRESENTADO", "");
-			parametros.put("P_CARGO", "");
 		return parametros;
 	}
 	
