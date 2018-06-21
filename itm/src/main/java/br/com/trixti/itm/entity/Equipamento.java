@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -39,8 +41,13 @@ public class Equipamento implements java.io.Serializable {
 	
 	@Column(name="patrimonio")
 	private String patrimonio;
-
 	
+	@Enumerated(EnumType.STRING)
+	private UnidadeEquipamentoEnum unidade;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoEquipamentoEnum tipo;
+
 	public String getNumeroSerie() {
 		return numeroSerie;
 	}
@@ -102,6 +109,14 @@ public class Equipamento implements java.io.Serializable {
 
 	public void setContratoEquipamentos(List<ContratoEquipamento> contratoEquipamentos) {
 		this.contratoEquipamentos = contratoEquipamentos;
+	}
+
+	public UnidadeEquipamentoEnum getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(UnidadeEquipamentoEnum unidade) {
+		this.unidade = unidade;
 	}
 
 }

@@ -18,6 +18,7 @@ import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.entity.Servico;
 import br.com.trixti.itm.entity.StatusContrato;
+import br.com.trixti.itm.entity.StatusEquipamentoEnum;
 import br.com.trixti.itm.entity.Tag;
 import br.com.trixti.itm.entity.TecnologiaEnum;
 import br.com.trixti.itm.entity.TipoCentroCusto;
@@ -26,6 +27,7 @@ import br.com.trixti.itm.entity.TipoMovimentacaoFinanceira;
 import br.com.trixti.itm.entity.TipoProduto;
 import br.com.trixti.itm.entity.TipoServico;
 import br.com.trixti.itm.entity.Uf;
+import br.com.trixti.itm.entity.UnidadeEquipamentoEnum;
 import br.com.trixti.itm.enums.PerfilEnum;
 import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.enums.TipoPessoaEnum;
@@ -78,6 +80,14 @@ public class CombosBean {
 	
 	public TipoCentroCusto[] getTipoCentroCustos(){
 		return TipoCentroCusto.values();
+	}
+	
+	public StatusEquipamentoEnum[] getStatusEquipamentos(){
+		return StatusEquipamentoEnum.values();
+	}
+	
+	public UnidadeEquipamentoEnum[] getUnidadeEquipamentos(){
+		return UnidadeEquipamentoEnum.values();
 	}
 	
 	public PerfilEnum[] getPerfis(PerfilEnum perfil){
