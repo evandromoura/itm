@@ -48,7 +48,7 @@
 							 </div>	
 							</div>
 							
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<div class="form-group">
 									<label for="formEquipamento:nome_equipamento">#{resources['label.global.numeroserie']}</label> 
 									<h:inputText value="#{equipamentoController.equipamentoTO.equipamento.numeroSerie}" id="numero_serie_equipamento" styleClass="form-control" />
@@ -56,10 +56,21 @@
 							</div>
 							
 							
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<div class="form-group">
-									<label for="formEquipamento:nome_equipamento">#{resources['label.global.patrimonio']}</label> 
-									<h:inputText value="#{equipamentoController.equipamentoTO.equipamento.patrimonio}" id="numero_serie_equipamento" styleClass="form-control" />
+									<label for="formEquipamento:patrimonio_equipamento">#{resources['label.global.patrimonio']}</label> 
+									<h:inputText value="#{equipamentoController.equipamentoTO.equipamento.patrimonio}" id="patrimonio_equipamento" styleClass="form-control" />
+								</div>
+							</div>
+							
+							
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label for="formEquipamento:unidade_equipamento">#{resources['label.global.unidade']}</label>
+									
+									<h:selectOneMenu value="#{equipamentoController.equipamentoTO.equipamento.unidade}">
+										<f:selectItems value="#{combosBean.unidadeEquipamentos}" var="unidade" itemValue="#{unidade}" itemLabel="#{unidade.name}" />
+									</h:selectOneMenu>
 								</div>
 							</div>
 							
