@@ -42,8 +42,6 @@ public class Grupo implements java.io.Serializable {
 	public Grupo(Integer id) {
 		this.id = id;
 	}
-
-
 	
 	public Integer getId() {
 		return this.id;

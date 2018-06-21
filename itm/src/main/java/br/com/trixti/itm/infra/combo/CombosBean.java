@@ -12,6 +12,8 @@ import br.com.trixti.itm.entity.CentroCusto;
 import br.com.trixti.itm.entity.Cidade;
 import br.com.trixti.itm.entity.ContaCorrente;
 import br.com.trixti.itm.entity.Equipamento;
+import br.com.trixti.itm.entity.EquipamentoMarca;
+import br.com.trixti.itm.entity.EquipamentoMarcaModelo;
 import br.com.trixti.itm.entity.Grupo;
 import br.com.trixti.itm.entity.Produto;
 import br.com.trixti.itm.entity.Servico;
@@ -31,6 +33,8 @@ import br.com.trixti.itm.service.centrocusto.CentroCustoService;
 import br.com.trixti.itm.service.cidade.CidadeService;
 import br.com.trixti.itm.service.contacorrente.ContaCorrenteService;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
+import br.com.trixti.itm.service.equipamentomarca.EquipamentoMarcaService;
+import br.com.trixti.itm.service.equipamentomarcamodelo.EquipamentoMarcaModeloService;
 import br.com.trixti.itm.service.grupo.GrupoService;
 import br.com.trixti.itm.service.produto.ProdutoService;
 import br.com.trixti.itm.service.servico.ServicoService;
@@ -49,6 +53,8 @@ public class CombosBean {
 	private @Inject UfService ufService;
 	private @Inject CidadeService cidadeService;
 	private @Inject ServicoService servicoService;
+	private @Inject EquipamentoMarcaService equipamentoMarcaService;
+	private @Inject EquipamentoMarcaModeloService equipamentoMarcaModeloService;
 	
 	public TipoPessoaEnum[] getTipoPessoa(){
 		return TipoPessoaEnum.values();
@@ -159,6 +165,14 @@ public class CombosBean {
 //		}
 //		return listYear;
 //	}
+   
+   public List<EquipamentoMarca> getListaEquipamentoMarca(){
+	   return  equipamentoMarcaService.listar();
+   }
+   
+   public List<EquipamentoMarcaModelo> getListaEquipamentoMarcaModelo(EquipamentoMarca marca){
+	   return  equipamentoMarcaModeloService.pesquisarPorMarca(marca);
+   }
 	
 }
  

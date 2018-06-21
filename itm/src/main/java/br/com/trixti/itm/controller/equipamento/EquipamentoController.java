@@ -10,7 +10,8 @@ import javax.inject.Named;
 
 import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Equipamento;
-import br.com.trixti.itm.entity.Servico;
+import br.com.trixti.itm.entity.EquipamentoMarca;
+import br.com.trixti.itm.entity.EquipamentoMarcaModelo;
 import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
 import br.com.trixti.itm.to.EquipamentoTO;
@@ -66,6 +67,8 @@ public class EquipamentoController extends AbstractController<Equipamento> imple
 	
 	private void inicializarIncluir(){
 		getEquipamentoTO().setEquipamento(new Equipamento());
+		getEquipamentoTO().getEquipamento().setMarca(new EquipamentoMarca());
+		getEquipamentoTO().getEquipamento().setModelo(new EquipamentoMarcaModelo());
 	}
 	
 
