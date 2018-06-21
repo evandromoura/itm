@@ -53,8 +53,8 @@
 	<field name="contrato.cliente.cpfCnpj" class="java.lang.String"/>
 	<field name="contrato.cliente.email" class="java.lang.String"/>
 	<field name="equipamento.nome" class="java.lang.String"/>
-	<field name="equipamento.modelo" class="java.lang.String"/>
-	<field name="equipamento.marca" class="java.lang.String"/>
+	<field name="equipamento.modelo.nome" class="java.lang.String"/>
+	<field name="equipamento.marca.nome" class="java.lang.String"/>
 	<field name="dataRetirada" class="java.util.Date"/>
 	<field name="dataInstalacao" class="java.util.Date"/>
 	<field name="patrimonio" class="java.lang.String"/>
@@ -119,7 +119,7 @@
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="486"  isSplitAllowed="true" >
+			<band height="483"  isSplitAllowed="true" >
 				<rectangle>
 					<reportElement
 						x="3"
@@ -726,7 +726,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{contrato.cliente.endereco}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="46"
 						y="81"
@@ -1444,7 +1444,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_REPRESENTADO}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
 						y="376"
@@ -1457,7 +1457,7 @@
 					</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[$F{dataRetirada}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
 						y="459"
@@ -1470,7 +1470,7 @@
 					</textElement>
 				<textFieldExpression   class="java.util.Date"><![CDATA[$F{dataInstalacao}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
 						y="359"
@@ -1483,7 +1483,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{patrimonio}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
 						y="441"
@@ -1496,7 +1496,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{patrimonio}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
 						y="342"
@@ -1509,7 +1509,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{numeroSerie}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
 						y="424"
@@ -1522,7 +1522,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{numeroSerie}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
 						y="407"
@@ -1535,7 +1535,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.nome}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="244"
 						y="324"
@@ -1559,7 +1559,7 @@
 				<line direction="BottomUp">
 					<reportElement
 						x="96"
-						y="81"
+						y="68"
 						width="356"
 						height="1"
 						key="line-11"
@@ -1570,7 +1570,7 @@
 					<reportElement
 						mode="Opaque"
 						x="164"
-						y="86"
+						y="73"
 						width="204"
 						height="14"
 						forecolor="#000000"
@@ -1591,7 +1591,7 @@
 					<reportElement
 						mode="Opaque"
 						x="456"
-						y="19"
+						y="6"
 						width="76"
 						height="16"
 						forecolor="#000000"
@@ -1611,7 +1611,7 @@
 				<line direction="BottomUp">
 					<reportElement
 						x="339"
-						y="10"
+						y="-3"
 						width="6"
 						height="16"
 						key="line-16"
@@ -1621,7 +1621,7 @@
 				<line direction="BottomUp">
 					<reportElement
 						x="366"
-						y="10"
+						y="-3"
 						width="6"
 						height="16"
 						key="line-17"
@@ -1631,7 +1631,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="318"
-						y="28"
+						y="15"
 						width="85"
 						height="0"
 						key="line-18"
@@ -1641,7 +1641,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="411"
-						y="28"
+						y="15"
 						width="20"
 						height="0"
 						key="line-19"
@@ -1652,7 +1652,7 @@
 					<reportElement
 						mode="Opaque"
 						x="431"
-						y="17"
+						y="4"
 						width="8"
 						height="12"
 						forecolor="#000000"
@@ -1672,7 +1672,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="436"
-						y="28"
+						y="15"
 						width="20"
 						height="0"
 						key="line-20"

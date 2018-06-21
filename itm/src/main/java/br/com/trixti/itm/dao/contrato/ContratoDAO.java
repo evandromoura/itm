@@ -34,6 +34,8 @@ public class ContratoDAO extends AbstractDAO<Contrato> {
 		if(contrato.getContratoEquipamentos() != null){
 			for(ContratoEquipamento contratoEquipamento:contrato.getContratoEquipamentos()){
 				contratoEquipamento.getEquipamento().getId();
+				contratoEquipamento.getEquipamento().getMarca().getId();
+				contratoEquipamento.getEquipamento().getModelo().getId();
 			}
 		}
 		if(contrato.getContratoProdutos() != null){
@@ -66,7 +68,7 @@ public class ContratoDAO extends AbstractDAO<Contrato> {
 		if(contrato.getContaCorrente() != null){
 			contrato.getContaCorrente().getId();
 		}
-		
+			
 		return contrato;
 	}
 	
