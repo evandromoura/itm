@@ -1064,7 +1064,7 @@
 					<textElement textAlignment="Left">
 						<font size="10"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.marca}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.marca.nome}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
