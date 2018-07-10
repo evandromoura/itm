@@ -164,6 +164,29 @@
 										<label for="idFormPesquisarCliente:cliente_produto">#{resources['label.global.semproduto']}</label>
 										<h:outputText value=" " />
 										<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.semProduto}" />
+										
+										<br />
+										<label for="idFormPesquisarCliente:cliente_equipamento">#{resources['label.global.semequipamento']}</label>
+										<h:outputText value=" " /> 
+										<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.semEquipamento}" />
+
+										<br />
+										<label for="idFormPesquisarCliente:cliente_equipamento">#{resources['label.global.comequipamento']}</label>
+										<h:outputText value=" " /> 
+										<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.comEquipamento}" />
+										
+										
+										<br />
+										<label for="idFormPesquisarCliente:cliente_anexo">#{resources['label.global.semanexo']}</label>
+										<h:outputText value=" " /> 
+										<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.semAnexo}" /> 
+
+										<br />
+										<label for="idFormPesquisarCliente:cliente_anexo">#{resources['label.global.comanexo']}</label>
+										<h:outputText value=" " /> 
+										<h:selectBooleanCheckbox value="#{clienteController.clienteTO.clientePesquisa.comAnexo}" />
+										
+										
 									</div>
 								</div>	
 								

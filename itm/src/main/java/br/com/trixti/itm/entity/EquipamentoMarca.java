@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -22,6 +24,10 @@ public class EquipamentoMarca implements java.io.Serializable {
 	private Integer id;
 	
 	private String nome;
+	
+	@ManyToOne
+	@JoinColumn(name="id_tipo")
+	private EquipamentoTipo tipo;
 	
 	public EquipamentoMarca() {
 	}
@@ -44,6 +50,14 @@ public class EquipamentoMarca implements java.io.Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public EquipamentoTipo getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(EquipamentoTipo tipo) {
+		this.tipo = tipo;
 	}
 	
 

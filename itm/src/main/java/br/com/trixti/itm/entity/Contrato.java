@@ -35,7 +35,7 @@ public class Contrato implements java.io.Serializable {
 	
 	@Id
 	@SequenceGenerator(name="CONTRATO_ID_GENERATOR", sequenceName="itm_contrato_id_seq", allocationSize = 1)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRATO_ID_GENERATOR") 
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CONTRATO_ID_GENERATOR")
 	private Integer id;
 	
 	@ManyToOne

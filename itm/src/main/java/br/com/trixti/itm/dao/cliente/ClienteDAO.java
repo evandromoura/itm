@@ -146,6 +146,22 @@ public class ClienteDAO extends AbstractDAO<Cliente> {
 			predicateList.add(getCriteriaBuilder().isEmpty(root.join("contratos").<List<ContratoProduto>>get("contratoProdutos")));
 		}
 		
+		if(clientePesquisa.isSemEquipamento()){
+			predicateList.add(getCriteriaBuilder().isEmpty(root.join("contratos").<List<ContratoProduto>>get("contratoEquipamentos")));
+		}
+		
+		if(clientePesquisa.isComEquipamento()){
+			predicateList.add(getCriteriaBuilder().isNotEmpty(root.join("contratos").<List<ContratoProduto>>get("contratoEquipamentos")));
+		}
+		
+		if(clientePesquisa.isSemAnexo()){
+			predicateList.add(getCriteriaBuilder().isEmpty(root.join("contratos").<List<ContratoProduto>>get("anexos")));
+		}
+		
+		if(clientePesquisa.isComAnexo()){
+			predicateList.add(getCriteriaBuilder().isNotEmpty(root.join("contratos").<List<ContratoProduto>>get("anexos")));
+		}
+		
 		return (Predicate[]) predicateList.toArray(new Predicate[predicateList.size()]);
 	}
 

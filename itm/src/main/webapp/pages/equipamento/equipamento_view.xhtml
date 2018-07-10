@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:itm="http://java.sun.com/jsf/composite/components"
+	template="/WEB-INF/templates/default.xhtml">
+
+
+	<ui:param name="menu" value="equipamento" />
+	
+	<ui:define name="breadcrumb">
+		<li class="breadcrumb-item"><a href="#">#{resources['label.global.home']}</a></li>
+		<li class="breadcrumb-item"><a href="#{request.contextPath}/equipamento">#{resources['label.global.equipamento']}</a></li>
+	</ui:define>
+	
+	
+	
+	<ui:define name="corpo">
+		 <script type="text/javascript"  src="http://maps.google.com/maps/api/js?sensor=true&amp;libraries=places,geometry" />
+		 <script src="https://cdn.jsdelivr.net/gmap3/7.2.0/gmap3.min.js"></script>
+		
+		<div class="col-sm-12">
+			<h:form id="formViewEquipamento">
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>##{equipamentoViewController.equipamentoTO.equipamento.patrimonio}</strong> 
+						<a href="#{request.contextPath}/equipamento/editar/#{equipamentoViewController.equipamentoTO.equipamento.id}">
+						<span class="badge badge-default float-right">#{resources['label.global.editar']}</span></a>
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-2">
+								<h4 class="mb-3">#{resources['label.global.marca']}:</h4>
+								<div>#{equipamentoViewController.equipamentoTO.equipamento.marca.nome}</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<h4 class="mb-3">#{resources['label.global.modelo']}:</h4>
+								<div>#{equipamentoViewController.equipamentoTO.equipamento.modelo.nome}</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<h4 class="mb-3">#{resources['label.global.numeroserie']}:</h4>
+								<div>#{equipamentoViewController.equipamentoTO.equipamento.numeroSerie}</div>
+							</div>
+							
+							
+							<div class="col-sm-2">
+								<h4 class="mb-3">#{resources['label.global.qtd']}:</h4>
+								<div>#{equipamentoViewController.equipamentoTO.equipamento.quantidade} x #{equipamentoViewController.equipamentoTO.equipamento.unidade.name}</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<h4 class="mb-3">#{resources['label.global.qtddisponiveis']}:</h4>
+								<div>#{equipamentoViewController.equipamentoTO.equipamento.quantidadeDisponivel}</div>
+							</div>
+							
+							<div class="col-sm-2">
+								<h4 class="mb-3">#{resources['label.global.status']}:</h4>
+								<div>#{equipamentoViewController.equipamentoTO.equipamento.status.name}</div>
+							</div>
+							
+							
+						</div>
+					</div>
+				</div>
+				
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.descricao']}</strong> 
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
+								<div>#{equipamentoViewController.equipamentoTO.equipamento.descricao}</div>
+							</div>
+						</div>
+					</div>
+				</div>	
+				
+				
+					
+				
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.contratos']}</strong> 
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-6">
+								<table class="table">
+									<thead>
+										<th>#{resources['label.global.cliente']}</th>
+										<th>#{resources['label.global.endereco']}</th>
+										<th>#{resources['label.global.cidade']}</th>
+										<th>#{resources['label.global.datainstalacao']}</th>
+										<th>#{resources['label.global.dataretirada']}</th>
+									</thead>
+										<ui:repeat var="contrato" value="#{equipamentoViewController.equipamentoTO.equipamento.contratos}">
+											<tr>
+												<td>#{contrato.contrato.cliente.nome}</td>	
+												<td>#{contrato.contrato.cliente.endereco}</td>	
+												<td>#{contrato.contrato.cliente.cidade.nome}/#{contrato.contrato.cliente.cidade.uf.sigla}</td>	
+												<td>
+													<h:outputText value="#{contrato.dataInstalacao}">
+														<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+													</h:outputText>
+												</td>	
+												<td>
+													<h:outputText value="#{contrato.dataRetirada}">
+														<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+													</h:outputText>
+												</td>	
+											</tr>
+										</ui:repeat>
+								</table>	
+								
+							</div>
+							<div class="col-sm-6">
+								<div class="map"></div>
+								<script>
+								    $('.map')
+								      .gmap3({
+								        center:[48.8620722, 2.352047],
+								        zoom:4
+								      })
+								      .marker([
+								        {position:[48.8620722, 2.352047]},
+								        {address:"86000 Poitiers, France"},
+								        {address:"66000 Perpignan, France", icon: "http://maps.google.com/mapfiles/marker_grey.png"}
+								      ])
+								      .on('click', function (marker) {
+								        marker.setIcon('http://maps.google.com/mapfiles/marker_green.png');
+								      });
+								  </script>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+				
+				
+				
+				<div class="card card-accent-info">
+					<div class="card-header">
+						<strong>#{resources['label.global.historico']}</strong> 
+					</div>
+					<div class="card-block">
+						<div class="row">
+							<div class="col-sm-12">
+								<table class="table">
+									<thead>
+										<th>#{resources['label.global.data']}</th>
+										<th>#{resources['label.global.usuario']}</th>
+										<th>#{resources['label.global.qtd']}</th>
+										<th>#{resources['label.global.status']}</th>
+										<th>#{resources['label.global.descricao']}</th>
+									</thead>
+										<ui:repeat var="historico" value="#{equipamentoViewController.equipamentoTO.equipamento.historico}">
+											<tr>
+												<td>
+													<h:outputText value="#{historico.dataUltimaAtualizacao}">
+														<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+													</h:outputText>
+												</td>	
+												<td><span class="#{equipamentoViewController.getColorTd(historico,'usuarioUltimaAtualizacao')}">#{historico.usuarioUltimaAtualizacao.nome}</span></td>	
+												<td><span class="#{equipamentoViewController.getColorTd(historico,'quantidade')}">#{historico.quantidade}</span></td>	
+												<td><span class="#{equipamentoViewController.getColorTd(historico,'status')}">#{historico.status}</span></td>	
+												<td><span class="#{equipamentoViewController.getColorTd(historico,'descricao')}">#{historico.descricao}</span></td>	
+											</tr>
+										</ui:repeat>
+								</table>	
+								
+							</div>
+						</div>
+					</div>
+				</div>			
+			</h:form>
+		</div>
+
+	</ui:define>
+
+
+</ui:composition>

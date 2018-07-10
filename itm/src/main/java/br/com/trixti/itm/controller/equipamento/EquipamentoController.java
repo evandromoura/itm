@@ -12,7 +12,9 @@ import br.com.trixti.itm.controller.AbstractController;
 import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.EquipamentoMarca;
 import br.com.trixti.itm.entity.EquipamentoMarcaModelo;
+import br.com.trixti.itm.entity.EquipamentoTipo;
 import br.com.trixti.itm.infra.security.annotations.Admin;
+import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
 import br.com.trixti.itm.to.EquipamentoTO;
 
@@ -27,6 +29,7 @@ public class EquipamentoController extends AbstractController<Equipamento> imple
 	private static final long serialVersionUID = -3430900005102330317L;
 	private @Inject EquipamentoService equipamentoService;
 	private EquipamentoTO equipamentoTO;
+	private @Inject CustomIdentity customIdentity;
 	
 	
 	@PostConstruct
@@ -50,8 +53,8 @@ public class EquipamentoController extends AbstractController<Equipamento> imple
 	}
 	
 		
-	
 	public String gravar(){
+		getEquipamentoTO().getEquipamento().setUsuarioUltimaAtualizacao(customIdentity.getUsuario());
 		if(getEquipamentoTO().getEquipamento().getId() == null){
 			equipamentoService.incluir(getEquipamentoTO().getEquipamento());
 		}else{
@@ -67,6 +70,7 @@ public class EquipamentoController extends AbstractController<Equipamento> imple
 	
 	private void inicializarIncluir(){
 		getEquipamentoTO().setEquipamento(new Equipamento());
+		getEquipamentoTO().getEquipamento().setTipo(new EquipamentoTipo());
 		getEquipamentoTO().getEquipamento().setMarca(new EquipamentoMarca());
 		getEquipamentoTO().getEquipamento().setModelo(new EquipamentoMarcaModelo());
 	}
@@ -89,6 +93,11 @@ public class EquipamentoController extends AbstractController<Equipamento> imple
 		equipamentoService.excluir(equipamento);
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Excluido com Sucesso", "O Registro foi incluido na base"));
 		pesquisar();
+	}
+	
+	public void limparMarcaModelo(){
+		getEquipamentoTO().getEquipamento().setMarca(new EquipamentoMarca());
+		getEquipamentoTO().getEquipamento().setModelo(new EquipamentoMarcaModelo());
 	}
 
 	

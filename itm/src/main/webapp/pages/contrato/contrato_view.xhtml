@@ -636,86 +636,64 @@
 															<h:column>
 																<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
 																
-																<ul>
 																		<ui:fragment rendered="#{boleto.dataVencimento ge contratoViewController.contratoTO.dataAtual}">
-																			<li>
-																			<h:commandLink  action="#{contratoViewController.downloadBoleto(boleto)}">
-																				<i class="fa fa-download"></i> #{resources['label.global.download']} 2
-																			</h:commandLink>
-																			</li>
+																				<h:commandLink  action="#{contratoViewController.downloadBoleto(boleto)}" styleClass="btn btn-sm btn-info">
+																					<i class="fa fa-download"></i> #{resources['label.global.download']}
+																				</h:commandLink>
 																			<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPER_ADMIN')}">
-																				<li>
-																				<h:commandLink styleClass="btn btn-danger" rendered="#{boleto.remessa eq null or boleto.remessa.id eq null}">
+																				<h:commandLink styleClass="btn btn-sm btn-danger" rendered="#{boleto.remessa eq null or boleto.remessa.id eq null}">
 																					<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
 																					<i class="fa fa-times"></i> #{resources['label.global.excluir']}
 																				</h:commandLink><h:outputText value=" " />
-																				</li>
 																			</ui:fragment>	
 																			<ui:fragment rendered="#{boleto.remessa ne null and boleto.remessa.dataEnvio ne null}">
-																				<li>
-																					<h:commandLink  styleClass="btn btn-sm btn-success" action="#{contratoViewController.enviarEmail(boleto)}">
+																					<h:commandLink  styleClass="btn btn-sm btn-default" action="#{contratoViewController.enviarEmail(boleto)}">
 																						<i class="fa fa-envelope-o"></i> #{resources['label.global.enviaremail']} 
 																					</h:commandLink>
-																				</li>
 																			</ui:fragment>
 																			<ui:fragment rendered="#{boleto.remessa ne null and boleto.remessa.dataEnvio ne null}">
-																				<li>
-																					<h:commandLink  action="#{contratoViewController.enviarSMS(boleto)}">
+																					<h:commandLink styleClass="btn btn-sm btn-success" action="#{contratoViewController.enviarSMS(boleto)}">
 																						<i class="fa fa-commenting-o"></i> #{resources['label.global.enviarsms']} 
 																					</h:commandLink>
-																				</li>
 																			</ui:fragment>	
 																			<ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPER_ADMIN')}">
 																				<ui:fragment rendered="#{boleto.remessa ne null and boleto.remessa.id ne null}">
-																					<li>	
-																						<h:commandLink  styleClass="btn btn-sm btn-success" action="#{contratoViewController.removerBoletoRemessa(boleto)}" rendered="#{boleto.remessa ne null and boleto.remessa.id ne null}">
+																						<h:commandLink  styleClass="btn btn-sm btn-danger" action="#{contratoViewController.removerBoletoRemessa(boleto)}" rendered="#{boleto.remessa ne null and boleto.remessa.id ne null}">
 																							<i class="fa fa-times"></i> #{resources['label.global.remover']} 
 																						</h:commandLink>
-																					</li>	
 																				</ui:fragment>	
 																			</ui:fragment>	
 																		</ui:fragment>	
 																		<ui:fragment rendered="#{boleto.dataVencimento lt contratoViewController.contratoTO.dataAtual and boleto.status.name eq 'ABERTO'}">
-																		
-																			<li>																		
-																			<h:commandLink>
-																				#{resources['label.global.2via']}
-																		        <f:setPropertyActionListener target="#{contratoViewController.contratoTO.boletoSegundaVia}" value="#{boleto}" />
-																		        <f:ajax />
-																		       	<f:passThroughAttribute name="data-toggle" value="modal" />
-																				<f:passThroughAttribute name="data-target" value="#idSegundaVia" />
-																		    </h:commandLink>
-																		    </li>
-																		    
+																				<h:commandLink styleClass="btn btn-sm btn-info">
+																					#{resources['label.global.2via']}
+																			        <f:setPropertyActionListener target="#{contratoViewController.contratoTO.boletoSegundaVia}" value="#{boleto}" />
+																			        <f:ajax />
+																			       	<f:passThroughAttribute name="data-toggle" value="modal" />
+																					<f:passThroughAttribute name="data-target" value="#idSegundaVia" />
+																			    </h:commandLink>
 																		    <ui:fragment rendered="#{securityBean.isPermissao('ADMIN') or securityBean.isPermissao('SUPER_ADMIN')}">
 																		    
 																		    	<ui:fragment rendered="#{boleto.remessa ne null and boleto.remessa.id ne null}">
-																		    	<li>
-																				    <h:commandLink  action="#{contratoViewController.removerBoletoRemessa(boleto)}" style="">
+																				    <h:commandLink styleClass="btn btn-sm btn-danger"  action="#{contratoViewController.removerBoletoRemessa(boleto)}">
 																						 #{resources['label.global.remover']} 
 																					</h:commandLink>
-																				</li>
 																				</ui:fragment>
 																				<ui:fragment rendered="#{boleto.remessa eq null or boleto.remessa.id eq null}">
-																					<li>	
-																						<h:commandLink>
+																						<h:commandLink styleClass="btn btn-sm btn-danger">
 																							<f:ajax listener="#{contratoViewController.excluirBoleto(boleto)}" event="click" render="idFormContratoView" immediate="true" execute="@this" />
 																							#{resources['label.global.excluir']}
 																						</h:commandLink>
-																					</li>
 																				</ui:fragment>	
-																				<li>	
-																					<h:commandLink>
+																					<h:commandLink styleClass="btn btn-sm btn-success">
 																						#{resources['label.global.pagarboleto']}
 																				        <f:setPropertyActionListener target="#{contratoViewController.contratoTO.boleto}" value="#{boleto}" />
 																				        <f:ajax />
 																				       	<f:passThroughAttribute name="data-toggle" value="modal" />
 																						<f:passThroughAttribute name="data-target" value="#idPagarBoleto" />
 																				    </h:commandLink>
-																				 </li>   
 																			 </ui:fragment>   
 																		</ui:fragment>	
-																	</ul>	
 															</h:column>
 														</h:dataTable>
 													</div>

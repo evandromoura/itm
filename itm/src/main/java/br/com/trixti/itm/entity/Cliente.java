@@ -138,7 +138,19 @@ public class Cliente implements java.io.Serializable {
 	private boolean comContrato;
 	
 	@Transient
-	private boolean semProduto;	
+	private boolean semProduto;
+	
+	@Transient
+	private boolean semEquipamento;
+	
+	@Transient
+	private boolean comEquipamento;
+	
+	@Transient
+	private boolean comAnexo;
+	
+	@Transient
+	private boolean semAnexo;
 	
 	@Transient
 	private boolean semTag;
@@ -442,6 +454,38 @@ public class Cliente implements java.io.Serializable {
 
 	public void setSemProduto(boolean semProduto) {
 		this.semProduto = semProduto;
+	}
+	
+	public boolean isComAnexo() {
+		return comAnexo;
+	}
+
+	public void setComAnexo(boolean comAnexo) {
+		this.comAnexo = comAnexo;
+	}
+
+	public boolean isSemAnexo() {
+		return semAnexo;
+	}
+
+	public void setSemAnexo(boolean semAnexo) {
+		this.semAnexo = semAnexo;
+	}
+
+	public boolean isSemEquipamento() {
+		return semEquipamento;
+	}
+
+	public void setSemEquipamento(boolean semEquipamento) {
+		this.semEquipamento = semEquipamento;
+	}
+	
+	public boolean isComEquipamento() {
+		return comEquipamento;
+	}
+
+	public void setComEquipamento(boolean comEquipamento) {
+		this.comEquipamento = comEquipamento;
 	}
 
 	public boolean isComPromessa() {

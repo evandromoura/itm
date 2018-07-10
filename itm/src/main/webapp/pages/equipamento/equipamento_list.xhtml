@@ -54,24 +54,66 @@
 						
 							<h:column>
 								<f:facet name="header">
-									#{resources['label.global.nome']}
-								</f:facet>
-								#{equipamento.nome}
-							</h:column>
-							
-							<h:column>
-								<f:facet name="header">
 									#{resources['label.global.marca']}
 								</f:facet>
-								#{equipamento.marca.nome}
+								<a href="#{request.contextPath}/equipamento/view/#{equipamento.id}">
+									#{equipamento.marca.nome}
+								</a>	
 							</h:column>
+							
 							<h:column>
 								<f:facet name="header">
 									#{resources['label.global.modelo']}
 								</f:facet>
-								#{equipamento.modelo.nome}
+								<a href="#{request.contextPath}/equipamento/view/#{equipamento.id}">
+									#{equipamento.modelo.nome}
+								</a>	
 							</h:column>
 							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.numeroserie']}
+								</f:facet>
+								<a href="#{request.contextPath}/equipamento/view/#{equipamento.id}">
+									#{equipamento.numeroSerie}
+								</a>
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.quantidade']}
+								</f:facet>
+								#{equipamento.quantidade} X #{equipamento.unidade.name}
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.quantidademinima']}
+								</f:facet>
+								#{equipamento.quantidadeMinima}	
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.patrimonio']}
+								</f:facet>
+								#{equipamento.patrimonio}	
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.status']}
+								</f:facet>
+								#{equipamento.status.name}	
+							</h:column>
+							
+							<h:column>
+								<f:facet name="header">
+									#{resources['label.global.tipo']}
+								</f:facet>
+								#{equipamento.tipo.nome}	
+							</h:column>
+							 
 							<h:column>
 								<f:facet name="header">
 									#{resources['label.global.acoes']}
