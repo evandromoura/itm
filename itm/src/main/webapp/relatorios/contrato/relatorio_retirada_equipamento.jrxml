@@ -570,6 +570,7 @@
 						width="1"
 						height="18"
 						key="line-5"
+						positionType="Float"
 						printWhenGroupChanges="relatorio"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -1251,6 +1252,7 @@
 						width="1"
 						height="18"
 						key="line-23"
+						positionType="Float"
 						printWhenGroupChanges="relatorio"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -1261,6 +1263,7 @@
 						width="1"
 						height="18"
 						key="line-24"
+						positionType="Float"
 						printWhenGroupChanges="relatorio"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -1379,7 +1382,8 @@
 						y="427"
 						width="187"
 						height="12"
-						key="textField"/>
+						key="textField"
+						positionType="FixRelativeToBottom"/>
 					<box></box>
 					<textElement>
 						<font size="10"/>
@@ -1392,7 +1396,8 @@
 						y="327"
 						width="187"
 						height="12"
-						key="textField"/>
+						key="textField"
+						positionType="FixRelativeToBottom"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -1405,7 +1410,8 @@
 						y="409"
 						width="187"
 						height="12"
-						key="textField-1"/>
+						key="textField-1"
+						positionType="FixRelativeToBottom"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -1418,7 +1424,8 @@
 						y="310"
 						width="187"
 						height="12"
-						key="textField"/>
+						key="textField"
+						positionType="FixRelativeToBottom"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -1431,7 +1438,8 @@
 						y="392"
 						width="187"
 						height="12"
-						key="textField-2"/>
+						key="textField-2"
+						positionType="FixRelativeToBottom"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -1444,7 +1452,8 @@
 						y="375"
 						width="187"
 						height="12"
-						key="textField"/>
+						key="textField"
+						positionType="FixRelativeToBottom"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -1457,7 +1466,8 @@
 						y="292"
 						width="187"
 						height="12"
-						key="textField-3"/>
+						key="textField-3"
+						positionType="FixRelativeToBottom"/>
 					<box></box>
 					<textElement>
 						<font/>
