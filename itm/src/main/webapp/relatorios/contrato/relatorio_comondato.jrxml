@@ -41,7 +41,7 @@
 	<parameter name="P_VIA" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="P_LISTA_CONTRATO_EQUIPAMENTO" isForPrompting="false" class="java.util.Collection"/>
 
-	<field name="numeroSerie" class="java.lang.String"/>
+	<field name="equipamento.numeroSerie" class="java.lang.String"/>
 	<field name="contrato.cliente.nome" class="java.lang.String"/>
 	<field name="contrato.cliente.endereco" class="java.lang.String"/>
 	<field name="contrato.cliente.bairro" class="java.lang.String"/>
@@ -743,7 +743,7 @@
 					<textElement textAlignment="Left">
 						<font size="10"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{numeroSerie}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{equipamento.numeroSerie}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1488,7 +1488,7 @@
 						<subreportParameterExpression><![CDATA[$P{P_PATH_IMAGEM}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="numeroSerie">
-						<subreportParameterExpression><![CDATA[$F{numeroSerie}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{equipamento.numeroSerie}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter  name="patrimonio">
 						<subreportParameterExpression><![CDATA[$F{equipamento.patrimonio}]]></subreportParameterExpression>
