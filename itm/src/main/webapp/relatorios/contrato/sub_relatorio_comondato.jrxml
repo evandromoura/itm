@@ -56,6 +56,7 @@
 	<field name="equipamento.marca.nome" class="java.lang.String"/>
 	<field name="equipamento.patrimonio" class="java.lang.String"/>
 	<field name="protocoloInstalacao" class="java.lang.String"/>
+	<field name="numeroSerie" class="java.lang.String"/>
 
 
 		<group  name="relatorio" >
