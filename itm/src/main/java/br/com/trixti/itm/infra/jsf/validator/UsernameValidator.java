@@ -11,6 +11,7 @@ import javax.faces.validator.ValidatorException;
 
 import br.com.trixti.itm.service.contratoautenticacao.ContratoAutenticacaoService;
 import br.com.trixti.itm.util.EjbUtil;
+import br.com.trixti.itm.util.UtilString;
 
 @FacesValidator(value = "UsernameValidator")
 public class UsernameValidator implements Validator {
@@ -20,12 +21,13 @@ public class UsernameValidator implements Validator {
 	@Override
 	public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 		EjbUtil<ContratoAutenticacaoService> ejbUtil = new EjbUtil<ContratoAutenticacaoService>();
+		UtilString utilString = new UtilString();
 		try {
 			contratoAutenticacaoService = ejbUtil.getService("ContratoAutenticacaoService");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (contratoAutenticacaoService.recuperarPorUsername(value.toString()) != null) {
+		if (!utilString.vazio(value.toString()) && contratoAutenticacaoService.recuperarPorUsername(value.toString()) != null) {
 			ResourceBundle rb = ResourceBundle.getBundle("resources", context.getViewRoot().getLocale());
 			String messageText = rb.getString("label.componente.username.invalido");
 			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, messageText, messageText));

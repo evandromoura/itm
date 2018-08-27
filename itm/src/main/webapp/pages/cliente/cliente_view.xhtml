@@ -146,10 +146,11 @@
 												
 											<h:column>
 												<f:facet name="header">
-													<h:outputText value="#{resources['label.global.data']}" />
+													<h:outputText value="#{resources['label.global.data']}">
+													</h:outputText>
 												</f:facet>
 												<h:outputText value="#{contrato.dataCriacao}">
-													<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+													<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3"/>
 												</h:outputText>  
 											
 											</h:column>			

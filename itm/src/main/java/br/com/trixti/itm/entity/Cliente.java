@@ -100,6 +100,10 @@ public class Cliente implements java.io.Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_usuario_ultima_atualizacao")
 	private Usuario usuarioUltimaAtualizacao;
+
+	@ManyToOne
+	@JoinColumn(name="id_usuario_criacao")
+	private Usuario usuarioCriacao;
 	
 	private String senha;
 	
@@ -371,6 +375,14 @@ public class Cliente implements java.io.Serializable {
 
 	public String[] getTags() {
 		return tags;
+	}
+
+	public Usuario getUsuarioCriacao() {
+		return usuarioCriacao;
+	}
+
+	public void setUsuarioCriacao(Usuario usuarioCriacao) {
+		this.usuarioCriacao = usuarioCriacao;
 	}
 
 	public void setTags(String[] tags) {

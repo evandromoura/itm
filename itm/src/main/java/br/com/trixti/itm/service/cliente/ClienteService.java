@@ -63,6 +63,7 @@ public class ClienteService extends AbstractService<Cliente> {
 	@Override
 	public void incluir(Cliente entidade) {
 		entidade.setDataCriacao(new Date());
+		entidade.setUsuarioCriacao(entidade.getUsuarioUltimaAtualizacao());
 		super.incluir(entidade);
 //		atualizarTags(entidade);
 	}

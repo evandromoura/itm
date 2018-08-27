@@ -51,6 +51,8 @@ public class MailService {
 	
 	@Asynchronous
 	public void enviarEmail(Boleto boleto,String titulo, String texto) {
+		
+		System.out.println("Envia Email boleto MailService "+boleto.getNossoNumero());
 		File arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
 		titulo = (titulo == null || titulo.equals(""))?comporTitulo(boleto):titulo;
 		final Parametro parametro = parametroService.recuperarParametro();
@@ -67,26 +69,28 @@ public class MailService {
 		});
 		
 		try {
-			
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(from));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(boleto.getContrato().getCliente().getEmail()));
-			message.setSubject(titulo);
-			BodyPart messageBodyPart = new MimeBodyPart();
-			messageBodyPart.setContent(UtilEmail.corpo.replace("@@TEXTO", texto),"text/html");
-			Multipart multipart = new MimeMultipart();
-			multipart.addBodyPart(messageBodyPart);
-			messageBodyPart = new MimeBodyPart();
-			DataSource source = new FileDataSource(arquivoBoleto);
-			messageBodyPart.setDataHandler(new DataHandler(source));
-			messageBodyPart.setFileName(arquivoBoleto.getName());
-			multipart.addBodyPart(messageBodyPart);
-			message.setContent(multipart);
-			Transport.send(message);
-			System.out.println(boleto.getContrato().getCliente().getEmail() +" - Sent message successfully....");
-			if(boleto.getDataNotificacao() == null){
-				boleto.setDataNotificacao(new Date());
-				boletoService.alterar(boleto);
+			UtilString utilString = new UtilString();
+			if(!utilString.vazio(boleto.getContrato().getCliente().getEmail())){
+				Message message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(from));
+				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(boleto.getContrato().getCliente().getEmail()));
+				message.setSubject(titulo);
+				BodyPart messageBodyPart = new MimeBodyPart();
+				messageBodyPart.setContent(UtilEmail.corpo.replace("@@TEXTO", texto),"text/html");
+				Multipart multipart = new MimeMultipart();
+				multipart.addBodyPart(messageBodyPart);
+				messageBodyPart = new MimeBodyPart();
+				DataSource source = new FileDataSource(arquivoBoleto);
+				messageBodyPart.setDataHandler(new DataHandler(source));
+				messageBodyPart.setFileName(arquivoBoleto.getName());
+				multipart.addBodyPart(messageBodyPart);
+				message.setContent(multipart);
+				Transport.send(message);
+				System.out.println(boleto.getContrato().getCliente().getEmail() +" - Sent message successfully....");
+				if(boleto.getDataNotificacao() == null){
+					boleto.setDataNotificacao(new Date());
+					boletoService.alterar(boleto);
+				}	
 			}	
 			
 		} catch (MessagingException e) {

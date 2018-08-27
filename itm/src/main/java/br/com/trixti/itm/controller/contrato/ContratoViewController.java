@@ -80,6 +80,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	public void downloadBoleto(Boleto boleto) throws Exception {
 		File arquivoBoleto = null;
 		try {
+			System.out.println("Download boleto ContratoViewController = "+boleto.getNossoNumero());
 			arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
 			if (arquivoBoleto != null) {
 				UtilArquivo utilArquivo = new UtilArquivo();
@@ -118,6 +119,9 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			boleto.setDataCriacao(new Date());
 			boleto.setDataVencimento(getContratoTO().getContratoLancamento().getDataBoleto() != null?getContratoTO().getContratoLancamento().getDataBoleto():new Date());
 			boleto.setValor(getContratoTO().getContratoLancamento().getValor());
+			if(boleto.getValor().equals(BigDecimal.ZERO)){
+				getContratoTO().getContratoLancamento().setStatus(StatusLancamentoEnum.PAGO);
+			}
 			List<BoletoLancamento> listaBoletoLancamento = new ArrayList<BoletoLancamento>();
 			BoletoLancamento boletoLancamento = new BoletoLancamento();
 			boletoLancamento.setBoleto(boleto);

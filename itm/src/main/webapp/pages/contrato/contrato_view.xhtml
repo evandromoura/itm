@@ -164,7 +164,7 @@
 									</div>
 								</div>
 							</div>
-							<ui:fragment rendered="#{contratoViewController.contratoTO.contrato.status.name() eq 'BLOQUEADO'}">
+							<ui:fragment rendered="#{contratoViewController.contratoTO.contrato.status.name() eq 'BLOQUEADO' or contratoViewController.contratoTO.contrato.status.name() eq 'SUSPENSO'}">
 								<br />
 								<div class="text-center">
 									<a href="#" data-toggle="modal" data-target="#idDesbloquearContrato" class="btn btn-sm btn-info"><i class="fa fa-magic"></i> #{resources['label.global.desbloquear']} </a>
@@ -327,7 +327,7 @@
 													</h:column>
 													<h:column>
 														<f:facet name="header">#{resources['label.global.numeroserie']}</f:facet>
-														<h:outputText value="#{contratoEquipamento.numeroSerie}" />
+														<h:outputText value="#{contratoEquipamento.equipamento.numeroSerie}" />
 													</h:column>
 													<h:column>
 														<f:facet name="header">#{resources['label.global.comodato']}</f:facet>

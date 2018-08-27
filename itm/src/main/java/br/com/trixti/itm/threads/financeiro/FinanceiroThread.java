@@ -92,7 +92,7 @@ public class FinanceiroThread {
 	private @Inject NfeService nfeService;
 	private @Inject UploadArquivoService uploadArquivoService;
 	
-	private boolean ativo = false;
+	private boolean ativo = true;
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {

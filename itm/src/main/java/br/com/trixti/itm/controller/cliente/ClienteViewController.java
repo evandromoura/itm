@@ -41,6 +41,7 @@ public class ClienteViewController  extends AbstractController<Cliente>{
 	public void downloadBoleto(Boleto boleto) throws Exception{
 		File arquivoBoleto = null;
 		try{
+			System.out.println("Download boleto ClienteViewController "+ boleto.getNossoNumero());
 			arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
 			if(arquivoBoleto != null){
 				UtilArquivo utilArquivo = new UtilArquivo();
