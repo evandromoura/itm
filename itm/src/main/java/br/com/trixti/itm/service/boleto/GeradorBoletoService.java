@@ -32,7 +32,6 @@ public class GeradorBoletoService {
 	private @Inject ParametroService parametroService;
 	
 	public File gerarBoleto(br.com.trixti.itm.entity.Boleto boleto){
-		System.out.println("Gera boleto Service");
 		Boleto boletoGerado = gerarBoletoBopepo(boleto);
          BoletoViewer boletoViewer = new BoletoViewer(boletoGerado);
          String nomeArquivo = boleto.getContrato().getCliente().getNome() + boleto.getDataVencimento().toString()+".pdf";
@@ -41,7 +40,6 @@ public class GeradorBoletoService {
 	}
 	
 	public String recuperarLinhaDigitavel(br.com.trixti.itm.entity.Boleto boleto){
-		System.out.println("Recupera linha digitavel");
 		return gerarBoletoBopepo(boleto).getLinhaDigitavel().write();
 	}
 	

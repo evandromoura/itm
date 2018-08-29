@@ -155,4 +155,22 @@
     TARGET="rules:#pages#public#esquecisenha.xhtml" TITLE="erro" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#equipamento#equipamento_form.xhtml"
+  PATH="/pages/equipamento/equipamento_form.xhtml" SHAPE="32,1345,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#pages#equipamento#equipamento_form.xhtml:0"
+   NAME="item" PATH="/pages/equipamento/equipamento_form.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso::#pages#equipamento#equipamento_list.xhtml"
+    NAME="output" PATH="/pages/equipamento/equipamento_list.xhtml"
+    TARGET="rules:#pages#equipamento#equipamento_list.xhtml"
+    TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancelar::#pages#equipamento#equipamento_list.xhtml"
+    NAME="output1" PATH="/pages/equipamento/equipamento_list.xhtml"
+    TARGET="rules:#pages#equipamento#equipamento_list.xhtml"
+    TITLE="cancelar" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#equipamento#equipamento_list.xhtml"
+  PATH="/pages/equipamento/equipamento_list.xhtml" SHAPE="272,1473,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

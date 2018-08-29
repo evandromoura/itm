@@ -20,7 +20,6 @@ import br.com.trixti.itm.entity.BoletoLancamento;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAutenticacao;
-import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoLancamento;
 import br.com.trixti.itm.entity.ContratoProduto;
 import br.com.trixti.itm.entity.Parametro;
@@ -48,7 +47,7 @@ public class ContratoService extends AbstractService<Contrato> {
 	private @Inject ContratoDAO contratoDAO;
 	
 	private @Inject ContratoProdutoService contratoProdutoService;
-	private @Inject ContratoEquipamentoService contratoEquipamentoService;
+//	private @Inject ContratoEquipamentoService contratoEquipamentoService;
 	private @Inject ContratoLancamentoService contratoLancamentoService;
 	private @Inject ContratoAutenticacaoService contratoAutenticacaoService;
 	private @Inject ContratoNotificacaoService contratoNotificacaoService;
@@ -106,10 +105,13 @@ public class ContratoService extends AbstractService<Contrato> {
 	
 	@Override
 	public void alterar(Contrato entidade) {
+		
 		if(entidade.isCriarLancamentoCredito()){
 			criarLancamentoCredito(entidade);
 		}	
+		
 		super.alterar(entidade);
+		
 		for(ContratoProduto contratoProduto:entidade.getContratoProdutos()){
 			if(contratoProduto.getId() == null){
 				contratoProdutoService.incluir(contratoProduto);
@@ -118,13 +120,13 @@ public class ContratoService extends AbstractService<Contrato> {
 				
 			}	
 		}
-		for(ContratoEquipamento contratoEquipamento:entidade.getContratoEquipamentos()){
-			if(contratoEquipamento.getId() == null){
-				contratoEquipamentoService.incluir(contratoEquipamento);
-			}else{
-				contratoEquipamentoService.alterar(contratoEquipamento);
-			}	
-		}
+//		for(ContratoEquipamento contratoEquipamento:entidade.getContratoEquipamentos()){
+//			if(contratoEquipamento.getId() == null){
+//				contratoEquipamentoService.incluir(contratoEquipamento);
+//			}else{
+//				contratoEquipamentoService.alterar(contratoEquipamento);
+//			}	
+//		}
 		
 		for(ContratoAutenticacao autenticacao:entidade.getAutenticacoes()){
 			if(autenticacao.getId() == null){
@@ -291,6 +293,7 @@ public class ContratoService extends AbstractService<Contrato> {
 		return contratoDAO.qtdContratoCanceladoPeriodoPagantes(periodoTO);
 	}
 	
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void desbloquearContratoTemporariamente(Contrato contrato){
 		UtilData utilData = new UtilData();
 		Parametro parametro = parametroService.recuperarParametro();

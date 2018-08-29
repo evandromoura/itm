@@ -214,6 +214,12 @@ public class BoletoService extends AbstractService<Boleto>{
 		smsService.enviarSMS(boleto);
 	}
 	
+	public void atualizarNotificacao(Boleto boleto, Date dataNotificacao){
+		Boleto boletoRec = recuperar(boleto.getId());
+		boletoRec.setDataNotificacao(dataNotificacao);
+		boletoDAO.alterar(boletoRec);
+	}
+	
 	public void enviarSegundaVia(Boleto boleto){
 		UtilData utilData = new UtilData();
 		boleto.setDataVencimento(utilData.adicionaDias(new Date(), 1));

@@ -88,9 +88,10 @@
 					</div>
 					<div class="card-block">
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-12">
 								<table class="table">
 									<thead>
+										<th>#{resources['label.global.identificador']}</th>
 										<th>#{resources['label.global.cliente']}</th>
 										<th>#{resources['label.global.endereco']}</th>
 										<th>#{resources['label.global.cidade']}</th>
@@ -99,6 +100,7 @@
 									</thead>
 										<ui:repeat var="contrato" value="#{equipamentoViewController.equipamentoTO.equipamento.contratos}">
 											<tr>
+												<td><a href="#{request.contextPath}/contrato/view/#{contrato.contrato.id}">#{contrato.contrato.identificador}</a></td>	
 												<td>#{contrato.contrato.cliente.nome}</td>	
 												<td>#{contrato.contrato.cliente.endereco}</td>	
 												<td>#{contrato.contrato.cliente.cidade.nome}/#{contrato.contrato.cliente.cidade.uf.sigla}</td>	

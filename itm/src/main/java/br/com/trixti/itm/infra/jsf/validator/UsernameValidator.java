@@ -30,6 +30,8 @@ public class UsernameValidator implements Validator {
 		if (!utilString.vazio(value.toString()) && contratoAutenticacaoService.recuperarPorUsername(value.toString()) != null) {
 			ResourceBundle rb = ResourceBundle.getBundle("resources", context.getViewRoot().getLocale());
 			String messageText = rb.getString("label.componente.username.invalido");
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, messageText, messageText));
+//			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 			throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, messageText, messageText));
 		}
 	}

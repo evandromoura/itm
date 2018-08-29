@@ -119,8 +119,11 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			boleto.setDataCriacao(new Date());
 			boleto.setDataVencimento(getContratoTO().getContratoLancamento().getDataBoleto() != null?getContratoTO().getContratoLancamento().getDataBoleto():new Date());
 			boleto.setValor(getContratoTO().getContratoLancamento().getValor());
-			if(boleto.getValor().equals(BigDecimal.ZERO)){
+			if(boleto.getValor().doubleValue() == 0){
 				getContratoTO().getContratoLancamento().setStatus(StatusLancamentoEnum.PAGO);
+				boleto.setStatus(StatusBoletoEnum.PAGO);
+			}else{
+				boleto.setStatus(StatusBoletoEnum.ABERTO);
 			}
 			List<BoletoLancamento> listaBoletoLancamento = new ArrayList<BoletoLancamento>();
 			BoletoLancamento boletoLancamento = new BoletoLancamento();
@@ -129,7 +132,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			boletoLancamento.setContratoLancamento(getContratoTO().getContratoLancamento());
 			listaBoletoLancamento.add(boletoLancamento);
 			boleto.setLancamentos(listaBoletoLancamento);
-			boleto.setStatus(StatusBoletoEnum.ABERTO);
+			
 			BigInteger nossoNumero = boletoService.recuperarNossoNumero();
 			boleto.setNumeroDocumento(nossoNumero.toString());
 			boleto.setNossoNumero(nossoNumero.toString());

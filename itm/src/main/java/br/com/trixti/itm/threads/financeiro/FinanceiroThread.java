@@ -93,6 +93,7 @@ public class FinanceiroThread {
 	private @Inject UploadArquivoService uploadArquivoService;
 	
 	private boolean ativo = true;
+	private boolean integracao = true;
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
@@ -236,8 +237,11 @@ public class FinanceiroThread {
 			for (Boleto boleto : listaBoleto) {
 				String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(boleto.getDataVencimento())));
 				if(boleto.getDataNotificacao() == null){
-					mailService.enviarEmail(boleto,null,texto);
-					contratoNotificacaoService.incluir(comporContratoNotificacao(boleto, MeioEnvioContratoNotificacao.EMAIL, TipoContratoNotificacao.ENVIO_BOLETO, texto));
+					if(boleto.getContrato().getCliente().getEmail() != null && !boleto.getContrato().getCliente().getEmail().equals("")){
+						System.out.println("Financeiro Thread ProcessarNotificacao "+boleto.getNossoNumero());
+						mailService.enviarEmail(boleto,null,texto);
+						contratoNotificacaoService.incluir(comporContratoNotificacao(boleto, MeioEnvioContratoNotificacao.EMAIL, TipoContratoNotificacao.ENVIO_BOLETO, texto));
+					}
 				}
 				if(boleto.getDataSms() == null){
 					smsService.enviarSMS(boleto);
@@ -318,7 +322,7 @@ public class FinanceiroThread {
 	@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 	@Schedule(info = "Processar-Agent-Integracao-Financeira", minute = "*/2", hour = "*", persistent = false)
 	public void processarIntegracaoFinanceira() {
-		if(ativo){
+		if(integracao){
 			new IntegracaoItauThread().start(); 
 		}	
 	}
@@ -326,7 +330,7 @@ public class FinanceiroThread {
 	
 	@Schedule(info = "Processar-Arquivos-Recebidos", minute = "*/1", hour = "*", persistent = false)
 	public void processarArquivosRecebidos() {
-		if(ativo){
+		if(integracao){
 			try{
 				String diretorio = System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/recepcao";
 				UtilArquivo utilArquivo = new UtilArquivo();
@@ -437,11 +441,9 @@ public class FinanceiroThread {
 		boolean boletoEmAtraso = false;
 		
 		for (Boleto boleto : boletos) {
-			
 			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasAviso()){
 					removersuspensao = false;
 			}
-			
 			if (utilData.getDiferencaDias(new Date(), boleto.getDataVencimento()) > parametro.getQtdDiasBloqueio()){
 				boletoEmAtraso = true;	
 				if(contrato.getDataParaBloqueio() == null || utilData.data1MaiorIgualData2(new Date(), contrato.getDataParaBloqueio())) {
@@ -463,7 +465,7 @@ public class FinanceiroThread {
 		}
 		
 		
-		if(!boletoEmAtraso && contrato.getDataParaBloqueio() != null){
+		if(removersuspensao && !boletoEmAtraso && contrato.getDataParaBloqueio() != null){
 			contrato.setDataParaBloqueio(null);
 			contratoService.alterar(contrato);
 		}

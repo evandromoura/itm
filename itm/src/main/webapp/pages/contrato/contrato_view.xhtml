@@ -309,10 +309,29 @@
 														</h:outputText>
 													</h:column>
 													<h:column>
-														<f:facet name="header">#{resources['label.global.nome']}</f:facet>
+														<f:facet name="header">#{resources['label.global.marca']}</f:facet>
 														<h:outputText
-															value="#{contratoEquipamento.equipamento.nome}" />
+															value="#{contratoEquipamento.equipamento.marca.nome}" />
 													</h:column>
+													
+													<h:column>
+														<f:facet name="header">#{resources['label.global.modelo']}</f:facet>
+														<h:outputText
+															value="#{contratoEquipamento.equipamento.modelo.nome}" />
+													</h:column>
+													
+													<h:column>
+														<f:facet name="header">#{resources['label.global.numeroserie']}</f:facet>
+														<h:outputText value="#{contratoEquipamento.equipamento.numeroSerie}" />
+													</h:column>
+													
+													
+													<h:column>
+														<f:facet name="header">#{resources['label.global.patrimonio']}</f:facet>
+														<h:outputText value="#{contratoEquipamento.equipamento.patrimonio}" />
+													</h:column>
+													
+													
 													<h:column>
 														<f:facet name="header">#{resources['label.global.datainstalacao']}</f:facet>
 														<h:outputText value="#{contratoEquipamento.dataInstalacao}">
@@ -325,10 +344,7 @@
 															<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
 														</h:outputText>
 													</h:column>
-													<h:column>
-														<f:facet name="header">#{resources['label.global.numeroserie']}</f:facet>
-														<h:outputText value="#{contratoEquipamento.equipamento.numeroSerie}" />
-													</h:column>
+													
 													<h:column>
 														<f:facet name="header">#{resources['label.global.comodato']}</f:facet>
 														<h:commandLink>

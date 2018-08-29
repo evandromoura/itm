@@ -39,19 +39,13 @@ public class MailService {
 	private @Inject GeradorBoletoService geradorBoletoService;
 	private @Inject BoletoService boletoService;
 
-	
-	
-	
 	@Asynchronous
-	
 	public void enviar(String titulo, String texto, String...destinatarios){
-		
-		
 	}
 	
+	
 	@Asynchronous
-	public void enviarEmail(Boleto boleto,String titulo, String texto) {
-		
+	public void enviarEmail(Boleto boleto, String titulo, String texto) {
 		System.out.println("Envia Email boleto MailService "+boleto.getNossoNumero());
 		File arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
 		titulo = (titulo == null || titulo.equals(""))?comporTitulo(boleto):titulo;
@@ -88,8 +82,7 @@ public class MailService {
 				Transport.send(message);
 				System.out.println(boleto.getContrato().getCliente().getEmail() +" - Sent message successfully....");
 				if(boleto.getDataNotificacao() == null){
-					boleto.setDataNotificacao(new Date());
-					boletoService.alterar(boleto);
+					boletoService.atualizarNotificacao(boleto, new Date());
 				}	
 			}	
 			

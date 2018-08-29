@@ -73,7 +73,7 @@ public class Contrato implements java.io.Serializable {
 	private Date dataCancelamento;
 	
 	@NotAudited
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.REMOVE,orphanRemoval=true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "contrato",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<ContratoEquipamento> contratoEquipamentos;
 	
 	@NotAudited

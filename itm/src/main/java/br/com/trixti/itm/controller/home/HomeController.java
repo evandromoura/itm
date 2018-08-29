@@ -61,6 +61,7 @@ public class HomeController extends AbstractController<Object>{
 	public void downloadBoleto(Boleto boleto) throws Exception {
 		File arquivoBoleto = null;
 		try {
+			System.out.println("HomeController Gera boleto");
 			arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
 			if (arquivoBoleto != null) {
 				UtilArquivo utilArquivo = new UtilArquivo();
@@ -83,6 +84,7 @@ public class HomeController extends AbstractController<Object>{
 		File arquivoBoleto = null;
 		try {
 			boleto.setDataVencimento(new Date());
+			System.out.println("HomeControler Segundavia boleto");
 			arquivoBoleto = geradorBoletoService.gerarBoleto(boleto);
 			if (arquivoBoleto != null) {
 				UtilArquivo utilArquivo = new UtilArquivo();
