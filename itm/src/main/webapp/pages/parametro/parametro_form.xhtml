@@ -17,13 +17,19 @@
 					</div>
 					<div class="card-block">
 						<div class="row">
-							<div class="col-sm-6">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="formParametro:sigla_empresa">#{resources['label.global.siglaempresa']}</label> 
+									<h:inputText value="#{parametroController.parametroTO.parametro.siglaEmpresa}" id="sigla_empresa" styleClass="form-control" />
+								</div>
+							</div>
+							<div class="col-sm-4">
 								<div class="form-group">
 									<label for="formParametro:nome_empresa">#{resources['label.global.nomedaempresa']}</label> 
 									<h:inputText value="#{parametroController.parametroTO.parametro.nomeEmpresa}" id="nome_empresa" styleClass="form-control" />
 								</div>
 							</div>
-							<div class="col-sm-6">		
+							<div class="col-sm-4">		
 								<div class="form-group">
 									<label for="formParametro:cnpj">#{resources['label.global.cnpj']}</label> 
 									<h:inputText value="#{parametroController.parametroTO.parametro.cnpj}" id="cnpj" styleClass="form-control" />

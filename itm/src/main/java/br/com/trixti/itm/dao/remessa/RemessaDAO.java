@@ -82,6 +82,7 @@ public class RemessaDAO extends AbstractDAO<Remessa> {
 		Root<Remessa> root = criteria.from(Remessa.class);
 		return getManager().createQuery(criteria.select(root).where(
 				getCriteriaBuilder().equal(root.get("status"), StatusRemessaEnum.GERADO),
+				//getCriteriaBuilder().or(getCriteriaBuilder().equal(root.get("status"), StatusRemessaEnum.GERADO),getCriteriaBuilder().equal(root.get("status"), StatusRemessaEnum.A_ENVIAR)),
 				getCriteriaBuilder().isNull(root.get("dataEnvio")))).getResultList();
 	}
 	

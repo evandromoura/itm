@@ -22,6 +22,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.hibernate.validator.internal.util.privilegedactions.GetAnnotationParameter;
+
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.Cliente;
 import br.com.trixti.itm.entity.Parametro;
@@ -99,7 +101,8 @@ public class MailService {
 	private String comporTitulo(Boleto boleto) {
 		UtilData utildata = new UtilData();
 		UtilString utilString = new UtilString();
-		String titulo = "ITRIX - "+boleto.getContrato().getCliente().getNome()+" sua fatura do mês "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utildata.getMes(boleto.getDataVencimento())), 2))+" chegou!";
+		final Parametro parametro = parametroService.recuperarParametro();
+		String titulo = parametro.getSiglaEmpresa()+boleto.getContrato().getCliente().getNome()+" sua fatura do mês "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utildata.getMes(boleto.getDataVencimento())), 2))+" chegou!";
 		return titulo;
 	}
 	

@@ -92,8 +92,8 @@ public class FinanceiroThread {
 	private @Inject NfeService nfeService;
 	private @Inject UploadArquivoService uploadArquivoService;
 	
-	private boolean ativo = true;
-	private boolean integracao = true;
+	private boolean ativo = false;
+	private boolean integracao = false;
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
 	public void processarBoleto() {
@@ -191,14 +191,16 @@ public class FinanceiroThread {
 					String diretorio = System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/enviados";
 					File file = new File(diretorio);
 					File[] arquivos = file.listFiles();
-					GOTO:for (File fileTmp : arquivos) {
-						if(fileTmp.getName().equals("CB"+utilString.completaComZerosAEsquerda(remessa.getId().toString(), 6)+".rem")){
-							remessa.setDataEnvio(new Date());
-							remessa.setStatus(StatusRemessaEnum.ENVIADO);
-							remessaService.alterar(remessa);
-							break GOTO;
+					if(arquivos != null){
+						GOTO:for (File fileTmp : arquivos) {
+							if(fileTmp.getName().equals("CB"+utilString.completaComZerosAEsquerda(remessa.getId().toString(), 6)+".rem")){
+								remessa.setDataEnvio(new Date());
+								remessa.setStatus(StatusRemessaEnum.ENVIADO);
+								remessaService.alterar(remessa);
+								break GOTO;
+							}
 						}
-					}
+					}	
 				}	
 				
 			}catch(Exception e){
@@ -330,22 +332,24 @@ public class FinanceiroThread {
 	
 	@Schedule(info = "Processar-Arquivos-Recebidos", minute = "*/1", hour = "*", persistent = false)
 	public void processarArquivosRecebidos() {
-		if(integracao){
+		if(ativo){
 			try{
 				String diretorio = System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/recepcao";
 				UtilArquivo utilArquivo = new UtilArquivo();
 				File file = new File(diretorio);
 				File[] arquivos = file.listFiles();
-				for (File fileTmp : arquivos) {
-				     Retorno retorno = new Retorno();
-				     retorno.setDataCriacao(new Date());
-				     retorno.setArquivo(Base64Utils.base64Encode(utilArquivo.getBytesFromFile(fileTmp)));
-				     retorno.setNomeArquivo(fileTmp.getName());
-				     retorno.setStatus(StatusRetorno.PENDENTE);
-				     retorno.setBanco(BancosSuportados.BANCO_ITAU.name());
-				     retornoService.incluir(retorno);
-				     fileTmp.renameTo(new File(System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/recebidos/"+fileTmp.getName()));
-				 }
+				if(arquivos != null){
+					for (File fileTmp : arquivos) {
+					     Retorno retorno = new Retorno();
+					     retorno.setDataCriacao(new Date());
+					     retorno.setArquivo(Base64Utils.base64Encode(utilArquivo.getBytesFromFile(fileTmp)));
+					     retorno.setNomeArquivo(fileTmp.getName());
+					     retorno.setStatus(StatusRetorno.PENDENTE);
+					     retorno.setBanco(BancosSuportados.BANCO_ITAU.name());
+					     retornoService.incluir(retorno);
+					     fileTmp.renameTo(new File(System.getProperty("user.home")+"/itau/Edi7WebCli/ITRIXIN-001-P/recebidos/"+fileTmp.getName()));
+					 }
+				}	
 			}catch(Exception e){
 				e.printStackTrace();
 			}	

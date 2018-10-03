@@ -14,6 +14,7 @@ import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.ContratoNotificacao;
 import br.com.trixti.itm.entity.MeioEnvioContratoNotificacao;
 import br.com.trixti.itm.entity.Remessa;
+import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.TipoContratoNotificacao;
 import br.com.trixti.itm.enums.StatusRemessaEnum;
 import br.com.trixti.itm.infra.msg.MensagemFactory;
@@ -84,10 +85,12 @@ public class RemessaService extends AbstractService<Remessa>{
 		UtilData utilData = new UtilData();
 		List<Boleto> listaBoletoAberto = remessa.getBoletos();
 		for (Boleto boleto : listaBoletoAberto) {
-			String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(boleto.getDataVencimento())));
-			mailService.enviarEmail(boleto,"ITRIX - Envio de Fatura", texto);
-			smsService.enviarSMS(boleto);
-			contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,TipoContratoNotificacao.SEGUNDA_VIDA, texto));
+			if(boleto.getStatus().equals(StatusBoletoEnum.ABERTO)){
+				String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(boleto.getDataVencimento())));
+				mailService.enviarEmail(boleto,"ITRIX - Envio de Fatura", texto);
+				smsService.enviarSMS(boleto);
+				contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,TipoContratoNotificacao.SEGUNDA_VIDA, texto));
+			}	
 		}	
 	}
 	

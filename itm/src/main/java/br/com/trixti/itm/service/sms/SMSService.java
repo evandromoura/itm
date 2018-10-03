@@ -12,12 +12,14 @@ import javax.inject.Inject;
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.dao.sms.SMSDAO;
 import br.com.trixti.itm.entity.Boleto;
+import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.SMS;
 import br.com.trixti.itm.entity.SMS.SMSBuilder;
 import br.com.trixti.itm.infra.sms.EnvioSMSZenviaService;
 import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.boleto.GeradorBoletoService;
+import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.util.UtilData;
 import br.com.trixti.itm.util.UtilString;
 import br.com.zenvia.client.exception.RestClientException;
@@ -31,6 +33,7 @@ public class SMSService extends AbstractService<SMS> {
 	private @Inject EnvioSMSZenviaService envioSMSZenviaService;
 	private @Inject GeradorBoletoService geradorBoletoService;
 	private @Inject BoletoService boletoService;
+	private @Inject ParametroService parametroService;
 	
 	@Override
 	public AbstractDAO<SMS> getDAO() {
@@ -56,7 +59,8 @@ public class SMSService extends AbstractService<SMS> {
 	@Asynchronous
 	public void enviarSMS(Boleto boleto){
 		try {
-			SMS sms = new SMSBuilder().dddTelefone("").numeroTelefone(boleto.getContrato().getCliente().getTelefoneCelular()).mensagem(comporTextoSMS(boleto)).build();
+			Parametro parametro = parametroService.recuperarParametro();
+			SMS sms = new SMSBuilder().dddTelefone("").numeroTelefone(boleto.getContrato().getCliente().getTelefoneCelular()).mensagem(comporTextoSMS(boleto,parametro)).build();
 			sms.setDataCriacao(LocalDateTime.now());
 			smsDAO.incluir(sms);
 			envioSMSZenviaService.enviar(sms);
@@ -71,7 +75,8 @@ public class SMSService extends AbstractService<SMS> {
 	@Asynchronous
 	public void enviarSMS(Boleto boleto,String msg){
 		try {
-			SMS sms = new SMSBuilder().dddTelefone("").numeroTelefone(boleto.getContrato().getCliente().getTelefoneCelular()).mensagem(comporTextoSMS(boleto,msg)).build();
+			Parametro parametro = parametroService.recuperarParametro();
+			SMS sms = new SMSBuilder().dddTelefone("").numeroTelefone(boleto.getContrato().getCliente().getTelefoneCelular()).mensagem(comporTextoSMS(boleto,msg,parametro)).build();
 			sms.setDataCriacao(LocalDateTime.now());
 			smsDAO.incluir(sms);
 			envioSMSZenviaService.enviar(sms);
@@ -88,7 +93,8 @@ public class SMSService extends AbstractService<SMS> {
 	@Asynchronous
 	public void enviarSMSSemData(Boleto boleto,String msg){
 		try {
-			SMS sms = new SMSBuilder().dddTelefone("").numeroTelefone(boleto.getContrato().getCliente().getTelefoneCelular()).mensagem(comporTextoSMS(boleto,msg)).build();
+			Parametro parametro = parametroService.recuperarParametro();
+			SMS sms = new SMSBuilder().dddTelefone("").numeroTelefone(boleto.getContrato().getCliente().getTelefoneCelular()).mensagem(comporTextoSMS(boleto,msg,parametro)).build();
 			sms.setDataCriacao(LocalDateTime.now());
 			smsDAO.incluir(sms);
 			envioSMSZenviaService.enviar(sms);
@@ -97,7 +103,7 @@ public class SMSService extends AbstractService<SMS> {
 		}
 	}
 	
-	private String comporTextoSMS(Boleto boleto){
+	private String comporTextoSMS(Boleto boleto, Parametro parametro){
 		UtilData utilData = new UtilData();
 		UtilString utilString = new UtilString();
 		StringBuilder sb = new StringBuilder();
@@ -105,18 +111,20 @@ public class SMSService extends AbstractService<SMS> {
 		sb.append("\n"); 
 		sb.append("Valor: R$"+boleto.getValor());
 		sb.append("\n");
-		sb.append("Tel: 06134035393");
+		sb.append("Tel: ");
+		sb.append(parametro.getNumeroAtendimentoTelefonico());
 		sb.append("\n");
 		sb.append("Cod Barra: "+geradorBoletoService.recuperarLinhaDigitavel(boleto));
 		return sb.toString();
 	}
-	private String comporTextoSMS(Boleto boleto,String texto){
+	private String comporTextoSMS(Boleto boleto,String texto, Parametro parametro){
 		StringBuilder sb = new StringBuilder();
 		sb.append(texto);
 		sb.append("\n"); 
 		sb.append("Valor: R$"+boleto.getValor());
 		sb.append("\n");
-		sb.append("Tel: 06134035393");
+		sb.append("Tel: ");
+		sb.append(parametro.getNumeroAtendimentoTelefonico());
 		sb.append("\n");
 		sb.append("Cod Barra: "+geradorBoletoService.recuperarLinhaDigitavel(boleto));
 		return sb.toString();

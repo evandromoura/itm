@@ -242,7 +242,7 @@ public class IntegracaoFinanceiraItau {
 			transacaoTitulos.setValue("Brancos2", "          ");
 			transacaoTitulos.setValue("LogradouroSacado", formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getEndereco()), 40));
 			transacaoTitulos.setValue("BairroSacado", formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getBairro()), 12));
-			transacaoTitulos.setValue("CepSacado", utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getCep()));
+			transacaoTitulos.setValue("CepSacado", utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getCep()).trim());
 			transacaoTitulos.setValue("Cidade", formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getCidade().getNome()), 15));
 			transacaoTitulos.setValue("Estado", formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getUf().getSigla()), 2));
 			transacaoTitulos.setValue("SacadorAvalista", "");

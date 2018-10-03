@@ -243,6 +243,14 @@
 		    <version>2.1.7</version>
 		</dependency>
 		
+		
+		<dependency>
+		    <groupId>c3p0</groupId>
+		    <artifactId>c3p0</artifactId>
+		    <version>0.9.1.2</version>
+		</dependency>
+				
+		
         
 <!-- FIM DAS DEPENDENCIAS DO PROJETO -->
     </dependencies>

@@ -30,6 +30,9 @@ public class Parametro implements java.io.Serializable {
 	
 	@Column(name="nome_empresa")
 	private String nomeEmpresa;
+	
+	@Column(name="sigla_empresa")
+	private String siglaEmpresa;
 
 	private String cnpj;
 	
@@ -43,7 +46,6 @@ public class Parametro implements java.io.Serializable {
 	
 	@Column(name="qtd_dias_aviso")
 	private Integer qtdDiasAviso;
-	
 	
 	@Column(name="qtd_dias_inativacao")
 	private Integer qtdDiasInativacao;
@@ -94,7 +96,6 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="chave_mestra")
 	private String chaveMestra;
 
-	
 	@Column(name="use_tls")
 	private boolean useTls;
 	
@@ -161,6 +162,14 @@ public class Parametro implements java.io.Serializable {
 
 	public void setNomeEmpresa(String nomeEmpresa) {
 		this.nomeEmpresa = nomeEmpresa;
+	}
+	
+	public String getSiglaEmpresa() {
+		return siglaEmpresa;
+	}
+
+	public void setSiglaEmpresa(String siglaEmpresa) {
+		this.siglaEmpresa = siglaEmpresa;
 	}
 
 	public String getCnpj() {
