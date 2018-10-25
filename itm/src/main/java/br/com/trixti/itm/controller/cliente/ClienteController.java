@@ -135,7 +135,9 @@ public class ClienteController extends PaginacaoController<Cliente> implements S
 	
 	
 	public String gravar(){
+		
 		getClienteTO().getCliente().setUsuarioUltimaAtualizacao(customIdentity.getUsuario());
+		
 		if(getClienteTO().getCliente().getId() == null){
 			clienteService.incluir(getClienteTO().getCliente());
 			 String mensagem = getMessage("label.global.cadastrosucesso");
@@ -196,6 +198,7 @@ public class ClienteController extends PaginacaoController<Cliente> implements S
 	}
 	
 	public String adicionarContrato(){
+		getClienteTO().getCliente().setUsuarioUltimaAtualizacao(customIdentity.getUsuario());
 		if(getClienteTO().getCliente().getId() == null){
 			clienteService.incluir(getClienteTO().getCliente());
 		}else{

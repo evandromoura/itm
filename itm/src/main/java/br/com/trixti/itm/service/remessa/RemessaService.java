@@ -13,6 +13,7 @@ import br.com.trixti.itm.dao.remessa.RemessaDAO;
 import br.com.trixti.itm.entity.Boleto;
 import br.com.trixti.itm.entity.ContratoNotificacao;
 import br.com.trixti.itm.entity.MeioEnvioContratoNotificacao;
+import br.com.trixti.itm.entity.Parametro;
 import br.com.trixti.itm.entity.Remessa;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.TipoContratoNotificacao;
@@ -22,6 +23,7 @@ import br.com.trixti.itm.service.AbstractService;
 import br.com.trixti.itm.service.boleto.BoletoService;
 import br.com.trixti.itm.service.contratonotificacao.ContratoNotificacaoService;
 import br.com.trixti.itm.service.mail.MailService;
+import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.sms.SMSService;
 import br.com.trixti.itm.util.UtilData;
 
@@ -34,6 +36,7 @@ public class RemessaService extends AbstractService<Remessa>{
 	private @Inject SMSService smsService;
 	private @Inject MensagemFactory mensagemFactory;
 	private @Inject ContratoNotificacaoService contratoNotificacaoService;
+	private @Inject ParametroService parametroService;
 	
 
 	@Override
@@ -66,13 +69,15 @@ public class RemessaService extends AbstractService<Remessa>{
 	public void notificarBoletoEmAtraso(Remessa remessa){
 		UtilData utilData = new UtilData();
 		List<Boleto> listaBoletoAberto = boletoService.pesquisarBoletoEmAberto(remessa);
+		Parametro parametro = parametroService.recuperarParametro();
+		String sigla = parametro.getSiglaEmpresa();
 		for (Boleto boleto : listaBoletoAberto) {
 			Integer qtdDiferenca = Long.valueOf(utilData.getDiferencaDias(new Date(), boleto.getDataVencimento())).intValue();
 			if(qtdDiferenca > 0){
 				boleto.setDataVencimento(utilData.adicionaDias(new Date(), 2));
 				String texto = mensagemFactory.getMensagem("label.global.msg.notificacao.mensagemreevioatraso");
 				String textoSms = mensagemFactory.getMensagem("label.global.msg.notificacao.mensagemreevioatrasosms");
-				mailService.enviarEmail(boleto,"ITRIX - Aviso - Negativação", texto);
+				mailService.enviarEmail(boleto,sigla+" - Aviso - Negativação", texto);
 				smsService.enviarSMS(boleto,textoSms);
 				contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,
 						TipoContratoNotificacao.SEGUNDA_VIDA, texto));
@@ -84,10 +89,12 @@ public class RemessaService extends AbstractService<Remessa>{
 		remessa = remessaDAO.recuperarCompleto(remessa.getId());
 		UtilData utilData = new UtilData();
 		List<Boleto> listaBoletoAberto = remessa.getBoletos();
+		Parametro parametro = parametroService.recuperarParametro();
+		String sigla = parametro.getSiglaEmpresa();
 		for (Boleto boleto : listaBoletoAberto) {
 			if(boleto.getStatus().equals(StatusBoletoEnum.ABERTO)){
 				String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(boleto.getDataVencimento())));
-				mailService.enviarEmail(boleto,"ITRIX - Envio de Fatura", texto);
+				mailService.enviarEmail(boleto,sigla+" - Envio de Fatura", texto);
 				smsService.enviarSMS(boleto);
 				contratoNotificacaoService.incluir(comporContratoNotificacao(boleto,MeioEnvioContratoNotificacao.EMAIL_E_SMS,TipoContratoNotificacao.SEGUNDA_VIDA, texto));
 			}	

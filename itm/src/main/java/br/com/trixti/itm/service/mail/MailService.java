@@ -72,7 +72,10 @@ public class MailService {
 				message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(boleto.getContrato().getCliente().getEmail()));
 				message.setSubject(titulo);
 				BodyPart messageBodyPart = new MimeBodyPart();
-				messageBodyPart.setContent(UtilEmail.corpo.replace("@@TEXTO", texto),"text/html");
+				messageBodyPart.setContent(UtilEmail.corpo
+						.replace("@@TEXTO", texto)
+						.replace("@@SIGLA_EMPRESA", parametro.getSiglaEmpresa())
+						.replace("@@TELEFONE", parametro.getNumeroAtendimentoTelefonico()),"text/html");
 				Multipart multipart = new MimeMultipart();
 				multipart.addBodyPart(messageBodyPart);
 				messageBodyPart = new MimeBodyPart();
@@ -102,7 +105,7 @@ public class MailService {
 		UtilData utildata = new UtilData();
 		UtilString utilString = new UtilString();
 		final Parametro parametro = parametroService.recuperarParametro();
-		String titulo = parametro.getSiglaEmpresa()+boleto.getContrato().getCliente().getNome()+" sua fatura do mês "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utildata.getMes(boleto.getDataVencimento())), 2))+" chegou!";
+		String titulo = parametro.getSiglaEmpresa()+" - "+boleto.getContrato().getCliente().getNome()+" sua fatura do mês "+UtilData.obterMesPorMesNumerico(utilString.completaComZerosAEsquerda(String.valueOf(utildata.getMes(boleto.getDataVencimento())), 2))+" chegou!";
 		return titulo;
 	}
 	
@@ -127,7 +130,9 @@ public class MailService {
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(cliente.getEmail()));
 			message.setSubject(titulo);
 			BodyPart messageBodyPart = new MimeBodyPart();
-			messageBodyPart.setContent(UtilEmail.corpo.replace("@@TEXTO", "Sua senha: "+cliente.getSenha()),"text/html");
+			messageBodyPart.setContent(UtilEmail.corpo.replace("@@TEXTO", "Sua senha: "+cliente.getSenha())
+					.replace("@@SIGLA_EMPRESA", parametro.getSiglaEmpresa())
+					.replace("@@TELEFONE", parametro.getNumeroAtendimentoTelefonico()),"text/html");
 			Multipart multipart = new MimeMultipart();
 			multipart.addBodyPart(messageBodyPart);
 			message.setContent(multipart);

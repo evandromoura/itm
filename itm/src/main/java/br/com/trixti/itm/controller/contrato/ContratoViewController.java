@@ -295,12 +295,12 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		HashMap<String, Object> parametros = new HashMap<>();
 			parametros.put("P_PATH_IMAGEM", recuperarDiretorio()+"/resources/template/img/logo_itrix.png");
 			parametros.put("REPORT_PATH",recuperarDiretorio());
-			parametros.put("P_RAZAO_SOCIAL", getContratoTO().getParametro().getNomeEmpresa());
-			parametros.put("P_CNPJ", getContratoTO().getParametro().getCnpj());
+			parametros.put("P_RAZAO_SOCIAL", getContratoTO().getParametro().getNomeEmpresaCobranca());
+			parametros.put("P_CNPJ", getContratoTO().getParametro().getCnpjEmpresaCobranca());
 			parametros.put("P_ENDERECO", getContratoTO().getParametro().getLogradouro());
 			parametros.put("P_BAIRRO", getContratoTO().getParametro().getBairro());
 			parametros.put("P_CIDADE", getContratoTO().getParametro().getCidade());
-			parametros.put("P_CEP", getContratoTO().getParametro().getCep());
+			parametros.put("P_CEP", getContratoTO().getParametro().getCepEmpresaCobranca());
 			parametros.put("P_UF", getContratoTO().getParametro().getUf());
 			parametros.put("P_TELEFONE", getContratoTO().getParametro().getTelefone());
 			parametros.put("P_EMAIL", getContratoTO().getParametro().getFromEmail());

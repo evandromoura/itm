@@ -345,9 +345,9 @@ public class UtilEmail {
 			"\n" + 
 			"\n" + 
 			"																		</div>\n" + 
-			"																		<h2 style=\"text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px; font-weight: 900; margin-bottom:10px;color:#205478;line-height:135%; padding: 30px 0 0 0;\">ITRIX</h2>\n" + 
+			"																		<h2 style=\"text-align:center;font-weight:normal;font-family:Helvetica,Arial,sans-serif;font-size:23px; font-weight: 900; margin-bottom:10px;color:#205478;line-height:135%; padding: 30px 0 0 0;\">@@SIGLA_EMPRESA</h2>\n" + 
 			"																		<div style=\"text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;\">@@TEXTO</div>\n" + 
-			"																		<div style=\"text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;\">61 3403-5393</div>\n" + 
+			"																		<div style=\"text-align:center;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#FFFFFF;line-height:135%;\">@@TELEFONE</div>\n" + 
 			"																	</td>\n" + 
 			"																</tr>\n" + 
 			"															</table>\n" + 
@@ -395,7 +395,7 @@ public class UtilEmail {
 			"																	<td valign=\"top\" bgcolor=\"#E1E1E1\">\n" + 
 			"\n" + 
 			"																		<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#828282;text-align:center;line-height:120%;\">\n" + 
-			"																			<div>iTrix - Copyright &#169; 2017 <a href=\"http://www.itrixti.com.br\" target=\"_blank\" style=\"text-decoration:none;color:#828282;\"><span style=\"color:#828282;\">Trix Tecnologia Inteligente</span></a>. All&nbsp;rights&nbsp;reserved.</div>\n" + 
+			"																			<div>iTrix - Copyright &#169; 2018 <a href=\"http://www.itrixti.com.br\" target=\"_blank\" style=\"text-decoration:none;color:#828282;\"><span style=\"color:#828282;\">Trix Tecnologia Inteligente</span></a>. All&nbsp;rights&nbsp;reserved.</div>\n" + 
 			"																		</div>\n" + 
 			"\n" + 
 			"																	</td>\n" + 

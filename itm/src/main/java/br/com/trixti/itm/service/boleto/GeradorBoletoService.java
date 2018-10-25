@@ -56,7 +56,7 @@ public class GeradorBoletoService {
 	private Boleto gerarBoletoBopepo(br.com.trixti.itm.entity.Boleto boleto) {
 		Parametro parametro = parametroService.recuperarParametro();
 		
-		Cedente cedente = new Cedente(parametro.getNomeEmpresa(), parametro.getCnpj());
+		Cedente cedente = new Cedente(parametro.getNomeEmpresaCobranca(), parametro.getCnpjEmpresaCobranca());
 		 
          /*
           * INFORMANDO DADOS SOBRE O SACADO.

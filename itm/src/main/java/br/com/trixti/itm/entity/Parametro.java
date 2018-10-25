@@ -31,10 +31,17 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="nome_empresa")
 	private String nomeEmpresa;
 	
+	@Column(name="nome_empresa_cobranca")
+	private String nomeEmpresaCobranca;
+	
 	@Column(name="sigla_empresa")
 	private String siglaEmpresa;
 
+	@Column(name="cnpj")
 	private String cnpj;
+	
+	@Column(name="cnpj_empresa_cobranca")
+	private String cnpjEmpresaCobranca;
 	
 	@Column(name="qtd_dias_desbloqueio_temporario")
 	private Integer qtdDiasDesbloqueioTemporario;
@@ -59,8 +66,8 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="bairro")
 	private String bairro;
 
-	@Column(name="cep")
-	private String cep;
+	@Column(name="cep_empresa_cobranca")
+	private String cepEmpresaCobranca;
 
 	@Column(name="cidade")
 	private String cidade;
@@ -156,12 +163,12 @@ public class Parametro implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public String getNomeEmpresa() {
-		return nomeEmpresa;
+	public String getNomeEmpresaCobranca() {
+		return nomeEmpresaCobranca;
 	}
 
-	public void setNomeEmpresa(String nomeEmpresa) {
-		this.nomeEmpresa = nomeEmpresa;
+	public void setNomeEmpresaCobranca(String nomeEmpresaCobranca) {
+		this.nomeEmpresaCobranca = nomeEmpresaCobranca;
 	}
 	
 	public String getSiglaEmpresa() {
@@ -172,12 +179,12 @@ public class Parametro implements java.io.Serializable {
 		this.siglaEmpresa = siglaEmpresa;
 	}
 
-	public String getCnpj() {
-		return cnpj;
+	public String getCnpjEmpresaCobranca() {
+		return cnpjEmpresaCobranca;
 	}
 
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
+	public void setCnpjEmpresaCobranca(String cnpj) {
+		this.cnpjEmpresaCobranca = cnpj;
 	}
 
 	public Integer getQtdDiasDesbloqueioTemporario() {
@@ -228,12 +235,28 @@ public class Parametro implements java.io.Serializable {
 		this.bairro = bairro;
 	}
 
-	public String getCep() {
-		return cep;
+	public String getCepEmpresaCobranca() {
+		return cepEmpresaCobranca;
 	}
 
-	public void setCep(String cep) {
-		this.cep = cep;
+	public String getNomeEmpresa() {
+		return nomeEmpresa;
+	}
+
+	public void setNomeEmpresa(String nomeEmpresa) {
+		this.nomeEmpresa = nomeEmpresa;
+	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+
+	public void setCepEmpresaCobranca(String cepEmpresaCobranca) {
+		this.cepEmpresaCobranca = cepEmpresaCobranca;
 	}
 
 	public String getCidade() {

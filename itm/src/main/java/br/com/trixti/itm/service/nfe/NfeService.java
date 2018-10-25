@@ -75,7 +75,7 @@ public class NfeService extends AbstractService<Nfe> {
 				Record nota = ff.createRecord("notas");
 				nota.setValue("cpf_cnpj",utilString.retiraCaracteresEspeciais(boleto.getContrato().getCliente().getCpfCnpj()));
 				nota.setValue("ie", "ISENTO");
-				nota.setValue("razao_social", parametro.getNomeEmpresa());
+				nota.setValue("razao_social", parametro.getNomeEmpresaCobranca());
 				nota.setValue("uf", parametro.getUf());
 				nota.setValue("classe_consumo", "0");
 				nota.setValue("fase_tipo_utilizacao", "1");

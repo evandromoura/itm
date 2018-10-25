@@ -192,7 +192,7 @@ public class IntegracaoFinanceiraItau {
 		header.setValue("DacConta",
 				formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getDigitoContaCorrente(), 1));
 		header.setValue("Brancos1", "        ");
-		header.setValue("NomeEmpresa", formatarValorPorTamanho(this.parametro.getNomeEmpresa(), 30));
+		header.setValue("NomeEmpresa", formatarValorPorTamanho(this.parametro.getNomeEmpresaCobranca(), 30));
 		header.setValue("CodigoCompensacao",
 				formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getCodigoCompensacao(), 3));
 		header.setValue("NomeBanco",
@@ -208,7 +208,7 @@ public class IntegracaoFinanceiraItau {
 		Record transacaoTitulos = ff.createRecord("TransacaoTitulo");
 		UtilString utilString = new UtilString();
 		try{
-			transacaoTitulos.setValue("NumeroInscricao",formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(parametro.getCnpj()), 14));
+			transacaoTitulos.setValue("NumeroInscricao",formatarValorPorTamanho(utilString.retiraCaracteresEspeciais(parametro.getCnpjEmpresaCobranca()), 14));
 			transacaoTitulos.setValue("Agencia",formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getNumeroAgencia(), 4));
 			transacaoTitulos.setValue("Conta",formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getNumeroContaCorrente(), 5));
 			transacaoTitulos.setValue("DacConta",formatarValorPorTamanho(boleto.getContrato().getContaCorrente().getDigitoContaCorrente(), 1));

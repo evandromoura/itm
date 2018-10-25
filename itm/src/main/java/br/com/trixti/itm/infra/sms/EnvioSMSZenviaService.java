@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import br.com.trixti.itm.dao.sms.SMSDAO;
 import br.com.trixti.itm.entity.SMS;
 import br.com.trixti.itm.entity.SituacaoSMSEnum;
+import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.util.UtilData;
 import br.com.zenvia.client.RestClient;
 import br.com.zenvia.client.exception.RestClientException;
@@ -26,16 +27,18 @@ public class EnvioSMSZenviaService {
 //	private static final String SENHA = "ugWb4Gyr";
 	private static final String CONTA = "trix.int";
 	private static final String DDI = "55";
-	private static final String ITM = "ITRIX";
+	private String ITM = "";
 	private @Inject SMSDAO smsdao;
 
 	private RestClient restClient;
+	private @Inject ParametroService parametroService;
 
 	@PostConstruct
 	private void init() {
 		restClient = new RestClient();
 		restClient.setUsername(CONTA);
 		restClient.setPassword(SENHA);
+		ITM = parametroService.recuperarParametro().getSiglaEmpresa();
 	}
 
 	@Asynchronous
