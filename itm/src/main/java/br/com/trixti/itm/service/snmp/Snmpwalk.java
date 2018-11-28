@@ -63,13 +63,13 @@ public class Snmpwalk {
 		return this;
 	}
 
-	public HashMap<String, String> snmpWalk (String startOid) throws IOException{
+	public HashMap<String, String> snmpWalk(int version,int pduVar, String startOid)throws IOException{
 	    //String startOid = "1.3.6.1.4.1.9.9.46.1.3.1.1.4.1"; 
 	    String oid = startOid;
 	    HashMap<String, String> varBindings = new HashMap<String, String>();
 
 	    while (oid.startsWith(startOid)) {
-	        PDU pdu = getVariableBinding(new OID(oid), PDU.GETBULK);
+	        PDU pdu = getVariableBinding(version, new OID(oid), pduVar);
 	        if (pdu == null || pdu.size() == 0) return varBindings;
 
 	        for (int i=0; i<pdu.size(); i++) {
@@ -96,8 +96,8 @@ public class Snmpwalk {
 	 * @return
 	 * @throws IOException
 	 */
-	public PDU getVariableBinding(OID oid, int type) throws IOException {
-	    ResponseEvent event = get(new OID[] { oid }, type);
+	public PDU getVariableBinding(int version,OID oid, int type) throws IOException {
+	    ResponseEvent event = get(version,new OID[] { oid }, type);
 
 	    if (event == null || event.getResponse() == null) {
 //	        warn(oid);
@@ -107,7 +107,7 @@ public class Snmpwalk {
 	    return event.getResponse();
 	}
 
-	public ResponseEvent get(OID oids[], int type) throws IOException {
+	public ResponseEvent get(int version, OID oids[], int type) throws IOException {
 	    PDU pdu = new PDU();
 	    for (OID oid : oids) {
 	        pdu.add(new VariableBinding(oid));
@@ -116,20 +116,20 @@ public class Snmpwalk {
 
 	    pdu.setMaxRepetitions(maxRepetitions); // This makes GETBULK work as expected
 
-	    ResponseEvent event = snmp.send(pdu, getTarget(), null);
+	    ResponseEvent event = snmp.send(pdu, getTarget(version), null);
 	    if (event != null) {
 	        return event;
 	    }
 	    throw new RuntimeException("GET timed out");
 	}
 
-	private Target getTarget() {
+	private Target getTarget(int version) {
 	    CommunityTarget target = new CommunityTarget();
 	    target.setCommunity(new OctetString(communityString));
 	    target.setAddress(targetAddress);
 	    target.setRetries(2);
 	    target.setTimeout(3000);
-	    target.setVersion(SnmpConstants.version2c);
+	    target.setVersion(version);
 	    target.setMaxSizeRequestPDU(maxSizeResponsePDU); // This makes GETBULK work as expected
 	    return target;
 	}
