@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
@@ -23,8 +24,12 @@ public class NfeDAO extends AbstractDAO<Nfe> {
 				)).getResultList();
 	}
 
-	
-	
+	public Nfe recuperarCompleto(Integer id) {
+		CriteriaQuery<Nfe> criteria = getCriteriaBuilder().createQuery(Nfe.class);
+		Root<Nfe> root = criteria.from(Nfe.class);
+		root.fetch("arquivos",JoinType.LEFT);
+		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("id"), id))).getSingleResult();
+	}
 
 }
 

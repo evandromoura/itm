@@ -43,15 +43,12 @@
 					<div class="card-block">
 							<div class="row">
 								<div class="col-sm-12">
-									
-
-								<div class="form-group">
-									<h:commandLink action="#{nfeController.gravar()}" styleClass="btn btn-sm btn-success">
-										<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
-									</h:commandLink>	
-	
-								</div>
-
+									<h:inputTextarea class="form-control" rows="200" value="#{nfeController.nfeTO.nfe.arquivos.get(0).conteudo}" rendered="#{nfeController.nfeTO.nfe.arquivos ne null and nfeController.nfeTO.nfe.arquivos.size() > 0}" />
+									<div class="form-group">
+										<h:commandLink action="#{nfeController.gravar()}" styleClass="btn btn-sm btn-success">
+											<i class="fa fa-floppy-o" /> #{resources['label.global.gravar']}
+										</h:commandLink>	
+									</div>
 								</div>
 							</div>
 					</div>	

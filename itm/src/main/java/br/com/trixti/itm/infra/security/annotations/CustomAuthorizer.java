@@ -42,7 +42,7 @@ public class CustomAuthorizer {
 	@Secures
 	@SuporteNivel1
 	public boolean doSuporteNivel1Check(Identity identity, IdentityManager identityManager, RelationshipManager relationshipManager) throws Exception {
-		return customIdentity.getPerfil().equals(PerfilEnum.SUPORTE_NIVEL1)||customIdentity.getPerfil().equals(PerfilEnum.ADMIN) || customIdentity.getPerfil().equals(PerfilEnum.SUPER_ADMIN);
+		return customIdentity.getPerfil().equals(PerfilEnum.SUPORTE_NIVEL1)||customIdentity.getPerfil().equals(PerfilEnum.SUPORTE_NIVEL2)||customIdentity.getPerfil().equals(PerfilEnum.ADMIN) || customIdentity.getPerfil().equals(PerfilEnum.SUPER_ADMIN);
 	}
 	
 	@Secures

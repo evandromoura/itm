@@ -136,14 +136,13 @@ public class ContratoController extends AbstractController<Contrato> implements 
 			 String mensagem = getMessage("label.global.cadastrosucesso");
 			 getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
 			 getFacesContext().getExternalContext().getFlash().setKeepMessages(true);
-			 return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 		}else{
 			contratoService.alterar(getContratoTO().getContrato());
 			String mensagem = getMessage("label.global.alterarsucesso");
 			 getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, mensagem, mensagem));
 			getFacesContext().getExternalContext().getFlash().setKeepMessages(true);
-			return "/pages/cliente/cliente_list.xhtml?faces-redirect=true";
 		}
+		return "/pages/contrato/contrato_view.xhtml?parametro="+getContratoTO().getContrato().getId()+"&faces-redirect=true";
 	}
 	
 	public String cancelar(){

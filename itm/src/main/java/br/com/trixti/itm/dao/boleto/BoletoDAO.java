@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -129,11 +128,6 @@ public class BoletoDAO extends AbstractDAO<Boleto> {
 		CriteriaQuery<Boleto> criteria = getCriteriaBuilder().createQuery(Boleto.class);
 		Root<Boleto> root = criteria.from(Boleto.class);
 		return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().isNull(root.get("remessa")))).getResultList();
-	}
-	
-	public void pesquisarNomeFelipe(String nome){
-		
-		
 	}
 	
 	public BigInteger recuperarNossoNumero(){

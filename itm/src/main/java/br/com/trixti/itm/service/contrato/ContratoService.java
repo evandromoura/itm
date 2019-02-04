@@ -88,10 +88,16 @@ public class ContratoService extends AbstractService<Contrato> {
 			contratoLancamento.setStatus(StatusLancamentoEnum.PENDENTE);
 			contratoLancamento.setDescricao("Desconto por utilização parcial do serviço");
 			contratoLancamento.setTipoLancamento(TipoLancamentoEnum.CREDITO);
-			Integer dia = new Long(utilData.getDia(contrato.getDataCriacao())).intValue();
+			Integer dia = 0;
 			BigDecimal totalContrato = BigDecimal.ZERO;
 			for(ContratoProduto produto:contrato.getContratoProdutos()){
 				totalContrato = totalContrato.add(produto.getValor().multiply(new BigDecimal(produto.getQtd())));
+				if(produto.isVigente()){
+					dia = new Long(utilData.getDia(produto.getDataInicio())).intValue();
+					if(dia > 30){
+						dia = 30;
+					}
+				}
 			}
 			BigDecimal totalCredito = new BigDecimal(totalContrato.doubleValue() - (BigDecimal.valueOf(totalContrato.doubleValue()).doubleValue()*(30-dia))/30).setScale(2,BigDecimal.ROUND_HALF_UP);
 			if(totalCredito.intValue() > 0){
@@ -104,6 +110,7 @@ public class ContratoService extends AbstractService<Contrato> {
 	
 	
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 	public void alterar(Contrato entidade) {
 		
 		if(entidade.isCriarLancamentoCredito()){

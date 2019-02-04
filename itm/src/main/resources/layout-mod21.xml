@@ -18,7 +18,7 @@
 					<IdType name="cpf_cnpj"       		  	 length="14" position="1" />
 					<Field name="ie" 		      		  	 length="14"  />
 					<Field name="razao_social"   		  	 length="35"  />
-					<Field name="uf"  			  		  	 length="2"  />
+					<Field name="uf"  			  		  	 length="2"  /> 
 					<Field name="classe_consumo" 	      	 length="1"  />
 					<Field name="fase_tipo_utilizacao"   	 length="1"  />
 					<Field name="grupo_tensao" 		  	 	 length="2"  />

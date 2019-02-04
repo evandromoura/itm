@@ -37,6 +37,9 @@ public class Nfe implements java.io.Serializable {
 	
 	@OneToMany(mappedBy="nfe",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<NfeArquivo> arquivos;
+
+	@OneToMany(mappedBy="nfe")
+	private List<Boleto> boletos;
 	
 	public Integer getId() {
 		return id;
@@ -73,6 +76,12 @@ public class Nfe implements java.io.Serializable {
 	}
 	public void setArquivos(List<NfeArquivo> arquivos) {
 		this.arquivos = arquivos;
+	}
+	public List<Boleto> getBoletos() {
+		return boletos;
+	}
+	public void setBoletos(List<Boleto> boletos) {
+		this.boletos = boletos;
 	}
 	
 }

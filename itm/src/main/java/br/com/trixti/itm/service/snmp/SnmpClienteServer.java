@@ -1,6 +1,7 @@
   package br.com.trixti.itm.service.snmp;
    
   import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,6 +17,9 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import org.snmp4j.PDU;
+import org.snmp4j.mp.SnmpConstants;
+
 import br.com.trixti.itm.to.SnmpTO;
    
   @Stateless
@@ -25,6 +29,7 @@ import br.com.trixti.itm.to.SnmpTO;
 	  
 	  		private @Inject SnmpService snmpService;
 	  		private static Map<Session,String> mapaQueue = new ConcurrentHashMap<Session,String>();
+	  		private static Map<String,String> mapaItens = new HashMap<String,String>();
 
            @OnMessage
            public void recebeMensagem(String message, Session session) {
@@ -51,11 +56,18 @@ import br.com.trixti.itm.to.SnmpTO;
             System.out.println("session closed: "+session.getId());
            }
            
+           @Schedule(info="Update-Snmp-Client",second="*/10", minute = "*", hour = "*", persistent = false)
+           public void atualizar(){
+        	   if(mapaQueue.size() > 0){
+        		   mapaItens = snmpService.snmpWalk(SnmpConstants.version2c,PDU.GETBULK,null, "1.3.6.1.2.1.2.2.1.2");
+        	   }  
+           }
+           
            @Schedule(info="Exec-Snmp-Cliente",second="*", minute = "*", hour = "*", persistent = false)
            public void tarefa(){
         	   try {
 	        	   for(Session session:mapaQueue.keySet()){
-	        		   SnmpTO snmpTO =  snmpService.snmpWalkDownloadUpload(mapaQueue.get(session));
+	        		   SnmpTO snmpTO =  snmpService.snmpWalkDownloadUpload(mapaItens,mapaQueue.get(session));
 	        		   // SnmpTO snmpTO = comporMock();
 	        		   	String msg = "{\"download\":\""+snmpTO.getDownload()+"\",\"upload\":\""+snmpTO.getUpload()+"\"}";
 						session.getBasicRemote().sendText(msg);

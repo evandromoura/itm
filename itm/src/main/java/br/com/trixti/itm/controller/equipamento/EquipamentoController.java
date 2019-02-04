@@ -13,8 +13,8 @@ import br.com.trixti.itm.entity.Equipamento;
 import br.com.trixti.itm.entity.EquipamentoMarca;
 import br.com.trixti.itm.entity.EquipamentoMarcaModelo;
 import br.com.trixti.itm.entity.EquipamentoTipo;
-import br.com.trixti.itm.infra.security.annotations.Admin;
 import br.com.trixti.itm.infra.security.annotations.CustomIdentity;
+import br.com.trixti.itm.infra.security.annotations.SuporteNivel2;
 import br.com.trixti.itm.service.equipamento.EquipamentoService;
 import br.com.trixti.itm.to.EquipamentoTO;
 
@@ -22,7 +22,7 @@ import br.com.trixti.itm.to.EquipamentoTO;
 
 @Named
 @ViewScoped
-@Admin
+@SuporteNivel2
 public class EquipamentoController extends AbstractController<Equipamento> implements Serializable {
 	
 	

@@ -22,7 +22,6 @@ import br.com.trixti.itm.service.contrato.ContratoService;
 import br.com.trixti.itm.service.mail.MailService;
 import br.com.trixti.itm.service.radacct.RadacctService;
 import br.com.trixti.itm.service.sms.SMSService;
-import br.com.trixti.itm.service.snmp.SnmpService;
 import br.com.trixti.itm.to.HomeTO;
 import br.com.trixti.itm.util.UtilArquivo;
 import br.com.trixti.itm.util.UtilData;
@@ -37,7 +36,6 @@ public class HomeController extends AbstractController<Object>{
 	private @Inject RadacctService radacctService;
 	private @Inject GeradorBoletoService geradorBoletoService;
 	private @Inject SMSService smsService;
-	private @Inject SnmpService snmpService;
 	private @Inject MailService mailService;
 	private @Inject ContratoService contratoService;
 	
@@ -147,7 +145,7 @@ public class HomeController extends AbstractController<Object>{
 	
 	public void recarregarLog(){
 		getHomeTO().setListaSnmp(null);
-		getHomeTO().setListaSnmp(snmpService.snmpWalk("",getHomeTO().getOid()));
+//		getHomeTO().setListaSnmp(snmpService.snmpWalk("",getHomeTO().getOid()));
 	}
 	
 	public Integer calcularQtdBoletoAberto(Contrato contrato){

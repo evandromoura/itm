@@ -10,6 +10,7 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 		  @URLMapping(id = "alterarsenha", pattern = "/alterarsenha", viewId = "/pages/public/alterarsenha.jsf"),
 		  @URLMapping(id = "novoacesso", pattern = "/novoacesso"	, viewId = "/pages/public/novoacesso.jsf"),
 		  @URLMapping(id = "home", pattern = "/home", viewId = "/pages/home/home.jsf"),
+		  
 
 		  @URLMapping(id = "snmp",      pattern = "/snmp", viewId = "/pages/snmp/snmp.jsf"),
 		  @URLMapping(id = "snmp_view", pattern = "/snmp/view/#{parametro}", viewId = "/pages/snmp/snmp_view.jsf"),
@@ -90,7 +91,6 @@ import com.ocpsoft.pretty.faces.annotation.URLMappings;
 		  @URLMapping(id = "grupo_form", pattern = "/grupo/#{acao}/#{parametro}", viewId = "/pages/grupo/grupo_form.jsf"),
 		  
 		  @URLMapping(id = "thread", pattern = "/thread", viewId = "/pages/thread/thread.jsf"),
-		  
 		  
 		  @URLMapping(id = "relatorio_contrato", pattern = "/relatorio/contrato", viewId = "/pages/relatorio/contrato/relatorio_contrato.jsf"),
 		  @URLMapping(id = "relatorio_cliente_inadimplente", pattern = "/relatorio/cliente/inadimplente", viewId = "/pages/relatorio/cliente/inadimplente/relatorio_cliente_inadimplente.jsf"),

@@ -262,7 +262,8 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			} catch (Exception e) {
 			}
 			if(!utilString.vazio(getContratoTO().getProtocoloInstalacao())){
-				getContratoTO().getContratoEquipamento().setProtocoloInstalacao(getContratoTO().getProtocoloInstalacao());	
+				getContratoTO().getContratoEquipamento().setProtocoloInstalacao(getContratoTO().getProtocoloInstalacao());
+				getContratoTO().getContratoEquipamento().setDataInstalacao(new Date());
 				contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
 			}
 	}
@@ -278,6 +279,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		}
 		if(!utilString.vazio(getContratoTO().getProtocoloRetirada())){
 			getContratoTO().getContratoEquipamento().setProtocoloRetirada(getContratoTO().getProtocoloRetirada());
+			getContratoTO().getContratoEquipamento().setDataRetirada(new Date());
 			contratoEquipamentoService.alterar(getContratoTO().getContratoEquipamento());
 		}	
 	}

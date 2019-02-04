@@ -23,10 +23,12 @@
 					<div class="card-block">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="form-group">
-									<pre><code class="xml">#{nfeController.nfeTO.nfe.nome}</code></pre>
-									 
-								</div>
+								<pre>
+									<code class="keyword">
+									<h:outputText value="#{nfeController.nfeTO.nfe.arquivos.get(0).conteudo}"  
+										rendered="#{nfeController.nfeTO.nfe ne null and nfeController.nfeTO.nfe.arquivos ne null and nfeController.nfeTO.nfe.arquivos.size() > 0}"/> 
+									</code>
+								</pre>
 							</div>
 						</div>
 					</div>

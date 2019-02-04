@@ -107,12 +107,22 @@ public class FreeRadiusService {
 	public void bloquearContrato(Contrato contrato) {
 		if(contrato.getAutenticacoes() != null && !contrato.getAutenticacoes().isEmpty()){
 			for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
-				Radcheck radcheck = new Radcheck();
-				radcheck.setAttribute("Auth-Type");
-				radcheck.setOp(":=");
-				radcheck.setValue("Reject");
-				radcheck.setUsername(contratoAutenticacao.getUsername());
-				radcheckService.incluir(radcheck);
+//				Radcheck radcheck = new Radcheck();
+//				radcheck.setAttribute("Auth-Type");
+//				radcheck.setOp(":=");
+//				radcheck.setValue("Reject");
+//				radcheck.setUsername(contratoAutenticacao.getUsername());
+//				radcheckService.incluir(radcheck);
+				
+				
+				Radreply radreply = new Radreply();
+				radreply.setAttribute("Framed-IP-Address");
+				radreply.setOp("=");
+				radreply.setValue(contratoAutenticacao.getIp());
+				radreply.setUsername(contratoAutenticacao.getUsername());
+				radreplyService.incluir(radreply);
+				
+				
 			}	
 		}	
 	}
@@ -120,7 +130,8 @@ public class FreeRadiusService {
 	public void desbloquearContrato(Contrato contrato){
 		if(contrato.getAutenticacoes() != null && !contrato.getAutenticacoes().isEmpty()){
 			for(ContratoAutenticacao contratoAutenticacao:contrato.getAutenticacoes()){
-				radcheckService.excluirPorUsernameAttributeValue(contratoAutenticacao.getUsername(),"Auth-Type","Reject");
+				//radcheckService.excluirPorUsernameAttributeValue(contratoAutenticacao.getUsername(),"Auth-Type","Reject");
+				
 			}	
 		}	
 	}

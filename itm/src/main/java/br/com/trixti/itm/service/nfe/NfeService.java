@@ -51,13 +51,21 @@ public class NfeService extends AbstractService<Nfe> {
 		Date data = new Date();
 		entidade.setMes(mes);
 		entidade.setAno(ano);
-		data = utilData.ajustaData(data, 1, Integer.valueOf(entidade.getMes()), Integer.valueOf(entidade.getAno()), 0,
-				0, 0);
+		data = utilData.ajustaData(data, 1, Integer.valueOf(entidade.getMes()), Integer.valueOf(entidade.getAno()), 0,0, 0);
 		entidade.setData(new Date());
-		entidade.setNome("Nfe_" + entidade.getMes() + "_" + entidade.getAno() + ".xml");
+		entidade.setNome("Nfe_" + entidade.getMes() + "_" + entidade.getAno() + ".txt");
 		data = utilData.subtrairMeses(data, 1);
+		
 		nfeDAO.incluir(entidade);
 	}
+	
+	private void comporNfePorBoleto(Boleto boleto){
+		
+		
+	}
+	
+	
+	
 
 	public List<NfeArquivo> gerarNfeArquivo(List<Boleto> boletos, Nfe nfe) {
 		try {
@@ -78,10 +86,10 @@ public class NfeService extends AbstractService<Nfe> {
 				nota.setValue("razao_social", parametro.getNomeEmpresaCobranca());
 				nota.setValue("uf", parametro.getUf());
 				nota.setValue("classe_consumo", "0");
-				nota.setValue("fase_tipo_utilizacao", "1");
+				nota.setValue("fase_tipo_utilizacao", "0");
 				nota.setValue("grupo_tensao", "00");
-				nota.setValue("cod_id_consumidor", boleto.getContrato().getCliente().getId());
-				nota.setValue("data_emissao", utilData.formatDate(boleto.getDataCriacao(), "yyyyMMdd"));
+				nota.setValue("cod_id_consumidor", utilString.completaComZerosAEsquerda(boleto.getContrato().getCliente().getId().toString(),12));
+				nota.setValue("data_emissao", utilData.formatDate(boleto.getDataPagamento(), "yyyyMMdd"));
 				nota.setValue("modelo", "21");
 				nota.setValue("serie", "123");
 				nota.setValue("numero", utilString.completaComZerosAEsquerda(boleto.getNossoNumero(), 9));
@@ -90,27 +98,25 @@ public class NfeService extends AbstractService<Nfe> {
 				nota.setValue("bc_icms", utilString.completaComZerosAEsquerda("0",12));
 				nota.setValue("icms_destacado", utilString.completaComZerosAEsquerda("0",12));
 				nota.setValue("operacoes_isentas", utilString.completaComZerosAEsquerda("0",12));
-
-				// <Field name="outro_valores" length="12" />
-				// <Field name="situacao_documento" length="1" />
-				// <Field name="ano_mes_referencia" length="4" />
-				// <Field name="referencia_item_nf" length="9" />
-				// <Field name="numero_terminal_tel" length="12" />
-				// <Field name="ind_tipo_inf_campo1" length="1" />
-				// <Field name="tipo_cliente" length="2" />
-				// <Field name="subclasse_consumo" length="2" />
-				// <Field name="num_termi_tel_princ" length="12" />
-				// <Field name="cnpj_emitente" length="14" />
-				// <Field name="num_cod_fat_comercial" length="20" />
-				// <Field name="valor_total_fat_comercial" length="12" />
-				// <Field name="data_leitura_anterior" length="8" />
-				// <Field name="data_leitura_atual" length="8" />
-				// <Field name="brancos1" length="50" blankAccepted="true" />
-				// <Field name="brancos2" length="8" blankAccepted="true" />
-				// <Field name="informacoes_adicionais" length="30" />
-				// <Field name="brancos3" length="5" blankAccepted="true" />
-				// <Field name="cod_aut_dig_registro" length="32" />
-
+				nota.setValue("outro_valores", utilString.completaComZerosAEsquerda("0",12));
+				nota.setValue("situacao_documento", 1);
+				nota.setValue("ano_mes_referencia", 2019);
+				nota.setValue("referencia_item_nf", 19);
+				nota.setValue("numero_terminal_tel", "61992988839");
+				nota.setValue("ind_tipo_inf_campo1", "1");
+				nota.setValue("tipo_cliente", "01");
+				nota.setValue("subclasse_consumo", "01");
+				nota.setValue("num_termi_tel_princ", "61992988839");
+				nota.setValue("cnpj_emitente", "13699339000170");
+				nota.setValue("num_cod_fat_comercial", "00000000000000012345");
+				nota.setValue("valor_total_fat_comercial", boleto.getValor().toString().replace(".", ","));
+				nota.setValue("data_leitura_anterior", "20190101");
+				nota.setValue("data_leitura_atual", "20190101");
+				nota.setValue("brancos1", "");
+				nota.setValue("brancos2", "");
+				nota.setValue("informacoes_adicionais", "Informacoes Add");
+				nota.setValue("brancos3", "");
+				nota.setValue("cod_aut_dig_registro", "");
 				ff.addRecord(nota);
 				List<String> conteudo = ff.write();
 				for (String linha : conteudo) {
@@ -128,6 +134,10 @@ public class NfeService extends AbstractService<Nfe> {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public Nfe recuperarCompleto(Integer id){
+		return nfeDAO.recuperarCompleto(id);
 	}
 
 }

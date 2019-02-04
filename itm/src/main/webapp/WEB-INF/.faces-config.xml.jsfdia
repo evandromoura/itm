@@ -4,9 +4,9 @@
   PATH="/pages/cliente/cliente_form.xhtml" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#pages#cliente#cliente_form.xhtml:0"
    NAME="item" PATH="/pages/cliente/cliente_form.xhtml" model-entity="JSFProcessItem">
-   <PROCESS-ITEM-OUTPUT ID="sucesso::#pages#cliente#cliente_list.xhtml"
-    NAME="output" PATH="/pages/cliente/cliente_list.xhtml"
-    TARGET="rules:#pages#cliente#cliente_list.xhtml" TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="sucesso::#pages#cliente#cliente_view.xhtml"
+    NAME="output" PATH="/pages/cliente/cliente_view.xhtml"
+    TARGET="rules:#pages#cliente#cliente_view.xhtml" TITLE="sucesso" model-entity="JSFProcessItemOutput"/>
    <PROCESS-ITEM-OUTPUT ID="cancelar::#pages#cliente#cliente_list.xhtml"
     NAME="output1" PATH="/pages/cliente/cliente_list.xhtml"
     TARGET="rules:#pages#cliente#cliente_list.xhtml" TITLE="cancelar" model-entity="JSFProcessItemOutput"/>
@@ -173,4 +173,6 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#pages#equipamento#equipamento_list.xhtml"
   PATH="/pages/equipamento/equipamento_list.xhtml" SHAPE="272,1473,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#cliente#cliente_view.xhtml"
+  PATH="/pages/cliente/cliente_view.xhtml" SHAPE="256,1361,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

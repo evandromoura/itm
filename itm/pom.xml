@@ -223,8 +223,10 @@
 		<dependency>
 		    <groupId>org.snmp4j</groupId>
 		    <artifactId>snmp4j</artifactId>
-		    <version>2.5.6</version>
+		    <version>2.7.0</version>
 		</dependency>
+
+
 		
 		<dependency>
 		    <groupId>javax.websocket</groupId>

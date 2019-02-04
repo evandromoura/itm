@@ -149,10 +149,38 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="download_suspensao")
 	private Integer downloadSuspensao;
 	
+	@Column(name="upload_bloqueio")
+	private Integer uploadBloqueio;
+
+	@Column(name="download_bloqueio")
+	private Integer downloadBloqueio;
+	
 	
 	@Column(name="url_chamado")
 	private String urlChamado;
 	
+	@Column(name="framed_ip_start")
+	private String framedIpStart;
+
+	@Column(name="framed_ip_stop")
+	private String framedIpStop;
+	
+	public String getFramedIpStart() {
+		return framedIpStart;
+	}
+
+	public void setFramedIpStart(String framedIpStart) {
+		this.framedIpStart = framedIpStart;
+	}
+
+	public String getFramedIpStop() {
+		return framedIpStop;
+	}
+
+	public void setFramedIpStop(String framedIpStop) {
+		this.framedIpStop = framedIpStop;
+	}
+
 	private String telefone;
 	
 	public Integer getId() {
@@ -441,6 +469,22 @@ public class Parametro implements java.io.Serializable {
 
 	public void setTotalFibraImplantadaKM(BigDecimal totalFibraImplantadaKM) {
 		this.totalFibraImplantadaKM = totalFibraImplantadaKM;
+	}
+
+	public Integer getUploadBloqueio() {
+		return uploadBloqueio;
+	}
+
+	public void setUploadBloqueio(Integer uploadBloqueio) {
+		this.uploadBloqueio = uploadBloqueio;
+	}
+
+	public Integer getDownloadBloqueio() {
+		return downloadBloqueio;
+	}
+
+	public void setDownloadBloqueio(Integer downloadBloqueio) {
+		this.downloadBloqueio = downloadBloqueio;
 	}
 
 	public BigDecimal getTotalFibraImplantadaTerceiroKM() {

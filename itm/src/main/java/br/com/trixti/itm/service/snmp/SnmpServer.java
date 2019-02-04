@@ -1,6 +1,7 @@
   package br.com.trixti.itm.service.snmp;
    
   import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -17,6 +18,9 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import org.snmp4j.PDU;
+import org.snmp4j.mp.SnmpConstants;
+
 import com.google.gson.Gson;
 
 import br.com.trixti.itm.to.SnmpTO;
@@ -31,6 +35,7 @@ import br.com.trixti.itm.util.UtilString;
 	  		private @Inject SnmpService snmpService;
 	  		private static Queue<Session> mapaQueue = new ConcurrentLinkedQueue<Session>();
 	  		private static List<SnmpTO> listaSnmpAnterior = new ArrayList<SnmpTO>();
+	  		private static Map<String,String> mapaItens = new HashMap<String,String>();
 
            @OnMessage
            public void recebeMensagem(String message, Session session) {
@@ -56,6 +61,13 @@ import br.com.trixti.itm.util.UtilString;
             mapaQueue.remove(session);
             System.out.println("session closed: "+session.getId());
            }
+           
+           @Schedule(info="Exec-Snmp-Update",second="*/10", minute = "*", hour = "*", persistent = false)
+           public void atualizar(){
+        	   mapaItens = snmpService.snmpWalk(SnmpConstants.version1,PDU.GETBULK,null, "1.3.6.1.2.1.2.2.1.2");
+        	   System.out.println(mapaItens);
+           }
+           
            
            @Schedule(info="Exec-Snmp",second="*", minute = "*", hour = "*", persistent = false)
            public void tarefa(){
@@ -89,14 +101,13 @@ import br.com.trixti.itm.util.UtilString;
         	
         	
         	List<SnmpTO> listaSnmpTO = new ArrayList<SnmpTO>();
-        	Map<String,String> mapaItens = snmpService.snmpWalk(null, "1.3.6.1.2.1.2.2.1.2");
         	
         	for(String key:mapaItens.keySet()){
         		String suffix = key.substring(key.length() + UtilString.indexOf(key, ".", -2) + 1, key.length());
         		listaSnmpTO.add(new SnmpTO(suffix,mapaItens.get(key), "0", "0"));
         	}
         	
-        	Map<String,String> mapaDownload = snmpService.snmpWalk(null, "1.3.6.1.2.1.31.1.1.1.10");
+        	Map<String,String> mapaDownload = snmpService.snmpWalk(SnmpConstants.version2c,PDU.GETBULK,null, "1.3.6.1.2.1.31.1.1.1.10");
         	for(String key:mapaDownload.keySet()){
         		String suffix = key.substring(key.length() + UtilString.indexOf(key, ".", -2) + 1, key.length());
         		SnmpTO snmpAnteriorTO = recuperarSnmp(suffix, listaSnmpAnterior);
@@ -114,7 +125,7 @@ import br.com.trixti.itm.util.UtilString;
 	        		snmpTO.setTaxaDownload(Double.valueOf(0));
         		}
         	}
-        	Map<String,String> mapaUpload = snmpService.snmpWalk(null, "1.3.6.1.2.1.31.1.1.1.6");
+        	Map<String,String> mapaUpload = snmpService.snmpWalk(SnmpConstants.version2c,PDU.GETBULK, null, "1.3.6.1.2.1.31.1.1.1.6");
         	
         	for(String key:mapaUpload.keySet()){
         		String suffix = key.substring(key.length() + UtilString.indexOf(key, ".", -2) + 1, key.length());

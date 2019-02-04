@@ -206,13 +206,13 @@
 <Conteudo item="d" valor="x,xx" />
 </Indicador>
 <Indicador Sigla="IEM1">
-<Conteudo item="a" valor="x,xx" />
-<Conteudo item="g" valor="x,xx" />
-<Conteudo item="c" valor="x,xx" />
-<Conteudo item="d" valor="x,xx" />
-<Conteudo item="h" valor="x,xx" />
-<Conteudo item="f" valor="x,xx" />
-<Conteudo item="i" valor="x,xx" />
+<Conteudo item="a" valor="" />
+<Conteudo item="b" valor="" />
+<Conteudo item="c" valor="" />
+<Conteudo item="d" valor="" />
+<Conteudo item="e" valor="" />
+<Conteudo item="f" valor="" />
+<Conteudo item="g" valor="" />
 </Indicador>
 <Indicador Sigla="IEM2">
 <Conteudo item="a" valor="x,xx" />

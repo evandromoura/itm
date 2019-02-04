@@ -200,7 +200,7 @@ public class FinanceiroThread {
 								break GOTO;
 							}
 						}
-					}	
+					}
 				}	
 				
 			}catch(Exception e){
@@ -488,7 +488,7 @@ public class FinanceiroThread {
 				Date dataVencimento = utilData.ajustaData(new Date(),contrato.getDiaMesVencimento(), 23, 59, 59);
 				
 				Boleto boletoJaCriado = boletoService.recuperarBoletoContratoMes(contrato,new Date());
-				Boleto boletoJaCriadoProximoMes = boletoService.recuperarBoletoContratoMes(contrato,utilData.adicionarMeses(new Date(), 1));
+				Boleto boletoJaCriadoProximoMes  = boletoService.recuperarBoletoContratoMes(contrato,utilData.adicionarMeses(new Date(), 1));
 				Boleto boletoJaCriadoAnteriorMes = boletoService.recuperarBoletoContratoMes(contrato,utilData.subtrairMeses(new Date(), 1));
 				
 				if (boletoJaCriado == null && boletoJaCriadoProximoMes == null) {

@@ -73,6 +73,11 @@ public class Boleto implements java.io.Serializable {
 	
 	@NotAudited
 	@ManyToOne
+	@JoinColumn(name="id_nfe")
+	private Nfe nfe;
+	
+	@NotAudited
+	@ManyToOne
 	@JoinColumn(name="id_retorno")
 	private Retorno retorno;
 	
