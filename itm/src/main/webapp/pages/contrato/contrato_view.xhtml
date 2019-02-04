@@ -652,6 +652,14 @@
 															<h:column>
 																<f:facet name="header">#{resources['label.global.acoes']}</f:facet>
 																
+																		<ui:fragment rendered="#{boleto.status.name eq 'PAGO'}">
+																			<h:commandLink  action="#{contratoViewController.downloadNfe(boleto)}" styleClass="btn btn-sm btn-info">
+																					<i class="fa fa-download"></i> #{resources['label.global.nfe']}
+																			</h:commandLink>
+																		</ui:fragment>
+																
+																
+																
 																		<ui:fragment rendered="#{boleto.dataVencimento ge contratoViewController.contratoTO.dataAtual}">
 																				<h:commandLink  action="#{contratoViewController.downloadBoleto(boleto)}" styleClass="btn btn-sm btn-info">
 																					<i class="fa fa-download"></i> #{resources['label.global.download']}

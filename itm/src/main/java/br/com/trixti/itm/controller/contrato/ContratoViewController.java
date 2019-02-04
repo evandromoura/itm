@@ -5,6 +5,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +24,9 @@ import br.com.trixti.itm.entity.Contrato;
 import br.com.trixti.itm.entity.ContratoAnexo;
 import br.com.trixti.itm.entity.ContratoEquipamento;
 import br.com.trixti.itm.entity.ContratoLancamento;
-import br.com.trixti.itm.entity.Retorno;
+import br.com.trixti.itm.entity.Nfe;
 import br.com.trixti.itm.entity.StatusBoletoEnum;
 import br.com.trixti.itm.entity.StatusLancamentoEnum;
-import br.com.trixti.itm.entity.StatusRetorno;
 import br.com.trixti.itm.entity.TipoLancamentoEnum;
 import br.com.trixti.itm.infra.financeiro.CalculaBase10;
 import br.com.trixti.itm.infra.security.annotations.SuporteNivel1;
@@ -37,6 +37,7 @@ import br.com.trixti.itm.service.contratoanexo.ContratoAnexoService;
 import br.com.trixti.itm.service.contratoequipamento.ContratoEquipamentoService;
 import br.com.trixti.itm.service.contratolancamento.ContratoLancamentoService;
 import br.com.trixti.itm.service.mail.MailService;
+import br.com.trixti.itm.service.nfe.NfeService;
 import br.com.trixti.itm.service.parametro.ParametroService;
 import br.com.trixti.itm.service.remessa.RemessaService;
 import br.com.trixti.itm.service.sms.SMSService;
@@ -62,6 +63,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	private @Inject RemessaService remessaService;
 	private @Inject ContratoEquipamentoService contratoEquipamentoService;
 	private @Inject ContratoAnexoService contratoAnexoService;
+	private @Inject NfeService nfeService;
 	
 
 	@PostConstruct
@@ -96,6 +98,16 @@ public class ContratoViewController extends AbstractController<Contrato> {
 				arquivoBoleto.delete();
 			}		
 		}	
+	}
+	
+	public void downloadNfe(Boleto boleto) {
+		Nfe nfe = nfeService.recuperarPorBoleto(boleto);
+		try {
+			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioNfe(), getParametrosNfe(nfe),Arrays.asList(nfe));
+			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_comodato_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
+		} catch (Exception e) {
+		}
+		
 	}
 	
 	public void enviarEmail(Boleto boleto){
@@ -257,7 +269,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 			getContratoTO().getContratoEquipamento().setListaContratoEquipamento(getContratoTO().getListaContratoEquipamento());
 		
 			try {
-				byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorio(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento(),getContratoTO().getListaContratoEquipamento()), getContratoTO().getListaContratoEquipamento());
+				byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioComodato(getContratoTO().getContratoEquipamento()), getParametrosComodato(getContratoTO().getContratoEquipamento(),getContratoTO().getListaContratoEquipamento()), getContratoTO().getListaContratoEquipamento());
 				download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_comodato_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
 			} catch (Exception e) {
 			}
@@ -273,7 +285,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		List<ContratoEquipamento> listaContratoEquipamento = new ArrayList<ContratoEquipamento>();
 		listaContratoEquipamento.add(getContratoTO().getContratoEquipamento());
 		try {
-			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioRetirada(getContratoTO().getContratoEquipamento()), getParametros(getContratoTO().getContratoEquipamento(),listaContratoEquipamento), listaContratoEquipamento);
+			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioRetirada(getContratoTO().getContratoEquipamento()), getParametrosComodato(getContratoTO().getContratoEquipamento(),listaContratoEquipamento), listaContratoEquipamento);
 			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_retirada_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
 		} catch (Exception e) {	
 		}
@@ -285,15 +297,36 @@ public class ContratoViewController extends AbstractController<Contrato> {
 	}
 	
 	
-	private String getNomeRelatorio(ContratoEquipamento contratoEquipamento) {
+	private String getNomeRelatorioComodato(ContratoEquipamento contratoEquipamento) {
 		return recuperarDiretorio()+"/relatorios/contrato/relatorio_comondato.jasper";
 	}
 	
 	private String getNomeRelatorioRetirada(ContratoEquipamento contratoEquipamento){
 		return recuperarDiretorio()+"/relatorios/contrato/relatorio_retirada_equipamento.jasper";
 	}
+	
+	private String getNomeRelatorioNfe() {
+		return recuperarDiretorio()+"/relatorios/nfe/relatorio_nfe.jasper";
+	}
 
-	private HashMap<String, Object> getParametros(ContratoEquipamento contratoEquipamento, List<ContratoEquipamento> listaContratoEquipamento) {
+	private HashMap<String, Object> getParametrosComodato(ContratoEquipamento contratoEquipamento, List<ContratoEquipamento> listaContratoEquipamento) {
+		HashMap<String, Object> parametros = new HashMap<>();
+			parametros.put("P_PATH_IMAGEM", recuperarDiretorio()+"/resources/template/img/logo_itrix.png");
+			parametros.put("REPORT_PATH",recuperarDiretorio());
+			parametros.put("P_RAZAO_SOCIAL", getContratoTO().getParametro().getNomeEmpresaCobranca());
+			parametros.put("P_CNPJ", getContratoTO().getParametro().getCnpjEmpresaCobranca());
+			parametros.put("P_ENDERECO", getContratoTO().getParametro().getLogradouro());
+			parametros.put("P_BAIRRO", getContratoTO().getParametro().getBairro());
+			parametros.put("P_CIDADE", getContratoTO().getParametro().getCidade());
+			parametros.put("P_CEP", getContratoTO().getParametro().getCepEmpresaCobranca());
+			parametros.put("P_UF", getContratoTO().getParametro().getUf());
+			parametros.put("P_TELEFONE", getContratoTO().getParametro().getTelefone());
+			parametros.put("P_EMAIL", getContratoTO().getParametro().getFromEmail());
+		return parametros;
+	}
+	
+	
+	private HashMap<String, Object> getParametrosNfe(Nfe nfe) {
 		HashMap<String, Object> parametros = new HashMap<>();
 			parametros.put("P_PATH_IMAGEM", recuperarDiretorio()+"/resources/template/img/logo_itrix.png");
 			parametros.put("REPORT_PATH",recuperarDiretorio());

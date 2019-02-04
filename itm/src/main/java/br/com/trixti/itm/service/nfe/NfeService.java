@@ -44,6 +44,10 @@ public class NfeService extends AbstractService<Nfe> {
 			return null;
 		}
 	}
+	
+	public Nfe recuperarPorBoleto(Boleto boleto) {
+		return new Nfe();
+	}
 
 	public void incluir(String mes, String ano) {
 		Nfe entidade = new Nfe();
