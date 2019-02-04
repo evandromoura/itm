@@ -33,17 +33,17 @@
 	<parameter name="SUBREPORT_DIR" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["/home/sandoval/workspace-jsf/j4call/src/main/webapp/report/"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="P_RAZAO_SOCIAL" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="P_ENDERECO" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="P_BAIRRO" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="P_CIDADE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="P_UF" isForPrompting="false" class="java.lang.String"/>
 
-	<field name="user.username" class="java.lang.String"/>
-	<field name="pauseType.name" class="java.lang.String"/>
-	<field name="description" class="java.lang.String"/>
-	<field name="dateStart" class="java.util.Date"/>
-	<field name="dateEnd" class="java.util.Date"/>
-	<field name="diffDate" class="java.lang.String"/>
-	<field name="user.name" class="java.lang.String"/>
-	<field name="user.code" class="java.lang.Integer"/>
-	<field name="parameter.cnpj" class="java.lang.String"/>
-	<field name="parameter.name" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="data" class="java.util.Date"/>
+	<field name="ano" class="java.lang.String"/>
+	<field name="cgc" class="java.lang.String"/>
+	<field name="serie" class="java.lang.String"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -61,8 +61,8 @@
 			<band height="692"  isSplitAllowed="true" >
 				<rectangle>
 					<reportElement
-						x="2"
-						y="530"
+						x="3"
+						y="539"
 						width="906"
 						height="59"
 						key="rectangle-5"/>
@@ -70,7 +70,7 @@
 				</rectangle>
 				<rectangle>
 					<reportElement
-						x="2"
+						x="3"
 						y="14"
 						width="906"
 						height="134"
@@ -89,10 +89,10 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="4"
+						x="5"
 						y="95"
 						width="123"
-						height="15"
+						height="14"
 						key="staticText-43"
 						isPrintWhenDetailOverflows="true"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -103,15 +103,15 @@
 					<textElement textAlignment="Left" verticalAlignment="Top">
 						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[CGC]]></text>
+				<text><![CDATA[CGC:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="4"
+						x="5"
 						y="72"
 						width="123"
-						height="13"
+						height="14"
 						key="staticText-47"
 						isPrintWhenDetailOverflows="true"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -122,12 +122,12 @@
 					<textElement textAlignment="Left" verticalAlignment="Top">
 						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[ENDEREÇO]]></text>
+				<text><![CDATA[ENDEREÇO:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="4"
+						x="5"
 						y="47"
 						width="123"
 						height="14"
@@ -141,14 +141,14 @@
 					<textElement textAlignment="Left" verticalAlignment="Top">
 						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[NOME DO EMITENTE]]></text>
+				<text><![CDATA[NOME DO EMITENTE:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Transparent"
 						x="549"
 						y="133"
-						width="358"
+						width="109"
 						height="14"
 						key="staticText-49"
 						isPrintWhenDetailOverflows="true"/>
@@ -160,7 +160,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Top">
 						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[DATA DA EMISSÃO: _______ / _______ / _______]]></text>
+				<text><![CDATA[DATA DA EMISSÃO: ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -184,7 +184,7 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="3"
+						x="4"
 						y="16"
 						width="905"
 						height="26"
@@ -205,7 +205,7 @@
 					<reportElement
 						x="3"
 						y="43"
-						width="905"
+						width="906"
 						height="0"
 						key="line-18"/>
 					<graphicElement stretchType="NoStretch"/>
@@ -216,7 +216,7 @@
 						x="230"
 						y="95"
 						width="123"
-						height="15"
+						height="14"
 						key="staticText-57"
 						isPrintWhenDetailOverflows="true"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -234,7 +234,7 @@
 						mode="Transparent"
 						x="548"
 						y="112"
-						width="360"
+						width="156"
 						height="14"
 						key="staticText-58"
 						isPrintWhenDetailOverflows="true"/>
@@ -246,7 +246,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Top">
 						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[NATUREZA DA PRESTAÇÃO: __________________  CÓD:_____________]]></text>
+				<text><![CDATA[NATUREZA DA PRESTAÇÃO:   ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -269,7 +269,7 @@
 				</staticText>
 				<rectangle>
 					<reportElement
-						x="2"
+						x="3"
 						y="156"
 						width="906"
 						height="134"
@@ -279,10 +279,10 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="7"
+						x="8"
 						y="166"
 						width="73"
-						height="13"
+						height="14"
 						key="staticText-61"
 						isPrintWhenDetailOverflows="true"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -301,7 +301,7 @@
 						x="7"
 						y="198"
 						width="74"
-						height="13"
+						height="14"
 						key="staticText-62"
 						isPrintWhenDetailOverflows="true"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -320,7 +320,7 @@
 						x="7"
 						y="231"
 						width="74"
-						height="13"
+						height="14"
 						key="staticText-63"
 						isPrintWhenDetailOverflows="true"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -339,7 +339,7 @@
 						x="7"
 						y="256"
 						width="74"
-						height="13"
+						height="14"
 						key="staticText-64"
 						isPrintWhenDetailOverflows="true"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -358,7 +358,7 @@
 						x="85"
 						y="167"
 						width="822"
-						height="13"
+						height="14"
 						key="staticText-65"
 						isPrintWhenDetailOverflows="true"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -374,10 +374,10 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="87"
+						x="86"
 						y="198"
 						width="822"
-						height="13"
+						height="14"
 						key="staticText-66"
 						isPrintWhenDetailOverflows="true"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -396,7 +396,7 @@
 						x="83"
 						y="232"
 						width="430"
-						height="13"
+						height="14"
 						key="staticText-67"
 						isPrintWhenDetailOverflows="true"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -450,10 +450,10 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="84"
+						x="83"
 						y="256"
 						width="430"
-						height="13"
+						height="14"
 						key="staticText-70"
 						isPrintWhenDetailOverflows="true"/>
 					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -488,7 +488,7 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="590"
+						x="589"
 						y="256"
 						width="318"
 						height="13"
@@ -625,9 +625,9 @@
 				<line direction="TopDown">
 					<reportElement
 						x="538"
-						y="297"
+						y="298"
 						width="0"
-						height="243"
+						height="227"
 						key="line-29"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
@@ -652,18 +652,18 @@
 				</staticText>
 				<line direction="TopDown">
 					<reportElement
-						x="538"
-						y="540"
+						x="539"
+						y="539"
 						width="0"
-						height="49"
+						height="59"
 						key="line-30"/>
 					<graphicElement stretchType="NoStretch"/>
 				</line>
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="8"
-						y="532"
+						x="7"
+						y="541"
 						width="184"
 						height="18"
 						key="staticText-75"
@@ -681,7 +681,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="192"
-						y="531"
+						y="540"
 						width="0"
 						height="59"
 						key="line-31"/>
@@ -691,7 +691,7 @@
 					<reportElement
 						mode="Transparent"
 						x="198"
-						y="533"
+						y="542"
 						width="98"
 						height="18"
 						key="staticText-76"
@@ -709,7 +709,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="313"
-						y="530"
+						y="539"
 						width="0"
 						height="59"
 						key="line-32"/>
@@ -719,7 +719,7 @@
 					<reportElement
 						mode="Transparent"
 						x="319"
-						y="533"
+						y="542"
 						width="209"
 						height="18"
 						key="staticText-77"
@@ -738,7 +738,7 @@
 					<reportElement
 						mode="Transparent"
 						x="540"
-						y="533"
+						y="542"
 						width="367"
 						height="18"
 						key="staticText-78"
@@ -755,13 +755,188 @@
 				</staticText>
 				<rectangle>
 					<reportElement
-						x="2"
-						y="605"
+						x="3"
+						y="613"
 						width="906"
-						height="59"
+						height="54"
 						key="rectangle-6"/>
 					<graphicElement stretchType="NoStretch"/>
 				</rectangle>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="13"
+						y="619"
+						width="888"
+						height="41"
+						key="staticText-79"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Nome,  endereço,  CF/DF  e  CGC  do  impressor ;  nº  da  AIDF,  data  e  quantidade  de  impressão ; nº 	  	
+	  	de  ordem  do  1º  e  do  último  documento  impresso e sua  série  e  subsérie; data limite para utilização 	  	
+	  	do documento fiscal.]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="128"
+						y="47"
+						width="410"
+						height="14"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_RAZAO_SOCIAL}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="128"
+						y="72"
+						width="172"
+						height="14"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_ENDERECO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="300"
+						y="72"
+						width="10"
+						height="14"
+						key="staticText-80"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[-]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="310"
+						y="72"
+						width="79"
+						height="14"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_BAIRRO}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="389"
+						y="72"
+						width="10"
+						height="14"
+						key="staticText-81"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[-]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="399"
+						y="72"
+						width="81"
+						height="14"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_CIDADE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="480"
+						y="72"
+						width="10"
+						height="14"
+						key="staticText-82"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[-]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="490"
+						y="72"
+						width="38"
+						height="14"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{P_UF}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="658"
+						y="133"
+						width="237"
+						height="14"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{data}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="841"
+						y="112"
+						width="31"
+						height="14"
+						key="staticText-83"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
+					</textElement>
+				<text><![CDATA[CÓD:]]></text>
+				</staticText>
 			</band>
 		</columnHeader>
 		<detail>
