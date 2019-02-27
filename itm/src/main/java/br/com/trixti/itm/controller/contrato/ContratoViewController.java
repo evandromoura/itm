@@ -104,7 +104,7 @@ public class ContratoViewController extends AbstractController<Contrato> {
 		Nfe nfe = nfeService.recuperarPorBoleto(boleto);
 		try {
 			byte[] bytesRelatorio =	gerarRelatorioPDF(getNomeRelatorioNfe(), getParametrosNfe(nfe),Arrays.asList(nfe));
-			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_comodato_equipamento_"+getContratoTO().getContratoEquipamento().getNumeroSerie()+".pdf");
+			download(UtilArquivo.converterBytesEmByteArrayOutputStream(bytesRelatorio), "iTRIX_nota_fiscal.pdf");
 		} catch (Exception e) {
 		}
 		
