@@ -1,9 +1,12 @@
 package br.com.trixti.itm.dao.radcheck;
 
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.Radcheck;
+import br.com.trixti.itm.entity.Radreply;
 
 public class RadcheckDAO extends AbstractDAO<Radcheck> {
 
@@ -31,7 +34,7 @@ public class RadcheckDAO extends AbstractDAO<Radcheck> {
 		query.setParameter("attribute", attribute);
 		query.setParameter("value", value);
 		query.executeUpdate();
-		
 	}
+	
 
 }

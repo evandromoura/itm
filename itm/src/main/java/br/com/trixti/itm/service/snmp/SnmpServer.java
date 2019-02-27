@@ -65,7 +65,7 @@ import br.com.trixti.itm.util.UtilString;
            @Schedule(info="Exec-Snmp-Update",second="*/10", minute = "*", hour = "*", persistent = false)
            public void atualizar(){
         	   mapaItens = snmpService.snmpWalk(SnmpConstants.version1,PDU.GETBULK,null, "1.3.6.1.2.1.2.2.1.2");
-        	   System.out.println(mapaItens);
+        	   //System.out.println(mapaItens);
            }
            
            

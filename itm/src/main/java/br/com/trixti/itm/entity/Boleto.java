@@ -23,15 +23,19 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Audited
 @Entity
 @Table(name = "itm_boleto", schema = "public")
 @AuditTable(value="itm_boleto_historico") 
+@XmlRootElement
 public class Boleto implements java.io.Serializable {
 
 	private static final long serialVersionUID = 8924539309625088184L;
@@ -52,13 +56,16 @@ public class Boleto implements java.io.Serializable {
 	@Column(name = "data_criacao", length = 29)
 	private Date dataCriacao;
 	
+	
 	@NotAudited
 	@OneToMany(mappedBy="boleto",cascade=CascadeType.ALL,orphanRemoval=true)
+	@JsonIgnore
 	private List<BoletoLancamento> lancamentos;
 	
 	@Enumerated(EnumType.STRING)
 	private StatusBoletoEnum status;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="id_contrato")
 	private Contrato contrato;
@@ -69,16 +76,19 @@ public class Boleto implements java.io.Serializable {
 	@NotAudited
 	@ManyToOne
 	@JoinColumn(name="id_remessa")
+	@JsonIgnore
 	private Remessa remessa;
 	
 	@NotAudited
 	@ManyToOne
 	@JoinColumn(name="id_nfe")
+	@JsonIgnore
 	private Nfe nfe;
 	
 	@NotAudited
 	@ManyToOne
 	@JoinColumn(name="id_retorno")
+	@JsonIgnore
 	private Retorno retorno;
 	
 	@Column(name="valor_pago")
@@ -106,6 +116,7 @@ public class Boleto implements java.io.Serializable {
 	private Date dataSms;
 	
 	@Transient
+	@JsonIgnore
 	private long diferencaDias;
 
 	public Boleto() {

@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
@@ -92,7 +91,7 @@ public class FinanceiroThread {
 	private @Inject NfeService nfeService;
 	private @Inject UploadArquivoService uploadArquivoService;
 	
-	private boolean ativo = true;
+	private boolean ativo = false;
 	private boolean integracao = false;
 
 	@Schedule(info = "Gerar-Boleto", minute = "*", hour = "*", persistent = false)
@@ -601,11 +600,19 @@ public class FinanceiroThread {
 	   System.out.println("DEU PROBLEMA DE TIMEOUT: "+timer);
 	}
 
-	public static void main(String[] args) {
-//		UtilData utilData = new UtilData();
-//		String texto = String.format("Sua Fatura de %s esta disponivel.", utilData.getMesExtenso(utilData.getMes(new Date())));
-//		System.out.println(texto);
+	public static void main(String args[]) {
 		
-		System.out.println(UUID.randomUUID().toString());
+		
 	}
+	
+	
+	private static final String getIPFromInt(final long ipaslong) {
+	    return String.format("%d.%d.%d.%d",
+	                (ipaslong >>> 24) & 0xff,
+	                (ipaslong >>> 16) & 0xff,
+	                (ipaslong >>>  8) & 0xff,
+	                (ipaslong       ) & 0xff);
+	}
+	
+	
 }

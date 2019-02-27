@@ -165,6 +165,9 @@ public class Parametro implements java.io.Serializable {
 	@Column(name="framed_ip_stop")
 	private String framedIpStop;
 	
+	@Column(name="pool_name_bloqueio")
+	private String poolNameBloqueio;
+	
 	public String getFramedIpStart() {
 		return framedIpStart;
 	}
@@ -461,6 +464,14 @@ public class Parametro implements java.io.Serializable {
 
 	public void setTotalFibraTerceiroPrevistaKM(BigDecimal totalFibraTerceiroPrevistaKM) {
 		this.totalFibraTerceiroPrevistaKM = totalFibraTerceiroPrevistaKM;
+	}
+
+	public String getPoolNameBloqueio() {
+		return poolNameBloqueio;
+	}
+
+	public void setPoolNameBloqueio(String poolNameBloqueio) {
+		this.poolNameBloqueio = poolNameBloqueio;
 	}
 
 	public BigDecimal getTotalFibraImplantadaKM() {

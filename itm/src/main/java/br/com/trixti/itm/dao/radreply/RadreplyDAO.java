@@ -1,6 +1,8 @@
 package br.com.trixti.itm.dao.radreply;
 
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import br.com.trixti.itm.dao.AbstractDAO;
 import br.com.trixti.itm.entity.Radreply;
@@ -46,7 +48,16 @@ public class RadreplyDAO extends AbstractDAO<Radreply> {
 		query.setParameter("username", username);
 		query.setParameter("attribute", attribute);
 		query.executeUpdate();
-		
+	}
+	
+	public Radreply recuperarPorValue(String value){
+		try{
+			CriteriaQuery<Radreply> criteria = getCriteriaBuilder().createQuery(Radreply.class);
+			Root<Radreply> root = criteria.from(Radreply.class);
+			return getManager().createQuery(criteria.select(root).where(getCriteriaBuilder().equal(root.get("value"), value))).getSingleResult();
+		}catch(Exception e){
+			return null;
+		}	
 	}
 
 }

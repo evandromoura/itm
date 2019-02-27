@@ -21,6 +21,7 @@ public class CustomAuthorizer {
 		return customIdentity.getPerfil().equals(PerfilEnum.SUPER_ADMIN);
 	}
 	
+	
 	@Secures
 	@Admin
 	public boolean doAdminCheck(Identity identity, IdentityManager identityManager, RelationshipManager relationshipManager) throws Exception {
