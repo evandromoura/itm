@@ -130,6 +130,28 @@ public class FreeRadiusService {
 				radreplyAddress.setOp("=");
 				radreplyAddress.setValue(parametro.getPoolNameBloqueio());
 				radreplyService.incluir(radreplyAddress);
+				
+				
+				Radreply radreplyIpv6Address = new Radreply();
+				radreplyIpv6Address.setUsername(contratoAutenticacao.getUsername());
+				radreplyIpv6Address.setAttribute("Mikrotik-Delegated-IPv6-Pool");
+				radreplyIpv6Address.setOp("=");
+				radreplyIpv6Address.setValue(parametro.getPoolNameIpv6Bloqueio());
+				radreplyService.incluir(radreplyIpv6Address);
+
+				Radreply radreplyFramedIpv6Address = new Radreply();
+				radreplyFramedIpv6Address.setUsername(contratoAutenticacao.getUsername());
+				radreplyFramedIpv6Address.setAttribute("Framed-IPv6-Pool");
+				radreplyFramedIpv6Address.setOp("=");
+				radreplyFramedIpv6Address.setValue(parametro.getPoolNameIpv6Bloqueio());
+				radreplyService.incluir(radreplyFramedIpv6Address);
+				
+				Radreply radreply = new Radreply();
+				radreply.setAttribute("Mikrotik-Rate-Limit");
+				radreply.setOp(":=");
+				radreply.setValue(parametro.getUploadSuspensao().toString()+"k/"+parametro.getDownloadSuspensao().toString()+"k");
+				radreply.setUsername(contratoAutenticacao.getUsername());
+				radreplyService.incluir(radreply);
 			}	
 		}	
 	}
@@ -141,6 +163,9 @@ public class FreeRadiusService {
 				radcheckService.excluirPorUsernameAttributeValue(contratoAutenticacao.getUsername(),"Auth-Type","Reject");
 				radcheckService.excluirPorUsernameAttributeValue(contratoAutenticacao.getUsername(),"Pool-Name",parametro.getPoolNameBloqueio());
 				radreplyService.excluirPorUsernameAttributeValue(contratoAutenticacao.getUsername(), "Mikrotik-Address-List", parametro.getPoolNameBloqueio());
+				radreplyService.excluirPorUsernameAttributeValue(contratoAutenticacao.getUsername(), "Mikrotik-Delegated-IPv6-Pool", parametro.getPoolNameIpv6Bloqueio());
+				radreplyService.excluirPorUsernameAttributeValue(contratoAutenticacao.getUsername(), "Framed-IPv6-Pool", parametro.getPoolNameIpv6Bloqueio());
+				radreplyService.excluirPorUsernameAttribute(contratoAutenticacao.getUsername(), "Mikrotik-Rate-Limit");
 			}	
 		}	
 	}

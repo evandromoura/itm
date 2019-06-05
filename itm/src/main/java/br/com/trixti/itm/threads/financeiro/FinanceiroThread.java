@@ -377,7 +377,7 @@ public class FinanceiroThread {
 	
 	@Schedule(info = "Gerar-Arquivo-NFE", minute = "*/1", hour = "*", persistent = false)
 	public void gerarNfe() {
-//		if(ativo){
+		if(ativo){
 			Date data= new Date();
 			UtilData utilData  = new UtilData();
 			Nfe nfeRetorno = nfeService.recuperarPorMesAno(utilData.getMesCorrente(data), String.valueOf(utilData.getAno(data)));
@@ -391,7 +391,7 @@ public class FinanceiroThread {
  				nfe.setArquivos(nfeService.gerarNfeArquivo(boletos, nfe));
 				nfeService.incluir(nfe);
 			}	
-//		}	
+		}	
 	}
 	
 
